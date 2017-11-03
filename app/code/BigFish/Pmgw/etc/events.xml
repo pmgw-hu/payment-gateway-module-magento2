@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * BIG FISH Ltd.
+ * http://www.bigfish.hu
+ *
+ * @title      Magento -> Custom Payment Module for BIG FISH Payment Gateway
+ * @category   BigFish
+ * @package    BigFish_Pmgw
+ * @author     BIG FISH Ltd., paymentgateway [at] bigfish [dot] hu
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @copyright  Copyright (c) 2017, BIG FISH Ltd.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="payment_method_assign_data">
+        <observer name="bigfish_pmgw_data_assign" instance="BigFish\Pmgw\Observer\DataAssignObserver" />
+    </event>
+</config>

@@ -1,0 +1,662 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * BIG FISH Ltd.
+ * http://www.bigfish.hu
+ *
+ * @title      Magento -> Custom Payment Module for BIG FISH Payment Gateway
+ * @category   BigFish
+ * @package    BigFish_Pmgw
+ * @author     BIG FISH Ltd., paymentgateway [at] bigfish [dot] hu
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @copyright  Copyright (c) 2017, BIG FISH Ltd.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="payment">
+            <group id="bigfish_pmgw" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>BIG FISH Payment Gateway Settings</label>
+                <field id="storename" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Store name</label>
+                    <config_path>payment/bigfish_pmgw/storename</config_path>
+                </field>
+                <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <config_path>payment/bigfish_pmgw/enabled</config_path>
+                </field>
+                <field id="testmode" translate="label" type="select" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Test mode</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <config_path>payment/bigfish_pmgw/testmode</config_path>
+                </field>
+                <field id="apikey" translate="label" type="text" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>API key</label>
+                    <config_path>payment/bigfish_pmgw/apikey</config_path>
+                </field>
+                <field id="useapi" translate="label" type="select" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Use API</label>
+                    <config_path>payment/bigfish_pmgw/apitype</config_path>
+                    <source_model>BigFish\Pmgw\Model\Ui\ConfigProvider::getApiType</source_model>
+                </field>
+                <field id="sort_order" translate="label" type="text" sortOrder="9" showInDefault="1" showInWebsite="1"
+                       showInStore="0">
+                    <label>Sort Order</label>
+                    <config_path>payment/bigfish_pmgw/sortorder</config_path>
+                    <frontend_class>validate-number</frontend_class>
+                </field>
+                <group id="paymentgateway_abaqoos" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" translate="label">
+                    <label>Abaqoos</label>
+                    <field id="title" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Title</label>
+                        <config_path>payment/bigfish_pmgw_abaqoos/title</config_path>
+                    </field>
+                    <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Enabled</label>
+                        <config_path>payment/bigfish_pmgw_abaqoos/active</config_path>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="allowspecific" translate="label" type="allowspecific" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment from Applicable Countries</label>
+                        <config_path>payment/bigfish_pmgw_abaqoos/allowspecific</config_path>
+                        <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
+                        <attribute type="shared">1</attribute>
+                    </field>
+                    <field id="specificcountry" translate="label" type="multiselect" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment from Specific Countries</label>
+                        <config_path>payment/bigfish_pmgw_abaqoos/specificcountry</config_path>
+                        <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                        <can_be_empty>1</can_be_empty>
+                    </field>
+                </group>
+                <group id="paymentgateway_borgun" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1" translate="label">
+                    <label>Borgun</label>
+                    <field id="title" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Title</label>
+                        <config_path>payment/bigfish_pmgw_borgun/title</config_path>
+                    </field>
+                    <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Enabled</label>
+                        <config_path>payment/bigfish_pmgw_borgun/active</config_path>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="allowspecific" translate="label" type="allowspecific" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment from Applicable Countries</label>
+                        <config_path>payment/bigfish_pmgw_borgun/allowspecific</config_path>
+                        <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
+                    </field>
+                    <field id="specificcountry" translate="label" type="multiselect" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment from Specific Countries</label>
+                        <config_path>payment/bigfish_pmgw_borgun/specificcountry</config_path>
+                        <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                        <can_be_empty>1</can_be_empty>
+                    </field>
+                </group>
+                <group id="paymentgateway_cib" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1" translate="label">
+                    <label>CIB Bank</label>
+                    <field id="title" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Title</label>
+                        <config_path>payment/bigfish_pmgw_cib/title</config_path>
+                    </field>
+                    <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Enabled</label>
+                        <config_path>payment/bigfish_pmgw_cib/active</config_path>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="allowspecific" translate="label" type="allowspecific" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment from Applicable Countries</label>
+                        <config_path>payment/bigfish_pmgw_cib/allowspecific</config_path>
+                        <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
+                    </field>
+                    <field id="specificcountry" translate="label" type="multiselect" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment from Specific Countries</label>
+                        <config_path>payment/bigfish_pmgw_cib/specificcountry</config_path>
+                        <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                        <can_be_empty>1</can_be_empty>
+                    </field>
+                </group>
+                <group id="paymentgateway_escalion" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" translate="label">
+                    <label>Escalion</label>
+                    <field id="title" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Title</label>
+                        <config_path>payment/bigfish_pmgw_escalion/title</config_path>
+                    </field>
+                    <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Enabled</label>
+                        <config_path>payment/bigfish_pmgw_escalion/active</config_path>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="allowspecific" translate="label" type="allowspecific" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment from Applicable Countries</label>
+                        <config_path>payment/bigfish_pmgw_escalion/allowspecific</config_path>
+                        <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
+                    </field>
+                    <field id="specificcountry" translate="label" type="multiselect" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment from Specific Countries</label>
+                        <config_path>payment/bigfish_pmgw_escalion/specificcountry</config_path>
+                        <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                        <can_be_empty>1</can_be_empty>
+                    </field>
+                    <field id="oneclickpayment" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>One Click Payment</label>
+                        <config_path>payment/bigfish_pmgw_escalion/one_click_payment</config_path>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                </group>
+                <group id="paymentgateway_fhb" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1" translate="label">
+                    <label>FHB Bank</label>
+                    <field id="title" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Title</label>
+                        <config_path>payment/bigfish_pmgw_fhb/title</config_path>
+                    </field>
+                    <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Enabled</label>
+                        <config_path>payment/bigfish_pmgw_fhb/active</config_path>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="allowspecific" translate="label" type="allowspecific" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment from Applicable Countries</label>
+                        <config_path>payment/bigfish_pmgw_fhb/allowspecific</config_path>
+                        <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
+                    </field>
+                    <field id="specificcountry" translate="label" type="multiselect" sortOrder="35" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment from Specific Countries</label>
+                        <config_path>payment/bigfish_pmgw_fhb/specificcountry</config_path>
+                        <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                        <can_be_empty>1</can_be_empty>
+                    </field>
+                </group>
+                <group id="paymentgateway_khb" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1" translate="label">
+                    <label>KH Bank</label>
+                    <field id="title" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Title</label>
+                        <config_path>payment/bigfish_pmgw_khb/title</config_path>
+                    </field>
+                    <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Enabled</label>
+                        <config_path>payment/bigfish_pmgw_khb/active</config_path>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="allowspecific" translate="label" type="allowspecific" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment from Applicable Countries</label>
+                        <config_path>payment/bigfish_pmgw_khb/allowspecific</config_path>
+                        <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
+                    </field>
+                    <field id="specificcountry" translate="label" type="multiselect" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment from Specific Countries</label>
+                        <config_path>payment/bigfish_pmgw_khb/specificcountry</config_path>
+                        <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                        <can_be_empty>1</can_be_empty>
+                    </field>
+                </group>
+                <group id="paymentgateway_khbszep" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1" translate="label">
+                    <label>KH SZEP Card</label>
+                    <field id="title" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Title</label>
+                        <config_path>payment/bigfish_pmgw_khbszep/title</config_path>
+                    </field>
+                    <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Enabled</label>
+                        <config_path>payment/bigfish_pmgw_khbszep/active</config_path>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="allowspecific" translate="label" type="allowspecific" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment from Applicable Countries</label>
+                        <config_path>payment/bigfish_pmgw_khbszep/allowspecific</config_path>
+                        <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
+                    </field>
+                    <field id="specificcountry" translate="label" type="multiselect" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment from Specific Countries</label>
+                        <config_path>payment/bigfish_pmgw_khbszep/specificcountry</config_path>
+                        <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                        <can_be_empty>1</can_be_empty>
+                    </field>
+                    <field id="khbcardpocketid" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Available pocket</label>
+                        <config_path>payment/bigfish_pmgw_khbszep/khbcardpocketid</config_path>
+                        <source_model>BigFish\Pmgw\Model\Ui\ConfigProvider::getKhbCardPocketId</source_model>
+                    </field>
+                </group>
+                <group id="paymentgateway_mkbszep" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1" translate="label">
+                    <label>MKB SZEP Card</label>
+                    <field id="title" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Title</label>
+                        <config_path>payment/bigfish_pmgw_mkbszep/title</config_path>
+                    </field>
+                    <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Enabled</label>
+                        <config_path>payment/bigfish_pmgw_mkbszep/active</config_path>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="allowspecific" translate="label" type="allowspecific" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment from Applicable Countries</label>
+                        <config_path>payment/bigfish_pmgw_mkbszep/allowspecific</config_path>
+                        <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
+                    </field>
+                    <field id="specificcountry" translate="label" type="multiselect" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment from Specific Countries</label>
+                        <config_path>payment/bigfish_pmgw_mkbszep/specificcountry</config_path>
+                        <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                        <can_be_empty>1</can_be_empty>
+                    </field>
+                    <field id="mkbszepcafeteriaid" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Available pocket</label>
+                        <config_path>payment/bigfish_pmgw_mkbszep/mkbszepcafeteriaid</config_path>
+                        <source_model>BigFish\Pmgw\Model\Ui\ConfigProvider::getMkbSzepCafeteriaId</source_model>
+                    </field>
+                </group>
+                <group id="paymentgateway_otp" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1" translate="label">
+                    <label>OTP Bank</label>
+                    <field id="title" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Title</label>
+                        <config_path>payment/bigfish_pmgw_otp/title</config_path>
+                    </field>
+                    <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Enabled</label>
+                        <config_path>payment/bigfish_pmgw_otp/active</config_path>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="allowspecific" translate="label" type="allowspecific" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment from Applicable Countries</label>
+                        <config_path>payment/bigfish_pmgw_otp/allowspecific</config_path>
+                        <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
+                    </field>
+                    <field id="specificcountry" translate="label" type="multiselect" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment from Specific Countries</label>
+                        <config_path>payment/bigfish_pmgw_otp/specificcountry</config_path>
+                        <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                        <can_be_empty>1</can_be_empty>
+                    </field>
+                </group>
+                <group id="paymentgateway_otp2" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1" translate="label">
+                    <label>OTP Bank (Two-way)</label>
+                    <field id="title" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Title</label>
+                        <config_path>payment/bigfish_pmgw_otp2/title</config_path>
+                    </field>
+                    <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Enabled</label>
+                        <config_path>payment/bigfish_pmgw_otp2/active</config_path>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="allowspecific" translate="label" type="allowspecific" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment from Applicable Countries</label>
+                        <config_path>payment/bigfish_pmgw_otp2/allowspecific</config_path>
+                        <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
+                    </field>
+                    <field id="specificcountry" translate="label" type="multiselect" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment from Specific Countries</label>
+                        <config_path>payment/bigfish_pmgw_otp2/specificcountry</config_path>
+                        <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                        <can_be_empty>1</can_be_empty>
+                    </field>
+                    <field id="publickey" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Public key</label>
+                        <config_path>payment/bigfish_pmgw_otp2/publickey</config_path>
+                    </field>
+                </group>
+                <group id="paymentgateway_otpay" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1" translate="label">
+                    <label>OTPay</label>
+                    <field id="title" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Title</label>
+                        <config_path>payment/bigfish_pmgw_otpay/title</config_path>
+                    </field>
+                    <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Enabled</label>
+                        <config_path>payment/bigfish_pmgw_otpay/active</config_path>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="allowspecific" translate="label" type="allowspecific" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment from Applicable Countries</label>
+                        <config_path>payment/bigfish_pmgw_otpay/allowspecific</config_path>
+                        <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
+                    </field>
+                    <field id="specificcountry" translate="label" type="multiselect" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment from Specific Countries</label>
+                        <config_path>payment/bigfish_pmgw_otpay/specificcountry</config_path>
+                        <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                        <can_be_empty>1</can_be_empty>
+                    </field>
+                </group>
+                <group id="paymentgateway_otpaymp" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1" translate="label">
+                    <label>MasterPass</label>
+                    <field id="title" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Title</label>
+                        <config_path>payment/bigfish_pmgw_otpaymp/title</config_path>
+                    </field>
+                    <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Enabled</label>
+                        <config_path>payment/bigfish_pmgw_otpaymp/active</config_path>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="allowspecific" translate="label" type="allowspecific" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment from Applicable Countries</label>
+                        <config_path>payment/bigfish_pmgw_otpaymp/allowspecific</config_path>
+                        <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
+                    </field>
+                    <field id="specificcountry" translate="label" type="multiselect" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment from Specific Countries</label>
+                        <config_path>payment/bigfish_pmgw_otpaymp/specificcountry</config_path>
+                        <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                        <can_be_empty>1</can_be_empty>
+                    </field>
+                </group>
+                <group id="paymentgateway_otpszep" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1" translate="label">
+                    <label>OTP SZEP Card</label>
+                    <field id="title" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Title</label>
+                        <config_path>payment/bigfish_pmgw_otpszep/title</config_path>
+                    </field>
+                    <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Enabled</label>
+                        <config_path>payment/bigfish_pmgw_otpszep/active</config_path>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="allowspecific" translate="label" type="allowspecific" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment from Applicable Countries</label>
+                        <config_path>payment/bigfish_pmgw_otpszep/allowspecific</config_path>
+                        <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
+                    </field>
+                    <field id="specificcountry" translate="label" type="multiselect" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment from Specific Countries</label>
+                        <config_path>payment/bigfish_pmgw_otpszep/specificcountry</config_path>
+                        <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                        <can_be_empty>1</can_be_empty>
+                    </field>
+                    <field id="otpcardpocketid" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Available pocket</label>
+                        <config_path>payment/bigfish_pmgw_otpszep/otpcardpocketid</config_path>
+                        <source_model>BigFish\Pmgw\Model\Ui\ConfigProvider::getOtpCardPocketId</source_model>
+                    </field>
+                    <field id="storenameotpszep" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>SZEP Store name</label>
+                        <config_path>payment/bigfish_pmgw_otpszep/storenameotpszep</config_path>
+                    </field>
+                    <field id="apikeyotpszep" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>SZEP API key</label>
+                        <config_path>payment/bigfish_pmgw_otpszep/apikeyotpszep</config_path>
+                    </field>
+                </group>
+                <group id="paymentgateway_otpmultipont" sortOrder="160" showInDefault="1" showInWebsite="1" showInStore="1" translate="label">
+                    <label>OTP Multipont</label>
+                    <field id="title" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Title</label>
+                        <config_path>payment/bigfish_pmgw_otpmultipont/title</config_path>
+                    </field>
+                    <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Enabled</label>
+                        <config_path>payment/bigfish_pmgw_otpmultipont/active</config_path>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="allowspecific" translate="label" type="allowspecific" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment from Applicable Countries</label>
+                        <config_path>payment/bigfish_pmgw_otpmultipont/allowspecific</config_path>
+                        <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
+                    </field>
+                    <field id="specificcountry" translate="label" type="multiselect" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment from Specific Countries</label>
+                        <config_path>payment/bigfish_pmgw_otpmultipont/specificcountry</config_path>
+                        <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                        <can_be_empty>1</can_be_empty>
+                    </field>
+                </group>
+                <group id="paymentgateway_otpsimple" sortOrder="170" showInDefault="1" showInWebsite="1" showInStore="1" translate="label">
+                    <label>OTP Simple</label>
+                    <field id="title" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Title</label>
+                        <config_path>payment/bigfish_pmgw_otpsimple/title</config_path>
+                    </field>
+                    <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Enabled</label>
+                        <config_path>payment/bigfish_pmgw_otpsimple/active</config_path>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="allowspecific" translate="label" type="allowspecific" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment from Applicable Countries</label>
+                        <config_path>payment/bigfish_pmgw_otpsimple/allowspecific</config_path>
+                        <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
+                    </field>
+                    <field id="specificcountry" translate="label" type="multiselect" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment from Specific Countries</label>
+                        <config_path>payment/bigfish_pmgw_otpsimple/specificcountry</config_path>
+                        <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                        <can_be_empty>1</can_be_empty>
+                    </field>
+                    <field id="oneclickpayment" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>One Click Payment</label>
+                        <config_path>payment/bigfish_pmgw_otpsimple/one_click_payment</config_path>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                </group>
+                <group id="paymentgateway_otpsimplewire" sortOrder="180" showInDefault="1" showInWebsite="1" showInStore="1" translate="label">
+                    <label>OTP Simple Wire</label>
+                    <field id="title" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Title</label>
+                        <config_path>payment/bigfish_pmgw_otpsimplewire/title</config_path>
+                    </field>
+                    <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Enabled</label>
+                        <config_path>payment/bigfish_pmgw_otpsimplewire/active</config_path>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="allowspecific" translate="label" type="allowspecific" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment from Applicable Countries</label>
+                        <config_path>payment/bigfish_pmgw_otpsimplewire/allowspecific</config_path>
+                        <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
+                    </field>
+                    <field id="specificcountry" translate="label" type="multiselect" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment from Specific Countries</label>
+                        <config_path>payment/bigfish_pmgw_otpsimplewire/specificcountry</config_path>
+                        <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                        <can_be_empty>1</can_be_empty>
+                    </field>
+                </group>
+                <group id="paymentgateway_paypal" sortOrder="190" showInDefault="1" showInWebsite="1" showInStore="1" translate="label">
+                    <label>PayPal</label>
+                    <field id="title" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Title</label>
+                        <config_path>payment/bigfish_pmgw_paypal/title</config_path>
+                    </field>
+                    <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Enabled</label>
+                        <config_path>payment/bigfish_pmgw_paypal/active</config_path>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="allowspecific" translate="label" type="allowspecific" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment from Applicable Countries</label>
+                        <config_path>payment/bigfish_pmgw_paypal/allowspecific</config_path>
+                        <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
+                    </field>
+                    <field id="specificcountry" translate="label" type="multiselect" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment from Specific Countries</label>
+                        <config_path>payment/bigfish_pmgw_paypal/specificcountry</config_path>
+                        <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                        <can_be_empty>1</can_be_empty>
+                    </field>
+                </group>
+                <group id="paymentgateway_payu2" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1" translate="label">
+                    <label>PayU2</label>
+                    <field id="title" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Title</label>
+                        <config_path>payment/bigfish_pmgw_payu2/title</config_path>
+                    </field>
+                    <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Enabled</label>
+                        <config_path>payment/bigfish_pmgw_payu2/active</config_path>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="allowspecific" translate="label" type="allowspecific" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment from Applicable Countries</label>
+                        <config_path>payment/bigfish_pmgw_payu2/allowspecific</config_path>
+                        <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
+                    </field>
+                    <field id="specificcountry" translate="label" type="multiselect" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment from Specific Countries</label>
+                        <config_path>payment/bigfish_pmgw_payu2/specificcountry</config_path>
+                        <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                        <can_be_empty>1</can_be_empty>
+                    </field>
+                </group>
+                <group id="paymentgateway_saferpay" sortOrder="210" showInDefault="1" showInWebsite="1" showInStore="1" translate="label">
+                    <label>Saferpay</label>
+                    <field id="title" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Title</label>
+                        <config_path>payment/bigfish_pmgw_saferpay/title</config_path>
+                    </field>
+                    <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Enabled</label>
+                        <config_path>payment/bigfish_pmgw_saferpay/active</config_path>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="allowspecific" translate="label" type="allowspecific" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment from Applicable Countries</label>
+                        <config_path>payment/bigfish_pmgw_saferpay/allowspecific</config_path>
+                        <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
+                    </field>
+                    <field id="specificcountry" translate="label" type="multiselect" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment from Specific Countries</label>
+                        <config_path>payment/bigfish_pmgw_saferpay/specificcountry</config_path>
+                        <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                        <can_be_empty>1</can_be_empty>
+                    </field>
+                    <field id="saferpaypaymentmethods" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment methods</label>
+                        <config_path>payment/bigfish_pmgw_saferpay/paymentmethods</config_path>
+                        <source_model>BigFish\Pmgw\Model\Ui\ConfigProvider::getSaferpayPaymentMethods</source_model>
+                        <can_be_empty>1</can_be_empty>
+                    </field>
+                    <field id="saferpaywallets" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Wallets</label>
+                        <config_path>payment/bigfish_pmgw_saferpay/wallets</config_path>
+                        <source_model>BigFish\Pmgw\Model\Ui\ConfigProvider::getSaferpayWallets</source_model>
+                        <can_be_empty>1</can_be_empty>
+                    </field>
+                    <field id="oneclickpayment" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>One Click Payment</label>
+                        <config_path>payment/bigfish_pmgw_saferpay/one_click_payment</config_path>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                </group>
+                <group id="paymentgateway_sms" sortOrder="220" showInDefault="1" showInWebsite="1" showInStore="1" translate="label">
+                    <label>SMS</label>
+                    <field id="title" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Title</label>
+                        <config_path>payment/bigfish_pmgw_sms/title</config_path>
+                    </field>
+                    <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Enabled</label>
+                        <config_path>payment/bigfish_pmgw_sms/active</config_path>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="allowspecific" translate="label" type="allowspecific" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment from Applicable Countries</label>
+                        <config_path>payment/bigfish_pmgw_sms/allowspecific</config_path>
+                        <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
+                    </field>
+                    <field id="specificcountry" translate="label" type="multiselect" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment from Specific Countries</label>
+                        <config_path>payment/bigfish_pmgw_sms/specificcountry</config_path>
+                        <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                        <can_be_empty>1</can_be_empty>
+                    </field>
+                </group>
+                <group id="paymentgateway_sofort" sortOrder="230" showInDefault="1" showInWebsite="1" showInStore="1" translate="label">
+                    <label>Sofort</label>
+                    <field id="title" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Title</label>
+                        <config_path>payment/bigfish_pmgw_sofort/title</config_path>
+                    </field>
+                    <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Enabled</label>
+                        <config_path>payment/bigfish_pmgw_sofort/active</config_path>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="allowspecific" translate="label" type="allowspecific" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment from Applicable Countries</label>
+                        <config_path>payment/bigfish_pmgw_sofort/allowspecific</config_path>
+                        <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
+                    </field>
+                    <field id="specificcountry" translate="label" type="multiselect" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment from Specific Countries</label>
+                        <config_path>payment/bigfish_pmgw_sofort/specificcountry</config_path>
+                        <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                        <can_be_empty>1</can_be_empty>
+                    </field>
+                </group>
+                <group id="paymentgateway_unicredit" sortOrder="240" showInDefault="1" showInWebsite="1" showInStore="1" translate="label">
+                    <label>UniCredit Bank</label>
+                    <field id="title" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Title</label>
+                        <config_path>payment/bigfish_pmgw_unicredit/title</config_path>
+                    </field>
+                    <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Enabled</label>
+                        <config_path>payment/bigfish_pmgw_unicredit/active</config_path>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="allowspecific" translate="label" type="allowspecific" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment from Applicable Countries</label>
+                        <config_path>payment/bigfish_pmgw_unicredit/allowspecific</config_path>
+                        <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
+                    </field>
+                    <field id="specificcountry" translate="label" type="multiselect" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment from Specific Countries</label>
+                        <config_path>payment/bigfish_pmgw_unicredit/specificcountry</config_path>
+                        <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                        <can_be_empty>1</can_be_empty>
+                    </field>
+                </group>
+                <group id="paymentgateway_wirecard" sortOrder="250" showInDefault="1" showInWebsite="1" showInStore="1" translate="label">
+                    <label>QPAY Wirecard</label>
+                    <field id="title" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Title</label>
+                        <config_path>payment/bigfish_pmgw_wirecard/title</config_path>
+                    </field>
+                    <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Enabled</label>
+                        <config_path>payment/bigfish_pmgw_wirecard/active</config_path>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="allowspecific" translate="label" type="allowspecific" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment from Applicable Countries</label>
+                        <config_path>payment/bigfish_pmgw_wirecard/allowspecific</config_path>
+                        <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
+                    </field>
+                    <field id="specificcountry" translate="label" type="multiselect" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment from Specific Countries</label>
+                        <config_path>payment/bigfish_pmgw_wirecard/specificcountry</config_path>
+                        <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                        <can_be_empty>1</can_be_empty>
+                    </field>
+                    <field id="qpaypaymenttypes" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment types</label>
+                        <config_path>payment/bigfish_pmgw_wirecard/paymenttypes</config_path>
+                        <source_model>BigFish\Pmgw\Model\Ui\ConfigProvider::getQpayPaymentTypes</source_model>
+                    </field>
+                </group>
+                <group id="paymentgateway_barion" sortOrder="20" showInDefault="0" showInWebsite="0" showInStore="0" translate="label">
+                    <label>Barion</label>
+                </group>
+                <group id="paymentgateway_mcm" sortOrder="20" showInDefault="0" showInWebsite="0" showInStore="0" translate="label">
+                    <label>MCM</label>
+                </group>
+                <group id="paymentgateway_mpp" sortOrder="20" showInDefault="0" showInWebsite="0" showInStore="0" translate="label">
+                    <label>MPP</label>
+                </group>
+                <group id="paymentgateway_payu" sortOrder="20" showInDefault="0" showInWebsite="0" showInStore="0" translate="label">
+                    <label>PAYU</label>
+                </group>
+                <group id="paymentgateway_payuwire" sortOrder="20" showInDefault="0" showInWebsite="0" showInStore="0" translate="label">
+                    <label>PAYU Wire</label>
+                </group>
+                <group id="paymentgateway_payucash" sortOrder="20" showInDefault="0" showInWebsite="0" showInStore="0" translate="label">
+                    <label>PayU Cash</label>
+                </group>
+                <group id="paymentgateway_payumobile" sortOrder="20" showInDefault="0" showInWebsite="0" showInStore="0" translate="label">
+                    <label>PayU Mobile</label>
+                </group>
+            </group>
+        </section>
+    </system>
+</config>
