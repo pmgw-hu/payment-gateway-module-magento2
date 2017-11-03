@@ -1,0 +1,52 @@
+version: '2'
+services:
+  web:
+    build: ./Docker/web/
+    hostname: magento
+    domainname: dev.big.hu
+    volumes:
+      - ./:/var/www/dev/magento
+      - ./Docker/web/tmp:/tmp
+    labels:
+      - traefik.enable=true
+      - traefik.port=80
+      - traefik.frontend.rule=Host:magento.dev.big.hu
+    network_mode: bridge
+    links:
+      - session
+      - db
+      - redis
+      - memcache
+      - varnish
+    external_links:
+      - traefik_traefik_1:magento.dev.big.hu
+    environment:
+      NGINX_SERVER_ROOT: /var/www/dev/magento
+  session:
+    image: docker.big.hu/development/memcached
+    network_mode: bridge
+  db:
+    image: docker.big.hu/development/mariadb
+    network_mode: bridge
+    hostname: magento-db
+    volumes:
+      - ./Docker/db/data:/var/lib/mysql
+    environment:
+      - MYSQL_RANDOM_ROOT_PASSWORD=yes
+      - MYSQL_USER=test
+      - MYSQL_PASSWORD=test
+      - MYSQL_DATABASE=magento
+  redis:
+    image: docker.big.hu/development/redis
+    hostname: magento-redis
+    network_mode: bridge
+    ports:
+      - 6397:6397
+  memcache:
+    image: docker.big.hu/development/memcached
+    hostname: magento-memcache
+    network_mode: bridge
+  varnish:
+    image: docker.big.hu/development/varnish
+    network_mode: bridge
+    hostname: magento-varnish
