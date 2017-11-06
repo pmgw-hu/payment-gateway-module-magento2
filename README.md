@@ -26,12 +26,14 @@
     
     - `cd var/www/dev/magento/`
     
-    - `php bin/magento setup:install --db-host=magento-db --db-name=magento --db-user=test --db-password=test --admin-firstname=FISH --admin-lastname=BIG --admin-email=<email_cim> --admin-user=bfadmin --admin-password=Nagyhal123 --use-secure=1 --base-url-secure=https://magento.dev.big.hu/ --use-secure-admin=1 --backend-frontname=admin`<br>
+    - `php bin/magento setup:install --db-host=magento-db --db-name=magento --db-user=test --db-password=test --admin-firstname=FISH --admin-lastname=BIG --admin-email=<email_cim> --admin-user=bfadmin --admin-password=Nagyhal123 --use-secure=1 --base-url-secure=https://magento.dev.big.hu/ --use-secure-admin=1 --backend-frontname=admin --use-rewrites=1 --admin-use-security-key=0`<br>
     (az --admin-email=\<email_cim\> opcióba valamilyen saját email címet írjunk)
     
     - Ha hiba nélkül lefut a telepítés, az utolsó sorokban valahol lesz egy ilyen:<br>
     `[SUCCESS]: Magento Admin URI: /admin`<br>
     Tehát az admin felületet a majd /admin alatt érjük el.
+    
+    - Ha session hibára fut a telepítés, a következő lépést hajtsuk végre (env.php módosítása), és ismét futtassuk le a fenti telepítő scriptet. 
     
     - Nyissuk meg szövegszerkesztőben az app/etc/env.php fájlt, és módosítsuk az alábbi sorokat:<br>
     `array (

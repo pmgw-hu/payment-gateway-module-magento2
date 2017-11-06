@@ -14,16 +14,9 @@ namespace BigFish\Pmgw\Controller\Payment;
 
 use BigFish\Pmgw\Gateway\Helper\Helper;
 use Magento\Framework\App\Action\Action;
-use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\App\Action\Context;
-use Magento\Framework\App\ObjectManager;
 use BigFish\Pmgw\Gateway\Response\ResponseEvent;
 use BigFish\PaymentGateway;
-use Magento\Quote\Api\CartManagementInterface;
-use Magento\Quote\Model\Quote;
-use Magento\Checkout\Model\Session as CheckoutSession;
-use Magento\Customer\Model\Session as CustomerSession;
-use Magento\Sales\Model\Order;
 
 /**
  * Class Response
@@ -33,68 +26,22 @@ use Magento\Sales\Model\Order;
 class Response extends Action
 {
     /**
-     * @var \Magento\Framework\Controller\ResultFactory
-     */
-    protected $resultFactory;
-
-    /**
      * @var \BigFish\Pmgw\Gateway\Response\ResponseEvent
      */
     protected $responseEvent;
 
     /**
-     * @var \Magento\Quote\Api\CartManagementInterface
-     */
-    protected $cartManagement;
-
-    /**
-     * @var \Magento\Quote\Model\Quote
-     */
-    protected $quote;
-
-    /**
-     * @var \Magento\Framework\Controller\ResultFactory
-     */
-    protected $resultRedirect;
-
-    /**
-     * @var \Magento\Checkout\Model\Session
-     */
-    protected $checkoutSession;
-
-    /**
-     * @var \Magento\Customer\Model\Session
-     */
-    protected $customerSession;
-
-    /**
      * Response constructor.
      *
      * @param \Magento\Framework\App\Action\Context $context
-     * @param \Magento\Framework\Controller\ResultFactory $resultFactory
      * @param \BigFish\Pmgw\Gateway\Response\ResponseEvent $responseEvent
-     * @param \Magento\Quote\Api\CartManagementInterface $cartManagement
-     * @param \Magento\Quote\Model\Quote $quote
-     * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param \Magento\Customer\Model\Session $customerSession
      */
     public function __construct(
         Context $context,
-        ResultFactory $resultFactory,
-        ResponseEvent $responseEvent,
-        CartManagementInterface $cartManagement,
-        Quote $quote,
-        CheckoutSession $checkoutSession,
-        CustomerSession $customerSession
+        ResponseEvent $responseEvent
     ) {
         parent::__construct($context);
-        $this->resultFactory = $resultFactory;
         $this->responseEvent = $responseEvent;
-        $this->cartManagement = $cartManagement;
-        $this->quote = $quote;
-        $this->resultRedirect = $context->getResultFactory();
-        $this->checkoutSession = $checkoutSession;
-        $this->customerSession = $customerSession;
     }
 
     /**
@@ -125,7 +72,6 @@ class Response extends Action
 
         $status = $this->responseEvent->processStatusEvent();
 
-        // TODO PaymentGateway::close szukseges lesz:
         $response = PaymentGateway::close(new PaymentGateway\Request\Close($transactionId, true));
 
         switch ($status['resultCode']) {

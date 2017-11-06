@@ -24,12 +24,6 @@ use Magento\Framework\App\ObjectManager;
  */
 class Redirect extends Action
 {
-
-    /**
-     * @var \Magento\Framework\Controller\ResultFactory
-     */
-    protected $resultFactory;
-
     /**
      * @var string
      */
@@ -39,14 +33,11 @@ class Redirect extends Action
      * Redirect constructor.
      *
      * @param \Magento\Framework\App\Action\Context $context
-     * @param \Magento\Framework\Controller\ResultFactory $resultFactory
      */
     public function __construct(
-        Context $context,
-        ResultFactory $resultFactory
+        Context $context
     ) {
         parent::__construct($context);
-        $this->resultFactory = $resultFactory;
     }
 
     /**
