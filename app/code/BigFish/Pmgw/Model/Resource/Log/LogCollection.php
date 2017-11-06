@@ -34,14 +34,14 @@ class LogCollection extends AbstractCollection
     protected $_resourceModel;
 
     /**
-     * @var LoggerInterface
-     */
-    private $logger;
-
-    /**
      * @var EntityFactoryInterface
      */
     private $entityFactory;
+
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
 
     /**
      * @var FetchStrategyInterface
@@ -86,8 +86,8 @@ class LogCollection extends AbstractCollection
         );
 
         $this->_resourceModel = $resource;
-        $this->logger = $logger;
         $this->entityFactory = $entityFactory;
+        $this->logger = $logger;
         $this->fetchStrategy = $fetchStrategy;
         $this->eventManager = $eventManager;
         $this->connection = $connection;

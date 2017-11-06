@@ -849,23 +849,16 @@
 
 
 
-    <!-- Authorize command -->
+    <!-- Initialize command -->
     <virtualType name="PmgwInitializeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
         <arguments>
-            <argument name="requestBuilder" xsi:type="object">PmgwInitializeRequest</argument>
+            <argument name="requestBuilder" xsi:type="object">BigFish\Pmgw\Gateway\Request\InitializeRequest</argument>
             <argument name="transferFactory" xsi:type="object">BigFish\Pmgw\Gateway\Http\TransferFactory</argument>
             <argument name="client" xsi:type="object">BigFish\Pmgw\Gateway\Http\Client\GatewayClient</argument>
         </arguments>
     </virtualType>
 
-    <!-- Authorization Request -->
-    <virtualType name="PmgwInitializeRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
-        <arguments>
-            <argument name="builders" xsi:type="array">
-                <item name="transaction" xsi:type="string">BigFish\Pmgw\Gateway\Request\InitializeRequest</item>
-            </argument>
-        </arguments>
-    </virtualType>
+    <!-- Initialize Request -->
     <type name="BigFish\Pmgw\Gateway\Request\InitializeRequest">
         <arguments>
             <argument name="config" xsi:type="object">PmgwConfig</argument>
@@ -881,7 +874,7 @@
         </arguments>
     </virtualType>
 
-    <!-- Capture Request -->
+    <!-- Capture command -->
     <type name="BigFish\Pmgw\Gateway\Request\CaptureRequest">
         <arguments>
             <argument name="config" xsi:type="object">PmgwConfig</argument>

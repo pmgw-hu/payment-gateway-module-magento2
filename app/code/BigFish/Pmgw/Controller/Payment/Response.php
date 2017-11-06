@@ -121,18 +121,26 @@ class Response extends Action
             $responseArray = $response;
         }
 
-//        $this->quote = $this->checkoutSession->getQuote();
-//        $customerId = $this->customerSession->getCustomer()->getId();
-
         $this->responseEvent->setEventData($responseArray);
 
-        $message = $this->responseEvent->processStatusEvent();
+        $status = $this->responseEvent->processStatusEvent();
 
         // TODO PaymentGateway::close szukseges lesz:
         $response = PaymentGateway::close(new PaymentGateway\Request\Close($transactionId, true));
 
+        switch ($status['resultCode']) {
+            case PaymentGateway::RESULT_CODE_TIMEOUT:
+            case PaymentGateway::RESULT_CODE_ERROR:
+            case PaymentGateway::RESULT_CODE_USER_CANCEL:
+                $this->_redirect('checkout/onepage/failure', array('_secure'=>true));
+                break;
+            case PaymentGateway::RESULT_CODE_PENDING:
+            case PaymentGateway::RESULT_CODE_SUCCESS:
+                $this->_redirect('checkout/onepage/success', array('_secure'=>true));
+                break;
+        }
 
-        return $message;
+        return $status['message'];
     }
 
 }

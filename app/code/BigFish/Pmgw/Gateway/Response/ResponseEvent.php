@@ -14,13 +14,14 @@ namespace BigFish\Pmgw\Gateway\Response;
 
 use BigFish\PaymentGateway;
 use BigFish\Pmgw\Gateway\Helper\Helper;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Sales\Model\Order;
 use Magento\Checkout\Model\Session;
 use Psr\Log\LoggerInterface;
 use BigFish\Pmgw\Model\Resource\Paymentgateway\Collection;
-use BigFish\Pmgw\Model\Resource\Log\LogCollection;
 use Magento\Sales\Api\Data\OrderInterface;
 use BigFish\Pmgw\Model\PmgwAbstractFactory;
+use BigFish\Pmgw\Model\LogAbstractFactory;
 use Magento\Sales\Model\Order\Email\Sender\OrderSender;
 
 /**
@@ -62,9 +63,19 @@ class ResponseEvent
     protected $pmgwFactory;
 
     /**
+     * @var \BigFish\Pmgw\Model\LogAbstractFactory
+     */
+    protected $logFactory;
+
+    /**
      * @var \BigFish\Pmgw\Model\Resource\Log\LogCollection
      */
     protected $paymentGatewayLogCollection;
+
+    /**
+     * @var \Magento\Sales\Model\Order\Email\Sender\OrderSender
+     */
+    protected $orderSender;
 
 
     /**
@@ -72,27 +83,24 @@ class ResponseEvent
      *
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Psr\Log\LoggerInterface $logger
-     * @param \BigFish\Pmgw\Model\Resource\Paymentgateway\Collection $paymentGatewayCollection
      * @param \Magento\Sales\Api\Data\OrderInterface $salesOrderFactory
-     * @param \BigFish\Pmgw\Model\Resource\Log\LogCollection $paymentGatewayLogCollection
      * @param \BigFish\Pmgw\Model\PmgwAbstractFactory $pmgwFactory
+     * @param \BigFish\Pmgw\Model\LogAbstractFactory $logFactory
      * @param \Magento\Sales\Model\Order\Email\Sender\OrderSender $orderSender
      */
     public function __construct(
         Session $checkoutSession,
         LoggerInterface $logger,
-        Collection $paymentGatewayCollection,
         OrderInterface $salesOrderFactory,
-        LogCollection $paymentGatewayLogCollection,
         PmgwAbstractFactory $pmgwFactory,
+        LogAbstractFactory $logFactory,
         OrderSender $orderSender
     ) {
         $this->checkoutSession = $checkoutSession;
         $this->logger = $logger;
-        $this->paymentGatewayCollection = $paymentGatewayCollection;
         $this->order = $salesOrderFactory;
-        $this->paymentGatewayLogCollection = $paymentGatewayLogCollection;
         $this->pmgwFactory = $pmgwFactory;
+        $this->logFactory = $logFactory;
         $this->orderSender = $orderSender;
     }
 
@@ -143,59 +151,68 @@ class ResponseEvent
     /**
      * Process status notification from PaymentGateway
      *
-     * @return String
+     * @return array
      */
     public function processStatusEvent()
     {
         try {
-			$response = array();
-			
-			if (is_array($this->_eventData) && count($this->_eventData)) {
-				$response[] = $this->_eventData['ResultMessage'].'<br />';
-				
-				if (strlen($this->_eventData['ProviderTransactionId'])) {
-					$response[] = __('Provider Transaction ID').': '.$this->_eventData['ProviderTransactionId'];
-				}
-				
-				if (strlen($this->_eventData['Anum'])) {
-					$response[] = __('Anum').': '.$this->_eventData['Anum'];
-				}
-			}
+            $response = array();
+
+            if (is_array($this->_eventData) && count($this->_eventData) && isset($this->_eventData['ResultMessage'])) {
+                $response[] = $this->_eventData['ResultMessage'].'<br />';
+
+                if (isset($this->_eventData['ProviderTransactionId']) && strlen($this->_eventData['ProviderTransactionId'])) {
+                    $response[] = __('Provider Transaction ID').': '.$this->_eventData['ProviderTransactionId'];
+                }
+
+                if (isset($this->_eventData['Anum']) && strlen($this->_eventData['Anum'])) {
+                    $response[] = __('Anum').': '.$this->_eventData['Anum'];
+                }
+            }
 
             $params = $this->_validateEventData(false);
             $msg = '';
 
             switch($params['ResultCode']) {
-                case PaymentGateway::RESULT_CODE_TIMEOUT:
-					$msg = (count($response) ? implode('<br />', $response) : __('status_paymentTimeout'));
-                    $this->_processCancel($msg);
-                    break;
-                case PaymentGateway::RESULT_CODE_ERROR:
-                    $msg = (count($response) ? implode('<br />', $response) : __('status_paymentFailed'));
-                    $this->_processCancel($msg);
-                    break;
-                case PaymentGateway::RESULT_CODE_USER_CANCEL:
-					$msg = (count($response) ? implode('<br />', $response) : __('status_paymentCancelled'));
-                    $this->_processCancel($msg);
-                    break;
-                case PaymentGateway::RESULT_CODE_PENDING:
-                    $msg = __('status_paymentPending');
-                    $this->_processSale($params['ResultCode'], $msg);
-                    break;
-                case PaymentGateway::RESULT_CODE_SUCCESS:
-					$msg = (count($response) ? implode('<br />', $response) : __('status_paymentSuccess'));
-                    $this->_processSale($params['ResultCode'], $msg);
-                    break;
+              case PaymentGateway::RESULT_CODE_TIMEOUT:
+            $msg = (count($response) ? implode('<br />', $response) : __('status_paymentTimeout'));
+                  $this->_processCancel($msg);
+                  break;
+              case PaymentGateway::RESULT_CODE_ERROR:
+                  $msg = (count($response) ? implode('<br />', $response) : __('status_paymentFailed'));
+                  $this->_processCancel($msg);
+                  break;
+              case PaymentGateway::RESULT_CODE_USER_CANCEL:
+            $msg = (count($response) ? implode('<br />', $response) : __('status_paymentCancelled'));
+                  $this->_processCancel($msg);
+                  break;
+              case PaymentGateway::RESULT_CODE_PENDING:
+                  $msg = __('status_paymentPending');
+                  $this->_processSale($params['ResultCode'], $msg);
+                  break;
+              case PaymentGateway::RESULT_CODE_SUCCESS:
+            $msg = (count($response) ? implode('<br />', $response) : __('status_paymentSuccess'));
+                  $this->_processSale($params['ResultCode'], $msg);
+                  break;
             }
 
-            return $msg;
+            return [
+                'message' => $msg,
+                'resultCode' => $params['ResultCode']
+            ];
 
-        } catch (Mage_Core_Exception $e) {
-            return $e->getMessage();
-        } catch(Exception $e) {
+        } catch (LocalizedException $e) {
+            return [
+                'message' => $e->getMessage(),
+                'resultCode' => 0
+            ];
+        } catch (\Exception $e) {
             $this->logger->critical($e);
-
         }
+        return [
+            'message' => '',
+            'resultCode' => 0
+        ];
     }
 
     /**
@@ -206,9 +223,9 @@ class ResponseEvent
             $this->_validateEventData(false);
             $this->_processCancel(__('status_paymentCancelled'));
             return __('event_orderCancelled');
-        } catch (Mage_Core_Exception $e) {
+        } catch (LocalizedException $e) {
             return $e->getMessage();
-        } catch(Exception $e) {
+        } catch (\Exception $e) {
             $this->logger->critical($e);
         }
         return '';
@@ -222,7 +239,7 @@ class ResponseEvent
      */
     public function successEvent(){
         $this->_validateEventData(false);
-        return $this->_order->getQuoteId();
+        return $this->order->getQuoteId();
     }
 
     /**
@@ -251,7 +268,7 @@ class ResponseEvent
             case PaymentGateway::RESULT_CODE_SUCCESS:
 
                 $this->_setTransactionStatus(Helper::TRANSACTION_STATUS_SUCCESS);
-                //$this->_addTransactionLog($msg."\nRESPONSE:\n".print_r($this->_eventData, true));
+                $this->_addTransactionLog($msg."\nRESPONSE:\n".print_r($this->_eventData, true));
 
                 $this->_createInvoice();
                 $this->order->setState(Order::STATE_PROCESSING, true, $msg);
@@ -346,30 +363,34 @@ class ResponseEvent
     protected function _setTransactionStatus($status)
     {
         $collection = $this->pmgwFactory->create()->getCollection()
-                           ->addFieldToSelect('*')
-                           ->addFieldToFilter('transaction_id',array('eq'=>$this->getEventData(Helper::TXN_ID)))
-                           ->load();
+            ->addFieldToSelect('*')
+            ->addFieldToFilter('transaction_id',array('eq'=>$this->getEventData(Helper::TXN_ID)))
+            ->load();
         $item = $collection->fetchItem();
         $item->setStatus($status)
-             ->save();
+            ->save();
     }
 
     protected function _addTransactionLog($debug)
     {
-        $collection=$this->paymentGatewayMysql4PaymentGatewayCollectionFactory->create()
-                           ->addFieldToSelect('*')
-                           ->addFieldToFilter('transaction_id',array('eq'=>$this->getEventData("TransactionId")))
-                           ->load();
+        $collection = $this->pmgwFactory->create()->getCollection()
+            ->addFieldToSelect('*')
+            ->addFieldToFilter('transaction_id',array('eq'=>$this->getEventData(Helper::TXN_ID)))
+            ->load();
         $item = $collection->fetchItem();
-        $status = $item->getStatus();
-        $id = $item->getId();
-
-        $pgwLog = $this->paymentGatewayLogCollection->create();
-        $pgwLog->setPaymentgatewayId($id)
-               ->setStatus($status)
-               ->setCreatedTime(date("Y-m-d H:i:s"))
-               ->setDebug($debug)
-               ->save();
+        if ($item) {
+            $status = $item->getStatus();
+            $id = $item->getId();
+        } else {
+            $id = 0;
+            $status = 0;
+        }
+        $pgwLog = $this->logFactory->create()
+            ->setPaymentgatewayId($id)
+            ->setStatus($status)
+            ->setCreatedTime(date("Y-m-d H:i:s"))
+            ->setDebug($debug)
+            ->save();
     }
 
     /**

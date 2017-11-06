@@ -26,8 +26,8 @@
     
     - `cd var/www/dev/magento/`
     
-    - `php bin/magento setup:install --db-host=magento-db --db-name=magento --db-user=test --db-password=test --admin-firstname=FISH --admin-lastname=BIG --admin-email=<email cim> --admin-user=bfadmin --admin-password=Nagyhal123 --use-secure=1 --base-url-secure=https://magento.dev.big.hu/ --use-secure-admin=1 --backend-frontname=admin`<br>
-    (az --admin-email=\<email cim\> opcióba valamilyen saját email címet írjunk)
+    - `php bin/magento setup:install --db-host=magento-db --db-name=magento --db-user=test --db-password=test --admin-firstname=FISH --admin-lastname=BIG --admin-email=<email_cim> --admin-user=bfadmin --admin-password=Nagyhal123 --use-secure=1 --base-url-secure=https://magento.dev.big.hu/ --use-secure-admin=1 --backend-frontname=admin`<br>
+    (az --admin-email=\<email_cim\> opcióba valamilyen saját email címet írjunk)
     
     - Ha hiba nélkül lefut a telepítés, az utolsó sorokban valahol lesz egy ilyen:<br>
     `[SUCCESS]: Magento Admin URI: /admin`<br>

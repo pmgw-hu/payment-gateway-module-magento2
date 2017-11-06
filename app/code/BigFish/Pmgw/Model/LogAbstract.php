@@ -28,6 +28,9 @@ class LogAbstract extends AbstractModel
         $this->_init('BigFish\Pmgw\Model\Resource\Log');
     }
 
+    /**
+     * @return array
+     */
     public function getIdentities()
     {
         return [self::CACHE_TAG . '_' . $this->getId()];
