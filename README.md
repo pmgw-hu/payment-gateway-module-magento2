@@ -18,7 +18,7 @@
 
 - `docker-compose up -d`
 
-- Ezután két féle módon folytathatd, vagy webes warázslóval, vagy parancssorból telepíted:
+- Ezután két féle módon folytathatod a telepítést: webes warázslóval vagy parancssorból:
 
     #### Webes telepítés
     
@@ -66,7 +66,7 @@
 - Regisztráció után a My Account / My Access Keys alatt lesz egy public és egy private key, ezeket írd be az auth.json fájlba (auth.json.sample szerint).
 
 - `composer require bigfish/paymentgateway`<br>
-(ez csak addig szükséges, amíg nincs publikálva a modul a magestore-ba)
+(ez csak addig szükséges, amíg nincs publikálva a modul a magestore-ban)
 
 - `php bin/magento setup:upgrade`
 
@@ -84,6 +84,23 @@ Ez akár 10-20 percig is futhat, ne add fel!
 Itt ha mindenki úgy akarja megjelenik a **BIG FISH Payment Gateway Settings**
 
 - Hell yeah!
+
+## Fejlesztés
+
+- Legyen mindig egy docker terminál nyitva, gyorsabb magento parancsokat kiadni mint a webes adminban keresgélni:<br>
+`docker exec -it magento_web_1 /bin/bash`<br>
+Magento parancslista:<br>
+`php bin/magento`
+
+- A dependency injectiont elvileg minden osztály konstruktor módosítás után újra kéne fordítani a `php bin/magento setup:di:compile` paranccsal,
+de mivel ez 10-20 percig is eltarthat, jobb ha developer módoba váltunk:<br>
+`php bin/magento deploy:mode:set developer`
+
+utána elég csak a ./var/generation (magento 2.1x) vagy ./generated (magento 2.2x) könyvtárakat üríteni:<br>
+`rm -R var/generation/*`<br>
+vagy<br>
+`rm -R generated/*`
+   
 
 ## Gyakran előforduló problémák
 
