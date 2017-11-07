@@ -94,9 +94,8 @@ Magento parancslista:<br>
 
 - A dependency injectiont elvileg minden osztály konstruktor módosítás után újra kéne fordítani a `php bin/magento setup:di:compile` paranccsal,
 de mivel ez 10-20 percig is eltarthat, jobb ha developer módoba váltunk:<br>
-`php bin/magento deploy:mode:set developer`
-
-utána elég csak a ./var/generation (magento 2.1x) vagy ./generated (magento 2.2x) könyvtárakat üríteni:<br>
+`php bin/magento deploy:mode:set developer`<br>
+Ezután elég csak a ./var/generation (magento 2.1x) vagy ./generated (magento 2.2x) könyvtárakat üríteni:<br>
 `rm -R var/generation/*`<br>
 vagy<br>
 `rm -R generated/*`
