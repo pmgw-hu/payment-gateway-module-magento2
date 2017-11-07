@@ -92,6 +92,9 @@ Itt ha mindenki úgy akarja megjelenik a **BIG FISH Payment Gateway Settings**
 Magento parancslista:<br>
 `php bin/magento`
 
+- URN séma generálása xml fájlokhoz, PHPStorm számára:
+`php bin/magento dev:urn-catalog:generate .idea/misc.xml`
+
 - A dependency injectiont elvileg minden osztály konstruktor módosítás után újra kéne fordítani a `php bin/magento setup:di:compile` paranccsal,
 de mivel ez 10-20 percig is eltarthat, jobb ha developer módoba váltunk:<br>
 `php bin/magento deploy:mode:set developer`<br>
