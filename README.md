@@ -7,21 +7,27 @@
     `https://magento.com/tech-resources/download`
     
     Ingyenes regisztráció szükséges. A teszt adatokat is töltsük le, egyszerűbb lesz az életünk.
+    
+### Telepítés
 
-* Telepítés
+- Csinájlunk egy könyvtárat a projektünkek, pl: `magento` néven, a letöltött Magentot másoljuk be ebbe könyvrárába, a sample fájlos cuccot is, ha külön töltöttük le
 
-    - Csinájlunk egy könyvtárat a projektünkek, pl: `magento` néven
+- start `traefik`
+
+- `docker-compose build`
+
+- `docker-compose up -d`
+
+- Ezután két féle módon folytathatd, vagy webes warázslóval, vagy parancssorból telepíted:
+
+    #### Webes telepítés
     
-    - A letöltött Magentot másoljuk be ebbe könyvrárába
+    - browserben: https://magento.dev.big.hu/setup
     
-    - A sample fájlos cuccot is
-    
-    - Indítsuk el a traefik-ot a megszokott módon
-    
-    - `docker-compose build`
-    
-    - `docker-compose up -d`
-    
+    - a telepítés menete értelemszerű, de ha elakadnál: http://devdocs.magento.com/guides/v2.2/install-gde/install/web/install-web.html
+            
+    #### Parancssoros telepítés
+        
     - `docker exec -it magento_web_1 /bin/bash` <br>(itt a magento_web_1 függ a docker imagéről, amelyet a könyvtár nevőből alkot)
     
     - `cd var/www/dev/magento/`
@@ -32,36 +38,59 @@
     - Ha hiba nélkül lefut a telepítés, az utolsó sorokban valahol lesz egy ilyen:<br>
     `[SUCCESS]: Magento Admin URI: /admin`<br>
     Tehát az admin felületet a majd /admin alatt érjük el.
-    
-    - Ha session hibára fut a telepítés, a következő lépést hajtsuk végre (env.php módosítása), és ismét futtassuk le a fenti telepítő scriptet. 
-    
-    - Nyissuk meg szövegszerkesztőben az app/etc/env.php fájlt, és módosítsuk az alábbi sorokat:<br>
-    `array (
-        'save' => 'files',
-      ),`
-    <br>erre:<br>
-    `array (
-        'save' => 'memcached',
-        'save_path' => 'magento-memcache:11211',
-      ),`
-    
-    - Böngészőben nézzük meg az eredményt: <br>
-    https://magento.dev.big.hu/
-    - Relax, sokáig tart az első indulás (is)...
-    
-    - Lépjünk be az adminba is: <br>
-    https://magento.dev.big.hu/admin
-    
-    - Hell yeah!
+
+- Nyissuk meg szövegszerkesztőben az app/etc/env.php fájlt, és módosítsuk az alábbi sorokat:<br>
+`array (
+    'save' => 'files',
+  ),`
+<br>erre:<br>
+`array (
+    'save' => 'memcached',
+    'save_path' => 'magento-memcache:11211',
+  ),`
+
+- Böngészőben nézzük meg az eredményt: <br>
+  https://magento.dev.big.hu/
+
+- Relax, sokáig tart az első indulás (is)...
+
+- Lépjünk be az adminba is: <br>
+  https://magento.dev.big.hu/admin
+
+- Adminban a System / Cache Managementben gyorsan kapcsoljuk be az összes cache-t, mielőtt kihullik az összes hajunk. Utána ráérünk majd egyenként beállítgatni és ki-be kapcsolgatni...            
     
 ## BIG FISH PaymentGateway for Magento 2 telepítése
 
-* Letöltés
-    
-    
-* Telepítés
+- Regisztrád magad a https://marketplace.magento.com/ oldalon.
 
-    A modult másoljuk az `app/code` könyvtárba (ha nincs code könyvtár, hozzuk létre).
-    A helyes könyvtárstruktúra tehát így kezdődik: `app/code/BigFish/Pmgw/...`
-    
-    
+- Regisztráció után a My Account / My Access Keys alatt lesz egy public és egy private key, ezeket írd be az auth.json fájlba (auth.json.sample szerint).
+
+- `composer require bigfish/paymentgateway`<br>
+(ez csak addig szükséges, amíg nincs publikálva a modul a magestore-ba)
+
+- `php bin/magento setup:upgrade`
+
+- `php bin/magento setup:di:compile`<br>
+Ez akár 10-20 percig is futhat, ne add fel!
+
+- Admin / Stores / Configuration / Advanced / System / Full Page Cache:
+    - Caching Applicaton: `Varnish cache`
+    - Varnish Configuration:
+        - Access list: `localhost`
+        - Backend host: `magento-varnish`
+        - Backend port: `8080`
+
+- És végül a lényeg: Admin / Stores / Configuration / Sales / Payment Methods
+Itt ha mindenki úgy akarja megjelenik a **BIG FISH Payment Gateway Settings**
+
+- Hell yeah!
+
+## Gyakran előforduló problémák
+
+- "There has been an error processing your request" üzenet
+Error log record number: nnnnnnn
+A hiba részleteit megtalálod a var/report/nnnnnnn fájlokban.
+
+- Warning: SessionHandler::read()...
+Ha csak néha fordul elő, egy-két page refresh segít. A hibát az egymásra csúszó aszinkron ajax hívások és a sessionök összeakadása okozza.
+
