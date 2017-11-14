@@ -1,14 +1,143 @@
-# PaymentGateway for Magento 2
+# Payment Gateway module for Magento 2
 
-## Magento 2.x Community Edition telepítése
+## Install
 
-* Letöltés
+### Requirements
+  - Docker >= 1.11.0
+  - Docker Compose >= 1.7.0
+  - Traefik (https://gitlab.big.hu/big-fish/traefik)
+
+### Setup Magento Community Edition (2.1.x or 2.2.x)
+
+  - Download Magento with sample data (free registration required)
 
     `https://magento.com/tech-resources/download`
+
+  - Create a directory for Magento and uncompress code
+  
+    `mkdir magento`
     
-    Ingyenes regisztráció szükséges. A teszt adatokat is töltsük le, egyszerűbb lesz az életünk.
+    `unzip /path/to/Magento-CE-[version]_sample_data-[release date].zip -d /path/to/magento/`
+
+  - Clone module code
+  
+    `mkdir app/code/BigFish/`
     
-### Telepítés
+    `git clone -b master https://gitlab.big.hu/payment-gateway/sdk-magento2.git app/code/BigFish/Pmgw/`
+
+  - Symlink Docker specific files and folders
+
+    `cd magento`
+    
+    `ln -s ../pmgw-sdk-magento2/Docker/`
+    
+    `ln -s ../pmgw-sdk-magento2/docker-compose.yml`
+
+  - Set folder rights
+
+    `chmod -R og+w app/etc/ pub/media/ pub/static/ var/`
+
+  - Set magento binary attributes
+
+    `chmod uog+x bin/magento`
+
+  - Build docker image
+
+    `docker-compose build`
+
+  - Start docker images
+
+    `docker-compose up -d`    
+
+  - Setup Magento application via web interface
+  
+    `http://magento.dev.big.hu/setup/`
+  
+  - or via command line
+
+    `docker exec -ti -u www-data magento_web_1 /bin/bash`
+    
+    `cd /var/www/dev/magento/`
+
+    `bin/magento setup:install --timezone=Europe/Budapest --currency=HUF --db-host=db --db-name=magento --db-user=magento --db-password=magento --admin-firstname=FISH --admin-lastname=BIG --admin-email=[email address] --admin-user=bfadmin --admin-password=NagyHal123 --use-secure=0 --base-url=http://magento.dev.big.hu/ --use-secure-admin=0 --backend-frontname=admin --use-rewrites=0 --admin-use-security-key=0`
+
+  - Reindex
+  
+    `bin/magento indexer:reindex`
+
+  - Clear cache
+  
+    `bin/magento cache:clean`
+
+  - Logout container
+  
+    `exit`
+  
+  - Update session handler (edit `app/etc/env.php` file)
+
+    ```php
+    array (
+      'save' => 'memcached',
+      'save_path' => 'session:11211',
+    ),
+    ```
+
+  - Check webshop
+
+    `http://magento.dev.big.hu/`
+
+  - Check admin interface
+  
+    `http://magento.dev.big.hu/admin/`
+
+### Setup Payment Gateway Module
+
+  - After registration create and get Magento 2 access keys
+  
+    `https://marketplace.magento.com/customer/accessKeys/`
+  
+  - Create `auth.json` in `magento` directory
+  
+    ```json
+    {
+        "http-basic": {
+            "repo.magento.com": {
+                "username": "[public key]",
+                "password": "[private key]"
+            }
+        }
+    }
+    ```
+  
+  - Create module directory
+  
+    `mkdir -p app/code/BigFish/Pmgw`
+    
+  - Copy module files
+  
+    `cd app/code/BigFish`
+
+    `ln -s ../../../../pmgw-sdk-magento2/ Pmgw`
+
+    `cd ../../../`
+
+  - Set Composer requirement
+
+    `chmod og+w composer.*`
+
+    `chmod -R og+w vendor/`
+
+    `docker exec -ti -u www-data magento_web_1 /bin/bash`
+
+    `cd /var/www/dev/magento/`
+
+    `composer require bigfish/paymentgateway`
+    
+  
+
+
+### 
+Telepítés
 
 - Csinájlunk egy könyvtárat a projektünkek, pl: `magento` néven, a letöltött Magentot másoljuk be ebbe könyvrárába, a sample fájlos cuccot is, ha külön töltöttük le
 
