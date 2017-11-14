@@ -26,7 +26,10 @@ services:
       - MYSQL_DATABASE=magento
     network_mode: bridge
     volumes:
-      - ./.docker/db/data:/var/lib/mysql
+      - db_data:/var/lib/mysql
   session:
     image: docker.big.hu/development/memcached
     network_mode: bridge
+
+volumes:
+  db_data:
