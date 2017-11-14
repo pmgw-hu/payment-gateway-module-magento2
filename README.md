@@ -14,24 +14,24 @@
     `https://magento.com/tech-resources/download`
 
   - Create a directory for Magento and uncompress code
-  
+
     `mkdir magento`
-    
+
     `unzip /path/to/Magento-CE-[version]_sample_data-[release date].zip -d /path/to/magento/`
 
   - Clone module code
-  
-    `mkdir app/code/BigFish/`
-    
+
+    `cd magento`
+
+    `mkdir -p app/code/BigFish`
+
     `git clone -b master https://gitlab.big.hu/payment-gateway/sdk-magento2.git app/code/BigFish/Pmgw/`
 
   - Symlink Docker specific files and folders
 
-    `cd magento`
-    
-    `ln -s ../pmgw-sdk-magento2/Docker/`
-    
-    `ln -s ../pmgw-sdk-magento2/docker-compose.yml`
+    `ln -s app/code/BigFish/Pmgw/.docker/`
+
+    `ln -s app/code/BigFish/Pmgw/docker-compose.yml`
 
   - Set folder rights
 
@@ -47,19 +47,17 @@
 
   - Start docker images
 
-    `docker-compose up -d`    
+    `docker-compose up -d`
 
   - Setup Magento application via web interface
-  
+
     `http://magento.dev.big.hu/setup/`
-  
+
   - or via command line
 
     `docker exec -ti -u www-data magento_web_1 /bin/bash`
-    
-    `cd /var/www/dev/magento/`
 
-    `bin/magento module:disable BigFish_Pmgw`
+    `cd /var/www/dev/magento/`
 
     ```bash
     bin/magento setup:install \
@@ -83,17 +81,17 @@
     ```
 
   - Reindex
-  
+
     `bin/magento indexer:reindex`
 
   - Clear cache
-  
+
     `bin/magento cache:clean`
 
   - Logout container
-  
+
     `exit`
-  
+
   - Update session handler (edit `app/etc/env.php` file)
 
     ```php
@@ -108,17 +106,17 @@
     `http://magento.dev.big.hu/`
 
   - Check admin interface
-  
+
     `http://magento.dev.big.hu/admin/`
 
 ### Setup Payment Gateway Module
 
   - After registration create and get Magento 2 access keys
-  
+
     `https://marketplace.magento.com/customer/accessKeys/`
-  
+
   - Create `auth.json` in `magento` directory
-  
+
     ```json
     {
         "http-basic": {
@@ -141,21 +139,21 @@
     `cd /var/www/dev/magento/`
 
     `composer require bigfish/paymentgateway`
-    
+
   - Enable module
 
     `bin/magento module:enable BigFish_Pmgw`
-    
+
     `bin/magento setup:upgrade`
 
     `bin/magento setup:di:compile`
 
   - Logout container
-  
+
     `exit`
 
   - Check module on admin interface
-  
+
     `Admin / Stores / Configuration / Sales / Payment Methods`
 
 ## Development
@@ -163,17 +161,17 @@
 ### Magento command line
 
   - Urn schema generation for PhpStorm
-  
+
     `bin/magento dev:urn-catalog:generate .idea/misc.xml`
-    
+
   - Clear cache type(s)
-  
+
     `bin/magento cache:clear [type, eg: config]`
 
   - Generate DI configuration
-  
+
    `bin/magento setup:di:compile`
 
   - Set developer mode
-  
+
     `php bin/magento deploy:mode:set developer`
