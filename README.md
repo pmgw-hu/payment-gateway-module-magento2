@@ -17,11 +17,11 @@
 
     `mkdir magento`
 
-    `unzip /path/to/Magento-CE-[version]_sample_data-[release date].zip -d /path/to/magento/`
+    `cd magento`
+
+    `unzip /path/to/Magento-CE-[version]_sample_data-[release date].zip -d ./`
 
   - Clone module code
-
-    `cd magento`
 
     `mkdir -p app/code/BigFish`
 
@@ -53,7 +53,7 @@
 
     `http://magento.dev.big.hu/setup/`
 
-  - or via command line
+  - OR via command line
 
     `docker exec -ti -u www-data magento_web_1 /bin/bash`
 
@@ -128,13 +128,17 @@
     }
     ```
 
-  - Enable module
+  - Set Composer requirement
 
-    `bin/magento module:enable BigFish_Pmgw`
+    `chmod og+w composer.*`
 
-    `bin/magento setup:upgrade`
+    `chmod -R og+w vendor/`
 
-    `bin/magento setup:di:compile`
+    `docker exec -ti -u www-data magento_web_1 /bin/bash`
+
+    `cd /var/www/dev/magento/`
+
+    `composer require bigfish/paymentgateway`
 
   - Logout container
 
@@ -144,17 +148,35 @@
 
     `Admin / Stores / Configuration / Sales / Payment Methods`
 
+  - Configure Payment Gateway
+
+    `Store name: sdk_test`
+
+    `Enabled: yes`
+
+    `Test mode: yes`
+
+    `API key: 86af3-80e4f-f8228-9498f-910ad`
+
 ## Development
 
 ### Magento command line
+
+  - Command list
+
+    `bin/magento list`
 
   - Urn schema generation for PhpStorm
 
     `bin/magento dev:urn-catalog:generate .idea/misc.xml`
 
-  - Clear cache type(s)
+  - Clear cache
 
-    `bin/magento cache:clear [type, eg: config]`
+    `bin/magento cache:clear`
+
+  - Upgrade Magento application
+
+    `bin/magento setup:upgrade`
 
   - Generate DI configuration
 
