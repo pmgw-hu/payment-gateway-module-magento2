@@ -128,18 +128,6 @@
     }
     ```
 
-  - Set Composer requirement
-
-    `chmod og+w composer.*`
-
-    `chmod -R og+w vendor/`
-
-    `docker exec -ti -u www-data magento_web_1 /bin/bash`
-
-    `cd /var/www/dev/magento/`
-
-    `composer require bigfish/paymentgateway`
-
   - Enable module
 
     `bin/magento module:enable BigFish_Pmgw`
