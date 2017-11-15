@@ -16,52 +16,56 @@
     <default>
         <payment>
             <bigfish_pmgw>
-                <debug>1</debug>
-                <active>0</active>
                 <model>PmgwFacade</model>
+                <title>Payment method (Pmgw)</title>
                 <order_status>pending_payment</order_status>
                 <payment_action>initialize</payment_action>
-                <title>Payment method (Pmgw)</title>
                 <currency>HUF</currency>
+                <active>0</active>
+                <is_gateway>1</is_gateway>
+                <can_use_checkout>1</can_use_checkout>
+                <can_initialize>1</can_initialize>
                 <can_authorize>1</can_authorize>
                 <can_capture>1</can_capture>
                 <can_void>1</can_void>
-                <can_use_checkout>1</can_use_checkout>
-                <is_gateway>1</is_gateway>
+                <can_refund>1</can_refund>
                 <sort_order>1</sort_order>
                 <responseUrl>pmgwresponse/payment/response</responseUrl>
                 <autoCommit>true</autoCommit>
-                <can_initialize>1</can_initialize>
-            </bigfish_pmgw>
-            <bigfish_pmgw_provider>
                 <debug>1</debug>
-                <active>0</active>
+            </bigfish_pmgw>
+
+            <bigfish_pmgw_provider>
                 <model>BigFish\Pmgw\Model\Provider\Provider</model>
-                <order_status>pending_payment</order_status>
-                <payment_action>initialize</payment_action>
                 <title>Payment method provider abstract</title>
-                <can_initialize>1</can_initialize>
-            </bigfish_pmgw_provider>
-            <bigfish_pmgw_cib>
-                <group>pmgw</group>
                 <active>0</active>
+                <!--<order_status>pending_payment</order_status>-->
+                <!--<payment_action>initialize</payment_action>-->
+                <!--<can_initialize>1</can_initialize>-->
+                <debug>1</debug>
+            </bigfish_pmgw_provider>
+
+            <bigfish_pmgw_cib>
                 <model>PmgwCIBFacade</model>
                 <title>CIB Bank</title>
+                <group>pmgw</group>
                 <provider_code>CIB</provider_code>
-                <allowspecific>0</allowspecific>
-                <debug>1</debug>
                 <order_status>pending_payment</order_status>
                 <payment_action>initialize</payment_action>
                 <currency>HUF</currency>
+                <active>0</active>
+                <is_gateway>1</is_gateway>
+                <can_use_checkout>1</can_use_checkout>
+                <can_initialize>1</can_initialize>
                 <can_authorize>1</can_authorize>
                 <can_capture>1</can_capture>
                 <can_void>1</can_void>
-                <can_use_checkout>1</can_use_checkout>
-                <can_initialize>1</can_initialize>
-                <is_gateway>1</is_gateway>
+                <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
+                <debug>1</debug>
             </bigfish_pmgw_cib>
-            <bigfish_pmgw_khb>
+
+            <!--<bigfish_pmgw_khb>
                 <group>pmgw</group>
                 <active>0</active>
                 <model>PmgwKHBFacade</model>
@@ -78,27 +82,29 @@
                 <can_initialize>1</can_initialize>
                 <is_gateway>1</is_gateway>
                 <sort_order>1</sort_order>
-            </bigfish_pmgw_khb>
+            </bigfish_pmgw_khb>-->
+
             <bigfish_pmgw_otp>
-                <group>pmgw</group>
-                <active>0</active>
                 <model>PmgwOTPFacade</model>
                 <title>OTP Bank</title>
+                <group>pmgw</group>
                 <provider_code>OTP</provider_code>
-                <allowspecific>0</allowspecific>
-                <debug>1</debug>
                 <order_status>pending_payment</order_status>
                 <payment_action>initialize</payment_action>
                 <currency>HUF</currency>
+                <active>0</active>
+                <is_gateway>1</is_gateway>
+                <can_use_checkout>1</can_use_checkout>
+                <can_initialize>1</can_initialize>
                 <can_authorize>1</can_authorize>
                 <can_capture>1</can_capture>
                 <can_void>1</can_void>
-                <can_use_checkout>1</can_use_checkout>
-                <can_initialize>1</can_initialize>
-                <is_gateway>1</is_gateway>
+                <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
+                <debug>1</debug>
             </bigfish_pmgw_otp>
-            <bigfish_pmgw_abaqoos>
+
+            <!--<bigfish_pmgw_abaqoos>
                 <group>pmgw</group>
                 <active>0</active>
                 <model>PmgwABAQOOSFacade</model>
@@ -116,8 +122,9 @@
                 <can_initialize>1</can_initialize>
                 <is_gateway>1</is_gateway>
                 <sort_order>1</sort_order>
-            </bigfish_pmgw_abaqoos>
-            <bigfish_pmgw_paypal>
+            </bigfish_pmgw_abaqoos>-->
+
+            <!--<bigfish_pmgw_paypal>
                 <group>pmgw</group>
                 <active>0</active>
                 <model>PmgwPAYPALFacade</model>
@@ -135,8 +142,9 @@
                 <can_initialize>1</can_initialize>
                 <is_gateway>1</is_gateway>
                 <sort_order>1</sort_order>
-            </bigfish_pmgw_paypal>
-            <bigfish_pmgw_sms>
+            </bigfish_pmgw_paypal>-->
+
+            <!--<bigfish_pmgw_sms>
                 <group>pmgw</group>
                 <active>0</active>
                 <model>PmgwSMSFacade</model>
@@ -154,8 +162,9 @@
                 <can_initialize>1</can_initialize>
                 <is_gateway>1</is_gateway>
                 <sort_order>1</sort_order>
-            </bigfish_pmgw_sms>
-            <bigfish_pmgw_otp2>
+            </bigfish_pmgw_sms>-->
+
+            <!--<bigfish_pmgw_otp2>
                 <group>pmgw</group>
                 <active>0</active>
                 <model>PmgwOTP2Facade</model>
@@ -173,8 +182,9 @@
                 <can_initialize>1</can_initialize>
                 <is_gateway>1</is_gateway>
                 <sort_order>1</sort_order>
-            </bigfish_pmgw_otp2>
-            <bigfish_pmgw_escalion>
+            </bigfish_pmgw_otp2>-->
+
+            <!--<bigfish_pmgw_escalion>
                 <group>pmgw</group>
                 <active>0</active>
                 <model>PmgwESCALIONFacade</model>
@@ -192,8 +202,9 @@
                 <can_initialize>1</can_initialize>
                 <is_gateway>1</is_gateway>
                 <sort_order>1</sort_order>
-            </bigfish_pmgw_escalion>
-            <bigfish_pmgw_wirecard>
+            </bigfish_pmgw_escalion>-->
+
+            <!--<bigfish_pmgw_wirecard>
                 <group>pmgw</group>
                 <active>0</active>
                 <model>PmgwWIRECARDFacade</model>
@@ -211,8 +222,9 @@
                 <can_initialize>1</can_initialize>
                 <is_gateway>1</is_gateway>
                 <sort_order>1</sort_order>
-            </bigfish_pmgw_wirecard>
-            <bigfish_pmgw_fhb>
+            </bigfish_pmgw_wirecard>-->
+
+            <!--<bigfish_pmgw_fhb>
                 <group>pmgw</group>
                 <active>0</active>
                 <model>PmgwFHBFacade</model>
@@ -230,8 +242,9 @@
                 <can_initialize>1</can_initialize>
                 <is_gateway>1</is_gateway>
                 <sort_order>1</sort_order>
-            </bigfish_pmgw_fhb>
-            <bigfish_pmgw_unicredit>
+            </bigfish_pmgw_fhb>-->
+
+            <!--<bigfish_pmgw_unicredit>
                 <group>pmgw</group>
                 <active>0</active>
                 <model>PmgwUNICREDITFacade</model>
@@ -249,8 +262,9 @@
                 <can_initialize>1</can_initialize>
                 <is_gateway>1</is_gateway>
                 <sort_order>1</sort_order>
-            </bigfish_pmgw_unicredit>
-            <bigfish_pmgw_otpay>
+            </bigfish_pmgw_unicredit>-->
+
+            <!--<bigfish_pmgw_otpay>
                 <group>pmgw</group>
                 <active>0</active>
                 <model>PmgwOTPAYFacade</model>
@@ -268,8 +282,9 @@
                 <can_initialize>1</can_initialize>
                 <is_gateway>1</is_gateway>
                 <sort_order>1</sort_order>
-            </bigfish_pmgw_otpay>
-            <bigfish_pmgw_sofort>
+            </bigfish_pmgw_otpay>-->
+
+            <!--<bigfish_pmgw_sofort>
                 <group>pmgw</group>
                 <active>0</active>
                 <model>PmgwSOFORTFacade</model>
@@ -287,8 +302,9 @@
                 <can_initialize>1</can_initialize>
                 <is_gateway>1</is_gateway>
                 <sort_order>1</sort_order>
-            </bigfish_pmgw_sofort>
-            <bigfish_pmgw_borgun>
+            </bigfish_pmgw_sofort>-->
+
+            <!--<bigfish_pmgw_borgun>
                 <group>pmgw</group>
                 <active>0</active>
                 <model>PmgwBORGUNFacade</model>
@@ -306,8 +322,9 @@
                 <can_initialize>1</can_initialize>
                 <is_gateway>1</is_gateway>
                 <sort_order>1</sort_order>
-            </bigfish_pmgw_borgun>
-            <bigfish_pmgw_otpaymp>
+            </bigfish_pmgw_borgun>-->
+
+            <!--<bigfish_pmgw_otpaymp>
                 <group>pmgw</group>
                 <active>0</active>
                 <model>PmgwOTPAYMPFacade</model>
@@ -325,8 +342,9 @@
                 <can_initialize>1</can_initialize>
                 <is_gateway>1</is_gateway>
                 <sort_order>1</sort_order>
-            </bigfish_pmgw_otpaymp>
-            <bigfish_pmgw_khbszep>
+            </bigfish_pmgw_otpaymp>-->
+
+            <!--<bigfish_pmgw_khbszep>
                 <group>pmgw</group>
                 <active>0</active>
                 <model>PmgwKHBSZEPFacade</model>
@@ -344,8 +362,9 @@
                 <can_initialize>1</can_initialize>
                 <is_gateway>1</is_gateway>
                 <sort_order>1</sort_order>
-            </bigfish_pmgw_khbszep>
-            <bigfish_pmgw_otpmultipont>
+            </bigfish_pmgw_khbszep>-->
+
+            <!--<bigfish_pmgw_otpmultipont>
                 <group>pmgw</group>
                 <active>0</active>
                 <model>PmgwOTPMULTIPONTFacade</model>
@@ -363,8 +382,9 @@
                 <can_initialize>1</can_initialize>
                 <is_gateway>1</is_gateway>
                 <sort_order>1</sort_order>
-            </bigfish_pmgw_otpmultipont>
-            <bigfish_pmgw_mkbszep>
+            </bigfish_pmgw_otpmultipont>-->
+
+            <!--<bigfish_pmgw_mkbszep>
                 <group>pmgw</group>
                 <active>0</active>
                 <model>PmgwMKBSZEPFacade</model>
@@ -382,8 +402,9 @@
                 <can_initialize>1</can_initialize>
                 <is_gateway>1</is_gateway>
                 <sort_order>1</sort_order>
-            </bigfish_pmgw_mkbszep>
-            <bigfish_pmgw_otpszep>
+            </bigfish_pmgw_mkbszep>-->
+
+            <!--<bigfish_pmgw_otpszep>
                 <group>pmgw</group>
                 <active>0</active>
                 <model>PmgwOTPSZEPFacade</model>
@@ -401,8 +422,9 @@
                 <can_initialize>1</can_initialize>
                 <is_gateway>1</is_gateway>
                 <sort_order>1</sort_order>
-            </bigfish_pmgw_otpszep>
-            <bigfish_pmgw_payu2>
+            </bigfish_pmgw_otpszep>-->
+
+            <!--<bigfish_pmgw_payu2>
                 <group>pmgw</group>
                 <active>0</active>
                 <model>PmgwPAYU2Facade</model>
@@ -420,8 +442,9 @@
                 <can_initialize>1</can_initialize>
                 <is_gateway>1</is_gateway>
                 <sort_order>1</sort_order>
-            </bigfish_pmgw_payu2>
-            <bigfish_pmgw_saferpay>
+            </bigfish_pmgw_payu2>-->
+
+            <!--<bigfish_pmgw_saferpay>
                 <group>pmgw</group>
                 <active>0</active>
                 <model>PmgwSAFERPAYFacade</model>
@@ -439,8 +462,9 @@
                 <can_initialize>1</can_initialize>
                 <is_gateway>1</is_gateway>
                 <sort_order>1</sort_order>
-            </bigfish_pmgw_saferpay>
-            <bigfish_pmgw_otpsimple>
+            </bigfish_pmgw_saferpay>-->
+
+            <!--<bigfish_pmgw_otpsimple>
                 <group>pmgw</group>
                 <active>0</active>
                 <model>PmgwOTPSIMPLEFacade</model>
@@ -458,8 +482,9 @@
                 <can_initialize>1</can_initialize>
                 <is_gateway>1</is_gateway>
                 <sort_order>1</sort_order>
-            </bigfish_pmgw_otpsimple>
-            <bigfish_pmgw_otpsimplewire>
+            </bigfish_pmgw_otpsimple>-->
+
+            <!--<bigfish_pmgw_otpsimplewire>
                 <group>pmgw</group>
                 <active>0</active>
                 <model>PmgwOTPSIMPLEWIREFacade</model>
@@ -477,8 +502,9 @@
                 <can_initialize>1</can_initialize>
                 <is_gateway>1</is_gateway>
                 <sort_order>1</sort_order>
-            </bigfish_pmgw_otpsimplewire>
-            <bigfish_pmgw_barion>
+            </bigfish_pmgw_otpsimplewire>-->
+
+            <!--<bigfish_pmgw_barion>
                 <group>pmgw</group>
                 <active>0</active>
                 <model>PmgwBARIONFacade</model>
@@ -496,8 +522,9 @@
                 <can_initialize>1</can_initialize>
                 <is_gateway>1</is_gateway>
                 <sort_order>1</sort_order>
-            </bigfish_pmgw_barion>
-            <bigfish_pmgw_mpp>
+            </bigfish_pmgw_barion>-->
+
+            <!--<bigfish_pmgw_mpp>
                 <group>pmgw</group>
                 <active>0</active>
                 <model>PmgwMPPFacade</model>
@@ -515,8 +542,9 @@
                 <can_initialize>1</can_initialize>
                 <is_gateway>1</is_gateway>
                 <sort_order>1</sort_order>
-            </bigfish_pmgw_mpp>
-            <bigfish_pmgw_mcm>
+            </bigfish_pmgw_mpp>-->
+
+            <!--<bigfish_pmgw_mcm>
                 <group>pmgw</group>
                 <active>0</active>
                 <model>PmgwMCMFacade</model>
@@ -534,8 +562,9 @@
                 <can_initialize>1</can_initialize>
                 <is_gateway>1</is_gateway>
                 <sort_order>1</sort_order>
-            </bigfish_pmgw_mcm>
-            <bigfish_pmgw_payu>
+            </bigfish_pmgw_mcm>-->
+
+            <!--<bigfish_pmgw_payu>
                 <group>pmgw</group>
                 <active>0</active>
                 <model>PmgwPAYUFacade</model>
@@ -553,8 +582,9 @@
                 <can_initialize>1</can_initialize>
                 <is_gateway>1</is_gateway>
                 <sort_order>1</sort_order>
-            </bigfish_pmgw_payu>
-            <bigfish_pmgw_payuwire>
+            </bigfish_pmgw_payu>-->
+
+            <!--<bigfish_pmgw_payuwire>
                 <group>pmgw</group>
                 <active>0</active>
                 <model>PmgwPAYUWIREFacade</model>
@@ -572,8 +602,9 @@
                 <can_initialize>1</can_initialize>
                 <is_gateway>1</is_gateway>
                 <sort_order>1</sort_order>
-            </bigfish_pmgw_payuwire>
-            <bigfish_pmgw_payucash>
+            </bigfish_pmgw_payuwire>-->
+
+            <!--<bigfish_pmgw_payucash>
                 <group>pmgw</group>
                 <active>0</active>
                 <model>PmgwPAYUCASHFacade</model>
@@ -591,8 +622,9 @@
                 <can_initialize>1</can_initialize>
                 <is_gateway>1</is_gateway>
                 <sort_order>1</sort_order>
-            </bigfish_pmgw_payucash>
-            <bigfish_pmgw_payumobile>
+            </bigfish_pmgw_payucash>-->
+
+            <!--<bigfish_pmgw_payumobile>
                 <group>pmgw</group>
                 <active>0</active>
                 <model>PmgwPAYUMOBILEFacade</model>
@@ -610,7 +642,7 @@
                 <can_initialize>1</can_initialize>
                 <is_gateway>1</is_gateway>
                 <sort_order>1</sort_order>
-            </bigfish_pmgw_payumobile>
+            </bigfish_pmgw_payumobile>-->
         </payment>
     </default>
 </config>

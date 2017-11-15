@@ -72,7 +72,7 @@ class Response extends Action
 
         $status = $this->responseEvent->processStatusEvent();
 
-        $response = PaymentGateway::close(new PaymentGateway\Request\Close($transactionId, true));
+        //$response = PaymentGateway::close(new PaymentGateway\Request\Close($transactionId, true));
 
         switch ($status['resultCode']) {
             case PaymentGateway::RESULT_CODE_TIMEOUT:
@@ -86,7 +86,7 @@ class Response extends Action
                 break;
         }
 
-        return $status['message'];
+        //return $status['message'];
     }
 
 }

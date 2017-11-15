@@ -13,13 +13,14 @@
 namespace BigFish\Pmgw\Model;
 
 use Magento\Framework\Model\AbstractModel;
+use Magento\Framework\DataObject\IdentityInterface;
 
 /**
  * Class PmgwAbstract
  *
  * @package BigFish\Pmgw\Model
  */
-class PmgwAbstract extends AbstractModel
+class PmgwAbstract extends AbstractModel implements IdentityInterface
 {
     const CACHE_TAG = 'bigfish_pmgw_db';
 
@@ -35,4 +36,5 @@ class PmgwAbstract extends AbstractModel
     {
         return [self::CACHE_TAG . '_' . $this->getId()];
     }
+
 }

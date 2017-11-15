@@ -14,13 +14,10 @@ namespace BigFish\Pmgw\Block;
 
 use Magento\Framework\Phrase;
 use Magento\Payment\Block\ConfigurableInfo;
-use BigFish\Pmgw\Gateway\Response\FraudHandler;
 
 class Info extends ConfigurableInfo
 {
     /**
-     * Returns label
-     *
      * @param string $field
      * @return Phrase
      */
@@ -29,15 +26,4 @@ class Info extends ConfigurableInfo
         return __($field);
     }
 
-    /**
-     * Returns value view
-     *
-     * @param string $field
-     * @param string $value
-     * @return string | Phrase
-     */
-    protected function getValueView($field, $value)
-    {
-      return $value;
-    }
 }

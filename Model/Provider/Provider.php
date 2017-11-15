@@ -21,9 +21,8 @@ use Magento\Payment\Model\Method\AbstractMethod;
  */
 class Provider extends AbstractMethod
 {
-
     /**
-     * @var
+     * @var string
      */
     protected $_code;
 

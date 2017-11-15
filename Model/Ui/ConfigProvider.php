@@ -144,12 +144,14 @@ final class ConfigProvider implements ConfigProviderInterface
      *
      * @return array
      */
+    /*
     public function getApiType()
     {
         return array(
             'REST' => __('HTTP REST API (Default)'),
         );
     }
+    */
 
     /**
      * PaymentGateway KHB Pocket Ids
