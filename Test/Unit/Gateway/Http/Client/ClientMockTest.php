@@ -7,7 +7,7 @@ namespace BigFish\Pmgw\Test\Unit\Gateway\Http\Client;
 
 use Magento\Payment\Gateway\Http\TransferInterface;
 use Magento\Payment\Model\Method\Logger;
-use BigFish\Pmgw\Gateway\Http\Client\GatewayClient;
+use BigFish\Pmgw\Gateway\Http\Client\AuthorizeClient;
 
 class GatewayClientTest extends \PHPUnit_Framework_TestCase
 {
@@ -19,7 +19,7 @@ class GatewayClientTest extends \PHPUnit_Framework_TestCase
     private $logger;
 
     /**
-     * @var GatewayClient|\PHPUnit_Framework_MockObject_MockObject
+     * @var AuthorizeClient|\PHPUnit_Framework_MockObject_MockObject
      */
     private $clientMock;
 
@@ -28,7 +28,7 @@ class GatewayClientTest extends \PHPUnit_Framework_TestCase
         $this->logger = $this->getMockBuilder(Logger::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $this->clientMock = $this->getMockBuilder(GatewayClient::class)
+        $this->clientMock = $this->getMockBuilder(AuthorizeClient::class)
             ->setMethods(['generateTxnId'])
             ->setConstructorArgs([$this->logger])
             ->getMock();
@@ -83,11 +83,11 @@ class GatewayClientTest extends \PHPUnit_Framework_TestCase
                     'INVOICE' => 1000
                 ],
                 'expectedResponse' => [
-                    'RESULT_CODE' => GatewayClient::SUCCESS,
+                    'RESULT_CODE' => AuthorizeClient::SUCCESS,
                     'TXN_ID' => self::TXN_ID
                 ],
                 'expectedHeaders' => [
-                    'force_result' => GatewayClient::SUCCESS
+                    'force_result' => AuthorizeClient::SUCCESS
                 ]
             ],
             'fraud' => [
@@ -96,7 +96,7 @@ class GatewayClientTest extends \PHPUnit_Framework_TestCase
                     'INVOICE' => 1000
                 ],
                 'expectedResponse' => [
-                    'RESULT_CODE' => GatewayClient::FAILURE,
+                    'RESULT_CODE' => AuthorizeClient::FAILURE,
                     'TXN_ID' => self::TXN_ID,
                     'FRAUD_MSG_LIST' => [
                         'Stolen card',
@@ -104,7 +104,7 @@ class GatewayClientTest extends \PHPUnit_Framework_TestCase
                     ]
                 ],
                 'expectedHeaders' => [
-                    'force_result' => GatewayClient::FAILURE
+                    'force_result' => AuthorizeClient::FAILURE
                 ]
             ]
         ];

@@ -8,7 +8,7 @@ namespace BigFish\Pmgw\Test\Unit\Gateway\Request;
 use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 use Magento\Payment\Model\InfoInterface;
 use Magento\Sales\Model\Order\Payment;
-use BigFish\Pmgw\Gateway\Http\Client\GatewayClient;
+use BigFish\Pmgw\Gateway\Http\Client\AuthorizeClient;
 use BigFish\Pmgw\Gateway\Request\GatewayClientDataRequest;
 
 class GatewayClientDataRequestTest extends \PHPUnit_Framework_TestCase
@@ -55,16 +55,16 @@ class GatewayClientDataRequestTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [
-                'forceResultCode' => GatewayClient::SUCCESS,
+                'forceResultCode' => AuthorizeClient::SUCCESS,
                 'transactionResult' => null
             ],
             [
-                'forceResultCode' => GatewayClient::SUCCESS,
-                'transactionResult' => GatewayClient::SUCCESS
+                'forceResultCode' => AuthorizeClient::SUCCESS,
+                'transactionResult' => AuthorizeClient::SUCCESS
             ],
             [
-                'forceResultCode' => GatewayClient::FAILURE,
-                'transactionResult' => GatewayClient::FAILURE
+                'forceResultCode' => AuthorizeClient::FAILURE,
+                'transactionResult' => AuthorizeClient::FAILURE
             ]
         ];
     }

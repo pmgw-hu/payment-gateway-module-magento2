@@ -10,7 +10,7 @@ use Magento\Framework\Event;
 use Magento\Payment\Model\InfoInterface;
 use Magento\Payment\Model\MethodInterface;
 use Magento\Payment\Observer\AbstractDataAssignObserver;
-use BigFish\Pmgw\Gateway\Http\Client\GatewayClient;
+use BigFish\Pmgw\Gateway\Http\Client\AuthorizeClient;
 use BigFish\Pmgw\Observer\DataAssignObserver;
 
 class DataAssignObserverTest extends \PHPUnit_Framework_TestCase
@@ -27,7 +27,7 @@ class DataAssignObserverTest extends \PHPUnit_Framework_TestCase
         $paymentInfoModel = $this->getMock(InfoInterface::class);
         $dataObject = new DataObject(
             [
-                'transaction_result' => GatewayClient::SUCCESS
+                'transaction_result' => AuthorizeClient::SUCCESS
             ]
         );
 
@@ -51,7 +51,7 @@ class DataAssignObserverTest extends \PHPUnit_Framework_TestCase
             ->method('setAdditionalInformation')
             ->with(
                 'transaction_result',
-                GatewayClient::SUCCESS
+                AuthorizeClient::SUCCESS
             );
 
         $observer = new DataAssignObserver();

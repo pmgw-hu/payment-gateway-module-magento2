@@ -5,7 +5,7 @@
  */
 namespace BigFish\Pmgw\Test\Unit\Model\Ui;
 
-use BigFish\Pmgw\Gateway\Http\Client\GatewayClient;
+use BigFish\Pmgw\Gateway\Http\Client\AuthorizeClient;
 use BigFish\Pmgw\Model\Ui\ConfigProvider;
 
 class ConfigProviderTest extends \PHPUnit_Framework_TestCase
@@ -19,8 +19,8 @@ class ConfigProviderTest extends \PHPUnit_Framework_TestCase
                 'payment' => [
                     ConfigProvider::CODE => [
                         'transactionResults' => [
-                            GatewayClient::SUCCESS => __('Success'),
-                            GatewayClient::FAILURE => __('Fraud')
+                            AuthorizeClient::SUCCESS => __('Success'),
+                            AuthorizeClient::FAILURE => __('Fraud')
                         ]
                     ]
                 ]

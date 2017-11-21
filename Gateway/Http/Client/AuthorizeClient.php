@@ -18,7 +18,7 @@ use Magento\Framework\App\ObjectManager;
 use BigFish\PaymentGateway;
 use BigFish\Pmgw\Gateway\Helper\Helper;
 
-class GatewayClient implements ClientInterface
+class AuthorizeClient implements ClientInterface
 {
     /**
      * Places request to gateway. Returns result as ENV array

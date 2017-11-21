@@ -7,7 +7,7 @@ namespace BigFish\Pmgw\Test\Unit\Gateway\Validator;
 
 use Magento\Payment\Gateway\Validator\ResultInterface;
 use Magento\Payment\Gateway\Validator\ResultInterfaceFactory;
-use BigFish\Pmgw\Gateway\Http\Client\GatewayClient;
+use BigFish\Pmgw\Gateway\Http\Client\AuthorizeClient;
 use BigFish\Pmgw\Gateway\Validator\ResponseCodeValidator;
 
 class ResponseCodeValidatorTest extends \PHPUnit_Framework_TestCase
@@ -67,14 +67,14 @@ class ResponseCodeValidatorTest extends \PHPUnit_Framework_TestCase
                 ]
             ],
             'fail_2' => [
-                'response' => [ResponseCodeValidator::RESULT_CODE => GatewayClient::FAILURE],
+                'response' => [ResponseCodeValidator::RESULT_CODE => AuthorizeClient::FAILURE],
                 'expectationToResultCreation' => [
                     'isValid' => false,
                     'failsDescription' => [__('Gateway rejected the transaction.')]
                 ]
             ],
             'success' => [
-                'response' => [ResponseCodeValidator::RESULT_CODE => GatewayClient::SUCCESS],
+                'response' => [ResponseCodeValidator::RESULT_CODE => AuthorizeClient::SUCCESS],
                 'expectationToResultCreation' => [
                     'isValid' => true,
                     'failsDescription' => []

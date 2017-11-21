@@ -15,7 +15,6 @@ namespace BigFish\Pmgw\Gateway\Validator;
 use BigFish\PaymentGateway;
 use Magento\Payment\Gateway\Validator\AbstractValidator;
 use Magento\Payment\Gateway\Validator\ResultInterface;
-use BigFish\Pmgw\Gateway\Http\Client\GatewayClient;
 
 class ResponseCodeValidator extends AbstractValidator
 {
