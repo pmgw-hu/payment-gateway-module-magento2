@@ -17,8 +17,5 @@
         <route id="bigfish_pmgw" frontName="bigfish_pmgw">
             <module name="BigFish_Pmgw" />
         </route>
-        <route id="test" frontName="test">
-            <module name="BigFish_Pmgw" />
-        </route>
     </router>
 </config>

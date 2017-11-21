@@ -35,24 +35,16 @@ class Redirect extends Action
      */
     public function execute() {
 
-        $objectManager = ObjectManager::getInstance();
-        $customerSession = $objectManager->create('Magento\Customer\Model\Session');
+        $customerSession = ObjectManager::getInstance()->create('Magento\Customer\Model\Session');
 
-        $this->redirectUrl = $customerSession->getPmgwRedirectUrlValue();
+        $redirectUrl = $customerSession->getPmgwRedirectUrlValue();
 
-        if ($this->redirectUrl) {
+        if ($redirectUrl) {
             $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
-            $resultRedirect->setUrl($this->redirectUrl);
+            $resultRedirect->setUrl($redirectUrl);
             return $resultRedirect;
         }
-
         return false;
     }
 
-    /**
-     * @param $url
-     */
-    public function setRedirectUrl($url) {
-        $this->redirectUrl = $url;
-    }
 }
