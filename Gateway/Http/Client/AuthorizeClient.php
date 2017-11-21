@@ -30,8 +30,8 @@ class AuthorizeClient implements ClientInterface
     {
         $response = $transferObject->getBody();
 
-        if ($response[Helper::RESULT_CODE] === PaymentGateway::RESULT_CODE_SUCCESS) {
-            $url = PaymentGateway::getStartUrl(new PaymentGateway\Request\Start($response[Helper::TXN_ID]));
+        if ($response[Helper::RESPONSE_FIELD_RESULT_CODE] === PaymentGateway::RESULT_CODE_SUCCESS) {
+            $url = PaymentGateway::getStartUrl(new PaymentGateway\Request\Start($response[Helper::RESPONSE_FIELD_TRANSACTION_ID]));
 
             $customerSession = ObjectManager::getInstance()->create('Magento\Customer\Model\Session');
             $customerSession->setPmgwRedirectUrlValue($url);

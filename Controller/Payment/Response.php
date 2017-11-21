@@ -46,11 +46,11 @@ class Response extends Action
     {
         $urlParams = $this->getRequest()->getParams();
 
-        if (!array_key_exists(Helper::TXN_ID, $urlParams)) {
+        if (!array_key_exists(Helper::RESPONSE_FIELD_TRANSACTION_ID, $urlParams)) {
             throw new \InvalidArgumentException(__('process_noTransactionIdInResponse'));
         }
 
-        $transactionId = $urlParams[Helper::TXN_ID];
+        $transactionId = $urlParams[Helper::RESPONSE_FIELD_TRANSACTION_ID];
 
         $response = PaymentGateway::result(new PaymentGateway\Request\Result($transactionId));
 

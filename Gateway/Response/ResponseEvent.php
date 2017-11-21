@@ -323,13 +323,13 @@ class ResponseEvent
         }
 
         // check Transaction ID
-        if (empty($params[Helper::TXN_ID])) {
+        if (empty($params[Helper::RESPONSE_FIELD_TRANSACTION_ID])) {
             throw new \Magento\Framework\Exception\LocalizedException('Missing or invalid order ID.');
         }
 
         $pmgwCollection = $this->transactionFactory->create()->getCollection();
         $pmgwCollection->addFieldToSelect('*')
-                    ->addFieldToFilter('transaction_id',array('eq'=>$params[Helper::TXN_ID]))
+                    ->addFieldToFilter('transaction_id',array('eq'=>$params[Helper::RESPONSE_FIELD_TRANSACTION_ID]))
                     ->addOrder('created_time','desc')
                     ->load();
 
@@ -364,7 +364,7 @@ class ResponseEvent
     {
         $collection = $this->transactionFactory->create()->getCollection()
             ->addFieldToSelect('*')
-            ->addFieldToFilter('transaction_id',array('eq'=>$this->getEventData(Helper::TXN_ID)))
+            ->addFieldToFilter('transaction_id',array('eq'=>$this->getEventData(Helper::RESPONSE_FIELD_TRANSACTION_ID)))
             ->load();
         $item = $collection->fetchItem();
         $item->setStatus($status)
@@ -375,7 +375,7 @@ class ResponseEvent
     {
         $collection = $this->transactionFactory->create()->getCollection()
             ->addFieldToSelect('*')
-            ->addFieldToFilter('transaction_id',array('eq'=>$this->getEventData(Helper::TXN_ID)))
+            ->addFieldToFilter('transaction_id',array('eq'=>$this->getEventData(Helper::RESPONSE_FIELD_TRANSACTION_ID)))
             ->load();
         $item = $collection->fetchItem();
         if ($item) {

@@ -240,7 +240,7 @@ class AuthorizeRequest implements BuilderInterface
             $transactionFactory->setOrderId($orderId)
                 ->setTransactionId($response->TransactionId)
                 ->setCreatedTime(date("Y-m-d H:i:s"))
-                ->setStatus(Helper::TRANSACTION_STATUS_INITED)
+                ->setStatus(Helper::TRANSACTION_STATUS_INITIALIZED)
                 ->save();
 
             $transactionId = $transactionFactory->getId();
@@ -250,7 +250,7 @@ class AuthorizeRequest implements BuilderInterface
                 ->setOrderId($orderId)
                 ->setTransactionId($response->TransactionId)
                 ->setCreatedTime(date("Y-m-d H:i:s"))
-                ->setStatus(Helper::TRANSACTION_STATUS_INITED)
+                ->setStatus(Helper::TRANSACTION_STATUS_INITIALIZED)
                 ->setDebug(print_r($response, true))
                 ->save();
 
