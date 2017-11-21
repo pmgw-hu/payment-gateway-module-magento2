@@ -125,7 +125,7 @@ define(
             },
 
             afterPlaceOrder: function () {
-                window.location.replace(url.build('pmgwresponse/payment/redirect'));
+                window.location.replace(url.build('bigfish_pmgw/payment/redirect'));
             }
 
         });

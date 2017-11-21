@@ -20,8 +20,8 @@ use Magento\Checkout\Model\Session;
 use Psr\Log\LoggerInterface;
 use BigFish\Pmgw\Model\Resource\Paymentgateway\Collection;
 use Magento\Sales\Api\Data\OrderInterface;
-use BigFish\Pmgw\Model\PmgwAbstractFactory;
-use BigFish\Pmgw\Model\LogAbstractFactory;
+use BigFish\Pmgw\Model\TransactionFactory;
+use BigFish\Pmgw\Model\LogFactory;
 use Magento\Sales\Model\Order\Email\Sender\OrderSender;
 
 /**
@@ -58,12 +58,12 @@ class ResponseEvent
     protected $paymentGatewayCollection;
 
     /**
-     * @var \BigFish\Pmgw\Model\PmgwAbstractFactory
+     * @var \BigFish\Pmgw\Model\TransactionFactory
      */
-    protected $pmgwFactory;
+    protected $transactionFactory;
 
     /**
-     * @var \BigFish\Pmgw\Model\LogAbstractFactory
+     * @var \BigFish\Pmgw\Model\LogFactory
      */
     protected $logFactory;
 
@@ -84,22 +84,22 @@ class ResponseEvent
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Psr\Log\LoggerInterface $logger
      * @param \Magento\Sales\Api\Data\OrderInterface $salesOrderFactory
-     * @param \BigFish\Pmgw\Model\PmgwAbstractFactory $pmgwFactory
-     * @param \BigFish\Pmgw\Model\LogAbstractFactory $logFactory
+     * @param \BigFish\Pmgw\Model\TransactionFactory $transactionFactory
+     * @param \BigFish\Pmgw\Model\LogFactory $logFactory
      * @param \Magento\Sales\Model\Order\Email\Sender\OrderSender $orderSender
      */
     public function __construct(
         Session $checkoutSession,
         LoggerInterface $logger,
         OrderInterface $salesOrderFactory,
-        PmgwAbstractFactory $pmgwFactory,
-        LogAbstractFactory $logFactory,
+        TransactionFactory $transactionFactory,
+        LogFactory $logFactory,
         OrderSender $orderSender
     ) {
         $this->checkoutSession = $checkoutSession;
         $this->logger = $logger;
         $this->order = $salesOrderFactory;
-        $this->pmgwFactory = $pmgwFactory;
+        $this->transactionFactory = $transactionFactory;
         $this->logFactory = $logFactory;
         $this->orderSender = $orderSender;
     }
@@ -327,7 +327,7 @@ class ResponseEvent
             throw new \Magento\Framework\Exception\LocalizedException('Missing or invalid order ID.');
         }
 
-        $pmgwCollection = $this->pmgwFactory->create()->getCollection();
+        $pmgwCollection = $this->transactionFactory->create()->getCollection();
         $pmgwCollection->addFieldToSelect('*')
                     ->addFieldToFilter('transaction_id',array('eq'=>$params[Helper::TXN_ID]))
                     ->addOrder('created_time','desc')
@@ -362,7 +362,7 @@ class ResponseEvent
 
     protected function _setTransactionStatus($status)
     {
-        $collection = $this->pmgwFactory->create()->getCollection()
+        $collection = $this->transactionFactory->create()->getCollection()
             ->addFieldToSelect('*')
             ->addFieldToFilter('transaction_id',array('eq'=>$this->getEventData(Helper::TXN_ID)))
             ->load();
@@ -373,7 +373,7 @@ class ResponseEvent
 
     protected function _addTransactionLog($debug)
     {
-        $collection = $this->pmgwFactory->create()->getCollection()
+        $collection = $this->transactionFactory->create()->getCollection()
             ->addFieldToSelect('*')
             ->addFieldToFilter('transaction_id',array('eq'=>$this->getEventData(Helper::TXN_ID)))
             ->load();

@@ -14,7 +14,10 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
     <router id="standard">
-        <route id="pmgwresponse" frontName="pmgwresponse">
+        <route id="bigfish_pmgw" frontName="bigfish_pmgw">
+            <module name="BigFish_Pmgw" />
+        </route>
+        <route id="test" frontName="test">
             <module name="BigFish_Pmgw" />
         </route>
     </router>

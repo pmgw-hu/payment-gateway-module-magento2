@@ -16,36 +16,31 @@ namespace BigFish\Pmgw\Gateway\Http;
 use Magento\Payment\Gateway\Http\TransferBuilder;
 use Magento\Payment\Gateway\Http\TransferFactoryInterface;
 
-class TransferFactory implements TransferFactoryInterface {
-
+class TransferFactory implements TransferFactoryInterface
+{
     /**
      * @var TransferBuilder
      */
     private $transferBuilder;
 
     /**
-     * TransferFactory constructor.
-     *
      * @param \Magento\Payment\Gateway\Http\TransferBuilder $transferBuilder
      */
-    public function __construct(
-        TransferBuilder $transferBuilder
-    ) {
+    public function __construct(TransferBuilder $transferBuilder)
+    {
         $this->transferBuilder = $transferBuilder;
     }
 
     /**
-     * Builds gateway transfer object
-     *
      * @param array $body
-     *
      * @return \Magento\Payment\Gateway\Http\TransferInterface
      */
-    public function create(array $body) {
-
+    public function create(array $body)
+    {
         return $this->transferBuilder
             ->setBody($body)
             ->setMethod('POST')
             ->build();
     }
+
 }

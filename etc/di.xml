@@ -13,82 +13,52 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <!-- Payment Method Facade configuration -->
-    <virtualType name="PmgwFacade" type="Magento\Payment\Model\Method\Adapter">
+    <!-- General configuration -->
+
+    <virtualType name="BigFishPmgwFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
             <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::CODE</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
             <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
-            <argument name="valueHandlerPool" xsi:type="object">PmgwValueHandlerPool</argument>
-            <argument name="commandPool" xsi:type="object">PmgwCommandPool</argument>
-        </arguments>
-    </virtualType>
-
-    <virtualType name="PmgwCIBFacade" type="Magento\Payment\Model\Method\Adapter">
-        <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::CIB_CODE</argument>
-            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
-            <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
-            <argument name="valueHandlerPool" xsi:type="object">PmgwCIBValueHandlerPool</argument>
-            <argument name="commandPool" xsi:type="object">PmgwCIBCommandPool</argument>
-        </arguments>
-    </virtualType>
-
-    <virtualType name="PmgwOTPFacade" type="Magento\Payment\Model\Method\Adapter">
-        <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::OTP_CODE</argument>
-            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
-            <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
-            <argument name="valueHandlerPool" xsi:type="object">PmgwOTPValueHandlerPool</argument>
-            <argument name="commandPool" xsi:type="object">PmgwOTPCommandPool</argument>
+            <argument name="valueHandlerPool" xsi:type="object">BigFishPmgwValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">BigFishPmgwCommandPool</argument>
         </arguments>
     </virtualType>
 
     <!-- Configuration reader -->
-    <virtualType name="PmgwConfig" type="Magento\Payment\Gateway\Config\Config">
+    <virtualType name="BigFishPmgwConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
             <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::CODE</argument>
         </arguments>
     </virtualType>
 
-    <virtualType name="PmgwCIBConfig" type="Magento\Payment\Gateway\Config\Config">
+    <!-- Value handlers infrastructure -->
+    <virtualType name="BigFishPmgwValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::CIB_CODE</argument>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">BigFishPmgwConfigValueHandler</item>
+            </argument>
         </arguments>
     </virtualType>
-
-    <virtualType name="PmgwOTPConfig" type="Magento\Payment\Gateway\Config\Config">
+    <virtualType name="BigFishPmgwConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::OTP_CODE</argument>
+            <argument name="configInterface" xsi:type="object">BigFishPmgwConfig</argument>
         </arguments>
     </virtualType>
-
-    <!-- Logger, initialized with PmgwConfig -->
-    <virtualType name="PmgwLogger" type="Magento\Payment\Model\Method\Logger">
-        <arguments>
-            <argument name="config" xsi:type="object">PmgwConfig</argument>
-        </arguments>
-    </virtualType>
-
-    <type name="BigFish\Pmgw\Gateway\Http\Client\GatewayClient">
-        <arguments>
-            <argument name="logger" xsi:type="object">PmgwLogger</argument>
-        </arguments>
-    </type>
 
     <!-- Commands infrastructure -->
-    <virtualType name="PmgwCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
+    <virtualType name="BigFishPmgwCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="initialize" xsi:type="string">PmgwInitializeCommand</item>
-                <item name="capture" xsi:type="string">PmgwCaptureCommand</item>
-                <item name="void" xsi:type="string">PmgwVoidCommand</item>
+                <item name="initialize" xsi:type="string">BigFishPmgwInitializeCommand</item>
+                <item name="capture" xsi:type="string">BigFishPmgwCaptureCommand</item>
+                <item name="void" xsi:type="string">BigFishPmgwVoidCommand</item>
             </argument>
         </arguments>
     </virtualType>
 
     <!-- Initialize command -->
-    <virtualType name="PmgwInitializeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+    <virtualType name="BigFishPmgwInitializeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
         <arguments>
             <argument name="requestBuilder" xsi:type="object">BigFish\Pmgw\Gateway\Request\InitializeRequest</argument>
             <argument name="transferFactory" xsi:type="object">BigFish\Pmgw\Gateway\Http\TransferFactory</argument>
@@ -96,15 +66,15 @@
         </arguments>
     </virtualType>
 
-    <!-- Initialize Request -->
+    <!-- Initialize request -->
     <type name="BigFish\Pmgw\Gateway\Request\InitializeRequest">
         <arguments>
-            <argument name="config" xsi:type="object">PmgwConfig</argument>
+            <argument name="config" xsi:type="object">BigFishPmgwConfig</argument>
         </arguments>
     </type>
 
     <!-- Capture command -->
-    <virtualType name="PmgwCaptureCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+    <virtualType name="BigFishPmgwCaptureCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
         <arguments>
             <argument name="requestBuilder" xsi:type="object">BigFish\Pmgw\Gateway\Request\CaptureRequest</argument>
             <argument name="transferFactory" xsi:type="object">BigFish\Pmgw\Gateway\Http\TransferFactory</argument>
@@ -112,15 +82,15 @@
         </arguments>
     </virtualType>
 
-    <!-- Capture command -->
+    <!-- Capture request -->
     <type name="BigFish\Pmgw\Gateway\Request\CaptureRequest">
         <arguments>
-            <argument name="config" xsi:type="object">PmgwConfig</argument>
+            <argument name="config" xsi:type="object">BigFishPmgwConfig</argument>
         </arguments>
     </type>
 
     <!-- Void command -->
-    <virtualType name="PmgwVoidCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+    <virtualType name="BigFishPmgwVoidCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
         <arguments>
             <argument name="requestBuilder" xsi:type="object">BigFish\Pmgw\Gateway\Request\VoidRequest</argument>
             <argument name="transferFactory" xsi:type="object">BigFish\Pmgw\Gateway\Http\TransferFactory</argument>
@@ -132,38 +102,95 @@
     <!-- Void Request -->
     <type name="BigFish\Pmgw\Gateway\Request\VoidRequest">
         <arguments>
-            <argument name="config" xsi:type="object">PmgwConfig</argument>
+            <argument name="config" xsi:type="object">BigFishPmgwConfig</argument>
         </arguments>
     </type>
 
+    <type name="BigFish\Pmgw\Block\Info">
+        <arguments>
+            <argument name="config" xsi:type="object">BigFishPmgwConfig</argument>
+        </arguments>
+    </type>
+
+    <preference for="Magento\Sales\Model\Order\Email\Sender\OrderSender" type="BigFish\Pmgw\Model\Order\Email\Sender\OrderSender"/>
+
+    <!-- Provider specific configuration -->
+
+    <!-- CIB -->
+    <virtualType name="BigFishPmgwCibFacade" type="Magento\Payment\Model\Method\Adapter">
+        <arguments>
+            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::CIB_CODE</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
+            <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">BigFishPmgwCibValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">BigFishPmgwCommandPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Configuration reader -->
+    <virtualType name="BigFishPmgwCibConfig" type="Magento\Payment\Gateway\Config\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::CIB_CODE</argument>
+        </arguments>
+    </virtualType>
+
     <!-- Value handlers infrastructure -->
-    <virtualType name="PmgwValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+    <virtualType name="BigFishPmgwCibValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
         <arguments>
             <argument name="handlers" xsi:type="array">
-                <item name="default" xsi:type="string">PmgwConfigValueHandler</item>
+                <item name="default" xsi:type="string">BigFishPmgwCibConfigValueHandler</item>
             </argument>
         </arguments>
     </virtualType>
-    <virtualType name="PmgwConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+    <virtualType name="BigFishPmgwCibConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
         <arguments>
-            <argument name="configInterface" xsi:type="object">PmgwConfig</argument>
+            <argument name="configInterface" xsi:type="object">BigFishPmgwCibConfig</argument>
         </arguments>
     </virtualType>
 
-    <virtualType name="PmgwCIBValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+    <!--<virtualType name="PmgwCibCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
         <arguments>
-            <argument name="handlers" xsi:type="array">
-                <item name="default" xsi:type="string">PmgwCIBConfigValueHandler</item>
+            <argument name="commands" xsi:type="array">
+                <item name="initialize" xsi:type="string">BigFishPmgwInitializeCommand</item>
+                <item name="capture" xsi:type="string">BigFishPmgwCaptureCommand</item>
+                <item name="void" xsi:type="string">BigFishPmgwVoidCommand</item>
             </argument>
         </arguments>
-    </virtualType>
-    <virtualType name="PmgwCIBConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
-        <arguments>
-            <argument name="configInterface" xsi:type="object">PmgwCIBConfig</argument>
-        </arguments>
-    </virtualType>
+    </virtualType>-->
 
-    <virtualType name="PmgwOTPValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+
+    <!--<virtualType name="PmgwOTPFacade" type="Magento\Payment\Model\Method\Adapter">
+        <arguments>
+            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::OTP_CODE</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
+            <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">PmgwOTPValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">PmgwOTPCommandPool</argument>
+        </arguments>
+    </virtualType>-->
+
+    <!--<virtualType name="PmgwOTPConfig" type="Magento\Payment\Gateway\Config\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::OTP_CODE</argument>
+        </arguments>
+    </virtualType>-->
+
+    <!-- Logger, initialized with BigFishPmgwConfig -->
+    <!--<virtualType name="PmgwLogger" type="Magento\Payment\Model\Method\Logger">
+        <arguments>
+            <argument name="config" xsi:type="object">BigFishPmgwConfig</argument>
+        </arguments>
+    </virtualType>-->
+
+    <!--<type name="BigFish\Pmgw\Gateway\Http\Client\GatewayClient">
+        <arguments>
+            <argument name="logger" xsi:type="object">PmgwLogger</argument>
+        </arguments>
+    </type>-->
+
+
+
+    <!--<virtualType name="PmgwOTPValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
         <arguments>
             <argument name="handlers" xsi:type="array">
                 <item name="default" xsi:type="string">PmgwOTPConfigValueHandler</item>
@@ -174,15 +201,7 @@
         <arguments>
             <argument name="configInterface" xsi:type="object">PmgwOTPConfig</argument>
         </arguments>
-    </virtualType>
-
-    <type name="BigFish\Pmgw\Block\Info">
-        <arguments>
-            <argument name="config" xsi:type="object">PmgwConfig</argument>
-        </arguments>
-    </type>
-
-    <preference for="Magento\Sales\Model\Order\Email\Sender\OrderSender" type="BigFish\Pmgw\Model\Order\Email\Sender\OrderSender"/>
+    </virtualType>-->
 
     <!--<virtualType name="PmgwABAQOOSFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
@@ -635,9 +654,9 @@
     <!--<virtualType name="PmgwABAQOOSCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="initialize" xsi:type="string">PmgwInitializeCommand</item>
-                <item name="capture" xsi:type="string">PmgwCaptureCommand</item>
-                <item name="void" xsi:type="string">PmgwVoidCommand</item>
+                <item name="initialize" xsi:type="string">BigFishPmgwInitializeCommand</item>
+                <item name="capture" xsi:type="string">BigFishPmgwCaptureCommand</item>
+                <item name="void" xsi:type="string">BigFishPmgwVoidCommand</item>
             </argument>
         </arguments>
     </virtualType>-->
@@ -645,9 +664,9 @@
     <!--<virtualType name="PmgwBARIONCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="initialize" xsi:type="string">PmgwInitializeCommand</item>
-                <item name="capture" xsi:type="string">PmgwCaptureCommand</item>
-                <item name="void" xsi:type="string">PmgwVoidCommand</item>
+                <item name="initialize" xsi:type="string">BigFishPmgwInitializeCommand</item>
+                <item name="capture" xsi:type="string">BigFishPmgwCaptureCommand</item>
+                <item name="void" xsi:type="string">BigFishPmgwVoidCommand</item>
             </argument>
         </arguments>
     </virtualType>-->
@@ -655,29 +674,19 @@
     <!--<virtualType name="PmgwBORGUNCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="initialize" xsi:type="string">PmgwInitializeCommand</item>
-                <item name="capture" xsi:type="string">PmgwCaptureCommand</item>
-                <item name="void" xsi:type="string">PmgwVoidCommand</item>
+                <item name="initialize" xsi:type="string">BigFishPmgwInitializeCommand</item>
+                <item name="capture" xsi:type="string">BigFishPmgwCaptureCommand</item>
+                <item name="void" xsi:type="string">BigFishPmgwVoidCommand</item>
             </argument>
         </arguments>
     </virtualType>-->
 
-    <virtualType name="PmgwCIBCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
-        <arguments>
-            <argument name="commands" xsi:type="array">
-                <item name="initialize" xsi:type="string">PmgwInitializeCommand</item>
-                <item name="capture" xsi:type="string">PmgwCaptureCommand</item>
-                <item name="void" xsi:type="string">PmgwVoidCommand</item>
-            </argument>
-        </arguments>
-    </virtualType>
-
     <!--<virtualType name="PmgwESCALIONCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="initialize" xsi:type="string">PmgwInitializeCommand</item>
-                <item name="capture" xsi:type="string">PmgwCaptureCommand</item>
-                <item name="void" xsi:type="string">PmgwVoidCommand</item>
+                <item name="initialize" xsi:type="string">BigFishPmgwInitializeCommand</item>
+                <item name="capture" xsi:type="string">BigFishPmgwCaptureCommand</item>
+                <item name="void" xsi:type="string">BigFishPmgwVoidCommand</item>
             </argument>
         </arguments>
     </virtualType>-->
@@ -685,9 +694,9 @@
     <!--<virtualType name="PmgwFHBCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="initialize" xsi:type="string">PmgwInitializeCommand</item>
-                <item name="capture" xsi:type="string">PmgwCaptureCommand</item>
-                <item name="void" xsi:type="string">PmgwVoidCommand</item>
+                <item name="initialize" xsi:type="string">BigFishPmgwInitializeCommand</item>
+                <item name="capture" xsi:type="string">BigFishPmgwCaptureCommand</item>
+                <item name="void" xsi:type="string">BigFishPmgwVoidCommand</item>
             </argument>
         </arguments>
     </virtualType>-->
@@ -695,9 +704,9 @@
     <!--<virtualType name="PmgwKHBCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="initialize" xsi:type="string">PmgwInitializeCommand</item>
-                <item name="capture" xsi:type="string">PmgwCaptureCommand</item>
-                <item name="void" xsi:type="string">PmgwVoidCommand</item>
+                <item name="initialize" xsi:type="string">BigFishPmgwInitializeCommand</item>
+                <item name="capture" xsi:type="string">BigFishPmgwCaptureCommand</item>
+                <item name="void" xsi:type="string">BigFishPmgwVoidCommand</item>
             </argument>
         </arguments>
     </virtualType>-->
@@ -705,9 +714,9 @@
     <!--<virtualType name="PmgwKHBSZEPCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="initialize" xsi:type="string">PmgwInitializeCommand</item>
-                <item name="capture" xsi:type="string">PmgwCaptureCommand</item>
-                <item name="void" xsi:type="string">PmgwVoidCommand</item>
+                <item name="initialize" xsi:type="string">BigFishPmgwInitializeCommand</item>
+                <item name="capture" xsi:type="string">BigFishPmgwCaptureCommand</item>
+                <item name="void" xsi:type="string">BigFishPmgwVoidCommand</item>
             </argument>
         </arguments>
     </virtualType>-->
@@ -715,9 +724,9 @@
     <!--<virtualType name="PmgwMCMCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="initialize" xsi:type="string">PmgwInitializeCommand</item>
-                <item name="capture" xsi:type="string">PmgwCaptureCommand</item>
-                <item name="void" xsi:type="string">PmgwVoidCommand</item>
+                <item name="initialize" xsi:type="string">BigFishPmgwInitializeCommand</item>
+                <item name="capture" xsi:type="string">BigFishPmgwCaptureCommand</item>
+                <item name="void" xsi:type="string">BigFishPmgwVoidCommand</item>
             </argument>
         </arguments>
     </virtualType>-->
@@ -725,9 +734,9 @@
     <!--<virtualType name="PmgwMKBSZEPCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="initialize" xsi:type="string">PmgwInitializeCommand</item>
-                <item name="capture" xsi:type="string">PmgwCaptureCommand</item>
-                <item name="void" xsi:type="string">PmgwVoidCommand</item>
+                <item name="initialize" xsi:type="string">BigFishPmgwInitializeCommand</item>
+                <item name="capture" xsi:type="string">BigFishPmgwCaptureCommand</item>
+                <item name="void" xsi:type="string">BigFishPmgwVoidCommand</item>
             </argument>
         </arguments>
     </virtualType>-->
@@ -735,9 +744,9 @@
     <!--<virtualType name="PmgwMPPCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="initialize" xsi:type="string">PmgwInitializeCommand</item>
-                <item name="capture" xsi:type="string">PmgwCaptureCommand</item>
-                <item name="void" xsi:type="string">PmgwVoidCommand</item>
+                <item name="initialize" xsi:type="string">BigFishPmgwInitializeCommand</item>
+                <item name="capture" xsi:type="string">BigFishPmgwCaptureCommand</item>
+                <item name="void" xsi:type="string">BigFishPmgwVoidCommand</item>
             </argument>
         </arguments>
     </virtualType>-->
@@ -745,9 +754,9 @@
     <virtualType name="PmgwOTPCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="initialize" xsi:type="string">PmgwInitializeCommand</item>
-                <item name="capture" xsi:type="string">PmgwCaptureCommand</item>
-                <item name="void" xsi:type="string">PmgwVoidCommand</item>
+                <item name="initialize" xsi:type="string">BigFishPmgwInitializeCommand</item>
+                <item name="capture" xsi:type="string">BigFishPmgwCaptureCommand</item>
+                <item name="void" xsi:type="string">BigFishPmgwVoidCommand</item>
             </argument>
         </arguments>
     </virtualType>
@@ -755,9 +764,9 @@
     <!--<virtualType name="PmgwOTP2CommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="initialize" xsi:type="string">PmgwInitializeCommand</item>
-                <item name="capture" xsi:type="string">PmgwCaptureCommand</item>
-                <item name="void" xsi:type="string">PmgwVoidCommand</item>
+                <item name="initialize" xsi:type="string">BigFishPmgwInitializeCommand</item>
+                <item name="capture" xsi:type="string">BigFishPmgwCaptureCommand</item>
+                <item name="void" xsi:type="string">BigFishPmgwVoidCommand</item>
             </argument>
         </arguments>
     </virtualType>-->
@@ -765,9 +774,9 @@
     <!--<virtualType name="PmgwOTPAYCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="initialize" xsi:type="string">PmgwInitializeCommand</item>
-                <item name="capture" xsi:type="string">PmgwCaptureCommand</item>
-                <item name="void" xsi:type="string">PmgwVoidCommand</item>
+                <item name="initialize" xsi:type="string">BigFishPmgwInitializeCommand</item>
+                <item name="capture" xsi:type="string">BigFishPmgwCaptureCommand</item>
+                <item name="void" xsi:type="string">BigFishPmgwVoidCommand</item>
             </argument>
         </arguments>
     </virtualType>-->
@@ -775,9 +784,9 @@
     <!--<virtualType name="PmgwOTPAYMPCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="initialize" xsi:type="string">PmgwInitializeCommand</item>
-                <item name="capture" xsi:type="string">PmgwCaptureCommand</item>
-                <item name="void" xsi:type="string">PmgwVoidCommand</item>
+                <item name="initialize" xsi:type="string">BigFishPmgwInitializeCommand</item>
+                <item name="capture" xsi:type="string">BigFishPmgwCaptureCommand</item>
+                <item name="void" xsi:type="string">BigFishPmgwVoidCommand</item>
             </argument>
         </arguments>
     </virtualType>-->
@@ -785,9 +794,9 @@
     <!--<virtualType name="PmgwOTPMULTIPONTCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="initialize" xsi:type="string">PmgwInitializeCommand</item>
-                <item name="capture" xsi:type="string">PmgwCaptureCommand</item>
-                <item name="void" xsi:type="string">PmgwVoidCommand</item>
+                <item name="initialize" xsi:type="string">BigFishPmgwInitializeCommand</item>
+                <item name="capture" xsi:type="string">BigFishPmgwCaptureCommand</item>
+                <item name="void" xsi:type="string">BigFishPmgwVoidCommand</item>
             </argument>
         </arguments>
     </virtualType>-->
@@ -795,9 +804,9 @@
     <!--<virtualType name="PmgwOTPSIMPLECommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="initialize" xsi:type="string">PmgwInitializeCommand</item>
-                <item name="capture" xsi:type="string">PmgwCaptureCommand</item>
-                <item name="void" xsi:type="string">PmgwVoidCommand</item>
+                <item name="initialize" xsi:type="string">BigFishPmgwInitializeCommand</item>
+                <item name="capture" xsi:type="string">BigFishPmgwCaptureCommand</item>
+                <item name="void" xsi:type="string">BigFishPmgwVoidCommand</item>
             </argument>
         </arguments>
     </virtualType>-->
@@ -805,9 +814,9 @@
     <!--<virtualType name="PmgwOTPSIMPLEWIRECommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="initialize" xsi:type="string">PmgwInitializeCommand</item>
-                <item name="capture" xsi:type="string">PmgwCaptureCommand</item>
-                <item name="void" xsi:type="string">PmgwVoidCommand</item>
+                <item name="initialize" xsi:type="string">BigFishPmgwInitializeCommand</item>
+                <item name="capture" xsi:type="string">BigFishPmgwCaptureCommand</item>
+                <item name="void" xsi:type="string">BigFishPmgwVoidCommand</item>
             </argument>
         </arguments>
     </virtualType>-->
@@ -815,9 +824,9 @@
     <!--<virtualType name="PmgwOTPSZEPCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="initialize" xsi:type="string">PmgwInitializeCommand</item>
-                <item name="capture" xsi:type="string">PmgwCaptureCommand</item>
-                <item name="void" xsi:type="string">PmgwVoidCommand</item>
+                <item name="initialize" xsi:type="string">BigFishPmgwInitializeCommand</item>
+                <item name="capture" xsi:type="string">BigFishPmgwCaptureCommand</item>
+                <item name="void" xsi:type="string">BigFishPmgwVoidCommand</item>
             </argument>
         </arguments>
     </virtualType>-->
@@ -825,9 +834,9 @@
     <!--<virtualType name="PmgwPAYPALCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="initialize" xsi:type="string">PmgwInitializeCommand</item>
-                <item name="capture" xsi:type="string">PmgwCaptureCommand</item>
-                <item name="void" xsi:type="string">PmgwVoidCommand</item>
+                <item name="initialize" xsi:type="string">BigFishPmgwInitializeCommand</item>
+                <item name="capture" xsi:type="string">BigFishPmgwCaptureCommand</item>
+                <item name="void" xsi:type="string">BigFishPmgwVoidCommand</item>
             </argument>
         </arguments>
     </virtualType>-->
@@ -835,9 +844,9 @@
     <!--<virtualType name="PmgwPAYUCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="initialize" xsi:type="string">PmgwInitializeCommand</item>
-                <item name="capture" xsi:type="string">PmgwCaptureCommand</item>
-                <item name="void" xsi:type="string">PmgwVoidCommand</item>
+                <item name="initialize" xsi:type="string">BigFishPmgwInitializeCommand</item>
+                <item name="capture" xsi:type="string">BigFishPmgwCaptureCommand</item>
+                <item name="void" xsi:type="string">BigFishPmgwVoidCommand</item>
             </argument>
         </arguments>
     </virtualType>-->
@@ -845,9 +854,9 @@
     <!--<virtualType name="PmgwPAYU2CommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="initialize" xsi:type="string">PmgwInitializeCommand</item>
-                <item name="capture" xsi:type="string">PmgwCaptureCommand</item>
-                <item name="void" xsi:type="string">PmgwVoidCommand</item>
+                <item name="initialize" xsi:type="string">BigFishPmgwInitializeCommand</item>
+                <item name="capture" xsi:type="string">BigFishPmgwCaptureCommand</item>
+                <item name="void" xsi:type="string">BigFishPmgwVoidCommand</item>
             </argument>
         </arguments>
     </virtualType>-->
@@ -855,9 +864,9 @@
     <!--<virtualType name="PmgwPAYUCASHCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="initialize" xsi:type="string">PmgwInitializeCommand</item>
-                <item name="capture" xsi:type="string">PmgwCaptureCommand</item>
-                <item name="void" xsi:type="string">PmgwVoidCommand</item>
+                <item name="initialize" xsi:type="string">BigFishPmgwInitializeCommand</item>
+                <item name="capture" xsi:type="string">BigFishPmgwCaptureCommand</item>
+                <item name="void" xsi:type="string">BigFishPmgwVoidCommand</item>
             </argument>
         </arguments>
     </virtualType>-->
@@ -865,9 +874,9 @@
     <!--<virtualType name="PmgwPAYUMOBILECommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="initialize" xsi:type="string">PmgwInitializeCommand</item>
-                <item name="capture" xsi:type="string">PmgwCaptureCommand</item>
-                <item name="void" xsi:type="string">PmgwVoidCommand</item>
+                <item name="initialize" xsi:type="string">BigFishPmgwInitializeCommand</item>
+                <item name="capture" xsi:type="string">BigFishPmgwCaptureCommand</item>
+                <item name="void" xsi:type="string">BigFishPmgwVoidCommand</item>
             </argument>
         </arguments>
     </virtualType>-->
@@ -875,9 +884,9 @@
     <!--<virtualType name="PmgwPAYUWIRECommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="initialize" xsi:type="string">PmgwInitializeCommand</item>
-                <item name="capture" xsi:type="string">PmgwCaptureCommand</item>
-                <item name="void" xsi:type="string">PmgwVoidCommand</item>
+                <item name="initialize" xsi:type="string">BigFishPmgwInitializeCommand</item>
+                <item name="capture" xsi:type="string">BigFishPmgwCaptureCommand</item>
+                <item name="void" xsi:type="string">BigFishPmgwVoidCommand</item>
             </argument>
         </arguments>
     </virtualType>-->
@@ -885,9 +894,9 @@
     <!--<virtualType name="PmgwSAFERPAYCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="initialize" xsi:type="string">PmgwInitializeCommand</item>
-                <item name="capture" xsi:type="string">PmgwCaptureCommand</item>
-                <item name="void" xsi:type="string">PmgwVoidCommand</item>
+                <item name="initialize" xsi:type="string">BigFishPmgwInitializeCommand</item>
+                <item name="capture" xsi:type="string">BigFishPmgwCaptureCommand</item>
+                <item name="void" xsi:type="string">BigFishPmgwVoidCommand</item>
             </argument>
         </arguments>
     </virtualType>-->
@@ -895,9 +904,9 @@
     <!--<virtualType name="PmgwSMSCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="initialize" xsi:type="string">PmgwInitializeCommand</item>
-                <item name="capture" xsi:type="string">PmgwCaptureCommand</item>
-                <item name="void" xsi:type="string">PmgwVoidCommand</item>
+                <item name="initialize" xsi:type="string">BigFishPmgwInitializeCommand</item>
+                <item name="capture" xsi:type="string">BigFishPmgwCaptureCommand</item>
+                <item name="void" xsi:type="string">BigFishPmgwVoidCommand</item>
             </argument>
         </arguments>
     </virtualType>-->
@@ -905,9 +914,9 @@
     <!--<virtualType name="PmgwSOFORTCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="initialize" xsi:type="string">PmgwInitializeCommand</item>
-                <item name="capture" xsi:type="string">PmgwCaptureCommand</item>
-                <item name="void" xsi:type="string">PmgwVoidCommand</item>
+                <item name="initialize" xsi:type="string">BigFishPmgwInitializeCommand</item>
+                <item name="capture" xsi:type="string">BigFishPmgwCaptureCommand</item>
+                <item name="void" xsi:type="string">BigFishPmgwVoidCommand</item>
             </argument>
         </arguments>
     </virtualType>-->
@@ -915,9 +924,9 @@
     <!--<virtualType name="PmgwUNICREDITCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="initialize" xsi:type="string">PmgwInitializeCommand</item>
-                <item name="capture" xsi:type="string">PmgwCaptureCommand</item>
-                <item name="void" xsi:type="string">PmgwVoidCommand</item>
+                <item name="initialize" xsi:type="string">BigFishPmgwInitializeCommand</item>
+                <item name="capture" xsi:type="string">BigFishPmgwCaptureCommand</item>
+                <item name="void" xsi:type="string">BigFishPmgwVoidCommand</item>
             </argument>
         </arguments>
     </virtualType>-->
@@ -925,9 +934,9 @@
     <!--<virtualType name="PmgwWIRECARDCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="initialize" xsi:type="string">PmgwInitializeCommand</item>
-                <item name="capture" xsi:type="string">PmgwCaptureCommand</item>
-                <item name="void" xsi:type="string">PmgwVoidCommand</item>
+                <item name="initialize" xsi:type="string">BigFishPmgwInitializeCommand</item>
+                <item name="capture" xsi:type="string">BigFishPmgwCaptureCommand</item>
+                <item name="void" xsi:type="string">BigFishPmgwVoidCommand</item>
             </argument>
         </arguments>
     </virtualType>-->

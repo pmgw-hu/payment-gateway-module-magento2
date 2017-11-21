@@ -18,25 +18,15 @@ use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\ObjectManager;
 
 /**
- * Class Redirect
- *
  * @package BigFish\Pmgw\Controller\Payment
  */
 class Redirect extends Action
 {
     /**
-     * @var string
-     */
-    protected $redirectUrl = '';
-
-    /**
-     * Redirect constructor.
-     *
      * @param \Magento\Framework\App\Action\Context $context
      */
-    public function __construct(
-        Context $context
-    ) {
+    public function __construct(Context $context)
+    {
         parent::__construct($context);
     }
 

@@ -58,7 +58,7 @@ class Wirecard extends Provider
     public function getPaymentTypes() {
         return array(
             'SELECT'				=> __('qpay_payment_type_select'),
-			      'BANCONTACT_MISTERCASH'	=> __('qpay_payment_type_bancontact_mistercash'),
+            'BANCONTACT_MISTERCASH'	=> __('qpay_payment_type_bancontact_mistercash'),
             'CCARD'					=> __('qpay_payment_type_ccard'),
             'CCARD-MOTO'			=> __('qpay_payment_type_ccard_moto'),
             'EKONTO'				=> __('qpay_payment_type_ekonto'),

@@ -22,10 +22,12 @@ use Magento\Store\Api\Data\StoreInterface;
 use Magento\Sales\Model\OrderFactory;
 use Magento\Backend\Model\UrlInterface;
 use BigFish\Pmgw\Model\Ui\ConfigProvider;
-use BigFish\Pmgw\Model\PmgwAbstractFactory;
-use BigFish\Pmgw\Model\LogAbstractFactory;
 use BigFish\Pmgw\Gateway\Helper\Helper;
 use BigFish\PaymentGateway;
+
+use BigFish\Pmgw\Model\TransactionFactory;
+use BigFish\Pmgw\Model\LogFactory;
+
 /**
  * Class InitializeRequest
  *
@@ -67,12 +69,12 @@ class InitializeRequest implements BuilderInterface
     private $orderFactory;
 
     /**
-     * @var \BigFish\Pmgw\Model\PmgwAbstractFactory
+     * @var \BigFish\Pmgw\Model\TransactionFactory
      */
-    private $pmgwFactory;
+    private $transactionFactory;
 
     /**
-     * @var \BigFish\Pmgw\Model\LogAbstractFactory
+     * @var \BigFish\Pmgw\Model\LogFactory
      */
     private $logFactory;
 
@@ -83,8 +85,8 @@ class InitializeRequest implements BuilderInterface
      * @param \Magento\Store\Api\Data\StoreInterface $store
      * @param \Magento\Framework\Module\ModuleListInterface $moduleList
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
-     * @param \BigFish\Pmgw\Model\PmgwAbstractFactory $pmgwFactory
-     * @param \BigFish\Pmgw\Model\LogAbstractFactory $logFactory
+     * @param \BigFish\Pmgw\Model\TransactionFactory $transactionFactory
+     * @param \BigFish\Pmgw\Model\LogFactory $logFactory
      */
     public function __construct(
         ConfigInterface $config,
@@ -93,8 +95,8 @@ class InitializeRequest implements BuilderInterface
         StoreInterface $store,
         ModuleListInterface $moduleList,
         OrderFactory $orderFactory,
-        PmgwAbstractFactory $pmgwFactory,
-        LogAbstractFactory $logFactory
+        TransactionFactory $transactionFactory,
+        LogFactory $logFactory
     ) {
         $this->config = $config;
         $this->_scopeConfig = $scopeConfig;
@@ -102,7 +104,7 @@ class InitializeRequest implements BuilderInterface
         $this->_store = $store;
         $this->_moduleList = $moduleList;
         $this->orderFactory = $orderFactory;
-        $this->pmgwFactory = $pmgwFactory;
+        $this->transactionFactory = $transactionFactory;
         $this->logFactory = $logFactory;
     }
 
@@ -116,8 +118,9 @@ class InitializeRequest implements BuilderInterface
     public function build(array $buildSubject)
     {
 
-        if (!isset($buildSubject['payment'])
-            || !$buildSubject['payment'] instanceof PaymentDataObjectInterface
+        if (
+            !isset($buildSubject['payment']) ||
+            !$buildSubject['payment'] instanceof PaymentDataObjectInterface
         ) {
             throw new \InvalidArgumentException('Payment data object should be provided');
         }
@@ -241,7 +244,7 @@ class InitializeRequest implements BuilderInterface
 
 //            $response->{'orderId'} = $orderId;
 
-            $pmgwFactory = $this->pmgwFactory->create();
+            $pmgwFactory = $this->transactionFactory->create();
             $pmgwFactory->setOrderId($orderId)
                 ->setTransactionId($response->TransactionId)
                 ->setCreatedTime(date("Y-m-d H:i:s"))
@@ -250,7 +253,7 @@ class InitializeRequest implements BuilderInterface
 
             $pmgw_id = $pmgwFactory->getId();
 
-            $pmgwLogFactory = $this->pmgwFactory->create();
+            $pmgwLogFactory = $this->transactionFactory->create();
             $pmgwLogFactory->setPaymentgatewayId($pmgw_id)
                 ->setOrderId($orderId)
                 ->setTransactionId($response->TransactionId)
