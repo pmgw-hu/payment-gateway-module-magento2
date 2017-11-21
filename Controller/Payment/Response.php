@@ -18,23 +18,18 @@ use Magento\Framework\App\Action\Context;
 use BigFish\Pmgw\Gateway\Response\ResponseEvent;
 use BigFish\PaymentGateway;
 
-/**
- * Class Response
- *
- * @package BigFish\Pmgw\Controller\Payment
- */
 class Response extends Action
 {
     /**
-     * @var \BigFish\Pmgw\Gateway\Response\ResponseEvent
+     * @var ResponseEvent
      */
     protected $responseEvent;
 
     /**
      * Response constructor.
      *
-     * @param \Magento\Framework\App\Action\Context $context
-     * @param \BigFish\Pmgw\Gateway\Response\ResponseEvent $responseEvent
+     * @param Context $context
+     * @param ResponseEvent $responseEvent
      */
     public function __construct(
         Context $context,
@@ -47,11 +42,11 @@ class Response extends Action
     /**
      * @return mixed
      */
-    public function execute() {
-
+    public function execute()
+    {
         $urlParams = $this->getRequest()->getParams();
-        if(!array_key_exists(Helper::TXN_ID, $urlParams))
-        {
+
+        if (!array_key_exists(Helper::TXN_ID, $urlParams)) {
             throw new \InvalidArgumentException(__('process_noTransactionIdInResponse'));
         }
 
@@ -60,6 +55,7 @@ class Response extends Action
         $response = PaymentGateway::result(new PaymentGateway\Request\Result($transactionId));
 
         $responseArray = [];
+
         if (is_object($response)) {
             foreach (get_object_vars($response) as $response_key => $response_val) {
                 $responseArray[$response_key] = $response_val;
@@ -72,8 +68,6 @@ class Response extends Action
 
         $status = $this->responseEvent->processStatusEvent();
 
-        //$response = PaymentGateway::close(new PaymentGateway\Request\Close($transactionId, true));
-
         switch ($status['resultCode']) {
             case PaymentGateway::RESULT_CODE_TIMEOUT:
             case PaymentGateway::RESULT_CODE_ERROR:
@@ -85,8 +79,6 @@ class Response extends Action
                 $this->_redirect('checkout/onepage/success', array('_secure'=>true));
                 break;
         }
-
-        //return $status['message'];
     }
 
 }

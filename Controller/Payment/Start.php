@@ -16,14 +16,12 @@ use Magento\Framework\App\Action\Action;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\ObjectManager;
+use Magento\Framework\Controller\ResultInterface;
 
-/**
- * @package BigFish\Pmgw\Controller\Payment
- */
-class Redirect extends Action
+class Start extends Action
 {
     /**
-     * @param \Magento\Framework\App\Action\Context $context
+     * @param Context $context
      */
     public function __construct(Context $context)
     {
@@ -31,10 +29,10 @@ class Redirect extends Action
     }
 
     /**
-     * @return bool|\Magento\Framework\Controller\ResultInterface
+     * @return bool|ResultInterface
      */
-    public function execute() {
-
+    public function execute()
+    {
         $customerSession = ObjectManager::getInstance()->create('Magento\Customer\Model\Session');
 
         $redirectUrl = $customerSession->getPmgwRedirectUrlValue();

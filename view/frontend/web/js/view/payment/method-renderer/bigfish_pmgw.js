@@ -1,7 +1,3 @@
-/**
- * Copyright © 2016 Magento. All rights reserved.
- * See COPYING.txt for license details.
- */
 /*browser:true*/
 /*global define*/
 define(
@@ -44,8 +40,6 @@ define(
              */
             initialize: function () {
                 this._super();
-                // this.vaultEnabler = new VaultEnabler();
-                // this.vaultEnabler.setPaymentCode(this.getVaultCode());
 
                 return this;
             },
@@ -125,7 +119,7 @@ define(
             },
 
             afterPlaceOrder: function () {
-                window.location.replace(url.build('bigfish_pmgw/payment/redirect'));
+                window.location.replace(url.build('bigfish_pmgw/payment/start'));
             }
 
         });
