@@ -9,7 +9,7 @@ use Magento\Payment\Gateway\ConfigInterface;
 use Magento\Payment\Gateway\Data\AddressAdapterInterface;
 use Magento\Payment\Gateway\Data\OrderAdapterInterface;
 use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
-use BigFish\Pmgw\Gateway\Request\InitializeRequest;
+use BigFish\Pmgw\Gateway\Request\AuthorizeRequest;
 
 class AuthorizeRequestTest extends \PHPUnit_Framework_TestCase
 {
@@ -67,7 +67,7 @@ class AuthorizeRequestTest extends \PHPUnit_Framework_TestCase
             ->willReturn($merchantToken);
 
         /** @var ConfigInterface $configMock */
-        $request = new InitializeRequest($configMock);
+        $request = new AuthorizeRequest($configMock);
 
         static::assertEquals(
             $expectation,

@@ -50,24 +50,24 @@
     <virtualType name="BigFishPmgwCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="initialize" xsi:type="string">BigFishPmgwInitializeCommand</item>
+                <item name="authorize" xsi:type="string">BigFishPmgwAuthorizeCommand</item>
                 <item name="capture" xsi:type="string">BigFishPmgwCaptureCommand</item>
                 <item name="void" xsi:type="string">BigFishPmgwVoidCommand</item>
             </argument>
         </arguments>
     </virtualType>
 
-    <!-- Initialize command -->
-    <virtualType name="BigFishPmgwInitializeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+    <!-- Authorize command -->
+    <virtualType name="BigFishPmgwAuthorizeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
         <arguments>
-            <argument name="requestBuilder" xsi:type="object">BigFish\Pmgw\Gateway\Request\InitializeRequest</argument>
+            <argument name="requestBuilder" xsi:type="object">BigFish\Pmgw\Gateway\Request\AuthorizeRequest</argument>
             <argument name="transferFactory" xsi:type="object">BigFish\Pmgw\Gateway\Http\TransferFactory</argument>
             <argument name="client" xsi:type="object">BigFish\Pmgw\Gateway\Http\Client\GatewayClient</argument>
         </arguments>
     </virtualType>
 
-    <!-- Initialize request -->
-    <type name="BigFish\Pmgw\Gateway\Request\InitializeRequest">
+    <!-- Authorize request -->
+    <type name="BigFish\Pmgw\Gateway\Request\AuthorizeRequest">
         <arguments>
             <argument name="config" xsi:type="object">BigFishPmgwConfig</argument>
         </arguments>
@@ -751,15 +751,15 @@
         </arguments>
     </virtualType>-->
 
-    <virtualType name="PmgwOTPCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
+    <!--<virtualType name="PmgwOTPCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="initialize" xsi:type="string">BigFishPmgwInitializeCommand</item>
+                <item name="initialize" xsi:type="string">BigFishPmgwAuthorizeCommand</item>
                 <item name="capture" xsi:type="string">BigFishPmgwCaptureCommand</item>
                 <item name="void" xsi:type="string">BigFishPmgwVoidCommand</item>
             </argument>
         </arguments>
-    </virtualType>
+    </virtualType>-->
 
     <!--<virtualType name="PmgwOTP2CommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
         <arguments>

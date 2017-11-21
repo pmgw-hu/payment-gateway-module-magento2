@@ -22,71 +22,64 @@ use Magento\Store\Api\Data\StoreInterface;
 use Magento\Sales\Model\OrderFactory;
 use Magento\Backend\Model\UrlInterface;
 use BigFish\Pmgw\Model\Ui\ConfigProvider;
+use BigFish\Pmgw\Model\TransactionFactory;
+use BigFish\Pmgw\Model\LogFactory;
 use BigFish\Pmgw\Gateway\Helper\Helper;
 use BigFish\PaymentGateway;
 
-use BigFish\Pmgw\Model\TransactionFactory;
-use BigFish\Pmgw\Model\LogFactory;
-
-/**
- * Class InitializeRequest
- *
- * @package BigFish\Pmgw\Gateway\Request
- */
-class InitializeRequest implements BuilderInterface
+class AuthorizeRequest implements BuilderInterface
 {
-
     const MODULE_NAME = 'BigFish_Pmgw';
 
     /**
-     * @var \Magento\Payment\Gateway\ConfigInterface
+     * @var ConfigInterface
      */
     private $config;
 
     /**
-     * @var \Magento\Framework\App\Config\ScopeConfigInterface
+     * @var ScopeConfigInterface
      */
-    private $_scopeConfig;
+    private $scopeConfig;
 
     /**
-     * @var \BigFish\Pmgw\Model\Ui\ConfigProvider
+     * @var ConfigProvider
      */
     private $providerConfig;
 
     /**
-     * @var \Magento\Store\Api\Data\StoreInterface
+     * @var StoreInterface
      */
-    private $_store;
+    private $store;
 
     /**
-     * @var \Magento\Framework\Module\ModuleListInterface
+     * @var ModuleListInterface
      */
-    private $_moduleList;
+    private $moduleList;
 
     /**
-     * @var \Magento\Sales\Model\OrderFactory
+     * @var OrderFactory
      */
     private $orderFactory;
 
     /**
-     * @var \BigFish\Pmgw\Model\TransactionFactory
+     * @var TransactionFactory
      */
     private $transactionFactory;
 
     /**
-     * @var \BigFish\Pmgw\Model\LogFactory
+     * @var LogFactory
      */
     private $logFactory;
 
     /**
-     * @param \Magento\Payment\Gateway\ConfigInterface $config
-     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \BigFish\Pmgw\Model\Ui\ConfigProvider $providerConfig
-     * @param \Magento\Store\Api\Data\StoreInterface $store
-     * @param \Magento\Framework\Module\ModuleListInterface $moduleList
-     * @param \Magento\Sales\Model\OrderFactory $orderFactory
-     * @param \BigFish\Pmgw\Model\TransactionFactory $transactionFactory
-     * @param \BigFish\Pmgw\Model\LogFactory $logFactory
+     * @param ConfigInterface $config
+     * @param ScopeConfigInterface $scopeConfig
+     * @param ConfigProvider $providerConfig
+     * @param StoreInterface $store
+     * @param ModuleListInterface $moduleList
+     * @param OrderFactory $orderFactory
+     * @param TransactionFactory $transactionFactory
+     * @param LogFactory $logFactory
      */
     public function __construct(
         ConfigInterface $config,
@@ -99,10 +92,10 @@ class InitializeRequest implements BuilderInterface
         LogFactory $logFactory
     ) {
         $this->config = $config;
-        $this->_scopeConfig = $scopeConfig;
+        $this->scopeConfig = $scopeConfig;
         $this->providerConfig = $providerConfig;
-        $this->_store = $store;
-        $this->_moduleList = $moduleList;
+        $this->store = $store;
+        $this->moduleList = $moduleList;
         $this->orderFactory = $orderFactory;
         $this->transactionFactory = $transactionFactory;
         $this->logFactory = $logFactory;
@@ -128,15 +121,15 @@ class InitializeRequest implements BuilderInterface
         /** @var PaymentDataObjectInterface $payment */
         $payment = $buildSubject['payment'];
         $order = $payment->getOrder();
-        $address = $order->getShippingAddress();
+        //$address = $order->getShippingAddress();
 
         $method = $payment->getPayment()->getMethodInstance();
 
-        $params = $this->_scopeConfig->getValue('payment/bigfish_pmgw');
+        $params = $this->scopeConfig->getValue('payment/bigfish_pmgw');
 
         $methodCode = $method->getCode();
 
-        $paymentParams = $this->_scopeConfig->getValue('payment/' . $methodCode);
+        $paymentParams = $this->scopeConfig->getValue('payment/' . $methodCode);
 
         if ($paymentParams['provider_code'] == 'OTPSZEP') {
             $storeName = $paymentParams['storenameotpszep'];
@@ -160,7 +153,6 @@ class InitializeRequest implements BuilderInterface
          * Configure PaymentGateway
          */
         PaymentGateway::setConfig($config);
-
 
         $paymentConfig = $this->providerConfig->getConfig();
 
@@ -204,7 +196,7 @@ class InitializeRequest implements BuilderInterface
             ->setOtpCvc(isset($paymentParams['OtpCvc']) ? $paymentParams['OtpCvc'] : '')
             ->setOneClickPayment(isset($paymentParams['OneClickPayment']) ? $paymentParams['OneClickPayment'] : '')
             ->setModuleName('Magento (' . $magentoVersion . ')')
-            ->setModuleVersion($this->_moduleList->getOne(self::MODULE_NAME)['setup_version']);
+            ->setModuleVersion($this->moduleList->getOne(self::MODULE_NAME)['setup_version']);
 
         // $request->setAutoCommit(false);
 
@@ -244,21 +236,22 @@ class InitializeRequest implements BuilderInterface
 
 //            $response->{'orderId'} = $orderId;
 
-            $pmgwFactory = $this->transactionFactory->create();
-            $pmgwFactory->setOrderId($orderId)
+            $transactionFactory = $this->transactionFactory->create();
+            $transactionFactory->setOrderId($orderId)
                 ->setTransactionId($response->TransactionId)
                 ->setCreatedTime(date("Y-m-d H:i:s"))
                 ->setStatus(Helper::TRANSACTION_STATUS_INITED)
                 ->save();
 
-            $pmgw_id = $pmgwFactory->getId();
+            $transactionId = $transactionFactory->getId();
 
-            $pmgwLogFactory = $this->transactionFactory->create();
-            $pmgwLogFactory->setPaymentgatewayId($pmgw_id)
+            $pmgwLogFactory = $this->logFactory->create();
+            $pmgwLogFactory->setPaymentgatewayId($transactionId)
                 ->setOrderId($orderId)
                 ->setTransactionId($response->TransactionId)
                 ->setCreatedTime(date("Y-m-d H:i:s"))
                 ->setStatus(Helper::TRANSACTION_STATUS_INITED)
+                ->setDebug(print_r($response, true))
                 ->save();
 
         } else {
