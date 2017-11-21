@@ -27,7 +27,7 @@
         <field id="otpcardpocketid" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Available pocket</label>
             <config_path>payment/bigfish_pmgw_otpszep/otpcardpocketid</config_path>
-            <source_model>BigFish\Pmgw\Model\Ui\ConfigProvider::getOtpCardPocketId</source_model>
+            <source_model>BigFish\Pmgw\Model\ConfigProvider::getOtpCardPocketId</source_model>
         </field>
         <!--<field id="storenameotpszep" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>SZEP Store name</label>

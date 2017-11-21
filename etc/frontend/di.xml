@@ -16,7 +16,7 @@
     <type name="Magento\Checkout\Model\CompositeConfigProvider">
         <arguments>
             <argument name="configProviders" xsi:type="array">
-                <item name="bigfish_pmgw_config_provider" xsi:type="object">BigFish\Pmgw\Model\Ui\ConfigProvider</item>
+                <item name="bigfish_pmgw_config_provider" xsi:type="object">BigFish\Pmgw\Model\ConfigProvider</item>
             </argument>
         </arguments>
     </type>

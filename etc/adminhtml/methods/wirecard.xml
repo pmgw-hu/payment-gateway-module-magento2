@@ -27,7 +27,7 @@
         <field id="paymenttypes" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Payment types</label>
             <config_path>payment/bigfish_pmgw_wirecard/paymenttypes</config_path>
-            <source_model>BigFish\Pmgw\Model\Ui\ConfigProvider::getQpayPaymentTypes</source_model>
+            <source_model>BigFish\Pmgw\Model\ConfigProvider::getQpayPaymentTypes</source_model>
         </field>
         <field id="allowspecific" translate="label" type="allowspecific" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Payment from Applicable Countries</label>

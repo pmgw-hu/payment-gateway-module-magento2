@@ -17,7 +17,7 @@
 
     <virtualType name="BigFishPmgwFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::CODE</argument>
+            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
             <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
             <argument name="valueHandlerPool" xsi:type="object">BigFishPmgwValueHandlerPool</argument>
@@ -28,7 +28,7 @@
     <!-- Configuration reader -->
     <virtualType name="BigFishPmgwConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::CODE</argument>
+            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE</argument>
         </arguments>
     </virtualType>
 
@@ -119,7 +119,7 @@
     <!-- CIB -->
     <virtualType name="BigFishPmgwCibFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::CIB_CODE</argument>
+            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_CIB</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
             <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
             <argument name="valueHandlerPool" xsi:type="object">BigFishPmgwCibValueHandlerPool</argument>
@@ -130,7 +130,7 @@
     <!-- Configuration reader -->
     <virtualType name="BigFishPmgwCibConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::CIB_CODE</argument>
+            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_CIB</argument>
         </arguments>
     </virtualType>
 
@@ -161,7 +161,7 @@
 
     <!--<virtualType name="PmgwOTPFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::OTP_CODE</argument>
+            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::OTP_CODE</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
             <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
             <argument name="valueHandlerPool" xsi:type="object">PmgwOTPValueHandlerPool</argument>
@@ -171,7 +171,7 @@
 
     <!--<virtualType name="PmgwOTPConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::OTP_CODE</argument>
+            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::OTP_CODE</argument>
         </arguments>
     </virtualType>-->
 
@@ -205,7 +205,7 @@
 
     <!--<virtualType name="PmgwABAQOOSFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::ABAQOOS_CODE</argument>
+            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_ABAQOOS</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
             <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
             <argument name="valueHandlerPool" xsi:type="object">PmgwABAQOOSValueHandlerPool</argument>
@@ -215,7 +215,7 @@
 
     <!--<virtualType name="PmgwBARIONFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::BARION_CODE</argument>
+            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_BARION</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
             <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
             <argument name="valueHandlerPool" xsi:type="object">PmgwBARIONValueHandlerPool</argument>
@@ -225,7 +225,7 @@
 
     <!--<virtualType name="PmgwBORGUNFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::BORGUN_CODE</argument>
+            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::BORGUN_CODE</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
             <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
             <argument name="valueHandlerPool" xsi:type="object">PmgwBORGUNValueHandlerPool</argument>
@@ -235,7 +235,7 @@
 
     <!--<virtualType name="PmgwESCALIONFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::ESCALION_CODE</argument>
+            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::ESCALION_CODE</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
             <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
             <argument name="valueHandlerPool" xsi:type="object">PmgwESCALIONValueHandlerPool</argument>
@@ -245,7 +245,7 @@
 
     <!--<virtualType name="PmgwFHBFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::FHB_CODE</argument>
+            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::FHB_CODE</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
             <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
             <argument name="valueHandlerPool" xsi:type="object">PmgwFHBValueHandlerPool</argument>
@@ -255,7 +255,7 @@
 
     <!--<virtualType name="PmgwKHBFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::KHB_CODE</argument>
+            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::KHB_CODE</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
             <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
             <argument name="valueHandlerPool" xsi:type="object">PmgwKHBValueHandlerPool</argument>
@@ -265,7 +265,7 @@
 
     <!--<virtualType name="PmgwKHBSZEPFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::KHBSZEP_CODE</argument>
+            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::KHBSZEP_CODE</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
             <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
             <argument name="valueHandlerPool" xsi:type="object">PmgwKHBSZEPValueHandlerPool</argument>
@@ -275,7 +275,7 @@
 
     <!--<virtualType name="PmgwMCMFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::MCM_CODE</argument>
+            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::MCM_CODE</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
             <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
             <argument name="valueHandlerPool" xsi:type="object">PmgwMCMValueHandlerPool</argument>
@@ -285,7 +285,7 @@
 
     <!--<virtualType name="PmgwMKBSZEPFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::MKBSZEP_CODE</argument>
+            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::MKBSZEP_CODE</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
             <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
             <argument name="valueHandlerPool" xsi:type="object">PmgwMKBSZEPValueHandlerPool</argument>
@@ -295,7 +295,7 @@
 
     <!--<virtualType name="PmgwMPPFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::MPP_CODE</argument>
+            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::MPP_CODE</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
             <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
             <argument name="valueHandlerPool" xsi:type="object">PmgwMPPValueHandlerPool</argument>
@@ -305,7 +305,7 @@
 
     <!--<virtualType name="PmgwOTP2Facade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::OTP2_CODE</argument>
+            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::OTP2_CODE</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
             <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
             <argument name="valueHandlerPool" xsi:type="object">PmgwOTP2ValueHandlerPool</argument>
@@ -315,7 +315,7 @@
 
     <!--<virtualType name="PmgwOTPAYFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::OTPAY_CODE</argument>
+            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::OTPAY_CODE</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
             <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
             <argument name="valueHandlerPool" xsi:type="object">PmgwOTPAYValueHandlerPool</argument>
@@ -325,7 +325,7 @@
 
     <!--<virtualType name="PmgwOTPAYMPFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::OTPAYMP_CODE</argument>
+            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::OTPAYMP_CODE</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
             <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
             <argument name="valueHandlerPool" xsi:type="object">PmgwOTPAYMPValueHandlerPool</argument>
@@ -335,7 +335,7 @@
 
     <!--<virtualType name="PmgwOTPMULTIPONTFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::OTPMULTIPONT_CODE</argument>
+            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::OTPMULTIPONT_CODE</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
             <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
             <argument name="valueHandlerPool" xsi:type="object">PmgwOTPMULTIPONTValueHandlerPool</argument>
@@ -345,7 +345,7 @@
 
     <!--<virtualType name="PmgwOTPSIMPLEFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::OTPSIMPLE_CODE</argument>
+            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::OTPSIMPLE_CODE</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
             <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
             <argument name="valueHandlerPool" xsi:type="object">PmgwOTPSIMPLEValueHandlerPool</argument>
@@ -355,7 +355,7 @@
 
     <!--<virtualType name="PmgwOTPSIMPLEWIREFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::OTPSIMPLEWIRE_CODE</argument>
+            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::OTPSIMPLEWIRE_CODE</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
             <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
             <argument name="valueHandlerPool" xsi:type="object">PmgwOTPSIMPLEWIREValueHandlerPool</argument>
@@ -365,7 +365,7 @@
 
     <!--<virtualType name="PmgwOTPSZEPFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::OTPSZEP_CODE</argument>
+            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::OTPSZEP_CODE</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
             <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
             <argument name="valueHandlerPool" xsi:type="object">PmgwOTPSZEPValueHandlerPool</argument>
@@ -375,7 +375,7 @@
 
     <!--<virtualType name="PmgwPAYPALFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::PAYPAL_CODE</argument>
+            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::PAYPAL_CODE</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
             <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
             <argument name="valueHandlerPool" xsi:type="object">PmgwPAYPALValueHandlerPool</argument>
@@ -385,7 +385,7 @@
 
     <!--<virtualType name="PmgwPAYUFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::PAYU_CODE</argument>
+            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::PAYU_CODE</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
             <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
             <argument name="valueHandlerPool" xsi:type="object">PmgwPAYUValueHandlerPool</argument>
@@ -395,7 +395,7 @@
 
     <!--<virtualType name="PmgwPAYU2Facade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::PAYU2_CODE</argument>
+            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::PAYU2_CODE</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
             <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
             <argument name="valueHandlerPool" xsi:type="object">PmgwPAYU2ValueHandlerPool</argument>
@@ -405,7 +405,7 @@
 
     <!--<virtualType name="PmgwPAYUCASHFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::PAYUCASH_CODE</argument>
+            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::PAYUCASH_CODE</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
             <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
             <argument name="valueHandlerPool" xsi:type="object">PmgwPAYUCASHValueHandlerPool</argument>
@@ -415,7 +415,7 @@
 
     <!--<virtualType name="PmgwPAYUMOBILEFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::PAYUMOBILE_CODE</argument>
+            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::PAYUMOBILE_CODE</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
             <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
             <argument name="valueHandlerPool" xsi:type="object">PmgwPAYUMOBILEValueHandlerPool</argument>
@@ -425,7 +425,7 @@
 
     <!--<virtualType name="PmgwPAYUWIREFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::PAYUWIRE_CODE</argument>
+            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::PAYUWIRE_CODE</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
             <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
             <argument name="valueHandlerPool" xsi:type="object">PmgwPAYUWIREValueHandlerPool</argument>
@@ -435,7 +435,7 @@
 
     <!--<virtualType name="PmgwSAFERPAYFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::SAFERPAY_CODE</argument>
+            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::SAFERPAY_CODE</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
             <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
             <argument name="valueHandlerPool" xsi:type="object">PmgwSAFERPAYValueHandlerPool</argument>
@@ -445,7 +445,7 @@
 
     <!--<virtualType name="PmgwSMSFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::SMS_CODE</argument>
+            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::SMS_CODE</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
             <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
             <argument name="valueHandlerPool" xsi:type="object">PmgwSMSValueHandlerPool</argument>
@@ -455,7 +455,7 @@
 
     <!--<virtualType name="PmgwSOFORTFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::SOFORT_CODE</argument>
+            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::SOFORT_CODE</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
             <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
             <argument name="valueHandlerPool" xsi:type="object">PmgwSOFORTValueHandlerPool</argument>
@@ -465,7 +465,7 @@
 
     <!--<virtualType name="PmgwUNICREDITFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::UNICREDIT_CODE</argument>
+            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::UNICREDIT_CODE</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
             <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
             <argument name="valueHandlerPool" xsi:type="object">PmgwUNICREDITValueHandlerPool</argument>
@@ -475,7 +475,7 @@
 
     <!--<virtualType name="PmgwWIRECARDFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::WIRECARD_CODE</argument>
+            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::WIRECARD_CODE</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
             <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
             <argument name="valueHandlerPool" xsi:type="object">PmgwWIRECARDValueHandlerPool</argument>
@@ -485,169 +485,169 @@
 
     <!--<virtualType name="PmgwABAQOOSConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::ABAQOOS_CODE</argument>
+            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_ABAQOOS</argument>
         </arguments>
     </virtualType>-->
 
     <!--<virtualType name="PmgwBARIONConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::BARION_CODE</argument>
+            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_BARION</argument>
         </arguments>
     </virtualType>-->
 
     <!--<virtualType name="PmgwBORGUNConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::BORGUN_CODE</argument>
+            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::BORGUN_CODE</argument>
         </arguments>
     </virtualType>-->
 
     <!--<virtualType name="PmgwESCALIONConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::ESCALION_CODE</argument>
+            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::ESCALION_CODE</argument>
         </arguments>
     </virtualType>-->
 
     <!--<virtualType name="PmgwFHBConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::FHB_CODE</argument>
+            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::FHB_CODE</argument>
         </arguments>
     </virtualType>-->
 
     <!--<virtualType name="PmgwKHBConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::KHB_CODE</argument>
+            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::KHB_CODE</argument>
         </arguments>
     </virtualType>-->
 
     <!--<virtualType name="PmgwKHBSZEPConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::KHBSZEP_CODE</argument>
+            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::KHBSZEP_CODE</argument>
         </arguments>
     </virtualType>-->
 
     <!--<virtualType name="PmgwMCMConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::MCM_CODE</argument>
+            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::MCM_CODE</argument>
         </arguments>
     </virtualType>-->
 
     <!--<virtualType name="PmgwMKBSZEPConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::MKBSZEP_CODE</argument>
+            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::MKBSZEP_CODE</argument>
         </arguments>
     </virtualType>-->
 
     <!--<virtualType name="PmgwMPPConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::MPP_CODE</argument>
+            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::MPP_CODE</argument>
         </arguments>
     </virtualType>-->
 
     <!--<virtualType name="PmgwOTP2Config" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::OTP2_CODE</argument>
+            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::OTP2_CODE</argument>
         </arguments>
     </virtualType>-->
 
     <!--<virtualType name="PmgwOTPAYConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::OTPAY_CODE</argument>
+            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::OTPAY_CODE</argument>
         </arguments>
     </virtualType>-->
 
     <!--<virtualType name="PmgwOTPAYMPConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::OTPAYMP_CODE</argument>
+            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::OTPAYMP_CODE</argument>
         </arguments>
     </virtualType>-->
 
     <!--<virtualType name="PmgwOTPMULTIPONTConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::OTPMULTIPONT_CODE</argument>
+            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::OTPMULTIPONT_CODE</argument>
         </arguments>
     </virtualType>-->
 
     <!--<virtualType name="PmgwOTPSIMPLEConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::OTPSIMPLE_CODE</argument>
+            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::OTPSIMPLE_CODE</argument>
         </arguments>
     </virtualType>-->
 
     <!--<virtualType name="PmgwOTPSIMPLEWIREConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::OTPSIMPLEWIRE_CODE</argument>
+            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::OTPSIMPLEWIRE_CODE</argument>
         </arguments>
     </virtualType>-->
 
     <!--<virtualType name="PmgwOTPSZEPConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::OTPSZEP_CODE</argument>
+            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::OTPSZEP_CODE</argument>
         </arguments>
     </virtualType>-->
 
     <!--<virtualType name="PmgwPAYPALConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::PAYPAL_CODE</argument>
+            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::PAYPAL_CODE</argument>
         </arguments>
     </virtualType>-->
 
     <!--<virtualType name="PmgwPAYUConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::PAYU_CODE</argument>
+            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::PAYU_CODE</argument>
         </arguments>
     </virtualType>-->
 
     <!--<virtualType name="PmgwPAYU2Config" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::PAYU2_CODE</argument>
+            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::PAYU2_CODE</argument>
         </arguments>
     </virtualType>-->
 
     <!--<virtualType name="PmgwPAYUCASHConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::PAYUCASH_CODE</argument>
+            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::PAYUCASH_CODE</argument>
         </arguments>
     </virtualType>-->
 
     <!--<virtualType name="PmgwPAYUMOBILEConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::PAYUMOBILE_CODE</argument>
+            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::PAYUMOBILE_CODE</argument>
         </arguments>
     </virtualType>-->
 
     <!--<virtualType name="PmgwPAYUWIREConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::PAYUWIRE_CODE</argument>
+            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::PAYUWIRE_CODE</argument>
         </arguments>
     </virtualType>-->
 
     <!--<virtualType name="PmgwSAFERPAYConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::SAFERPAY_CODE</argument>
+            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::SAFERPAY_CODE</argument>
         </arguments>
     </virtualType>-->
 
     <!--<virtualType name="PmgwSMSConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::SMS_CODE</argument>
+            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::SMS_CODE</argument>
         </arguments>
     </virtualType>-->
 
     <!--<virtualType name="PmgwSOFORTConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::SOFORT_CODE</argument>
+            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::SOFORT_CODE</argument>
         </arguments>
     </virtualType>-->
 
     <!--<virtualType name="PmgwUNICREDITConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::UNICREDIT_CODE</argument>
+            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::UNICREDIT_CODE</argument>
         </arguments>
     </virtualType>-->
 
     <!--<virtualType name="PmgwWIRECARDConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\Ui\ConfigProvider::WIRECARD_CODE</argument>
+            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::WIRECARD_CODE</argument>
         </arguments>
     </virtualType>-->
 

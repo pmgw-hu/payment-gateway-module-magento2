@@ -6,7 +6,7 @@
 namespace BigFish\Pmgw\Test\Unit\Model\Ui;
 
 use BigFish\Pmgw\Gateway\Http\Client\AuthorizeClient;
-use BigFish\Pmgw\Model\Ui\ConfigProvider;
+use BigFish\Pmgw\Model\ConfigProvider;
 
 class ConfigProviderTest extends \PHPUnit_Framework_TestCase
 {

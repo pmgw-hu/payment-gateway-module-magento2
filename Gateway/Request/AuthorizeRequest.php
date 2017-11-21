@@ -21,7 +21,7 @@ use Magento\Payment\Gateway\Request\BuilderInterface;
 use Magento\Store\Api\Data\StoreInterface;
 use Magento\Sales\Model\OrderFactory;
 use Magento\Backend\Model\UrlInterface;
-use BigFish\Pmgw\Model\Ui\ConfigProvider;
+use BigFish\Pmgw\Model\ConfigProvider;
 use BigFish\Pmgw\Model\TransactionFactory;
 use BigFish\Pmgw\Model\LogFactory;
 use BigFish\Pmgw\Gateway\Helper\Helper;
@@ -131,7 +131,8 @@ class AuthorizeRequest implements BuilderInterface
 
         $paymentParams = $this->scopeConfig->getValue('payment/' . $methodCode);
 
-        if ($paymentParams['provider_code'] == 'OTPSZEP') {
+        //if ($paymentParams['provider_code'] == 'OTPSZEP') {
+        if ($methodCode == ConfigProvider::CODE_OTP_SZEP) {
             $storeName = $paymentParams['storenameotpszep'];
             $apiKey = $paymentParams['apikeyotpszep'];
         } else {
@@ -183,7 +184,7 @@ class AuthorizeRequest implements BuilderInterface
         $request = new PaymentGateway\Request\Init();
 
         $request
-            ->setProviderName(($paymentParams['provider_code'] == 'OTPSZEP') ? PaymentGateway::PROVIDER_OTP : $paymentParams['provider_code'])
+            ->setProviderName($paymentParams['provider_code'])
             ->setResponseUrl($baseUrl . $paymentParams['responseUrl'])
             ->setAmount($order->getGrandTotalAmount())
             ->setCurrency($paymentParams['currency'])
@@ -198,9 +199,7 @@ class AuthorizeRequest implements BuilderInterface
             ->setModuleName('Magento (' . $magentoVersion . ')')
             ->setModuleVersion($this->moduleList->getOne(self::MODULE_NAME)['setup_version']);
 
-        // $request->setAutoCommit(false);
-
-        if ($paymentParams['provider_code'] == 'OTPSZEP') {
+        if ($methodCode == ConfigProvider::CODE_OTP_SZEP) {
             $request->setOtpCardPocketId(isset($paymentParams['otpcardpocketid']) ? $paymentParams['otpcardpocketid'] : '');
         }
 
@@ -214,7 +213,7 @@ class AuthorizeRequest implements BuilderInterface
         if ($paymentParams['provider_code'] == PaymentGateway::PROVIDER_MKB_SZEP) {
             $request
                 ->setMkbSzepCafeteriaId(isset($paymentParams['mkbszepcafeteriaid']) ? $paymentParams['mkbszepcafeteriaid'] : '')
-                ->setGatewayPaymentPage(TRUE);
+                ->setGatewayPaymentPage(true);
         }
 
         if ($paymentParams['provider_code'] === PaymentGateway::PROVIDER_KHB_SZEP &&

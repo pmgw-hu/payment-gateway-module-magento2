@@ -27,13 +27,13 @@
         <field id="saferpaypaymentmethods" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Payment methods</label>
             <config_path>payment/bigfish_pmgw_saferpay/paymentmethods</config_path>
-            <source_model>BigFish\Pmgw\Model\Ui\ConfigProvider::getSaferpayPaymentMethods</source_model>
+            <source_model>BigFish\Pmgw\Model\ConfigProvider::getSaferpayPaymentMethods</source_model>
             <can_be_empty>1</can_be_empty>
         </field>
         <field id="saferpaywallets" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Wallets</label>
             <config_path>payment/bigfish_pmgw_saferpay/wallets</config_path>
-            <source_model>BigFish\Pmgw\Model\Ui\ConfigProvider::getSaferpayWallets</source_model>
+            <source_model>BigFish\Pmgw\Model\ConfigProvider::getSaferpayWallets</source_model>
             <can_be_empty>1</can_be_empty>
         </field>
         <field id="oneclickpayment" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
