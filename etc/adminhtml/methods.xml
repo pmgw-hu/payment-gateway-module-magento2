@@ -28,12 +28,10 @@
     <include path="BigFish_Pmgw::methods/otpaymp.xml"/>
     <include path="BigFish_Pmgw::methods/otpsimple.xml"/>
     <include path="BigFish_Pmgw::methods/otpszep.xml"/>
-
-    <!--<include path="BigFish_Pmgw::methods/paypal.xml"/>
+    <include path="BigFish_Pmgw::methods/paypal.xml"/>
     <include path="BigFish_Pmgw::methods/payu2.xml"/>
     <include path="BigFish_Pmgw::methods/saferpay.xml"/>
-    <include path="BigFish_Pmgw::methods/sms.xml"/>
     <include path="BigFish_Pmgw::methods/sofort.xml"/>
     <include path="BigFish_Pmgw::methods/unicredit.xml"/>
-    <include path="BigFish_Pmgw::methods/wirecard.xml"/>-->
+    <include path="BigFish_Pmgw::methods/wirecard.xml"/>
 </include>

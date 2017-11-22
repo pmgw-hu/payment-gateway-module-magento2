@@ -299,6 +299,115 @@
                 <debug>1</debug>
             </bigfish_pmgw_otpszep>
 
+            <bigfish_pmgw_paypal>
+                <title>PayPal</title>
+                <active>0</active>
+                <allowspecific>0</allowspecific>
+                <sort_order>1</sort_order>
+                <!-- -->
+                <model>BigFishPmgwPaypalFacade</model>
+                <provider_code>PayPal</provider_code>
+                <order_status>pending_payment</order_status>
+                <payment_action>authorize</payment_action>
+                <is_gateway>1</is_gateway>
+                <can_use_checkout>1</can_use_checkout>
+                <can_authorize>1</can_authorize>
+                <can_capture>1</can_capture>
+                <can_void>1</can_void>
+                <debug>1</debug>
+            </bigfish_pmgw_paypal>
+
+            <bigfish_pmgw_payu2>
+                <title>PayU</title>
+                <active>0</active>
+                <allowspecific>0</allowspecific>
+                <sort_order>1</sort_order>
+                <!-- -->
+                <model>BigFishPmgwPayu2Facade</model>
+                <provider_code>PayU2</provider_code>
+                <order_status>pending_payment</order_status>
+                <payment_action>authorize</payment_action>
+                <is_gateway>1</is_gateway>
+                <can_use_checkout>1</can_use_checkout>
+                <can_authorize>1</can_authorize>
+                <can_capture>1</can_capture>
+                <can_void>1</can_void>
+                <debug>1</debug>
+            </bigfish_pmgw_payu2>
+
+            <bigfish_pmgw_saferpay>
+                <title>SIX Payment - Saferpay</title>
+                <active>0</active>
+                <one_click_payment>0</one_click_payment>
+                <allowspecific>0</allowspecific>
+                <sort_order>1</sort_order>
+                <!-- -->
+                <model>BigFishPmgwSaferpayFacade</model>
+                <provider_code>Saferpay</provider_code>
+                <order_status>pending_payment</order_status>
+                <payment_action>authorize</payment_action>
+                <is_gateway>1</is_gateway>
+                <can_use_checkout>1</can_use_checkout>
+                <can_authorize>1</can_authorize>
+                <can_capture>1</can_capture>
+                <can_void>1</can_void>
+                <debug>1</debug>
+            </bigfish_pmgw_saferpay>
+
+            <bigfish_pmgw_sofort>
+                <title>Sofort Banking</title>
+                <active>0</active>
+                <allowspecific>0</allowspecific>
+                <sort_order>1</sort_order>
+                <!-- -->
+                <model>BigFishPmgwSofortFacade</model>
+                <provider_code>Sofort</provider_code>
+                <order_status>pending_payment</order_status>
+                <payment_action>authorize</payment_action>
+                <is_gateway>1</is_gateway>
+                <can_use_checkout>1</can_use_checkout>
+                <can_authorize>1</can_authorize>
+                <can_capture>1</can_capture>
+                <can_void>1</can_void>
+                <debug>1</debug>
+            </bigfish_pmgw_sofort>
+
+            <bigfish_pmgw_unicredit>
+                <title>UniCredit Bank</title>
+                <active>0</active>
+                <allowspecific>0</allowspecific>
+                <sort_order>1</sort_order>
+                <!-- -->
+                <model>BigFishPmgwUnicreditFacade</model>
+                <provider_code>UniCredit</provider_code>
+                <order_status>pending_payment</order_status>
+                <payment_action>authorize</payment_action>
+                <is_gateway>1</is_gateway>
+                <can_use_checkout>1</can_use_checkout>
+                <can_authorize>1</can_authorize>
+                <can_capture>1</can_capture>
+                <can_void>1</can_void>
+                <debug>1</debug>
+            </bigfish_pmgw_unicredit>
+
+            <bigfish_pmgw_wirecard>
+                <title>Wirecard Checkout Page</title>
+                <active>0</active>
+                <allowspecific>0</allowspecific>
+                <sort_order>1</sort_order>
+                <!-- -->
+                <model>BigFishPmgwWirecardFacade</model>
+                <provider_code>QPAY</provider_code>
+                <order_status>pending_payment</order_status>
+                <payment_action>authorize</payment_action>
+                <is_gateway>1</is_gateway>
+                <can_use_checkout>1</can_use_checkout>
+                <can_authorize>1</can_authorize>
+                <can_capture>1</can_capture>
+                <can_void>1</can_void>
+                <debug>1</debug>
+            </bigfish_pmgw_wirecard>
+
         </payment>
     </default>
 </config>

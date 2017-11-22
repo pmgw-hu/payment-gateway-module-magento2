@@ -34,15 +34,9 @@ class ConfigProvider implements ConfigProviderInterface
     const CODE_OTPAY_MP = 'bigfish_pmgw_otpaymp';
     const CODE_OTP_SIMPLE = 'bigfish_pmgw_otpsimple';
     const CODE_OTP_SZEP = 'bigfish_pmgw_otpszep';
-
     const CODE_PAYPAL = 'bigfish_pmgw_paypal';
-    const CODE_PAYU = 'bigfish_pmgw_payu';
     const CODE_PAYU2 = 'bigfish_pmgw_payu2';
-    const CODE_PAYU_CASH = 'bigfish_pmgw_payucash';
-    const CODE_PAYU_MOBILE = 'bigfish_pmgw_payumobile';
-    const CODE_PAYU_WIRE = 'bigfish_pmgw_payuwire';
     const CODE_SAFERPAY = 'bigfish_pmgw_saferpay';
-    const CODE_SMS = 'bigfish_pmgw_sms';
     const CODE_SOFORT = 'bigfish_pmgw_sofort';
     const CODE_UNICREDIT = 'bigfish_pmgw_unicredit';
     const CODE_WIRECARD = 'bigfish_pmgw_wirecard';
@@ -256,38 +250,36 @@ class ConfigProvider implements ConfigProviderInterface
     }
 
     /**
-     * PaymentGateway QPAY Payment Types
-     *
      * @return array
      */
-    public function getQpayPaymentTypes()
+    public function getWirecardPaymentTypes()
     {
         return [
-            'SELECT' => __('qpay_payment_type_select'),
-            'BANCONTACT_MISTERCASH' => __('qpay_payment_type_bancontact_mistercash'),
-            'CCARD' => __('qpay_payment_type_ccard'),
-            'CCARD-MOTO' => __('qpay_payment_type_ccard_moto'),
-            'EKONTO' => __('qpay_payment_type_ekonto'),
-            'EPAY_BG' => __('qpay_payment_type_epay_bg'),
-            'EPS' => __('qpay_payment_type_eps'),
-            'GIROPAY' => __('qpay_payment_type_giropay'),
-            'IDL' => __('qpay_payment_type_idl'),
-            'MONETA' => __('qpay_payment_type_moneta'),
-            'MPASS' => __('qpay_payment_type_mpass'),
-            'PRZELEWY24' => __('qpay_payment_type_przelewy24'),
-            'PAYPAL' => __('qpay_payment_type_paypal'),
-            'PBX' => __('qpay_payment_type_pbx'),
-            'POLI' => __('qpay_payment_type_poli'),
-            'PSC' => __('qpay_payment_type_psc'),
-            'QUICK' => __('qpay_payment_type_quick'),
-            'SEPA-DD' => __('qpay_payment_type_sepa_dd'),
-            'SKRILLDIRECT' => __('qpay_payment_type_skrilldirect'),
-            'SKRILLWALLET' => __('qpay_payment_type_skrillwallet'),
-            'SOFORTUEBERWEISUNG' => __('qpay_payment_type_sofortueberweisung'),
-            'TATRAPAY' => __('qpay_payment_type_tatrapay'),
-            'TRUSTLY' => __('qpay_payment_type_trustly'),
-            'TRUSTPAY' => __('qpay_payment_type_trustpay'),
-            'VOUCHER' => __('qpay_payment_type_voucher'),
+            'SELECT' => __('wirecard_payment_type_select'),
+            'BANCONTACT_MISTERCASH' => __('wirecard_payment_type_bancontact_mistercash'),
+            'CCARD' => __('wirecard_payment_type_ccard'),
+            'CCARD-MOTO' => __('wirecard_payment_type_ccard_moto'),
+            'EKONTO' => __('wirecard_payment_type_ekonto'),
+            'EPAY_BG' => __('wirecard_payment_type_epay_bg'),
+            'EPS' => __('wirecard_payment_type_eps'),
+            'GIROPAY' => __('wirecard_payment_type_giropay'),
+            'IDL' => __('wirecard_payment_type_idl'),
+            'MONETA' => __('wirecard_payment_type_moneta'),
+            'MPASS' => __('wirecard_payment_type_mpass'),
+            'PRZELEWY24' => __('wirecard_payment_type_przelewy24'),
+            'PAYPAL' => __('wirecard_payment_type_paypal'),
+            'PBX' => __('wirecard_payment_type_pbx'),
+            'POLI' => __('wirecard_payment_type_poli'),
+            'PSC' => __('wirecard_payment_type_psc'),
+            'QUICK' => __('wirecard_payment_type_quick'),
+            'SEPA-DD' => __('wirecard_payment_type_sepa_dd'),
+            'SKRILLDIRECT' => __('wirecard_payment_type_skrilldirect'),
+            'SKRILLWALLET' => __('wirecard_payment_type_skrillwallet'),
+            'SOFORTUEBERWEISUNG' => __('wirecard_payment_type_sofortueberweisung'),
+            'TATRAPAY' => __('wirecard_payment_type_tatrapay'),
+            'TRUSTLY' => __('wirecard_payment_type_trustly'),
+            'TRUSTPAY' => __('wirecard_payment_type_trustpay'),
+            'VOUCHER' => __('wirecard_payment_type_voucher'),
         ];
     }
 

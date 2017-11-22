@@ -14,7 +14,7 @@
 -->
 <include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
     <group id="paymentgateway_saferpay" sortOrder="320" showInDefault="1" showInWebsite="1" showInStore="1" translate="label">
-        <label>Saferpay (SIX Payment)</label>
+        <label>SIX Payment - Saferpay</label>
         <field id="title" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Title</label>
             <config_path>payment/bigfish_pmgw_saferpay/title</config_path>
@@ -24,22 +24,22 @@
             <config_path>payment/bigfish_pmgw_saferpay/active</config_path>
             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
         </field>
-        <field id="saferpaypaymentmethods" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
-            <label>Payment methods</label>
-            <config_path>payment/bigfish_pmgw_saferpay/paymentmethods</config_path>
-            <source_model>BigFish\Pmgw\Model\ConfigProvider::getSaferpayPaymentMethods</source_model>
-            <can_be_empty>1</can_be_empty>
-        </field>
-        <field id="saferpaywallets" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
-            <label>Wallets</label>
-            <config_path>payment/bigfish_pmgw_saferpay/wallets</config_path>
-            <source_model>BigFish\Pmgw\Model\ConfigProvider::getSaferpayWallets</source_model>
-            <can_be_empty>1</can_be_empty>
-        </field>
         <field id="one_click_payment" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>One Click Payment</label>
             <config_path>payment/bigfish_pmgw_saferpay/one_click_payment</config_path>
             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+        </field>
+        <field id="payment_methods" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Payment methods</label>
+            <config_path>payment/bigfish_pmgw_saferpay/payment_methods</config_path>
+            <source_model>BigFish\Pmgw\Model\ConfigProvider::getSaferpayPaymentMethods</source_model>
+            <can_be_empty>1</can_be_empty>
+        </field>
+        <field id="wallets" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Wallets</label>
+            <config_path>payment/bigfish_pmgw_saferpay/wallets</config_path>
+            <source_model>BigFish\Pmgw\Model\ConfigProvider::getSaferpayWallets</source_model>
+            <can_be_empty>1</can_be_empty>
         </field>
         <field id="allowspecific" translate="label" type="allowspecific" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Payment from Applicable Countries</label>

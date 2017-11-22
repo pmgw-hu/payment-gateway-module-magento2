@@ -611,4 +611,202 @@
     </virtualType>
     <!-- Otpszep -->
 
+    <!-- Paypal -->
+    <virtualType name="BigFishPmgwPaypalFacade" type="Magento\Payment\Model\Method\Adapter">
+        <arguments>
+            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_PAYPAL</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
+            <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">BigFishPmgwPaypalValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">BigFishPmgwCommandPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Configuration reader -->
+    <virtualType name="BigFishPmgwPaypalConfig" type="Magento\Payment\Gateway\Config\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_PAYPAL</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Value handlers infrastructure -->
+    <virtualType name="BigFishPmgwPaypalValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">BigFishPmgwPaypalConfigValueHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="BigFishPmgwPaypalConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">BigFishPmgwPaypalConfig</argument>
+        </arguments>
+    </virtualType>
+    <!-- Paypal -->
+
+    <!-- Payu2 -->
+    <virtualType name="BigFishPmgwPayu2Facade" type="Magento\Payment\Model\Method\Adapter">
+        <arguments>
+            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_PAYU2</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
+            <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">BigFishPmgwPayu2ValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">BigFishPmgwCommandPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Configuration reader -->
+    <virtualType name="BigFishPmgwPayu2Config" type="Magento\Payment\Gateway\Config\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_PAYU2</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Value handlers infrastructure -->
+    <virtualType name="BigFishPmgwPayu2ValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">BigFishPmgwPayu2ConfigValueHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="BigFishPmgwPayu2ConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">BigFishPmgwPayu2Config</argument>
+        </arguments>
+    </virtualType>
+    <!-- Payu2 -->
+
+    <!-- Saferpay -->
+    <virtualType name="BigFishPmgwSaferpayFacade" type="Magento\Payment\Model\Method\Adapter">
+        <arguments>
+            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_SAFERPAY</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
+            <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">BigFishPmgwSaferpayValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">BigFishPmgwCommandPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Configuration reader -->
+    <virtualType name="BigFishPmgwSaferpayConfig" type="Magento\Payment\Gateway\Config\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_SAFERPAY</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Value handlers infrastructure -->
+    <virtualType name="BigFishPmgwSaferpayValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">BigFishPmgwSaferpayConfigValueHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="BigFishPmgwSaferpayConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">BigFishPmgwSaferpayConfig</argument>
+        </arguments>
+    </virtualType>
+    <!-- Saferpay -->
+
+    <!-- Sofort -->
+    <virtualType name="BigFishPmgwSofortFacade" type="Magento\Payment\Model\Method\Adapter">
+        <arguments>
+            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_SOFORT</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
+            <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">BigFishPmgwSofortValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">BigFishPmgwCommandPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Configuration reader -->
+    <virtualType name="BigFishPmgwSofortConfig" type="Magento\Payment\Gateway\Config\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_SOFORT</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Value handlers infrastructure -->
+    <virtualType name="BigFishPmgwSofortValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">BigFishPmgwSofortConfigValueHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="BigFishPmgwSofortConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">BigFishPmgwSofortConfig</argument>
+        </arguments>
+    </virtualType>
+    <!-- Sofort -->
+
+    <!-- Unicredit -->
+    <virtualType name="BigFishPmgwUnicreditFacade" type="Magento\Payment\Model\Method\Adapter">
+        <arguments>
+            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_UNICREDIT</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
+            <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">BigFishPmgwUnicreditValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">BigFishPmgwCommandPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Configuration reader -->
+    <virtualType name="BigFishPmgwUnicreditConfig" type="Magento\Payment\Gateway\Config\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_UNICREDIT</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Value handlers infrastructure -->
+    <virtualType name="BigFishPmgwUnicreditValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">BigFishPmgwUnicreditConfigValueHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="BigFishPmgwUnicreditConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">BigFishPmgwUnicreditConfig</argument>
+        </arguments>
+    </virtualType>
+    <!-- Unicredit -->
+
+    <!-- Wirecard -->
+    <virtualType name="BigFishPmgwWirecardFacade" type="Magento\Payment\Model\Method\Adapter">
+        <arguments>
+            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_OTP_SZEP</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
+            <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">BigFishPmgwWirecardValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">BigFishPmgwCommandPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Configuration reader -->
+    <virtualType name="BigFishPmgwWirecardConfig" type="Magento\Payment\Gateway\Config\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_OTP_SZEP</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Value handlers infrastructure -->
+    <virtualType name="BigFishPmgwWirecardValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">BigFishPmgwWirecardConfigValueHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="BigFishPmgwWirecardConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">BigFishPmgwWirecardConfig</argument>
+        </arguments>
+    </virtualType>
+    <!-- Wirecard -->
+    
 </config>
