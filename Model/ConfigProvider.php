@@ -25,20 +25,16 @@ class ConfigProvider implements ConfigProviderInterface
     const CODE_CIB = 'bigfish_pmgw_cib';
     const CODE_ESCALION = 'bigfish_pmgw_escalion';
     const CODE_FHB = 'bigfish_pmgw_fhb';
-
+    const CODE_GP = 'bigfish_pmgw_gp';
+    const CODE_IPG = 'bigfish_pmgw_ipg';
     const CODE_KHB = 'bigfish_pmgw_khb';
     const CODE_KHB_SZEP = 'bigfish_pmgw_khbszep';
-    const CODE_MCM = 'bigfish_pmgw_mcm';
     const CODE_MKB_SZEP = 'bigfish_pmgw_mkbszep';
-    const CODE_MPP = 'bigfish_pmgw_mpp';
     const CODE_OTP = 'bigfish_pmgw_otp';
-    const CODE_OTP2 = 'bigfish_pmgw_otp2';
-    const CODE_OTPAY = 'bigfish_pmgw_otpay';
     const CODE_OTPAY_MP = 'bigfish_pmgw_otpaymp';
-    const CODE_OTP_MULTIPONT = 'bigfish_pmgw_otpmultipont';
     const CODE_OTP_SIMPLE = 'bigfish_pmgw_otpsimple';
-    const CODE_OTP_SIMPLE_WIRE = 'bigfish_pmgw_otpsimplewire';
     const CODE_OTP_SZEP = 'bigfish_pmgw_otpszep';
+
     const CODE_PAYPAL = 'bigfish_pmgw_paypal';
     const CODE_PAYU = 'bigfish_pmgw_payu';
     const CODE_PAYU2 = 'bigfish_pmgw_payu2';
@@ -115,48 +111,42 @@ class ConfigProvider implements ConfigProviderInterface
     }
 
     /**
-     * PaymentGateway KHB Pocket Ids
-     *
      * @return array
      */
     public function getKhbCardPocketId()
     {
-        return array(
+        return [
             '' => __('Please, select a pocket.'),
             '1' => __('Accommodation'),
             '2' => __('Hospitality'),
-            '3' => __('Leisure')
-        );
+            '3' => __('Leisure'),
+        ];
     }
 
     /**
-     * PaymentGateway MKB Pocket Ids
-     *
      * @return array
      */
-    public function getMkbSzepCafeteriaId()
+    public function getMkbCardPocketId()
     {
-        return array(
+        return [
             '' => __('Please, select a pocket.'),
             '1111' => __('Accommodation'),
             '2222' => __('Hospitality'),
-            '3333' => __('Leisure')
-        );
+            '3333' => __('Leisure'),
+        ];
     }
 
     /**
-     * PaymentGateway OTP Pocket Ids
-     *
      * @return array
      */
     public function getOtpCardPocketId()
     {
-        return array(
+        return [
             '' => __('Please, select a pocket.'),
             '09' => __('Accommodation'),
             '07' => __('Hospitality'),
-            '08' => __('Leisure')
-        );
+            '08' => __('Leisure'),
+        ];
     }
 
     /**
@@ -166,87 +156,88 @@ class ConfigProvider implements ConfigProviderInterface
      */
     public function getSaferpayPaymentMethods()
     {
-        return array (
-            array (
+        return [
+            [
                 'value' => 'AMEX',
                 'label' => __('saferpay_payment_method_amex')
-            ),
-            array (
+            ],
+            [
                 'value' => 'DIRECTDEBIT',
                 'label' => __('saferpay_payment_method_directdebit')
-            ),
-            array (
+            ],
+            [
                 'value' => 'INVOICE',
                 'label' => __('saferpay_payment_method_invoice')
-            ),
-            array (
+            ],
+            [
                 'value' => 'BONUS',
                 'label' => __('saferpay_payment_method_bonus')
-            ),
-            array (
+            ],
+            [
                 'value' => 'DINERS',
                 'label' => __('saferpay_payment_method_diners')
-            ),
-            array (
+            ],
+            [
                 'value' => 'EPRZELEWY',
                 'label' => __('saferpay_payment_method_eprzelewy')
-            ),
-            array (
+            ],
+            [
                 'value' => 'EPS',
                 'label' => __('saferpay_payment_method_eps')
-            ),
-            array (
+            ],
+            [
                 'value' => 'GIROPAY',
                 'label' => __('saferpay_payment_method_giropay')
-            ),
-            array (
+            ],
+            [
                 'value' => 'IDEAL',
                 'label' => __('saferpay_payment_method_ideal')
-            ),
-            array (
+            ],
+            [
                 'value' => 'JCB',
-                'label' => __('saferpay_payment_method_jcb')),
-            array (
+                'label' => __('saferpay_payment_method_jcb')
+            ],
+            [
                 'value' => 'MAESTRO',
                 'label' => __('saferpay_payment_method_maestro')
-            ),
-            array (
+            ],
+            [
                 'value' => 'MASTERCARD',
                 'label' => __('saferpay_payment_method_mastercard')
-            ),
-            array (
+            ],
+            [
                 'value' => 'MYONE',
                 'label' => __('saferpay_payment_method_myone')
-            ),
-            array (
+            ],
+            [
                 'value' => 'PAYPAL',
                 'label' => __('saferpay_payment_method_paypal')
-            ),
-            array (
+            ],
+            [
                 'value' => 'POSTCARD',
                 'label' => __('saferpay_payment_method_postcard')
-            ),
-            array (
+            ],
+            [
                 'value' => 'POSTFINANCE',
                 'label' => __('saferpay_payment_method_postfinance')
-            ),
-            array (
+            ],
+            [
                 'value' => 'SAFERPAYTEST',
                 'label' => __('saferpay_payment_method_saferpaytest')
-            ),
-            array (
+            ],
+            [
                 'value' => 'SOFORT',
                 'label' => __('saferpay_payment_method_sofort')
-            ),
-            array (
+            ],
+            [
                 'value' => 'VISA',
                 'label' => __('saferpay_payment_method_visa')
-            ),
-            array (
+            ],
+            [
                 'value' => 'VPAY',
                 'label' => __('saferpay_payment_method_vpay')
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -256,12 +247,12 @@ class ConfigProvider implements ConfigProviderInterface
      */
     public function getSaferpayWallets()
     {
-        return array (
-            array (
+        return [
+            [
                 'value' => 'MASTERPASS',
                 'label' => __('saferpay_wallet_masterpass')
-            )
-        );
+            ],
+        ];
     }
 
     /**
@@ -271,7 +262,7 @@ class ConfigProvider implements ConfigProviderInterface
      */
     public function getQpayPaymentTypes()
     {
-        return array(
+        return [
             'SELECT' => __('qpay_payment_type_select'),
             'BANCONTACT_MISTERCASH' => __('qpay_payment_type_bancontact_mistercash'),
             'CCARD' => __('qpay_payment_type_ccard'),
@@ -297,7 +288,7 @@ class ConfigProvider implements ConfigProviderInterface
             'TRUSTLY' => __('qpay_payment_type_trustly'),
             'TRUSTPAY' => __('qpay_payment_type_trustpay'),
             'VOUCHER' => __('qpay_payment_type_voucher'),
-        );
+        ];
     }
 
 }

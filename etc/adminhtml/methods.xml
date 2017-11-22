@@ -19,20 +19,17 @@
     <include path="BigFish_Pmgw::methods/cib.xml"/>
     <include path="BigFish_Pmgw::methods/escalion.xml"/>
     <include path="BigFish_Pmgw::methods/fhb.xml"/>
-    <!--<include path="BigFish_Pmgw::methods/gp.xml"/>
+    <include path="BigFish_Pmgw::methods/gp.xml"/>
     <include path="BigFish_Pmgw::methods/ipg.xml"/>
     <include path="BigFish_Pmgw::methods/khb.xml"/>
     <include path="BigFish_Pmgw::methods/khbszep.xml"/>
     <include path="BigFish_Pmgw::methods/mkbszep.xml"/>
     <include path="BigFish_Pmgw::methods/otp.xml"/>
-    <include path="BigFish_Pmgw::methods/otp2.xml"/>
-    <include path="BigFish_Pmgw::methods/otpay.xml"/>
     <include path="BigFish_Pmgw::methods/otpaymp.xml"/>
-    <include path="BigFish_Pmgw::methods/otpmultipont.xml"/>
     <include path="BigFish_Pmgw::methods/otpsimple.xml"/>
-    <include path="BigFish_Pmgw::methods/otpsimplewire.xml"/>
     <include path="BigFish_Pmgw::methods/otpszep.xml"/>
-    <include path="BigFish_Pmgw::methods/paypal.xml"/>
+
+    <!--<include path="BigFish_Pmgw::methods/paypal.xml"/>
     <include path="BigFish_Pmgw::methods/payu2.xml"/>
     <include path="BigFish_Pmgw::methods/saferpay.xml"/>
     <include path="BigFish_Pmgw::methods/sms.xml"/>

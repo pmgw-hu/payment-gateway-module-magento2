@@ -36,7 +36,7 @@
             <source_model>BigFish\Pmgw\Model\ConfigProvider::getSaferpayWallets</source_model>
             <can_be_empty>1</can_be_empty>
         </field>
-        <field id="oneclickpayment" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+        <field id="one_click_payment" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>One Click Payment</label>
             <config_path>payment/bigfish_pmgw_saferpay/one_click_payment</config_path>
             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>

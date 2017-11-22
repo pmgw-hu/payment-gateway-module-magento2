@@ -195,12 +195,12 @@ class AuthorizeRequest implements BuilderInterface
             ->setOtpCardNumber(isset($paymentParams['OtpCardNumber']) ? $paymentParams['OtpCardNumber'] : '')
             ->setOtpExpiration(isset($paymentParams['OtpExpiration']) ? $paymentParams['OtpExpiration'] : '')
             ->setOtpCvc(isset($paymentParams['OtpCvc']) ? $paymentParams['OtpCvc'] : '')
-            ->setOneClickPayment(isset($paymentParams['OneClickPayment']) ? $paymentParams['OneClickPayment'] : '')
+            ->setOneClickPayment(isset($paymentParams['one_click_payment']) ? $paymentParams['one_click_payment'] : '')
             ->setModuleName('Magento (' . $magentoVersion . ')')
             ->setModuleVersion($this->moduleList->getOne(self::MODULE_NAME)['setup_version']);
 
         if ($methodCode == ConfigProvider::CODE_OTP_SZEP) {
-            $request->setOtpCardPocketId(isset($paymentParams['otpcardpocketid']) ? $paymentParams['otpcardpocketid'] : '');
+            $request->setOtpCardPocketId(isset($paymentParams['card_pocket_id']) ? $paymentParams['card_pocket_id'] : '');
         }
 
         // TODO: lehet hogy kivesszuk:
@@ -212,14 +212,14 @@ class AuthorizeRequest implements BuilderInterface
 
         if ($paymentParams['provider_code'] == PaymentGateway::PROVIDER_MKB_SZEP) {
             $request
-                ->setMkbSzepCafeteriaId(isset($paymentParams['mkbszepcafeteriaid']) ? $paymentParams['mkbszepcafeteriaid'] : '')
+                ->setMkbSzepCafeteriaId(isset($paymentParams['card_pocket_id']) ? $paymentParams['card_pocket_id'] : '')
                 ->setGatewayPaymentPage(TRUE);
         }
 
         if ($paymentParams['provider_code'] === PaymentGateway::PROVIDER_KHB_SZEP &&
-            isset($paymentParams[PaymentGateway::PROVIDER_KHB_SZEP]['khbcardpocketid'])
+            isset($paymentParams[PaymentGateway::PROVIDER_KHB_SZEP]['card_pocket_id'])
         ) {
-            $extra['khbcardpocketid'] = isset($paymentParams[PaymentGateway::PROVIDER_KHB_SZEP]['khbcardpocketid']);
+            $extra['khbcardpocketid'] = isset($paymentParams[PaymentGateway::PROVIDER_KHB_SZEP]['card_pocket_id']);
         }
 
         if (isset($paymentParams['extra']) && is_array($paymentParams['extra']) && !empty($paymentParams['extra'])) {

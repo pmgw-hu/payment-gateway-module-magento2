@@ -20,28 +20,19 @@
                 <storename>sdk_test</storename>
                 <apikey>86af3-80e4f-f8228-9498f-910ad</apikey>
                 <testmode>1</testmode>
+                <sort_order>1</sort_order>
+                <!-- -->
                 <responseUrl>bigfish_pmgw/payment/response</responseUrl>
                 <model>BigFishPmgwFacade</model>
-                <!--<title>Payment method (Pmgw)</title>
-                <order_status>pending_payment</order_status>
-                <payment_action>initialize</payment_action>
-                <currency>HUF</currency>
-                <active>0</active>
-                <is_gateway>1</is_gateway>
-                <can_use_checkout>1</can_use_checkout>
-                <can_initialize>1</can_initialize>
-                <can_authorize>1</can_authorize>
-                <can_capture>1</can_capture>
-                <can_void>1</can_void>
-                <can_refund>1</can_refund>
-                <sort_order>1</sort_order>
-                <autoCommit>true</autoCommit>
-                <debug>1</debug>-->
             </bigfish_pmgw>
 
             <bigfish_pmgw_barion2>
-                <model>BigFishPmgwBarion2Facade</model>
                 <title>Barion Smart Gateway</title>
+                <active>0</active>
+                <allowspecific>0</allowspecific>
+                <sort_order>1</sort_order>
+                <!-- -->
+                <model>BigFishPmgwBarion2Facade</model>
                 <provider_code>Barion2</provider_code>
                 <order_status>pending_payment</order_status>
                 <payment_action>authorize</payment_action>
@@ -50,15 +41,16 @@
                 <can_authorize>1</can_authorize>
                 <can_capture>1</can_capture>
                 <can_void>1</can_void>
-                <allowspecific>0</allowspecific>
-                <sort_order>1</sort_order>
-                <active>0</active>
                 <debug>1</debug>
             </bigfish_pmgw_barion2>
 
             <bigfish_pmgw_borgun>
-                <model>BigFishPmgwBorgunFacade</model>
                 <title>Borgun SecurePay</title>
+                <active>0</active>
+                <allowspecific>0</allowspecific>
+                <sort_order>1</sort_order>
+                <!-- -->
+                <model>BigFishPmgwBorgunFacade</model>
                 <provider_code>Borgun</provider_code>
                 <order_status>pending_payment</order_status>
                 <payment_action>authorize</payment_action>
@@ -67,15 +59,17 @@
                 <can_authorize>1</can_authorize>
                 <can_capture>1</can_capture>
                 <can_void>1</can_void>
-                <allowspecific>0</allowspecific>
-                <sort_order>1</sort_order>
-                <active>0</active>
                 <debug>1</debug>
             </bigfish_pmgw_borgun>
 
             <bigfish_pmgw_borgun2>
-                <model>BigFishPmgwBorgun2Facade</model>
                 <title>Borgun RPG</title>
+                <active>0</active>
+                <one_click_payment>0</one_click_payment>
+                <allowspecific>0</allowspecific>
+                <sort_order>1</sort_order>
+                <!-- -->
+                <model>BigFishPmgwBorgun2Facade</model>
                 <provider_code>Borgun2</provider_code>
                 <order_status>pending_payment</order_status>
                 <payment_action>authorize</payment_action>
@@ -84,15 +78,16 @@
                 <can_authorize>1</can_authorize>
                 <can_capture>1</can_capture>
                 <can_void>1</can_void>
-                <allowspecific>0</allowspecific>
-                <sort_order>1</sort_order>
-                <active>0</active>
                 <debug>1</debug>
             </bigfish_pmgw_borgun2>
 
             <bigfish_pmgw_cib>
-                <model>BigFishPmgwCibFacade</model>
                 <title>CIB Bank</title>
+                <active>0</active>
+                <allowspecific>0</allowspecific>
+                <sort_order>1</sort_order>
+                <!-- -->
+                <model>BigFishPmgwCibFacade</model>
                 <provider_code>CIB</provider_code>
                 <order_status>pending_payment</order_status>
                 <payment_action>authorize</payment_action>
@@ -101,15 +96,17 @@
                 <can_authorize>1</can_authorize>
                 <can_capture>1</can_capture>
                 <can_void>1</can_void>
-                <allowspecific>0</allowspecific>
-                <sort_order>1</sort_order>
-                <active>0</active>
                 <debug>1</debug>
             </bigfish_pmgw_cib>
 
             <bigfish_pmgw_escalion>
-                <model>BigFishPmgwEscalionFacade</model>
                 <title>Escalion</title>
+                <active>0</active>
+                <one_click_payment>0</one_click_payment>
+                <allowspecific>0</allowspecific>
+                <sort_order>1</sort_order>
+                <!-- -->
+                <model>BigFishPmgwEscalionFacade</model>
                 <provider_code>Escalion</provider_code>
                 <order_status>pending_payment</order_status>
                 <payment_action>authorize</payment_action>
@@ -118,15 +115,16 @@
                 <can_authorize>1</can_authorize>
                 <can_capture>1</can_capture>
                 <can_void>1</can_void>
-                <allowspecific>0</allowspecific>
-                <sort_order>1</sort_order>
-                <active>0</active>
                 <debug>1</debug>
             </bigfish_pmgw_escalion>
 
             <bigfish_pmgw_fhb>
-                <model>BigFishPmgwFhbFacade</model>
                 <title>FHB Bank</title>
+                <active>0</active>
+                <allowspecific>0</allowspecific>
+                <sort_order>1</sort_order>
+                <!-- -->
+                <model>BigFishPmgwFhbFacade</model>
                 <provider_code>FHB</provider_code>
                 <order_status>pending_payment</order_status>
                 <payment_action>authorize</payment_action>
@@ -135,11 +133,171 @@
                 <can_authorize>1</can_authorize>
                 <can_capture>1</can_capture>
                 <can_void>1</can_void>
-                <allowspecific>0</allowspecific>
-                <sort_order>1</sort_order>
-                <active>0</active>
                 <debug>1</debug>
             </bigfish_pmgw_fhb>
+
+            <bigfish_pmgw_gp>
+                <title>Global Payments</title>
+                <active>0</active>
+                <allowspecific>0</allowspecific>
+                <sort_order>1</sort_order>
+                <!-- -->
+                <model>BigFishPmgwGpFacade</model>
+                <provider_code>GP</provider_code>
+                <order_status>pending_payment</order_status>
+                <payment_action>authorize</payment_action>
+                <is_gateway>1</is_gateway>
+                <can_use_checkout>1</can_use_checkout>
+                <can_authorize>1</can_authorize>
+                <can_capture>1</can_capture>
+                <can_void>1</can_void>
+                <debug>1</debug>
+            </bigfish_pmgw_gp>
+
+            <bigfish_pmgw_ipg>
+                <title>Intelligent Payments</title>
+                <active>0</active>
+                <allowspecific>0</allowspecific>
+                <sort_order>1</sort_order>
+                <!-- -->
+                <model>BigFishPmgwIpgFacade</model>
+                <provider_code>IPG</provider_code>
+                <order_status>pending_payment</order_status>
+                <payment_action>authorize</payment_action>
+                <is_gateway>1</is_gateway>
+                <can_use_checkout>1</can_use_checkout>
+                <can_authorize>1</can_authorize>
+                <can_capture>1</can_capture>
+                <can_void>1</can_void>
+                <debug>1</debug>
+            </bigfish_pmgw_ipg>
+
+            <bigfish_pmgw_khb>
+                <title>K&amp;H Bank</title>
+                <active>0</active>
+                <allowspecific>0</allowspecific>
+                <sort_order>1</sort_order>
+                <!-- -->
+                <model>BigFishPmgwKhbFacade</model>
+                <provider_code>KHB</provider_code>
+                <order_status>pending_payment</order_status>
+                <payment_action>authorize</payment_action>
+                <is_gateway>1</is_gateway>
+                <can_use_checkout>1</can_use_checkout>
+                <can_authorize>1</can_authorize>
+                <can_capture>1</can_capture>
+                <can_void>1</can_void>
+                <debug>1</debug>
+            </bigfish_pmgw_khb>
+
+            <bigfish_pmgw_khbszep>
+                <title>K&amp;H SZÉP Card</title>
+                <active>0</active>
+                <allowspecific>0</allowspecific>
+                <sort_order>1</sort_order>
+                <!-- -->
+                <model>BigFishPmgwKhbszepFacade</model>
+                <provider_code>KHBSZEP</provider_code>
+                <order_status>pending_payment</order_status>
+                <payment_action>authorize</payment_action>
+                <is_gateway>1</is_gateway>
+                <can_use_checkout>1</can_use_checkout>
+                <can_authorize>1</can_authorize>
+                <can_capture>1</can_capture>
+                <can_void>1</can_void>
+                <debug>1</debug>
+            </bigfish_pmgw_khbszep>
+
+            <bigfish_pmgw_mkbszep>
+                <title>MKB SZÉP Card</title>
+                <active>0</active>
+                <allowspecific>0</allowspecific>
+                <sort_order>1</sort_order>
+                <!-- -->
+                <model>BigFishPmgwMkbszepFacade</model>
+                <provider_code>KHBSZEP</provider_code>
+                <order_status>pending_payment</order_status>
+                <payment_action>authorize</payment_action>
+                <is_gateway>1</is_gateway>
+                <can_use_checkout>1</can_use_checkout>
+                <can_authorize>1</can_authorize>
+                <can_capture>1</can_capture>
+                <can_void>1</can_void>
+                <debug>1</debug>
+            </bigfish_pmgw_mkbszep>
+
+            <bigfish_pmgw_otp>
+                <title>OTP Bank</title>
+                <active>0</active>
+                <allowspecific>0</allowspecific>
+                <sort_order>1</sort_order>
+                <!-- -->
+                <model>BigFishPmgwOtpFacade</model>
+                <provider_code>OTP</provider_code>
+                <order_status>pending_payment</order_status>
+                <payment_action>authorize</payment_action>
+                <is_gateway>1</is_gateway>
+                <can_use_checkout>1</can_use_checkout>
+                <can_authorize>1</can_authorize>
+                <can_capture>1</can_capture>
+                <can_void>1</can_void>
+                <debug>1</debug>
+            </bigfish_pmgw_otp>
+
+            <bigfish_pmgw_otpaymp>
+                <title>OTPay MasterPass</title>
+                <active>0</active>
+                <allowspecific>0</allowspecific>
+                <sort_order>1</sort_order>
+                <!-- -->
+                <model>BigFishPmgwOtpaympFacade</model>
+                <provider_code>OTPayMP</provider_code>
+                <order_status>pending_payment</order_status>
+                <payment_action>authorize</payment_action>
+                <is_gateway>1</is_gateway>
+                <can_use_checkout>1</can_use_checkout>
+                <can_authorize>1</can_authorize>
+                <can_capture>1</can_capture>
+                <can_void>1</can_void>
+                <debug>1</debug>
+            </bigfish_pmgw_otpaymp>
+
+            <bigfish_pmgw_otpsimple>
+                <title>SimplePay</title>
+                <active>0</active>
+                <one_click_payment>0</one_click_payment>
+                <allowspecific>0</allowspecific>
+                <sort_order>1</sort_order>
+                <!-- -->
+                <model>BigFishPmgwOtpsimpleFacade</model>
+                <provider_code>OTPSimple</provider_code>
+                <order_status>pending_payment</order_status>
+                <payment_action>authorize</payment_action>
+                <is_gateway>1</is_gateway>
+                <can_use_checkout>1</can_use_checkout>
+                <can_authorize>1</can_authorize>
+                <can_capture>1</can_capture>
+                <can_void>1</can_void>
+                <debug>1</debug>
+            </bigfish_pmgw_otpsimple>
+
+            <bigfish_pmgw_otpszep>
+                <title>OTP SZÉP Card</title>
+                <active>0</active>
+                <allowspecific>0</allowspecific>
+                <sort_order>1</sort_order>
+                <!-- -->
+                <model>BigFishPmgwOtpszepFacade</model>
+                <provider_code>OTP</provider_code>
+                <order_status>pending_payment</order_status>
+                <payment_action>authorize</payment_action>
+                <is_gateway>1</is_gateway>
+                <can_use_checkout>1</can_use_checkout>
+                <can_authorize>1</can_authorize>
+                <can_capture>1</can_capture>
+                <can_void>1</can_void>
+                <debug>1</debug>
+            </bigfish_pmgw_otpszep>
 
         </payment>
     </default>

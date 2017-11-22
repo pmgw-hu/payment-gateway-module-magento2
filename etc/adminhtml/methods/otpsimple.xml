@@ -14,7 +14,7 @@
 -->
 <include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
     <group id="paymentgateway_otpsimple" sortOrder="270" showInDefault="1" showInWebsite="1" showInStore="1" translate="label">
-        <label>OTP Simple</label>
+        <label>SimplePay</label>
         <field id="title" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Title</label>
             <config_path>payment/bigfish_pmgw_otpsimple/title</config_path>
@@ -24,7 +24,7 @@
             <config_path>payment/bigfish_pmgw_otpsimple/active</config_path>
             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
         </field>
-        <field id="oneclickpayment" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+        <field id="one_click_payment" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>One Click Payment</label>
             <config_path>payment/bigfish_pmgw_otpsimple/one_click_payment</config_path>
             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>

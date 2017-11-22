@@ -14,7 +14,7 @@
 -->
 <include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
     <group id="paymentgateway_mkbszep" sortOrder="210" showInDefault="1" showInWebsite="1" showInStore="1" translate="label">
-        <label>MKB SZEP Card</label>
+        <label>MKB SZÉP Card</label>
         <field id="title" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Title</label>
             <config_path>payment/bigfish_pmgw_mkbszep/title</config_path>
@@ -24,10 +24,10 @@
             <config_path>payment/bigfish_pmgw_mkbszep/active</config_path>
             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
         </field>
-        <field id="mkbszepcafeteriaid" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+        <field id="card_pocket_id" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Available pocket</label>
-            <config_path>payment/bigfish_pmgw_mkbszep/mkbszepcafeteriaid</config_path>
-            <source_model>BigFish\Pmgw\Model\ConfigProvider::getMkbSzepCafeteriaId</source_model>
+            <config_path>payment/bigfish_pmgw_mkbszep/card_pocket_id</config_path>
+            <source_model>BigFish\Pmgw\Model\ConfigProvider::getMkbCardPocketId</source_model>
         </field>
         <field id="allowspecific" translate="label" type="allowspecific" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Payment from Applicable Countries</label>
