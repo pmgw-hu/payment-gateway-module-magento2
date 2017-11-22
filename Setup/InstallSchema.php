@@ -10,7 +10,6 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  * @copyright  Copyright (c) 2017, BIG FISH Ltd.
  */
-
 namespace BigFish\Pmgw\Setup;
 
 use Magento\Framework\Setup\InstallSchemaInterface;
@@ -20,29 +19,43 @@ use Magento\Framework\DB\Ddl\Table;
 use Magento\Framework\App\Config\Storage\WriterInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 
-/**
- * Class InstallSchema
- *
- * @package BigFish\Pmgw\Setup
- */
 class InstallSchema implements InstallSchemaInterface
 {
+    const TABLE_NAME_TRANSACTION = 'bigfish_paymentgateway';
+    const TABLE_NAME_TRANSACTION_LOG = 'bigfish_paymentgateway_log';
 
     /**
-     * @var \Magento\Framework\App\Config\Storage\WriterInterface
+     * @var array
+     */
+    protected $deprecatedPaymentMethods = [
+        'abaqoos',
+        'barion',
+        'mcm',
+        'mpp',
+        'otp2',
+        'otpay',
+        'otpmultipont',
+        'otpsimplewire',
+        'payu',
+        'payucash',
+        'payumobile',
+        'payuwire',
+        'sms',
+    ];
+
+    /**
+     * @var WriterInterface
      */
     private $configWriter;
 
     /**
-     * @var \Magento\Framework\App\Config\ScopeConfigInterface
+     * @var ScopeConfigInterface
      */
     private $scopeConfig;
 
     /**
-     * InstallSchema constructor.
-     *
-     * @param \Magento\Framework\App\Config\Storage\WriterInterface $configWriter
-     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param WriterInterface $configWriter
+     * @param ScopeConfigInterface $scopeConfig
      */
     public function __construct(WriterInterface $configWriter, ScopeConfigInterface $scopeConfig)
     {
@@ -51,141 +64,184 @@ class InstallSchema implements InstallSchemaInterface
     }
 
     /**
-     * @param \Magento\Framework\Setup\SchemaSetupInterface $setup
-     * @param \Magento\Framework\Setup\ModuleContextInterface $context
+     * @param SchemaSetupInterface $setup
+     * @param ModuleContextInterface $context
      */
     public function install(SchemaSetupInterface $setup, ModuleContextInterface $context)
     {
-        $installer = $setup;
-        $installer->startSetup();
+        $setup->startSetup();
 
-        $tableName = $installer->getTable('bigfish_paymentgateway');
-
-        if ($installer->getConnection()->isTableExists($tableName) != true) {
-
-            $table = $installer->getConnection()
-                ->newTable($tableName)
-                ->addColumn(
-                    'paymentgateway_id',
-                    Table::TYPE_INTEGER,
-                    11,
-                    [
-                        'identity' => true,
-                        'unsigned' => true,
-                        'nullable' => false,
-                        'primary' => true
-                    ],
-                    'PaymentGateway ID'
-                )
-                ->addColumn(
-                    'order_id',
-                    Table::TYPE_TEXT,
-                    255,
-                    ['nullable' => false, 'default' => ''],
-                    'Order ID'
-                )
-                ->addColumn(
-                    'transaction_id',
-                    Table::TYPE_TEXT,
-                    255,
-                    ['nullable' => false, 'default' => ''],
-                    'Transaction ID'
-                )
-                ->addColumn(
-                    'created_time',
-                    Table::TYPE_DATETIME,
-                    null,
-                    ['nullable' => false],
-                    'Created Time'
-                )
-                ->addColumn(
-                    'status',
-                    Table::TYPE_SMALLINT,
-                    6,
-                    ['nullable' => false, 'default' => '0'],
-                    'Status'
-                )
-                ->setComment('BigFish PaymentGateway')
-                ->setOption('type', 'InnoDB')
-                ->setOption('charset', 'utf8');
-            $installer->getConnection()->createTable($table);
+        if (!$this->isTableExists($setup, self::TABLE_NAME_TRANSACTION)) {
+            $this->createTransactionTable($setup, self::TABLE_NAME_TRANSACTION);
         }
 
-        $tableName = $installer->getTable('bigfish_paymentgateway_log');
-
-        if ($installer->getConnection()->isTableExists($tableName) != true) {
-
-            $table = $installer->getConnection()
-                ->newTable($tableName)
-                ->addColumn(
-                    'log_id',
-                    Table::TYPE_INTEGER,
-                    11,
-                    [
-                        'identity' => true,
-                        'unsigned' => true,
-                        'nullable' => false,
-                        'primary' => true
-                    ],
-                    'Log ID'
-                )
-                ->addColumn(
-                    'paymentgateway_id',
-                    Table::TYPE_INTEGER,
-                    11,
-                    [
-                        'identity' => false,
-                        'unsigned' => true,
-                        'nullable' => false
-                    ],
-                    'PaymentGateway ID'
-                )
-                ->addColumn(
-                    'created_time',
-                    Table::TYPE_DATETIME,
-                    null,
-                    ['nullable' => false],
-                    'Created Time'
-                )
-                ->addColumn(
-                    'status',
-                    Table::TYPE_SMALLINT,
-                    6,
-                    ['nullable' => false, 'default' => '0'],
-                    'Status'
-                )
-                ->addColumn(
-                    'debug',
-                    Table::TYPE_TEXT,
-                    null,
-                    ['nullable' => false, 'default' => ''],
-                    'Debug'
-                )
-                ->setComment('BigFish PaymentGateway Log')
-                ->setOption('type', 'InnoDB')
-                ->setOption('charset', 'utf8');
-            $installer->getConnection()->createTable($table);
+        if (!$this->isTableExists($setup, self::TABLE_NAME_TRANSACTION_LOG)) {
+            $this->createTransactionLogTable($setup, self::TABLE_NAME_TRANSACTION_LOG);
         }
 
-        $deprecatedPaymentMethods = array(
-            'mpp',
-            'mcm',
-            'payu',
-            'payuwire',
-            'payucash',
-            'payumobile',
-            'barion',
+        $this->inactivateDeprecatedPaymentMethods();
+
+        $setup->endSetup();
+    }
+
+    /**
+     * @param SchemaSetupInterface $setup
+     * @param string $tableName
+     * @return bool
+     */
+    protected function isTableExists(SchemaSetupInterface $setup, $tableName)
+    {
+        return $setup->getConnection()->isTableExists(
+            $setup->getTable($tableName)
         );
+    }
 
-        if (!empty($deprecatedPaymentMethods)) {
-            foreach ($deprecatedPaymentMethods as $paymentMethod) {
-                $configPath = 'payment/bigfish_pmgw_' . strtolower($paymentMethod) . '/active';
-                if ($this->scopeConfig->getValue($configPath) !== null) {
-                    $this->configWriter->save($configPath, 0);
-                }
+    /**
+     * @param SchemaSetupInterface $setup
+     * @param string $tableName
+     */
+    protected function createTransactionTable(SchemaSetupInterface $setup, $tableName)
+    {
+        $table = $setup->getConnection()
+            ->newTable($tableName)
+            ->addColumn(
+                'paymentgateway_id',
+                Table::TYPE_INTEGER,
+                11,
+                [
+                    'identity' => true,
+                    'unsigned' => true,
+                    'nullable' => false,
+                    'primary' => true,
+                ],
+                'PaymentGateway ID'
+            )
+            ->addColumn(
+                'order_id',
+                Table::TYPE_TEXT,
+                255,
+                [
+                    'nullable' => false,
+                    'default' => '',
+                ],
+                'Order ID'
+            )
+            ->addColumn(
+                'transaction_id',
+                Table::TYPE_TEXT,
+                255,
+                [
+                    'nullable' => false,
+                    'default' => '',
+                ],
+                'Transaction ID'
+            )
+            ->addColumn(
+                'created_time',
+                Table::TYPE_DATETIME,
+                null,
+                [
+                    'nullable' => false,
+                ],
+                'Created Time'
+            )
+            ->addColumn(
+                'status',
+                Table::TYPE_SMALLINT,
+                6,
+                [
+                    'nullable' => false,
+                    'default' => '0',
+                ],
+                'Status'
+            )
+            ->setComment('BigFish PaymentGateway Transactions')
+            ->setOption('type', 'InnoDB')
+            ->setOption('charset', 'utf8');
+
+        $setup->getConnection()->createTable($table);
+    }
+
+    /**
+     * @param SchemaSetupInterface $setup
+     * @param string $tableName
+     */
+    protected function createTransactionLogTable(SchemaSetupInterface $setup, $tableName)
+    {
+        $table = $setup->getConnection()
+            ->newTable($tableName)
+            ->addColumn(
+                'log_id',
+                Table::TYPE_INTEGER,
+                11,
+                [
+                    'identity' => true,
+                    'unsigned' => true,
+                    'nullable' => false,
+                    'primary' => true,
+                ],
+                'Log ID'
+            )
+            ->addColumn(
+                'paymentgateway_id',
+                Table::TYPE_INTEGER,
+                11,
+                [
+                    'identity' => false,
+                    'unsigned' => true,
+                    'nullable' => false,
+                ],
+                'PaymentGateway ID'
+            )
+            ->addColumn(
+                'created_time',
+                Table::TYPE_DATETIME,
+                null,
+                [
+                    'nullable' => false,
+                ],
+                'Created Time'
+            )
+            ->addColumn(
+                'status',
+                Table::TYPE_SMALLINT,
+                6,
+                [
+                    'nullable' => false,
+                    'default' => '0',
+                ],
+                'Status'
+            )
+            ->addColumn(
+                'debug',
+                Table::TYPE_TEXT,
+                null,
+                [
+                    'nullable' => false,
+                    'default' => '',
+                ],
+                'Debug'
+            )
+            ->setComment('BigFish PaymentGateway Transaction Log')
+            ->setOption('type', 'InnoDB')
+            ->setOption('charset', 'utf8');
+
+        $setup->getConnection()->createTable($table);
+    }
+
+    protected function inactivateDeprecatedPaymentMethods()
+    {
+        if (empty($this->deprecatedPaymentMethods)) {
+            return;
+        }
+
+        foreach ($this->deprecatedPaymentMethods as $paymentMethod) {
+            $configPath = 'payment/bigfish_pmgw_' . strtolower($paymentMethod) . '/active';
+
+            if ($this->scopeConfig->getValue($configPath) !== null) {
+                $this->configWriter->save($configPath, 0);
             }
         }
-
-        $installer->endSetup();
     }
+
 }
