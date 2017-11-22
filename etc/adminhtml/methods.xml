@@ -13,14 +13,13 @@
  */
 -->
 <include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
-    <!--<include path="BigFish_Pmgw::methods/abaqoos.xml"/>
     <include path="BigFish_Pmgw::methods/barion2.xml"/>
     <include path="BigFish_Pmgw::methods/borgun.xml"/>
-    <include path="BigFish_Pmgw::methods/borgun2.xml"/>-->
+    <include path="BigFish_Pmgw::methods/borgun2.xml"/>
     <include path="BigFish_Pmgw::methods/cib.xml"/>
-    <!--<include path="BigFish_Pmgw::methods/escalion.xml"/>
+    <include path="BigFish_Pmgw::methods/escalion.xml"/>
     <include path="BigFish_Pmgw::methods/fhb.xml"/>
-    <include path="BigFish_Pmgw::methods/gp.xml"/>
+    <!--<include path="BigFish_Pmgw::methods/gp.xml"/>
     <include path="BigFish_Pmgw::methods/ipg.xml"/>
     <include path="BigFish_Pmgw::methods/khb.xml"/>
     <include path="BigFish_Pmgw::methods/khbszep.xml"/>

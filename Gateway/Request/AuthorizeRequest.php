@@ -129,16 +129,16 @@ class AuthorizeRequest implements BuilderInterface
 
         $methodCode = $method->getCode();
 
-        $paymentParams = $this->scopeConfig->getValue('payment/' . $methodCode);
+        //$paymentParams = $this->scopeConfig->getValue('payment/' . $methodCode);
 
         //if ($paymentParams['provider_code'] == 'OTPSZEP') {
-        if ($methodCode == ConfigProvider::CODE_OTP_SZEP) {
-            $storeName = $paymentParams['storenameotpszep'];
-            $apiKey = $paymentParams['apikeyotpszep'];
-        } else {
-            $storeName = $params['storename'];
-            $apiKey = $params['apikey'];
-        }
+        //if ($methodCode == ConfigProvider::CODE_OTP_SZEP) {
+        //    $storeName = $paymentParams['storenameotpszep'];
+        //    $apiKey = $paymentParams['apikeyotpszep'];
+        //} else {
+        $storeName = $params['storename'];
+        $apiKey = $params['apikey'];
+        //}
 
         $config = new PaymentGateway\Config();
 
@@ -187,7 +187,7 @@ class AuthorizeRequest implements BuilderInterface
             ->setProviderName($paymentParams['provider_code'])
             ->setResponseUrl($baseUrl . $paymentParams['responseUrl'])
             ->setAmount($order->getGrandTotalAmount())
-            ->setCurrency($paymentParams['currency'])
+            ->setCurrency($order->getCurrencyCode())
             ->setOrderId($order->getOrderIncrementId())
             ->setUserId($order->getCustomerId())
             ->setLanguage('HU')
@@ -213,7 +213,7 @@ class AuthorizeRequest implements BuilderInterface
         if ($paymentParams['provider_code'] == PaymentGateway::PROVIDER_MKB_SZEP) {
             $request
                 ->setMkbSzepCafeteriaId(isset($paymentParams['mkbszepcafeteriaid']) ? $paymentParams['mkbszepcafeteriaid'] : '')
-                ->setGatewayPaymentPage(true);
+                ->setGatewayPaymentPage(TRUE);
         }
 
         if ($paymentParams['provider_code'] === PaymentGateway::PROVIDER_KHB_SZEP &&
@@ -232,9 +232,6 @@ class AuthorizeRequest implements BuilderInterface
         $response = PaymentGateway::init($request);
 
         if ($response->ResultCode === PaymentGateway::RESULT_CODE_SUCCESS) {
-
-//            $response->{'orderId'} = $orderId;
-
             $transactionFactory = $this->transactionFactory->create();
             $transactionFactory->setOrderId($orderId)
                 ->setTransactionId($response->TransactionId)
@@ -254,7 +251,6 @@ class AuthorizeRequest implements BuilderInterface
                 ->save();
 
         } else {
-
             $errorMessage = "PAYMENT_PARAMS:\n".print_r($paymentParams, true)."\n\n";
             $errorMessage.= $response->ResultCode.": ".$response->ResultMessage;
             $errorMessage.= "<br/><br/><xmp>".print_r($response, true)."</xmp>";
@@ -262,7 +258,7 @@ class AuthorizeRequest implements BuilderInterface
             throw new \UnexpectedValueException($errorMessage);
         }
 
-        // Convert to array because of transferBuilder (TransferFactory class)
         return (array)$response;
     }
+
 }

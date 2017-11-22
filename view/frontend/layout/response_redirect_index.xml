@@ -29,13 +29,13 @@
                                                                         <item name="bigfish_pmgw" xsi:type="array">
                                                                             <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
                                                                         </item>
-                                                                        <item name="bigfish_pmgw_abaqoos" xsi:type="array">
-                                                                            <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
-                                                                        </item>
-                                                                        <item name="bigfish_pmgw_barion" xsi:type="array">
+                                                                        <item name="bigfish_pmgw_barion2" xsi:type="array">
                                                                             <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
                                                                         </item>
                                                                         <item name="bigfish_pmgw_borgun" xsi:type="array">
+                                                                            <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
+                                                                        </item>
+                                                                        <item name="bigfish_pmgw_borgun2" xsi:type="array">
                                                                             <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
                                                                         </item>
                                                                         <item name="bigfish_pmgw_cib" xsi:type="array">
@@ -47,6 +47,7 @@
                                                                         <item name="bigfish_pmgw_fhb" xsi:type="array">
                                                                             <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
                                                                         </item>
+
                                                                         <item name="bigfish_pmgw_khb" xsi:type="array">
                                                                             <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
                                                                         </item>

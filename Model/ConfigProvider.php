@@ -19,12 +19,13 @@ class ConfigProvider implements ConfigProviderInterface
 {
     const CODE = 'bigfish_pmgw';
 
-    const CODE_ABAQOOS = 'bigfish_pmgw_abaqoos';
-    const CODE_BARION = 'bigfish_pmgw_barion';
+    const CODE_BARION2 = 'bigfish_pmgw_barion2';
     const CODE_BORGUN = 'bigfish_pmgw_borgun';
+    const CODE_BORGUN2 = 'bigfish_pmgw_borgun2';
     const CODE_CIB = 'bigfish_pmgw_cib';
     const CODE_ESCALION = 'bigfish_pmgw_escalion';
     const CODE_FHB = 'bigfish_pmgw_fhb';
+
     const CODE_KHB = 'bigfish_pmgw_khb';
     const CODE_KHB_SZEP = 'bigfish_pmgw_khbszep';
     const CODE_MCM = 'bigfish_pmgw_mcm';
