@@ -88,7 +88,6 @@ class AuthorizeRequest implements BuilderInterface
 
     /**
      * @param array $buildSubject
-     *
      * @return array
      */
     public function build(array $buildSubject)
