@@ -33,9 +33,8 @@ class Start extends Action
      */
     public function execute()
     {
-        $customerSession = ObjectManager::getInstance()->create('Magento\Customer\Model\Session');
-
-        $redirectUrl = $customerSession->getPmgwRedirectUrlValue();
+        $redirectUrl = ObjectManager::getInstance()->create('Magento\Customer\Model\Session')
+            ->getPmgwRedirectUrlValue();
 
         if ($redirectUrl) {
             $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);

@@ -12,34 +12,25 @@
  */
 namespace BigFish\Pmgw\Gateway\Request;
 
-use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Module\ModuleListInterface;
-use Magento\Payment\Gateway\ConfigInterface;
-use Magento\Framework\App\ObjectManager;
+use Magento\Payment\Gateway\Data\OrderAdapterInterface;
 use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 use Magento\Payment\Gateway\Request\BuilderInterface;
-use Magento\Store\Api\Data\StoreInterface;
-use Magento\Sales\Model\OrderFactory;
 use Magento\Backend\Model\UrlInterface;
 use BigFish\Pmgw\Model\ConfigProvider;
 use BigFish\Pmgw\Model\TransactionFactory;
 use BigFish\Pmgw\Model\LogFactory;
 use BigFish\Pmgw\Gateway\Helper\Helper;
 use BigFish\PaymentGateway;
+use Magento\Store\Model\StoreManagerInterface;
+use Magento\Framework\App\ProductMetadataInterface;
+use BigFish\PaymentGateway\Config;
+use BigFish\PaymentGateway\Request\Init as InitRequest;
+use BigFish\PaymentGateway\Response;
 
 class AuthorizeRequest implements BuilderInterface
 {
     const MODULE_NAME = 'BigFish_Pmgw';
-
-    /**
-     * @var ConfigInterface
-     */
-    private $config;
-
-    /**
-     * @var ScopeConfigInterface
-     */
-    private $scopeConfig;
 
     /**
      * @var ConfigProvider
@@ -47,19 +38,19 @@ class AuthorizeRequest implements BuilderInterface
     private $providerConfig;
 
     /**
-     * @var StoreInterface
+     * @var StoreManagerInterface
      */
-    private $store;
+    private $storeManager;
+
+    /**
+     * @var ProductMetadataInterface
+     */
+    private $productMetaData;
 
     /**
      * @var ModuleListInterface
      */
     private $moduleList;
-
-    /**
-     * @var OrderFactory
-     */
-    private $orderFactory;
 
     /**
      * @var TransactionFactory
@@ -72,45 +63,36 @@ class AuthorizeRequest implements BuilderInterface
     private $logFactory;
 
     /**
-     * @param ConfigInterface $config
-     * @param ScopeConfigInterface $scopeConfig
      * @param ConfigProvider $providerConfig
-     * @param StoreInterface $store
+     * @param StoreManagerInterface $storeManager
+     * @param ProductMetadataInterface $productMetadata
      * @param ModuleListInterface $moduleList
-     * @param OrderFactory $orderFactory
      * @param TransactionFactory $transactionFactory
      * @param LogFactory $logFactory
      */
     public function __construct(
-        ConfigInterface $config,
-        ScopeConfigInterface $scopeConfig,
         ConfigProvider $providerConfig,
-        StoreInterface $store,
+        StoreManagerInterface $storeManager,
+        ProductMetadataInterface $productMetadata,
         ModuleListInterface $moduleList,
-        OrderFactory $orderFactory,
         TransactionFactory $transactionFactory,
         LogFactory $logFactory
     ) {
-        $this->config = $config;
-        $this->scopeConfig = $scopeConfig;
         $this->providerConfig = $providerConfig;
-        $this->store = $store;
+        $this->storeManager = $storeManager;
+        $this->productMetaData = $productMetadata;
         $this->moduleList = $moduleList;
-        $this->orderFactory = $orderFactory;
         $this->transactionFactory = $transactionFactory;
         $this->logFactory = $logFactory;
     }
 
     /**
-     * Builds ENV request
-     *
      * @param array $buildSubject
      *
      * @return array
      */
     public function build(array $buildSubject)
     {
-
         if (
             !isset($buildSubject['payment']) ||
             !$buildSubject['payment'] instanceof PaymentDataObjectInterface
@@ -120,145 +102,174 @@ class AuthorizeRequest implements BuilderInterface
 
         /** @var PaymentDataObjectInterface $payment */
         $payment = $buildSubject['payment'];
+
+        /** @var OrderAdapterInterface $order */
         $order = $payment->getOrder();
-        //$address = $order->getShippingAddress();
 
-        $method = $payment->getPayment()->getMethodInstance();
+        $providerConfig = $this->getProviderConfig($payment);
 
-        $params = $this->scopeConfig->getValue('payment/bigfish_pmgw');
-
-        $methodCode = $method->getCode();
-
-        //$paymentParams = $this->scopeConfig->getValue('payment/' . $methodCode);
-
-        //if ($paymentParams['provider_code'] == 'OTPSZEP') {
-        //if ($methodCode == ConfigProvider::CODE_OTP_SZEP) {
-        //    $storeName = $paymentParams['storenameotpszep'];
-        //    $apiKey = $paymentParams['apikeyotpszep'];
-        //} else {
-        $storeName = $params['storename'];
-        $apiKey = $params['apikey'];
-        //}
-
-        $config = new PaymentGateway\Config();
-
-        $config->storeName = $storeName;
-        $config->apiKey = $apiKey;
-        if (isset($params['publickey'])) {
-            $config->encryptPublicKey = $params['publickey'];
-        }
-        $config->testMode = $params['testmode'] == 1;
-        $config->outCharset = 'UTF-8';
-
-        /**
-         * Configure PaymentGateway
-         */
-        PaymentGateway::setConfig($config);
-
-        $paymentConfig = $this->providerConfig->getConfig();
-
-        $paymentParams = array();
-
-        foreach ($paymentConfig['payment']['bigfish_pmgw']['providers'] as $value) {
-            if ($value['name'] === $methodCode) {
-                $paymentParams = $value;
-                break;
-            }
-        }
-
-        if (empty($paymentParams)) {
+        if (empty($providerConfig)) {
             throw new \UnexpectedValueException('Payment parameter array should be provided');
         }
 
-        $objectManager = ObjectManager::getInstance();
+        $config = new Config();
+        $this->setPaymentGatewayConfig($config, $providerConfig);
 
-        $storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
-        $baseUrl = $storeManager->getStore()
-            ->getBaseUrl(UrlInterface::URL_TYPE_WEB);
+        PaymentGateway::setConfig($config);
 
-        $productMetadata = $objectManager->get('Magento\Framework\App\ProductMetadataInterface');
-        $magentoVersion = $productMetadata->getVersion();
+        $request = new InitRequest();
+        $this->setPaymentGatewayInitRequest($request, $order, $providerConfig);
 
-        $orderId = $order->getOrderIncrementId();
+        $response = PaymentGateway::init($request);
 
-        $request = new PaymentGateway\Request\Init();
+        if ($response->ResultCode === PaymentGateway::RESULT_CODE_SUCCESS) {
+            $this->saveTransaction($order, $response);
+        } else {
+            throw new \UnexpectedValueException(sprintf(
+                '%s: %s',
+                $response->ResultCode,
+                $response->ResultMessage
+            ));
+        }
 
+        return (array)$response;
+    }
+
+    /**
+     * @param PaymentDataObjectInterface $payment
+     * @return array
+     */
+    protected function getProviderConfig(PaymentDataObjectInterface $payment)
+    {
+        $methodCode = $payment->getPayment()->getMethodInstance()->getCode();
+
+        return $this->providerConfig->getProviderConfig($methodCode);
+    }
+
+    /**
+     * @param Config $config
+     * @param array $providerConfig
+     */
+    protected function setPaymentGatewayConfig(Config $config, array $providerConfig)
+    {
+        $config->storeName = $providerConfig['storename'];
+        $config->apiKey = $providerConfig['apikey'];
+        $config->testMode = ((int)$providerConfig['testmode'] === 1);
+    }
+
+    /**
+     * @param InitRequest $request
+     * @param OrderAdapterInterface $order
+     * @param $providerConfig
+     */
+    protected function setPaymentGatewayInitRequest(
+        InitRequest $request,
+        OrderAdapterInterface $order,
+        array $providerConfig
+    ) {
         $request
-            ->setProviderName($paymentParams['provider_code'])
-            ->setResponseUrl($baseUrl . $paymentParams['responseUrl'])
+            ->setProviderName($providerConfig['provider_code'])
+            ->setResponseUrl($this->getStoreBaseUrl() . $providerConfig['responseUrl'])
             ->setAmount($order->getGrandTotalAmount())
             ->setCurrency($order->getCurrencyCode())
             ->setOrderId($order->getOrderIncrementId())
             ->setUserId($order->getCustomerId())
-            ->setLanguage('HU')
-            ->setMppPhoneNumber(isset($paymentParams['mppPhoneNumber']) ? $paymentParams['mppPhoneNumber'] : '')
-            ->setOtpCardNumber(isset($paymentParams['OtpCardNumber']) ? $paymentParams['OtpCardNumber'] : '')
-            ->setOtpExpiration(isset($paymentParams['OtpExpiration']) ? $paymentParams['OtpExpiration'] : '')
-            ->setOtpCvc(isset($paymentParams['OtpCvc']) ? $paymentParams['OtpCvc'] : '')
-            ->setOneClickPayment(isset($paymentParams['one_click_payment']) ? $paymentParams['one_click_payment'] : '')
-            ->setModuleName('Magento (' . $magentoVersion . ')')
-            ->setModuleVersion($this->moduleList->getOne(self::MODULE_NAME)['setup_version']);
+            ->setLanguage($this->getStoreLanguage())
+            ->setModuleName('Magento (' . $this->productMetaData->getVersion() . ')')
+            ->setModuleVersion($this->moduleList->getOne(self::MODULE_NAME)['setup_version'])
+            ->setAutoCommit(true);
 
-        if ($methodCode == ConfigProvider::CODE_OTP_SZEP) {
-            $request->setOtpCardPocketId(isset($paymentParams['card_pocket_id']) ? $paymentParams['card_pocket_id'] : '');
+        if (isset($providerConfig['one_click_payment']) && (int)$providerConfig['one_click_payment'] === 1) {
+            $request->setOneClickPayment(true);
         }
 
-        // TODO: lehet hogy kivesszuk:
-        if ($paymentParams['provider_code'] == PaymentGateway::PROVIDER_OTP_TWO_PARTY) {
-            $paymentParams['OtpCardNumber'] = '****************';
-            $paymentParams['OtpExpiration'] = '****';
-            $paymentParams['OtpCvc'] = '***';
+        $extraData = [];
+
+        if ($providerConfig['name'] == ConfigProvider::CODE_KHB_SZEP) {
+            $extraData['KhbCardPocketId'] = $providerConfig['card_pocket_id'];
         }
 
-        if ($paymentParams['provider_code'] == PaymentGateway::PROVIDER_MKB_SZEP) {
+        if ($providerConfig['name'] == ConfigProvider::CODE_MKB_SZEP) {
             $request
-                ->setMkbSzepCafeteriaId(isset($paymentParams['card_pocket_id']) ? $paymentParams['card_pocket_id'] : '')
-                ->setGatewayPaymentPage(TRUE);
+                ->setMkbSzepCafeteriaId($providerConfig['card_pocket_id'])
+                ->setGatewayPaymentPage(true);
         }
 
-        if ($paymentParams['provider_code'] === PaymentGateway::PROVIDER_KHB_SZEP &&
-            isset($paymentParams[PaymentGateway::PROVIDER_KHB_SZEP]['card_pocket_id'])
-        ) {
-            $extra['khbcardpocketid'] = isset($paymentParams[PaymentGateway::PROVIDER_KHB_SZEP]['card_pocket_id']);
+        if ($providerConfig['name'] == ConfigProvider::CODE_OTP_SZEP) {
+            $request->setOtpCardPocketId($providerConfig['card_pocket_id']);
         }
 
-        if (isset($paymentParams['extra']) && is_array($paymentParams['extra']) && !empty($paymentParams['extra'])) {
-            $request->setExtra($paymentParams['extra']);
+        if ($providerConfig['name'] == ConfigProvider::CODE_SAFERPAY) {
+            if (isset($providerConfig['payment_methods']) && strlen($providerConfig['payment_methods'])) {
+                $extraData['SaferpayPaymentMethods'] = explode(',', $providerConfig['payment_methods']);
+            }
+
+            if (isset($providerConfig['wallets']) && strlen($providerConfig['wallets'])) {
+                $extraData['SaferpayWallets'] = explode(',', $providerConfig['wallets']);
+            }
         }
 
-        /**
-         * Init PaymentGateway request
-         */
-        $response = PaymentGateway::init($request);
-
-        if ($response->ResultCode === PaymentGateway::RESULT_CODE_SUCCESS) {
-            $transactionFactory = $this->transactionFactory->create();
-            $transactionFactory->setOrderId($orderId)
-                ->setTransactionId($response->TransactionId)
-                ->setCreatedTime(date("Y-m-d H:i:s"))
-                ->setStatus(Helper::TRANSACTION_STATUS_INITIALIZED)
-                ->save();
-
-            $transactionId = $transactionFactory->getId();
-
-            $pmgwLogFactory = $this->logFactory->create();
-            $pmgwLogFactory->setPaymentgatewayId($transactionId)
-                ->setOrderId($orderId)
-                ->setTransactionId($response->TransactionId)
-                ->setCreatedTime(date("Y-m-d H:i:s"))
-                ->setStatus(Helper::TRANSACTION_STATUS_INITIALIZED)
-                ->setDebug(print_r($response, true))
-                ->save();
-
-        } else {
-            $errorMessage = "PAYMENT_PARAMS:\n".print_r($paymentParams, true)."\n\n";
-            $errorMessage.= $response->ResultCode.": ".$response->ResultMessage;
-            $errorMessage.= "<br/><br/><xmp>".print_r($response, true)."</xmp>";
-
-            throw new \UnexpectedValueException($errorMessage);
+        if ($providerConfig['name'] == ConfigProvider::CODE_WIRECARD) {
+            if (isset($providerConfig['payment_type']) && strlen($providerConfig['payment_type'])) {
+                $extraData['QpayPaymentType'] = $providerConfig['payment_type'];
+            }
         }
 
-        return (array)$response;
+        if (!empty($extraData)) {
+            $request->setExtra($extraData);
+        }
+    }
+
+    /**
+     * @param OrderAdapterInterface $order
+     * @param Response $response
+     */
+    protected function saveTransaction(OrderAdapterInterface $order, Response $response)
+    {
+        $transactionFactory = $this->transactionFactory->create();
+
+        $transactionFactory->setOrderId($order->getOrderIncrementId())
+            ->setTransactionId($response->TransactionId)
+            ->setCreatedTime(date("Y-m-d H:i:s"))
+            ->setStatus(Helper::TRANSACTION_STATUS_INITIALIZED)
+            ->save();
+
+        $transactionId = $transactionFactory->getId();
+
+        $this->saveTransactionLog($order, $response, $transactionId);
+    }
+
+    /**
+     * @param OrderAdapterInterface $order
+     * @param Response $response
+     * @param int $transactionId
+     */
+    protected function saveTransactionLog(OrderAdapterInterface $order, Response $response, $transactionId)
+    {
+        $this->logFactory->create()->setPaymentgatewayId($transactionId)
+            ->setOrderId($order->getOrderIncrementId())
+            ->setTransactionId($response->TransactionId)
+            ->setCreatedTime(date("Y-m-d H:i:s"))
+            ->setStatus(Helper::TRANSACTION_STATUS_INITIALIZED)
+            ->setDebug(print_r($response, true))
+            ->save();
+    }
+
+    /**
+     * @return string
+     */
+    protected function getStoreBaseUrl()
+    {
+        return $this->storeManager->getStore()
+            ->getBaseUrl(UrlInterface::URL_TYPE_WEB);
+    }
+
+    /**
+     * @return string
+     */
+    protected function getStoreLanguage()
+    {
+        return strtoupper(strstr($this->storeManager->getStore()->getLocaleCode(), '_', true));
     }
 
 }

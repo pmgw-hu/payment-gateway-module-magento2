@@ -73,6 +73,22 @@ class ConfigProvider implements ConfigProviderInterface
     }
 
     /**
+     * @param $code
+     * @return array
+     */
+    public function getProviderConfig($code)
+    {
+        $config = $this->getConfig();
+
+        foreach ($config['payment'][self::CODE]['providers'] as $providerConfig) {
+            if ($providerConfig['name'] === $code) {
+                return $providerConfig;
+            }
+        }
+        return [];
+    }
+
+    /**
      * @param array $scopeConfig
      * @return array
      */
@@ -91,7 +107,9 @@ class ConfigProvider implements ConfigProviderInterface
         $providers = array_map(
             function ($key, array $data) use ($scopeConfig) {
                 return array_merge(
-                    ['name' => $key],
+                    [
+                        'name' => $key
+                    ],
                     $scopeConfig[self::CODE],
                     $data
                 );

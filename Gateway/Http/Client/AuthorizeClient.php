@@ -21,8 +21,6 @@ use BigFish\Pmgw\Gateway\Helper\Helper;
 class AuthorizeClient implements ClientInterface
 {
     /**
-     * Places request to gateway. Returns result as ENV array
-     *
      * @param TransferInterface $transferObject
      * @return array
      */
@@ -33,8 +31,8 @@ class AuthorizeClient implements ClientInterface
         if ($response[Helper::RESPONSE_FIELD_RESULT_CODE] === PaymentGateway::RESULT_CODE_SUCCESS) {
             $url = PaymentGateway::getStartUrl(new PaymentGateway\Request\Start($response[Helper::RESPONSE_FIELD_TRANSACTION_ID]));
 
-            $customerSession = ObjectManager::getInstance()->create('Magento\Customer\Model\Session');
-            $customerSession->setPmgwRedirectUrlValue($url);
+            ObjectManager::getInstance()->create('Magento\Customer\Model\Session')
+                ->setPmgwRedirectUrlValue($url);
         }
         return $response;
     }
