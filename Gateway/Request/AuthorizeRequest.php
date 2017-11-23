@@ -27,12 +27,12 @@ use Magento\Framework\App\ProductMetadataInterface;
 use BigFish\PaymentGateway\Config;
 use BigFish\PaymentGateway\Request\Init as InitRequest;
 use BigFish\PaymentGateway\Response;
-use Psr\Log\LoggerInterface;
+use Magento\Payment\Model\Method\Logger;
 
 class AuthorizeRequest implements BuilderInterface
 {
     /**
-     * @var LoggerInterface
+     * @var Logger
      */
     private $logger;
 
@@ -67,7 +67,7 @@ class AuthorizeRequest implements BuilderInterface
     private $logFactory;
 
     /**
-     * @param LoggerInterface $logger
+     * @param Logger $logger
      * @param ConfigProvider $providerConfig
      * @param StoreManagerInterface $storeManager
      * @param ProductMetadataInterface $productMetadata
@@ -76,7 +76,7 @@ class AuthorizeRequest implements BuilderInterface
      * @param LogFactory $logFactory
      */
     public function __construct(
-        LoggerInterface $logger,
+        Logger $logger,
         ConfigProvider $providerConfig,
         StoreManagerInterface $storeManager,
         ProductMetadataInterface $productMetadata,
@@ -128,7 +128,7 @@ class AuthorizeRequest implements BuilderInterface
 
         $response = PaymentGateway::init($request);
 
-        $this->logger->debug(Helper::LOG_PREFIX . 'init_response', (array)$response);
+        $this->logger->debug((array)$response);
 
         if ($response->ResultCode === PaymentGateway::RESULT_CODE_SUCCESS) {
             $transactionId = $this->saveTransaction($order, $response);
@@ -162,7 +162,7 @@ class AuthorizeRequest implements BuilderInterface
         $config->apiKey = $providerConfig['apikey'];
         $config->testMode = ((int)$providerConfig['testmode'] === 1);
 
-        $this->logger->debug(Helper::LOG_PREFIX . 'config', [
+        $this->logger->debug([
             'storeName' => $config->storeName,
             'apiKey' => $config->apiKey,
             'testMode' => $config->testMode,
@@ -233,7 +233,7 @@ class AuthorizeRequest implements BuilderInterface
             $request->setExtra($extraData);
         }
 
-        $this->logger->debug(Helper::LOG_PREFIX . 'init_request', (array)$request);
+        $this->logger->debug((array)$request);
     }
 
     /**

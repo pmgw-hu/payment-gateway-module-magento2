@@ -32,6 +32,19 @@
         </arguments>
     </virtualType>
 
+    <!-- Logger, initialized with BigFishPmgwConfig -->
+    <virtualType name="BigFishPmgwLogger" type="Magento\Payment\Model\Method\Logger">
+        <arguments>
+            <argument name="config" xsi:type="object">BigFishPmgwConfig</argument>
+        </arguments>
+    </virtualType>
+
+    <type name="BigFish\Pmgw\Gateway\Http\Client\AuthorizeClient">
+        <arguments>
+            <argument name="logger" xsi:type="object">BigFishPmgwLogger</argument>
+        </arguments>
+    </type>
+
     <!-- Value handlers infrastructure -->
     <virtualType name="BigFishPmgwValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
         <arguments>
@@ -69,7 +82,7 @@
     <!-- Authorize request -->
     <type name="BigFish\Pmgw\Gateway\Request\AuthorizeRequest">
         <arguments>
-            <argument name="config" xsi:type="object">BigFishPmgwConfig</argument>
+            <argument name="logger" xsi:type="object">BigFishPmgwLogger</argument>
         </arguments>
     </type>
 

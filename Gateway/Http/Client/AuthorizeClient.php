@@ -17,9 +17,23 @@ use Magento\Payment\Gateway\Http\TransferInterface;
 use Magento\Framework\App\ObjectManager;
 use BigFish\PaymentGateway;
 use BigFish\Pmgw\Gateway\Helper\Helper;
+use Magento\Payment\Model\Method\Logger;
 
 class AuthorizeClient implements ClientInterface
 {
+    /**
+     * @var Logger
+     */
+    private $logger;
+
+    /**
+     * @param Logger $logger
+     */
+    public function __construct(Logger $logger)
+    {
+        $this->logger = $logger;
+    }
+
     /**
      * @param TransferInterface $transferObject
      * @return array
@@ -33,6 +47,10 @@ class AuthorizeClient implements ClientInterface
 
             ObjectManager::getInstance()->create('Magento\Customer\Model\Session')
                 ->setPmgwRedirectUrlValue($url);
+
+            $this->logger->debug([
+                 'startUrl' => $url,
+            ]);
         }
         return $response;
     }
