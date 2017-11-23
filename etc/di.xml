@@ -45,6 +45,12 @@
         </arguments>
     </type>
 
+    <type name="BigFish\Pmgw\Controller\Payment\Response">
+        <arguments>
+            <argument name="logger" xsi:type="object">BigFishPmgwLogger</argument>
+        </arguments>
+    </type>
+
     <!-- Value handlers infrastructure -->
     <virtualType name="BigFishPmgwValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
         <arguments>

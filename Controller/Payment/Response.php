@@ -17,26 +17,35 @@ use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
 use BigFish\Pmgw\Gateway\Response\ResponseEvent;
 use BigFish\PaymentGateway;
+use Magento\Payment\Model\Method\Logger;
 
 class Response extends Action
 {
     /**
      * @var ResponseEvent
      */
-    protected $responseEvent;
+    private $responseEvent;
+
+    /**
+     * @var Logger
+     */
+    private $logger;
 
     /**
      * Response constructor.
      *
      * @param Context $context
      * @param ResponseEvent $responseEvent
+     * @param Logger $logger
      */
     public function __construct(
         Context $context,
-        ResponseEvent $responseEvent
+        ResponseEvent $responseEvent,
+        Logger $logger
     ) {
         parent::__construct($context);
         $this->responseEvent = $responseEvent;
+        $this->logger = $logger;
     }
 
     /**
@@ -50,21 +59,13 @@ class Response extends Action
             throw new \InvalidArgumentException(__('process_noTransactionIdInResponse'));
         }
 
-        $transactionId = $urlParams[Helper::RESPONSE_FIELD_TRANSACTION_ID];
+        $response = PaymentGateway::result(
+            new PaymentGateway\Request\Result($urlParams[Helper::RESPONSE_FIELD_TRANSACTION_ID])
+        );
 
-        $response = PaymentGateway::result(new PaymentGateway\Request\Result($transactionId));
+        $this->logger->debug((array)$response);
 
-        $responseArray = [];
-
-        if (is_object($response)) {
-            foreach (get_object_vars($response) as $response_key => $response_val) {
-                $responseArray[$response_key] = $response_val;
-            }
-        } else {
-            $responseArray = $response;
-        }
-
-        $this->responseEvent->setEventData($responseArray);
+        $this->responseEvent->setEventData((array)$response);
 
         $status = $this->responseEvent->processStatusEvent();
 
