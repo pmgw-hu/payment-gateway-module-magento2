@@ -16,6 +16,9 @@ use Magento\Braintree\Model\Paypal\Helper\AbstractHelper;
 
 class Helper extends AbstractHelper
 {
+    const MODULE_NAME = 'BigFish_Pmgw';
+    const LOG_PREFIX = 'bigfish_pmgw_';
+
     const RESPONSE_FIELD_TRANSACTION_ID = 'TransactionId';
     const RESPONSE_FIELD_RESULT_CODE = 'ResultCode';
     const RESPONSE_FIELD_RESULT_MESSAGE = 'ResultMessage';

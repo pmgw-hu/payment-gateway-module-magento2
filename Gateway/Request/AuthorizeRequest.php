@@ -27,10 +27,14 @@ use Magento\Framework\App\ProductMetadataInterface;
 use BigFish\PaymentGateway\Config;
 use BigFish\PaymentGateway\Request\Init as InitRequest;
 use BigFish\PaymentGateway\Response;
+use Psr\Log\LoggerInterface;
 
 class AuthorizeRequest implements BuilderInterface
 {
-    const MODULE_NAME = 'BigFish_Pmgw';
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
 
     /**
      * @var ConfigProvider
@@ -63,6 +67,7 @@ class AuthorizeRequest implements BuilderInterface
     private $logFactory;
 
     /**
+     * @param LoggerInterface $logger
      * @param ConfigProvider $providerConfig
      * @param StoreManagerInterface $storeManager
      * @param ProductMetadataInterface $productMetadata
@@ -71,6 +76,7 @@ class AuthorizeRequest implements BuilderInterface
      * @param LogFactory $logFactory
      */
     public function __construct(
+        LoggerInterface $logger,
         ConfigProvider $providerConfig,
         StoreManagerInterface $storeManager,
         ProductMetadataInterface $productMetadata,
@@ -78,6 +84,7 @@ class AuthorizeRequest implements BuilderInterface
         TransactionFactory $transactionFactory,
         LogFactory $logFactory
     ) {
+        $this->logger = $logger;
         $this->providerConfig = $providerConfig;
         $this->storeManager = $storeManager;
         $this->productMetaData = $productMetadata;
@@ -121,16 +128,16 @@ class AuthorizeRequest implements BuilderInterface
 
         $response = PaymentGateway::init($request);
 
-        if ($response->ResultCode === PaymentGateway::RESULT_CODE_SUCCESS) {
-            $this->saveTransaction($order, $response);
-        } else {
-            throw new \UnexpectedValueException(sprintf(
-                '%s: %s',
-                $response->ResultCode,
-                $response->ResultMessage
-            ));
-        }
+        $this->logger->debug(Helper::LOG_PREFIX . 'init_response', (array)$response);
 
+        if ($response->ResultCode === PaymentGateway::RESULT_CODE_SUCCESS) {
+            $transactionId = $this->saveTransaction($order, $response);
+            $this->saveTransactionLog($order, $response, $transactionId);
+        } else {
+            $message = $response->ResultCode . ': ' . $response->ResultMessage;
+            $this->logger->critical($message);
+            throw new \UnexpectedValueException($message);
+        }
         return (array)$response;
     }
 
@@ -154,6 +161,14 @@ class AuthorizeRequest implements BuilderInterface
         $config->storeName = $providerConfig['storename'];
         $config->apiKey = $providerConfig['apikey'];
         $config->testMode = ((int)$providerConfig['testmode'] === 1);
+
+        $this->logger->debug(Helper::LOG_PREFIX . 'config', [
+            'storeName' => $config->storeName,
+            'apiKey' => $config->apiKey,
+            'testMode' => $config->testMode,
+            'moduleName' => $config->moduleName,
+            'moduleVersion' => $config->moduleVersion,
+        ]);
     }
 
     /**
@@ -175,7 +190,7 @@ class AuthorizeRequest implements BuilderInterface
             ->setUserId($order->getCustomerId())
             ->setLanguage($this->getStoreLanguage())
             ->setModuleName('Magento (' . $this->productMetaData->getVersion() . ')')
-            ->setModuleVersion($this->moduleList->getOne(self::MODULE_NAME)['setup_version'])
+            ->setModuleVersion($this->moduleList->getOne(Helper::MODULE_NAME)['setup_version'])
             ->setAutoCommit(true);
 
         if (isset($providerConfig['one_click_payment']) && (int)$providerConfig['one_click_payment'] === 1) {
@@ -217,11 +232,14 @@ class AuthorizeRequest implements BuilderInterface
         if (!empty($extraData)) {
             $request->setExtra($extraData);
         }
+
+        $this->logger->debug(Helper::LOG_PREFIX . 'init_request', (array)$request);
     }
 
     /**
      * @param OrderAdapterInterface $order
      * @param Response $response
+     * @return int
      */
     protected function saveTransaction(OrderAdapterInterface $order, Response $response)
     {
@@ -233,9 +251,7 @@ class AuthorizeRequest implements BuilderInterface
             ->setStatus(Helper::TRANSACTION_STATUS_INITIALIZED)
             ->save();
 
-        $transactionId = $transactionFactory->getId();
-
-        $this->saveTransactionLog($order, $response, $transactionId);
+        return $transactionFactory->getId();
     }
 
     /**
