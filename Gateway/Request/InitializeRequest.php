@@ -18,17 +18,14 @@ use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 use Magento\Payment\Gateway\Request\BuilderInterface;
 use Magento\Backend\Model\UrlInterface;
 use BigFish\Pmgw\Model\ConfigProvider;
-use BigFish\Pmgw\Model\TransactionFactory;
-use BigFish\Pmgw\Model\LogFactory;
 use BigFish\Pmgw\Gateway\Helper\Helper;
 use BigFish\PaymentGateway;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\App\ProductMetadataInterface;
 use BigFish\PaymentGateway\Config;
 use BigFish\PaymentGateway\Request\Init as InitRequest;
-use BigFish\PaymentGateway\Response;
 use Magento\Payment\Model\Method\Logger;
-use Magento\Framework\Json\Helper\Data as JsonHelper;
+use Magento\Framework\Stdlib\DateTime\DateTime;
 
 class InitializeRequest implements BuilderInterface
 {
@@ -58,19 +55,14 @@ class InitializeRequest implements BuilderInterface
     private $moduleList;
 
     /**
-     * @var TransactionFactory
+     * @var Helper
      */
-    private $transactionFactory;
+    private $helper;
 
     /**
-     * @var LogFactory
+     * @var DateTime
      */
-    private $logFactory;
-
-    /**
-     * @var JsonHelper
-     */
-    private $jsonHelper;
+    private $dateTime;
 
     /**
      * @param Logger $logger
@@ -78,9 +70,8 @@ class InitializeRequest implements BuilderInterface
      * @param StoreManagerInterface $storeManager
      * @param ProductMetadataInterface $productMetadata
      * @param ModuleListInterface $moduleList
-     * @param TransactionFactory $transactionFactory
-     * @param LogFactory $logFactory
-     * @param JsonHelper $jsonHelper
+     * @param Helper $helper
+     * @param DateTime $dateTime
      */
     public function __construct(
         Logger $logger,
@@ -88,18 +79,16 @@ class InitializeRequest implements BuilderInterface
         StoreManagerInterface $storeManager,
         ProductMetadataInterface $productMetadata,
         ModuleListInterface $moduleList,
-        TransactionFactory $transactionFactory,
-        LogFactory $logFactory,
-        JsonHelper $jsonHelper
+        Helper $helper,
+        DateTime $dateTime
     ) {
         $this->logger = $logger;
         $this->providerConfig = $providerConfig;
         $this->storeManager = $storeManager;
         $this->productMetaData = $productMetadata;
         $this->moduleList = $moduleList;
-        $this->transactionFactory = $transactionFactory;
-        $this->logFactory = $logFactory;
-        $this->jsonHelper = $jsonHelper;
+        $this->helper = $helper;
+        $this->dateTime = $dateTime;
     }
 
     /**
@@ -140,8 +129,16 @@ class InitializeRequest implements BuilderInterface
         $this->logger->debug((array)$response);
 
         if ($response->ResultCode === PaymentGateway::RESULT_CODE_SUCCESS) {
-            $transactionId = $this->saveTransaction($order, $response);
-            $this->saveTransactionLog($order, $response, $transactionId);
+            $transaction = $this->helper->createTransaction();
+
+            $transaction
+                ->setOrderId($order->getOrderIncrementId())
+                ->setTransactionId($response->TransactionId)
+                ->setCreatedTime($this->dateTime->date())
+                ->setStatus(Helper::TRANSACTION_STATUS_INITIALIZED)
+                ->save();
+
+            $this->helper->addTransactionLog($transaction, $response);
         } else {
             $message = $response->ResultCode . ': ' . $response->ResultMessage;
             $this->logger->critical($message);
@@ -243,40 +240,6 @@ class InitializeRequest implements BuilderInterface
         }
 
         $this->logger->debug((array)$request);
-    }
-
-    /**
-     * @param OrderAdapterInterface $order
-     * @param Response $response
-     * @return int
-     */
-    protected function saveTransaction(OrderAdapterInterface $order, Response $response)
-    {
-        $transactionFactory = $this->transactionFactory->create();
-
-        $transactionFactory->setOrderId($order->getOrderIncrementId())
-            ->setTransactionId($response->TransactionId)
-            ->setCreatedTime(date("Y-m-d H:i:s"))
-            ->setStatus(Helper::TRANSACTION_STATUS_INITIALIZED)
-            ->save();
-
-        return $transactionFactory->getId();
-    }
-
-    /**
-     * @param OrderAdapterInterface $order
-     * @param Response $response
-     * @param int $transactionId
-     */
-    protected function saveTransactionLog(OrderAdapterInterface $order, Response $response, $transactionId)
-    {
-        $this->logFactory->create()->setPaymentgatewayId($transactionId)
-            ->setOrderId($order->getOrderIncrementId())
-            ->setTransactionId($response->TransactionId)
-            ->setCreatedTime(date("Y-m-d H:i:s"))
-            ->setStatus(Helper::TRANSACTION_STATUS_INITIALIZED)
-            ->setDebug($this->jsonHelper->jsonEncode($response))
-            ->save();
     }
 
     /**

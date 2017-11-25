@@ -18,12 +18,9 @@ use BigFish\Pmgw\Model\Transaction;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Sales\Model\Order;
 use Psr\Log\LoggerInterface;
-use BigFish\Pmgw\Model\TransactionFactory;
-use BigFish\Pmgw\Model\LogFactory;
 use Magento\Sales\Model\Order\Email\Sender\OrderSender;
 use BigFish\PaymentGateway\Response;
 use BigFish\Pmgw\Model\Response\ResultInterface;
-use Magento\Framework\Json\Helper\Data as JsonHelper;
 
 class ResponseProcessor
 {
@@ -38,16 +35,6 @@ class ResponseProcessor
     private $orderSender;
 
     /**
-     * @var TransactionFactory
-     */
-    private $transactionFactory;
-
-    /**
-     * @var LogFactory
-     */
-    private $logFactory;
-
-    /**
      * @var ResultInterface
      */
     private $result;
@@ -58,9 +45,9 @@ class ResponseProcessor
     private $logger;
 
     /**
-     * @var JsonHelper
+     * @var Helper
      */
-    private $jsonHelper;
+    private $helper;
 
     /**
      * @var Response
@@ -75,27 +62,22 @@ class ResponseProcessor
     /**
      * @param Order $order
      * @param OrderSender $orderSender
-     * @param TransactionFactory $transactionFactory
-     * @param LogFactory $logFactory
      * @param ResultInterface $result
      * @param LoggerInterface $logger
+     * @param Helper $helper
      */
     public function __construct(
         Order $order,
         OrderSender $orderSender,
-        TransactionFactory $transactionFactory,
-        LogFactory $logFactory,
         ResultInterface $result,
         LoggerInterface $logger,
-        JsonHelper $jsonHelper
+        Helper $helper
     ) {
         $this->order = $order;
         $this->orderSender = $orderSender;
-        $this->transactionFactory = $transactionFactory;
-        $this->logFactory = $logFactory;
         $this->result = $result;
         $this->logger = $logger;
-        $this->jsonHelper = $jsonHelper;
+        $this->helper = $helper;
     }
 
     /**
@@ -157,8 +139,7 @@ class ResponseProcessor
             throw new LocalizedException(__('Invalid response object.'));
         }
 
-        $this->transaction = $this->transactionFactory->create()
-            ->load($this->response->TransactionId, 'transaction_id');
+        $this->transaction = $this->helper->getTransactionByTransactionId($this->response->TransactionId);
 
         if (!$this->transaction || !$this->transaction->getId()) {
             throw new LocalizedException(__('Invalid transaction.'));
@@ -177,19 +158,16 @@ class ResponseProcessor
 
     protected function processPending()
     {
-        $this->setTransactionStatus(Helper::TRANSACTION_STATUS_PENDING);
-        $this->logResponse();
-
         $this->order->setState(Order::STATE_PENDING_PAYMENT);
         $this->order->getPayment()->setLastTransId($this->response->TransactionId);
         $this->order->save();
+
+        $this->helper->updateTransactionStatus($this->transaction, Helper::TRANSACTION_STATUS_PENDING);
+        $this->logResponse();
     }
 
     protected function processSuccess()
     {
-        $this->setTransactionStatus(Helper::TRANSACTION_STATUS_SUCCESS);
-        $this->logResponse();
-
         $this->createInvoice();
 
         $this->order->setState(Order::STATE_PROCESSING);
@@ -200,6 +178,9 @@ class ResponseProcessor
         }
         $this->orderSender->send($this->order, false);
         $this->order->save();
+
+        $this->helper->updateTransactionStatus($this->transaction, Helper::TRANSACTION_STATUS_SUCCESS);
+        $this->logResponse();
     }
 
     /**
@@ -207,11 +188,11 @@ class ResponseProcessor
      */
     protected function processFailure($transactionStatus)
     {
-        $this->setTransactionStatus($transactionStatus);
-        $this->logResponse();
-
         $this->order->cancel();
         $this->order->save();
+
+        $this->helper->updateTransactionStatus($this->transaction, $transactionStatus);
+        $this->logResponse();
     }
 
     protected function createInvoice()
@@ -224,39 +205,9 @@ class ResponseProcessor
         $this->order->addRelatedObject($invoice);
     }
 
-    /**
-     * @param string $transactionId
-     * @return Transaction|null
-     */
-    protected function getTransactionByTransactionId($transactionId)
-    {
-        return $this->transactionFactory->create()->load($transactionId, 'transaction_id');
-    }
-
-    /**
-     * @param int $status
-     */
-    protected function setTransactionStatus($status)
-    {
-        $this->transaction->setStatus($status)->save();
-    }
-
     protected function logResponse()
     {
-        $this->addTransactionLog($this->jsonHelper->jsonEncode($this->response));
-    }
-
-    /**
-     * @param string $debug
-     */
-    protected function addTransactionLog($debug)
-    {
-        $this->logFactory->create()
-            ->setPaymentgatewayId($this->transaction->getId())
-            ->setStatus($this->transaction->getStatus())
-            ->setCreatedTime(date("Y-m-d H:i:s"))
-            ->setDebug($debug)
-            ->save();
+        $this->helper->addTransactionLog($this->transaction, $this->response);
     }
 
 }
