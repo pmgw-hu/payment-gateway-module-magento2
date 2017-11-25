@@ -40,29 +40,6 @@
                     <config_path>payment/bigfish_pmgw/sortorder</config_path>
                     <frontend_class>validate-number</frontend_class>
                 </field>
-                <!--
-                <group id="paymentgateway_barion" sortOrder="20" showInDefault="0" showInWebsite="0" showInStore="0" translate="label">
-                    <label>Barion</label>
-                </group>
-                <group id="paymentgateway_mcm" sortOrder="20" showInDefault="0" showInWebsite="0" showInStore="0" translate="label">
-                    <label>MCM</label>
-                </group>
-                <group id="paymentgateway_mpp" sortOrder="20" showInDefault="0" showInWebsite="0" showInStore="0" translate="label">
-                    <label>MPP</label>
-                </group>
-                <group id="paymentgateway_payu" sortOrder="20" showInDefault="0" showInWebsite="0" showInStore="0" translate="label">
-                    <label>PAYU</label>
-                </group>
-                <group id="paymentgateway_payuwire" sortOrder="20" showInDefault="0" showInWebsite="0" showInStore="0" translate="label">
-                    <label>PAYU Wire</label>
-                </group>
-                <group id="paymentgateway_payucash" sortOrder="20" showInDefault="0" showInWebsite="0" showInStore="0" translate="label">
-                    <label>PayU Cash</label>
-                </group>
-                <group id="paymentgateway_payumobile" sortOrder="20" showInDefault="0" showInWebsite="0" showInStore="0" translate="label">
-                    <label>PayU Mobile</label>
-                </group>
-                -->
                 <include path="BigFish_Pmgw::methods.xml"/>
             </group>
         </section>
