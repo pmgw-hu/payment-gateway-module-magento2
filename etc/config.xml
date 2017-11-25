@@ -33,15 +33,14 @@
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
                 <!-- -->
+                <group>bigfish_pmgw</group>
                 <model>BigFishPmgwBarion2Facade</model>
                 <provider_code>Barion2</provider_code>
                 <order_status>pending_payment</order_status>
-                <payment_action>authorize</payment_action>
+                <payment_action>sale</payment_action>
                 <is_gateway>1</is_gateway>
                 <can_use_checkout>1</can_use_checkout>
-                <can_authorize>1</can_authorize>
-                <can_capture>1</can_capture>
-                <can_void>1</can_void>
+                <can_initialize>1</can_initialize>
             </bigfish_pmgw_barion2>
 
             <bigfish_pmgw_borgun>
@@ -50,15 +49,14 @@
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
                 <!-- -->
+                <group>bigfish_pmgw</group>
                 <model>BigFishPmgwBorgunFacade</model>
                 <provider_code>Borgun</provider_code>
                 <order_status>pending_payment</order_status>
-                <payment_action>authorize</payment_action>
+                <payment_action>sale</payment_action>
                 <is_gateway>1</is_gateway>
                 <can_use_checkout>1</can_use_checkout>
-                <can_authorize>1</can_authorize>
-                <can_capture>1</can_capture>
-                <can_void>1</can_void>
+                <can_initialize>1</can_initialize>
             </bigfish_pmgw_borgun>
 
             <bigfish_pmgw_borgun2>
@@ -68,15 +66,14 @@
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
                 <!-- -->
+                <group>bigfish_pmgw</group>
                 <model>BigFishPmgwBorgun2Facade</model>
                 <provider_code>Borgun2</provider_code>
                 <order_status>pending_payment</order_status>
-                <payment_action>authorize</payment_action>
+                <payment_action>sale</payment_action>
                 <is_gateway>1</is_gateway>
                 <can_use_checkout>1</can_use_checkout>
-                <can_authorize>1</can_authorize>
-                <can_capture>1</can_capture>
-                <can_void>1</can_void>
+                <can_initialize>1</can_initialize>
             </bigfish_pmgw_borgun2>
 
             <bigfish_pmgw_cib>
@@ -85,15 +82,14 @@
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
                 <!-- -->
+                <group>bigfish_pmgw</group>
                 <model>BigFishPmgwCibFacade</model>
                 <provider_code>CIB</provider_code>
                 <order_status>pending_payment</order_status>
-                <payment_action>authorize</payment_action>
+                <payment_action>sale</payment_action>
                 <is_gateway>1</is_gateway>
                 <can_use_checkout>1</can_use_checkout>
-                <can_authorize>1</can_authorize>
-                <can_capture>1</can_capture>
-                <can_void>1</can_void>
+                <can_initialize>1</can_initialize>
             </bigfish_pmgw_cib>
 
             <bigfish_pmgw_escalion>
@@ -103,15 +99,14 @@
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
                 <!-- -->
+                <group>bigfish_pmgw</group>
                 <model>BigFishPmgwEscalionFacade</model>
                 <provider_code>Escalion</provider_code>
                 <order_status>pending_payment</order_status>
-                <payment_action>authorize</payment_action>
+                <payment_action>sale</payment_action>
                 <is_gateway>1</is_gateway>
                 <can_use_checkout>1</can_use_checkout>
-                <can_authorize>1</can_authorize>
-                <can_capture>1</can_capture>
-                <can_void>1</can_void>
+                <can_initialize>1</can_initialize>
             </bigfish_pmgw_escalion>
 
             <bigfish_pmgw_fhb>
@@ -120,15 +115,14 @@
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
                 <!-- -->
+                <group>bigfish_pmgw</group>
                 <model>BigFishPmgwFhbFacade</model>
                 <provider_code>FHB</provider_code>
                 <order_status>pending_payment</order_status>
-                <payment_action>authorize</payment_action>
+                <payment_action>sale</payment_action>
                 <is_gateway>1</is_gateway>
                 <can_use_checkout>1</can_use_checkout>
-                <can_authorize>1</can_authorize>
-                <can_capture>1</can_capture>
-                <can_void>1</can_void>
+                <can_initialize>1</can_initialize>
             </bigfish_pmgw_fhb>
 
             <bigfish_pmgw_gp>
@@ -137,15 +131,14 @@
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
                 <!-- -->
+                <group>bigfish_pmgw</group>
                 <model>BigFishPmgwGpFacade</model>
                 <provider_code>GP</provider_code>
                 <order_status>pending_payment</order_status>
-                <payment_action>authorize</payment_action>
+                <payment_action>sale</payment_action>
                 <is_gateway>1</is_gateway>
                 <can_use_checkout>1</can_use_checkout>
-                <can_authorize>1</can_authorize>
-                <can_capture>1</can_capture>
-                <can_void>1</can_void>
+                <can_initialize>1</can_initialize>
             </bigfish_pmgw_gp>
 
             <bigfish_pmgw_ipg>
@@ -154,15 +147,14 @@
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
                 <!-- -->
+                <group>bigfish_pmgw</group>
                 <model>BigFishPmgwIpgFacade</model>
                 <provider_code>IPG</provider_code>
                 <order_status>pending_payment</order_status>
-                <payment_action>authorize</payment_action>
+                <payment_action>sale</payment_action>
                 <is_gateway>1</is_gateway>
                 <can_use_checkout>1</can_use_checkout>
-                <can_authorize>1</can_authorize>
-                <can_capture>1</can_capture>
-                <can_void>1</can_void>
+                <can_initialize>1</can_initialize>
             </bigfish_pmgw_ipg>
 
             <bigfish_pmgw_khb>
@@ -171,15 +163,14 @@
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
                 <!-- -->
+                <group>bigfish_pmgw</group>
                 <model>BigFishPmgwKhbFacade</model>
                 <provider_code>KHB</provider_code>
                 <order_status>pending_payment</order_status>
-                <payment_action>authorize</payment_action>
+                <payment_action>sale</payment_action>
                 <is_gateway>1</is_gateway>
                 <can_use_checkout>1</can_use_checkout>
-                <can_authorize>1</can_authorize>
-                <can_capture>1</can_capture>
-                <can_void>1</can_void>
+                <can_initialize>1</can_initialize>
             </bigfish_pmgw_khb>
 
             <bigfish_pmgw_khbszep>
@@ -188,15 +179,14 @@
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
                 <!-- -->
+                <group>bigfish_pmgw</group>
                 <model>BigFishPmgwKhbszepFacade</model>
                 <provider_code>KHBSZEP</provider_code>
                 <order_status>pending_payment</order_status>
-                <payment_action>authorize</payment_action>
+                <payment_action>sale</payment_action>
                 <is_gateway>1</is_gateway>
                 <can_use_checkout>1</can_use_checkout>
-                <can_authorize>1</can_authorize>
-                <can_capture>1</can_capture>
-                <can_void>1</can_void>
+                <can_initialize>1</can_initialize>
             </bigfish_pmgw_khbszep>
 
             <bigfish_pmgw_mkbszep>
@@ -205,15 +195,14 @@
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
                 <!-- -->
+                <group>bigfish_pmgw</group>
                 <model>BigFishPmgwMkbszepFacade</model>
                 <provider_code>KHBSZEP</provider_code>
                 <order_status>pending_payment</order_status>
-                <payment_action>authorize</payment_action>
+                <payment_action>sale</payment_action>
                 <is_gateway>1</is_gateway>
                 <can_use_checkout>1</can_use_checkout>
-                <can_authorize>1</can_authorize>
-                <can_capture>1</can_capture>
-                <can_void>1</can_void>
+                <can_initialize>1</can_initialize>
             </bigfish_pmgw_mkbszep>
 
             <bigfish_pmgw_otp>
@@ -222,15 +211,14 @@
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
                 <!-- -->
+                <group>bigfish_pmgw</group>
                 <model>BigFishPmgwOtpFacade</model>
                 <provider_code>OTP</provider_code>
                 <order_status>pending_payment</order_status>
-                <payment_action>authorize</payment_action>
+                <payment_action>sale</payment_action>
                 <is_gateway>1</is_gateway>
                 <can_use_checkout>1</can_use_checkout>
-                <can_authorize>1</can_authorize>
-                <can_capture>1</can_capture>
-                <can_void>1</can_void>
+                <can_initialize>1</can_initialize>
             </bigfish_pmgw_otp>
 
             <bigfish_pmgw_otpaymp>
@@ -239,15 +227,14 @@
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
                 <!-- -->
+                <group>bigfish_pmgw</group>
                 <model>BigFishPmgwOtpaympFacade</model>
                 <provider_code>OTPayMP</provider_code>
                 <order_status>pending_payment</order_status>
-                <payment_action>authorize</payment_action>
+                <payment_action>sale</payment_action>
                 <is_gateway>1</is_gateway>
                 <can_use_checkout>1</can_use_checkout>
-                <can_authorize>1</can_authorize>
-                <can_capture>1</can_capture>
-                <can_void>1</can_void>
+                <can_initialize>1</can_initialize>
             </bigfish_pmgw_otpaymp>
 
             <bigfish_pmgw_otpsimple>
@@ -257,15 +244,14 @@
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
                 <!-- -->
+                <group>bigfish_pmgw</group>
                 <model>BigFishPmgwOtpsimpleFacade</model>
                 <provider_code>OTPSimple</provider_code>
                 <order_status>pending_payment</order_status>
-                <payment_action>authorize</payment_action>
+                <payment_action>sale</payment_action>
                 <is_gateway>1</is_gateway>
                 <can_use_checkout>1</can_use_checkout>
-                <can_authorize>1</can_authorize>
-                <can_capture>1</can_capture>
-                <can_void>1</can_void>
+                <can_initialize>1</can_initialize>
             </bigfish_pmgw_otpsimple>
 
             <bigfish_pmgw_otpszep>
@@ -274,15 +260,14 @@
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
                 <!-- -->
+                <group>bigfish_pmgw</group>
                 <model>BigFishPmgwOtpszepFacade</model>
                 <provider_code>OTP</provider_code>
                 <order_status>pending_payment</order_status>
-                <payment_action>authorize</payment_action>
+                <payment_action>sale</payment_action>
                 <is_gateway>1</is_gateway>
                 <can_use_checkout>1</can_use_checkout>
-                <can_authorize>1</can_authorize>
-                <can_capture>1</can_capture>
-                <can_void>1</can_void>
+                <can_initialize>1</can_initialize>
             </bigfish_pmgw_otpszep>
 
             <bigfish_pmgw_paypal>
@@ -291,15 +276,14 @@
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
                 <!-- -->
+                <group>bigfish_pmgw</group>
                 <model>BigFishPmgwPaypalFacade</model>
                 <provider_code>PayPal</provider_code>
                 <order_status>pending_payment</order_status>
-                <payment_action>authorize</payment_action>
+                <payment_action>sale</payment_action>
                 <is_gateway>1</is_gateway>
                 <can_use_checkout>1</can_use_checkout>
-                <can_authorize>1</can_authorize>
-                <can_capture>1</can_capture>
-                <can_void>1</can_void>
+                <can_initialize>1</can_initialize>
             </bigfish_pmgw_paypal>
 
             <bigfish_pmgw_payu2>
@@ -308,15 +292,14 @@
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
                 <!-- -->
+                <group>bigfish_pmgw</group>
                 <model>BigFishPmgwPayu2Facade</model>
                 <provider_code>PayU2</provider_code>
                 <order_status>pending_payment</order_status>
-                <payment_action>authorize</payment_action>
+                <payment_action>sale</payment_action>
                 <is_gateway>1</is_gateway>
                 <can_use_checkout>1</can_use_checkout>
-                <can_authorize>1</can_authorize>
-                <can_capture>1</can_capture>
-                <can_void>1</can_void>
+                <can_initialize>1</can_initialize>
             </bigfish_pmgw_payu2>
 
             <bigfish_pmgw_saferpay>
@@ -326,15 +309,14 @@
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
                 <!-- -->
+                <group>bigfish_pmgw</group>
                 <model>BigFishPmgwSaferpayFacade</model>
                 <provider_code>Saferpay</provider_code>
                 <order_status>pending_payment</order_status>
-                <payment_action>authorize</payment_action>
+                <payment_action>sale</payment_action>
                 <is_gateway>1</is_gateway>
                 <can_use_checkout>1</can_use_checkout>
-                <can_authorize>1</can_authorize>
-                <can_capture>1</can_capture>
-                <can_void>1</can_void>
+                <can_initialize>1</can_initialize>
             </bigfish_pmgw_saferpay>
 
             <bigfish_pmgw_sofort>
@@ -343,15 +325,14 @@
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
                 <!-- -->
+                <group>bigfish_pmgw</group>
                 <model>BigFishPmgwSofortFacade</model>
                 <provider_code>Sofort</provider_code>
                 <order_status>pending_payment</order_status>
-                <payment_action>authorize</payment_action>
+                <payment_action>sale</payment_action>
                 <is_gateway>1</is_gateway>
                 <can_use_checkout>1</can_use_checkout>
-                <can_authorize>1</can_authorize>
-                <can_capture>1</can_capture>
-                <can_void>1</can_void>
+                <can_initialize>1</can_initialize>
             </bigfish_pmgw_sofort>
 
             <bigfish_pmgw_unicredit>
@@ -360,15 +341,14 @@
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
                 <!-- -->
+                <group>bigfish_pmgw</group>
                 <model>BigFishPmgwUnicreditFacade</model>
                 <provider_code>UniCredit</provider_code>
                 <order_status>pending_payment</order_status>
-                <payment_action>authorize</payment_action>
+                <payment_action>sale</payment_action>
                 <is_gateway>1</is_gateway>
                 <can_use_checkout>1</can_use_checkout>
-                <can_authorize>1</can_authorize>
-                <can_capture>1</can_capture>
-                <can_void>1</can_void>
+                <can_initialize>1</can_initialize>
             </bigfish_pmgw_unicredit>
 
             <bigfish_pmgw_wirecard>
@@ -377,15 +357,14 @@
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
                 <!-- -->
+                <group>bigfish_pmgw</group>
                 <model>BigFishPmgwWirecardFacade</model>
                 <provider_code>QPAY</provider_code>
                 <order_status>pending_payment</order_status>
-                <payment_action>authorize</payment_action>
+                <payment_action>sale</payment_action>
                 <is_gateway>1</is_gateway>
                 <can_use_checkout>1</can_use_checkout>
-                <can_authorize>1</can_authorize>
-                <can_capture>1</can_capture>
-                <can_void>1</can_void>
+                <can_initialize>1</can_initialize>
             </bigfish_pmgw_wirecard>
         </payment>
     </default>

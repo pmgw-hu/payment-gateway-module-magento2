@@ -50,6 +50,11 @@ ADD ./src/nginx/nginx.conf /etc/nginx/nginx.conf
 ADD ./src/nginx/default.conf /etc/nginx/conf.d/default.conf
 
 #
+# Postfix config
+#
+ADD ./src/postfix/main.cf /etc/postfix/main.cf
+
+#
 # Docroot
 #
 RUN mkdir -p /var/www/dev/magento \

@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * BIG FISH Ltd.
+ * http://www.bigfish.hu
+ *
+ * @title      Magento -> Custom Payment Module for BIG FISH Payment Gateway
+ * @category   BigFish
+ * @package    BigFish_Pmgw
+ * @author     BIG FISH Ltd., paymentgateway [at] bigfish [dot] hu
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @copyright  Copyright (c) 2017, BIG FISH Ltd.
+ */
+-->
+<payment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Payment:etc/payment.xsd">
+    <groups>
+        <group id="bigfish_pmgw">
+            <label>BIG FISH Payment Gateway</label>
+        </group>
+    </groups>
+    <methods>
+        <method name="bigfish_pmgw_barion2">
+            <allow_multiple_address>1</allow_multiple_address>
+        </method>
+        <method name="bigfish_pmgw_borgun">
+            <allow_multiple_address>1</allow_multiple_address>
+        </method>
+        <method name="bigfish_pmgw_borgun2">
+            <allow_multiple_address>1</allow_multiple_address>
+        </method>
+        <method name="bigfish_pmgw_cib">
+            <allow_multiple_address>1</allow_multiple_address>
+        </method>
+        <method name="bigfish_pmgw_escalion">
+            <allow_multiple_address>1</allow_multiple_address>
+        </method>
+        <method name="bigfish_pmgw_fhb">
+            <allow_multiple_address>1</allow_multiple_address>
+        </method>
+        <method name="bigfish_pmgw_gp">
+            <allow_multiple_address>1</allow_multiple_address>
+        </method>
+        <method name="bigfish_pmgw_ipg">
+            <allow_multiple_address>1</allow_multiple_address>
+        </method>
+        <method name="bigfish_pmgw_khb">
+            <allow_multiple_address>1</allow_multiple_address>
+        </method>
+        <method name="bigfish_pmgw_khbszep">
+            <allow_multiple_address>1</allow_multiple_address>
+        </method>
+        <method name="bigfish_pmgw_mkbszep">
+            <allow_multiple_address>1</allow_multiple_address>
+        </method>
+        <method name="bigfish_pmgw_otp">
+            <allow_multiple_address>1</allow_multiple_address>
+        </method>
+        <method name="bigfish_pmgw_otpaymp">
+            <allow_multiple_address>1</allow_multiple_address>
+        </method>
+        <method name="bigfish_pmgw_otpsimple">
+            <allow_multiple_address>1</allow_multiple_address>
+        </method>
+        <method name="bigfish_pmgw_otpszep">
+            <allow_multiple_address>1</allow_multiple_address>
+        </method>
+        <method name="bigfish_pmgw_paypal">
+            <allow_multiple_address>1</allow_multiple_address>
+        </method>
+        <method name="bigfish_pmgw_payu2">
+            <allow_multiple_address>1</allow_multiple_address>
+        </method>
+        <method name="bigfish_pmgw_saferpay">
+            <allow_multiple_address>1</allow_multiple_address>
+        </method>
+        <method name="bigfish_pmgw_sofort">
+            <allow_multiple_address>1</allow_multiple_address>
+        </method>
+        <method name="bigfish_pmgw_unicredit">
+            <allow_multiple_address>1</allow_multiple_address>
+        </method>
+        <method name="bigfish_pmgw_wirecard">
+            <allow_multiple_address>1</allow_multiple_address>
+        </method>
+    </methods>
+</payment>
+

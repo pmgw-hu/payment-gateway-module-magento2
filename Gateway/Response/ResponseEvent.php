@@ -14,288 +14,207 @@ namespace BigFish\Pmgw\Gateway\Response;
 
 use BigFish\PaymentGateway;
 use BigFish\Pmgw\Gateway\Helper\Helper;
+use BigFish\Pmgw\Model\Transaction;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Sales\Model\Order;
-use Magento\Checkout\Model\Session;
 use Psr\Log\LoggerInterface;
-use BigFish\Pmgw\Model\Resource\Paymentgateway\Collection;
-use Magento\Sales\Api\Data\OrderInterface;
 use BigFish\Pmgw\Model\TransactionFactory;
 use BigFish\Pmgw\Model\LogFactory;
 use Magento\Sales\Model\Order\Email\Sender\OrderSender;
+use BigFish\PaymentGateway\Response;
+use BigFish\Pmgw\Model\Response\ResultInterface;
+use Magento\Framework\Json\Helper\Data as JsonHelper;
 
-/**
- * Class ResponseEvent
- *
- * @package BigFish\Pmgw\Gateway\Response
- */
 class ResponseEvent
 {
     /**
-     * @var \Magento\Sales\Model\Order
+     * @var Order
      */
-    protected $order = null;
+    private $order;
 
     /**
-     * Event request data
-     * @var array
+     * @var OrderSender
      */
-    protected $_eventData = array();
+    private $orderSender;
 
     /**
-     * @var \Magento\Checkout\Model\Session
+     * @var TransactionFactory
      */
-    protected $checkoutSession;
+    private $transactionFactory;
+
+    /**
+     * @var LogFactory
+     */
+    private $logFactory;
+
+    /**
+     * @var ResultInterface
+     */
+    private $result;
 
     /**
      * @var \Psr\Log\LoggerInterface
      */
-    protected $logger;
+    private $logger;
 
     /**
-     * @var Collection
+     * @var JsonHelper
      */
-    protected $paymentGatewayCollection;
+    private $jsonHelper;
 
     /**
-     * @var \BigFish\Pmgw\Model\TransactionFactory
+     * @var Response
      */
-    protected $transactionFactory;
+    private $response;
 
     /**
-     * @var \BigFish\Pmgw\Model\LogFactory
+     * @var Transaction
      */
-    protected $logFactory;
+    private $transaction;
 
     /**
-     * @var \BigFish\Pmgw\Model\Resource\Log\LogCollection
-     */
-    protected $paymentGatewayLogCollection;
-
-    /**
-     * @var \Magento\Sales\Model\Order\Email\Sender\OrderSender
-     */
-    protected $orderSender;
-
-
-    /**
-     * ResponseEvent constructor.
-     *
-     * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param \Psr\Log\LoggerInterface $logger
-     * @param \Magento\Sales\Api\Data\OrderInterface $salesOrderFactory
-     * @param \BigFish\Pmgw\Model\TransactionFactory $transactionFactory
-     * @param \BigFish\Pmgw\Model\LogFactory $logFactory
-     * @param \Magento\Sales\Model\Order\Email\Sender\OrderSender $orderSender
+     * @param Order $order
+     * @param OrderSender $orderSender
+     * @param TransactionFactory $transactionFactory
+     * @param LogFactory $logFactory
+     * @param ResultInterface $result
+     * @param LoggerInterface $logger
      */
     public function __construct(
-        Session $checkoutSession,
-        LoggerInterface $logger,
-        OrderInterface $salesOrderFactory,
+        Order $order,
+        OrderSender $orderSender,
         TransactionFactory $transactionFactory,
         LogFactory $logFactory,
-        OrderSender $orderSender
+        ResultInterface $result,
+        LoggerInterface $logger,
+        JsonHelper $jsonHelper
     ) {
-        $this->checkoutSession = $checkoutSession;
-        $this->logger = $logger;
-        $this->order = $salesOrderFactory;
+        $this->order = $order;
+        $this->orderSender = $orderSender;
         $this->transactionFactory = $transactionFactory;
         $this->logFactory = $logFactory;
-        $this->orderSender = $orderSender;
+        $this->result = $result;
+        $this->logger = $logger;
+        $this->jsonHelper = $jsonHelper;
     }
 
     /**
-     * @param \Magento\Sales\Model\Order $order
+     * @param Response $response
      */
-    public function setOrder(Order $order) {
-        $this->order = $order;
-    }
-
-    /**
-     * Event request data setter
-     *
-     * @param array $data
-     *
-     * @return $this
-     */
-    public function setEventData(array $data)
+    public function setResponse(Response $response)
     {
-        $this->_eventData = $data;
-        return $this;
+        $this->response = $response;
     }
 
     /**
-     * Event request data getter
-     *
-     * @param string $key
-     * @return array|string
+     * @return ResultInterface
      */
-    public function getEventData($key = null)
-    {
-        if (null === $key) {
-            return $this->_eventData;
-        }
-        return isset($this->_eventData[$key]) ? $this->_eventData[$key] : null;
-    }
-
-    /**
-     * Get singleton of Checkout Session Model
-     *
-     * @return \Magento\Checkout\Model\Session
-     */
-    protected function _getCheckout()
-    {
-        return $this->checkoutSession;
-    }
-
-    /**
-     * Process status notification from PaymentGateway
-     *
-     * @return array
-     */
-    public function processStatusEvent()
+    public function processResponse()
     {
         try {
-            $response = array();
+            $this->validateResponse();
 
-            if (is_array($this->_eventData) && count($this->_eventData) && isset($this->_eventData['ResultMessage'])) {
-                $response[] = $this->_eventData['ResultMessage'].'<br />';
-
-                if (isset($this->_eventData['ProviderTransactionId']) && strlen($this->_eventData['ProviderTransactionId'])) {
-                    $response[] = __('Provider Transaction ID').': '.$this->_eventData['ProviderTransactionId'];
-                }
-
-                if (isset($this->_eventData['Anum']) && strlen($this->_eventData['Anum'])) {
-                    $response[] = __('Anum').': '.$this->_eventData['Anum'];
-                }
+            switch ($this->response->ResultCode) {
+                case PaymentGateway::RESULT_CODE_PENDING:
+                    $this->processPending();
+                    break;
+                case PaymentGateway::RESULT_CODE_SUCCESS:
+                    $this->processSuccess();
+                    break;
+                case PaymentGateway::RESULT_CODE_USER_CANCEL:
+                    $this->processFailure(Helper::TRANSACTION_STATUS_CANCELLED);
+                    break;
+                case PaymentGateway::RESULT_CODE_ERROR:
+                case PaymentGateway::RESULT_CODE_TIMEOUT:
+                    $this->processFailure(Helper::TRANSACTION_STATUS_FAILED);
+                    break;
             }
 
-            $params = $this->_validateEventData(false);
-            $msg = '';
-
-            switch($params['ResultCode']) {
-              case PaymentGateway::RESULT_CODE_TIMEOUT:
-            $msg = (count($response) ? implode('<br />', $response) : __('status_paymentTimeout'));
-                  $this->_processCancel($msg);
-                  break;
-              case PaymentGateway::RESULT_CODE_ERROR:
-                  $msg = (count($response) ? implode('<br />', $response) : __('status_paymentFailed'));
-                  $this->_processCancel($msg);
-                  break;
-              case PaymentGateway::RESULT_CODE_USER_CANCEL:
-            $msg = (count($response) ? implode('<br />', $response) : __('status_paymentCancelled'));
-                  $this->_processCancel($msg);
-                  break;
-              case PaymentGateway::RESULT_CODE_PENDING:
-                  $msg = __('status_paymentPending');
-                  $this->_processSale($params['ResultCode'], $msg);
-                  break;
-              case PaymentGateway::RESULT_CODE_SUCCESS:
-            $msg = (count($response) ? implode('<br />', $response) : __('status_paymentSuccess'));
-                  $this->_processSale($params['ResultCode'], $msg);
-                  break;
-            }
-
-            return [
-                'message' => $msg,
-                'resultCode' => $params['ResultCode']
-            ];
-
+            $this->result->setCode($this->response->ResultCode);
+            $this->result->setMessage($this->response->ResultMessage);
         } catch (LocalizedException $e) {
-            return [
-                'message' => $e->getMessage(),
-                'resultCode' => 0
-            ];
+            $this->result->setCode(PaymentGateway::RESULT_CODE_ERROR);
+            $this->result->setMessage($e->getMessage());
+            $this->logger->critical($e);
         } catch (\Exception $e) {
+            $this->result->setCode(PaymentGateway::RESULT_CODE_ERROR);
             $this->logger->critical($e);
         }
-        return [
-            'message' => '',
-            'resultCode' => 0
-        ];
+        return $this->result;
     }
 
-    /**
-     * Process cancelation
-     */
-    public function cancelEvent() {
-        try {
-            $this->_validateEventData(false);
-            $this->_processCancel(__('status_paymentCancelled'));
-            return __('event_orderCancelled');
-        } catch (LocalizedException $e) {
-            return $e->getMessage();
-        } catch (\Exception $e) {
-            $this->logger->critical($e);
-        }
-        return '';
-    }
-
-    /**
-     * Validate request and return QuoteId
-     * Can throw Mage_Core_Exception and Exception
-     *
-     * @return int
-     */
-    public function successEvent(){
-        $this->_validateEventData(false);
-        return $this->order->getQuoteId();
-    }
-
-    /**
-     * Processed order cancelation
-     * @param string $msg Order history message
-     */
-    protected function _processCancel($msg)
+    protected function validateResponse()
     {
-        $this->_setTransactionStatus(Helper::TRANSACTION_STATUS_CANCELLED);
-        $this->_addTransactionLog($msg."\nRESPONSE:\n".print_r($this->_eventData, true));
+        if (empty($this->response)) {
+            throw new LocalizedException(__('Empty response object.'));
+        }
+
+        if (!property_exists($this->response, 'TransactionId') || empty($this->response->TransactionId)) {
+            throw new LocalizedException(__('Invalid response object.'));
+        }
+
+        if (!property_exists($this->response, 'ResultCode') || empty($this->response->ResultCode)) {
+            throw new LocalizedException(__('Invalid response object.'));
+        }
+
+        $this->transaction = $this->transactionFactory->create()
+            ->load($this->response->TransactionId, 'transaction_id');
+
+        if (!$this->transaction || !$this->transaction->getId()) {
+            throw new LocalizedException(__('Invalid transaction.'));
+        }
+
+        $this->order->loadByIncrementId($this->transaction->getOrderId());
+
+        if (!$this->order->getId()) {
+            throw new LocalizedException(__('Order not found.'));
+        }
+
+        if (strpos($this->order->getPayment()->getMethodInstance()->getCode(), 'bigfish_pmgw_') !== 0) {
+            throw new LocalizedException(__('Invalid payment method.'));
+        }
+    }
+
+    protected function processPending()
+    {
+        $this->setTransactionStatus(Helper::TRANSACTION_STATUS_PENDING);
+        $this->logResponse();
+
+        $this->order->setState(Order::STATE_PENDING_PAYMENT);
+        $this->order->getPayment()->setLastTransId($this->response->TransactionId);
+        $this->order->save();
+    }
+
+    protected function processSuccess()
+    {
+        $this->setTransactionStatus(Helper::TRANSACTION_STATUS_SUCCESS);
+        $this->logResponse();
+
+        $this->createInvoice();
+
+        $this->order->setState(Order::STATE_PROCESSING);
+        $this->order->getPayment()->setLastTransId($this->response->TransactionId);
+
+        if (property_exists($this->response, 'Anum')) {
+            $this->order->getPayment()->setPoNumber($this->response->Anum);
+        }
+        $this->orderSender->send($this->order, false);
+        $this->order->save();
+    }
+
+    /**
+     * @param int $transactionStatus
+     */
+    protected function processFailure($transactionStatus)
+    {
+        $this->setTransactionStatus($transactionStatus);
+        $this->logResponse();
+
         $this->order->cancel();
-        $this->order->addStatusToHistory(Order::STATE_CANCELED, $msg);
         $this->order->save();
     }
 
-    /**
-     * Processes payment confirmation, creates invoice if necessary, updates order status,
-     * sends order confirmation to customer
-     *
-     * @param $status
-     * @param string $msg Order history message
-     */
-    protected function _processSale($status, $msg)
-    {
-        switch ($status) {
-            case PaymentGateway::RESULT_CODE_SUCCESS:
-
-                $this->_setTransactionStatus(Helper::TRANSACTION_STATUS_SUCCESS);
-                $this->_addTransactionLog($msg."\nRESPONSE:\n".print_r($this->_eventData, true));
-
-                $this->_createInvoice();
-                $this->order->setState(Order::STATE_PROCESSING, true, $msg);
-                // save transaction ID
-                $this->order->getPayment()->setLastTransId($this->getEventData('TransactionId'));
-                $this->order->getPayment()->setPoNumber($this->getEventData('Anum'));
-
-                // send new order email
-                $this->orderSender->send($this->order, false, true);
-                break;
-            case PaymentGateway::RESULT_CODE_PENDING:
-
-                $this->_addTransactionLog($msg."\nRESPONSE:\n".print_r($this->_eventData, true));
-
-                $this->order->setState(Order::STATE_PENDING_PAYMENT, true, $msg);
-                // save transaction ID
-                $this->order->getPayment()->setLastTransId($this->getEventData('ProviderTransactionId'));
-                $this->order->getPayment()->setPoNumber($this->getEventData('Anum'));
-                break;
-        }
-        $this->order->save();
-    }
-
-    /**
-     * Builds invoice for order
-     */
-    protected function _createInvoice()
+    protected function createInvoice()
     {
         if (!$this->order->canInvoice()) {
             return;
@@ -306,109 +225,38 @@ class ResponseEvent
     }
 
     /**
-     * Checking returned parameters
-     * Thorws Mage_Core_Exception if error
-     *
-     * @param bool $fullCheck Whether to make additional validations such as payment status
-     *
-     * @return array $params request params
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @param string $transactionId
+     * @return Transaction|null
      */
-    protected function _validateEventData($fullCheck = true)
+    protected function getTransactionByTransactionId($transactionId)
     {
-        // get request variables
-        $params = $this->_eventData;
-        if (empty($params)) {
-            throw new \Magento\Framework\Exception\LocalizedException('Request does not contain any elements.');
-        }
-
-        // check Transaction ID
-        if (empty($params[Helper::RESPONSE_FIELD_TRANSACTION_ID])) {
-            throw new \Magento\Framework\Exception\LocalizedException('Missing or invalid order ID.');
-        }
-
-        $pmgwCollection = $this->transactionFactory->create()->getCollection();
-        $pmgwCollection->addFieldToSelect('*')
-                    ->addFieldToFilter('transaction_id',array('eq'=>$params[Helper::RESPONSE_FIELD_TRANSACTION_ID]))
-                    ->addOrder('created_time','desc')
-                    ->load();
-
-        if($pmgwCollection->getSize()==0) {
-            throw new \Magento\Framework\Exception\LocalizedException('Invalid Transaction Id');
-        }
-
-        $item = $pmgwCollection->fetchItem();
-
-        $orderId = $item->getOrderId();
-
-        $this->order->loadByIncrementId($orderId);
-        if (!$this->order->getId()) {
-            throw new \Magento\Framework\Exception\LocalizedException('Order not found.');
-        }
-
-        if (strpos($this->order->getPayment()->getMethodInstance()->getCode(), 'bigfish_pmgw_') !== 0) {
-            throw new \Magento\Framework\Exception\LocalizedException('Unknown payment method.');
-        }
-
-        if($fullCheck) {
-            if ($item->getStatus() != Helper::TRANSACTION_STATUS_STARTED)
-            {
-                throw new \Magento\Framework\Exception\LocalizedException('Invalid transaction state.');
-            }
-        }
-
-        return $params;
-    }
-
-    protected function _setTransactionStatus($status)
-    {
-        $collection = $this->transactionFactory->create()->getCollection()
-            ->addFieldToSelect('*')
-            ->addFieldToFilter('transaction_id',array('eq'=>$this->getEventData(Helper::RESPONSE_FIELD_TRANSACTION_ID)))
-            ->load();
-        $item = $collection->fetchItem();
-        $item->setStatus($status)
-            ->save();
-    }
-
-    protected function _addTransactionLog($debug)
-    {
-        $collection = $this->transactionFactory->create()->getCollection()
-            ->addFieldToSelect('*')
-            ->addFieldToFilter('transaction_id',array('eq'=>$this->getEventData(Helper::RESPONSE_FIELD_TRANSACTION_ID)))
-            ->load();
-        $item = $collection->fetchItem();
-        if ($item) {
-            $status = $item->getStatus();
-            $id = $item->getId();
-        } else {
-            $id = 0;
-            $status = 0;
-        }
-        $pgwLog = $this->logFactory->create()
-            ->setPaymentgatewayId($id)
-            ->setStatus($status)
-            ->setCreatedTime(date("Y-m-d H:i:s"))
-            ->setDebug($debug)
-            ->save();
+        return $this->transactionFactory->create()->load($transactionId, 'transaction_id');
     }
 
     /**
-     * Check customer authentication
-     *
-     * @param \BigFish\Pmgw\Gateway\Response\ResponseEvent $request
-     *
-     * @return mixed
+     * @param int $status
      */
-    public function dispatch(ResponseEvent $request)
+    protected function setTransactionStatus($status)
     {
-        if (!$request->isDispatched()) {
-          return parent::dispatch($request);
-        }
-        if (!$this->_getSession()->authenticate()) {
-          $this->_actionFlag->set('', 'no-dispatch', true);
-        }
-        return parent::dispatch($request);
+        $this->transaction->setStatus($status)->save();
+    }
+
+    protected function logResponse()
+    {
+        $this->addTransactionLog($this->jsonHelper->jsonEncode($this->response));
+    }
+
+    /**
+     * @param string $debug
+     */
+    protected function addTransactionLog($debug)
+    {
+        $this->logFactory->create()
+            ->setPaymentgatewayId($this->transaction->getId())
+            ->setStatus($this->transaction->getStatus())
+            ->setCreatedTime(date("Y-m-d H:i:s"))
+            ->setDebug($debug)
+            ->save();
     }
 
 }

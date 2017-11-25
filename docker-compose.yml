@@ -14,8 +14,9 @@ services:
       - traefik.frontend.rule=Host:magento.dev.big.hu
     network_mode: bridge
     links:
-      - session
       - db
+      - mailcatcher
+      - session
   db:
     image: docker.big.hu/development/mariadb
     environment:
@@ -29,6 +30,13 @@ services:
       - db_data:/var/lib/mysql
     ports:
       - 3306:3306
+  mailcatcher:
+    image: docker.big.hu/development/mailcatcher
+    network_mode: bridge
+    labels:
+      - traefik.enable=true
+      - traefik.port=1080
+      - traefik.frontend.rule=Host:magento-mail.dev.big.hu
   session:
     image: docker.big.hu/development/memcached
     network_mode: bridge

@@ -16,6 +16,7 @@ use Magento\Framework\Setup\InstallSchemaInterface;
 use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\SchemaSetupInterface;
 use Magento\Framework\DB\Ddl\Table;
+use Magento\Framework\DB\Adapter\AdapterInterface;
 use Magento\Framework\App\Config\Storage\WriterInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 
@@ -107,32 +108,30 @@ class InstallSchema implements InstallSchemaInterface
             ->addColumn(
                 'paymentgateway_id',
                 Table::TYPE_INTEGER,
-                11,
+                10,
                 [
+                    'primary' => true,
                     'identity' => true,
                     'unsigned' => true,
                     'nullable' => false,
-                    'primary' => true,
                 ],
                 'PaymentGateway ID'
             )
             ->addColumn(
                 'order_id',
                 Table::TYPE_TEXT,
-                255,
+                32,
                 [
                     'nullable' => false,
-                    'default' => '',
                 ],
                 'Order ID'
             )
             ->addColumn(
                 'transaction_id',
                 Table::TYPE_TEXT,
-                255,
+                32,
                 [
                     'nullable' => false,
-                    'default' => '',
                 ],
                 'Transaction ID'
             )
@@ -148,12 +147,20 @@ class InstallSchema implements InstallSchemaInterface
             ->addColumn(
                 'status',
                 Table::TYPE_SMALLINT,
-                6,
+                5,
                 [
                     'nullable' => false,
-                    'default' => '0',
                 ],
                 'Status'
+            )
+            ->addIndex(
+                $setup->getIdxName(
+                    $tableName,
+                    ['transaction_id'],
+                    AdapterInterface::INDEX_TYPE_UNIQUE
+                ),
+                ['transaction_id'],
+                ['type' => AdapterInterface::INDEX_TYPE_UNIQUE]
             )
             ->setComment('BigFish PaymentGateway Transactions')
             ->setOption('type', 'InnoDB')
@@ -173,19 +180,19 @@ class InstallSchema implements InstallSchemaInterface
             ->addColumn(
                 'log_id',
                 Table::TYPE_INTEGER,
-                11,
+                10,
                 [
+                    'primary' => true,
                     'identity' => true,
                     'unsigned' => true,
                     'nullable' => false,
-                    'primary' => true,
                 ],
                 'Log ID'
             )
             ->addColumn(
                 'paymentgateway_id',
                 Table::TYPE_INTEGER,
-                11,
+                10,
                 [
                     'identity' => false,
                     'unsigned' => true,
@@ -208,7 +215,6 @@ class InstallSchema implements InstallSchemaInterface
                 6,
                 [
                     'nullable' => false,
-                    'default' => '0',
                 ],
                 'Status'
             )
@@ -218,7 +224,6 @@ class InstallSchema implements InstallSchemaInterface
                 null,
                 [
                     'nullable' => false,
-                    'default' => '',
                 ],
                 'Debug'
             )

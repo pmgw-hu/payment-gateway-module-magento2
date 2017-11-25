@@ -16,8 +16,12 @@ use BigFish\Pmgw\Gateway\Helper\Helper;
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
 use BigFish\Pmgw\Gateway\Response\ResponseEvent;
-use BigFish\PaymentGateway;
+use Magento\Payment\Gateway\ConfigInterface;
 use Magento\Payment\Model\Method\Logger;
+use BigFish\PaymentGateway;
+use BigFish\PaymentGateway\Config;
+use BigFish\PaymentGateway\Request\Result as ResultRequest;
+use BigFish\Pmgw\Model\Response\ResultInterface;
 
 class Response extends Action
 {
@@ -25,6 +29,11 @@ class Response extends Action
      * @var ResponseEvent
      */
     private $responseEvent;
+
+    /**
+     * @var ConfigInterface
+     */
+    private $config;
 
     /**
      * @var Logger
@@ -36,15 +45,19 @@ class Response extends Action
      *
      * @param Context $context
      * @param ResponseEvent $responseEvent
+     * @param ConfigInterface $config
      * @param Logger $logger
      */
     public function __construct(
         Context $context,
         ResponseEvent $responseEvent,
+        ConfigInterface $config,
         Logger $logger
     ) {
         parent::__construct($context);
+
         $this->responseEvent = $responseEvent;
+        $this->config = $config;
         $this->logger = $logger;
     }
 
@@ -59,17 +72,22 @@ class Response extends Action
             throw new \InvalidArgumentException(__('process_noTransactionIdInResponse'));
         }
 
+        $config = new Config();
+        $this->setPaymentGatewayConfig($config);
+
+        PaymentGateway::setConfig($config);
+
         $response = PaymentGateway::result(
-            new PaymentGateway\Request\Result($urlParams[Helper::RESPONSE_FIELD_TRANSACTION_ID])
+            new ResultRequest($urlParams[Helper::RESPONSE_FIELD_TRANSACTION_ID])
         );
 
         $this->logger->debug((array)$response);
 
-        $this->responseEvent->setEventData((array)$response);
+        $this->responseEvent->setResponse($response);
 
-        $status = $this->responseEvent->processStatusEvent();
+        $result = $this->responseEvent->processResponse();
 
-        switch ($status['resultCode']) {
+        switch ($result->getCode()) {
             case PaymentGateway::RESULT_CODE_TIMEOUT:
             case PaymentGateway::RESULT_CODE_ERROR:
             case PaymentGateway::RESULT_CODE_USER_CANCEL:
@@ -80,6 +98,24 @@ class Response extends Action
                 $this->_redirect('checkout/onepage/success', array('_secure'=>true));
                 break;
         }
+    }
+
+    /**
+     * @param Config $config
+     */
+    protected function setPaymentGatewayConfig(Config $config)
+    {
+        $config->storeName = $this->config->getValue('storename');
+        $config->apiKey = $this->config->getValue('apikey');
+        $config->testMode = ((int)$this->config->getValue('testmode') === 1);
+
+        $this->logger->debug([
+            'storeName' => $config->storeName,
+            'apiKey' => $config->apiKey,
+            'testMode' => $config->testMode,
+            'moduleName' => $config->moduleName,
+            'moduleVersion' => $config->moduleVersion,
+        ]);
     }
 
 }

@@ -47,9 +47,19 @@
 
     <type name="BigFish\Pmgw\Controller\Payment\Response">
         <arguments>
+            <argument name="config" xsi:type="object">BigFishPmgwConfig</argument>
             <argument name="logger" xsi:type="object">BigFishPmgwLogger</argument>
         </arguments>
     </type>
+
+    <type name="BigFish\Pmgw\Block\Info">
+        <arguments>
+            <argument name="config" xsi:type="object">BigFishPmgwConfig</argument>
+        </arguments>
+    </type>
+
+    <preference for="Magento\Sales\Model\Order\Email\Sender\OrderSender" type="BigFish\Pmgw\Model\Order\Email\Sender\OrderSender"/>
+    <preference for="BigFish\Pmgw\Model\Response\ResultInterface" type="BigFish\Pmgw\Model\Response\Result"/>
 
     <!-- Value handlers infrastructure -->
     <virtualType name="BigFishPmgwValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
@@ -69,69 +79,95 @@
     <virtualType name="BigFishPmgwCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="authorize" xsi:type="string">BigFishPmgwAuthorizeCommand</item>
-                <item name="capture" xsi:type="string">BigFishPmgwCaptureCommand</item>
-                <item name="void" xsi:type="string">BigFishPmgwVoidCommand</item>
+                <item name="initialize" xsi:type="string">BigFishPmgwInitializeCommand</item>
+                <!--<item name="order" xsi:type="string">BigFishPmgwOrderCommand</item>-->
+                <!--<item name="authorize" xsi:type="string">BigFishPmgwAuthorizeCommand</item>-->
+                <!--<item name="capture" xsi:type="string">BigFishPmgwCaptureCommand</item>-->
+                <!--<item name="void" xsi:type="string">BigFishPmgwVoidCommand</item>-->
             </argument>
         </arguments>
     </virtualType>
 
-    <!-- Authorize command -->
-    <virtualType name="BigFishPmgwAuthorizeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+    <!-- Initialize command -->
+    <virtualType name="BigFishPmgwInitializeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
         <arguments>
-            <argument name="requestBuilder" xsi:type="object">BigFish\Pmgw\Gateway\Request\AuthorizeRequest</argument>
+            <argument name="requestBuilder" xsi:type="object">BigFish\Pmgw\Gateway\Request\InitializeRequest</argument>
             <argument name="transferFactory" xsi:type="object">BigFish\Pmgw\Gateway\Http\TransferFactory</argument>
-            <argument name="client" xsi:type="object">BigFish\Pmgw\Gateway\Http\Client\AuthorizeClient</argument>
+            <argument name="client" xsi:type="object">BigFish\Pmgw\Gateway\Http\Client\InitializeClient</argument>
         </arguments>
     </virtualType>
 
-    <!-- Authorize request -->
-    <type name="BigFish\Pmgw\Gateway\Request\AuthorizeRequest">
+    <!-- Initialize request -->
+    <type name="BigFish\Pmgw\Gateway\Request\InitializeRequest">
         <arguments>
             <argument name="logger" xsi:type="object">BigFishPmgwLogger</argument>
         </arguments>
     </type>
 
+    <!-- Order command -->
+    <!--<virtualType name="BigFishPmgwOrderCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">BigFish\Pmgw\Gateway\Request\OrderRequest</argument>
+            <argument name="transferFactory" xsi:type="object">BigFish\Pmgw\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">BigFish\Pmgw\Gateway\Http\Client\OrderClient</argument>
+        </arguments>
+    </virtualType>-->
+
+    <!-- Order request -->
+    <!--<type name="BigFish\Pmgw\Gateway\Request\OrderRequest">
+        <arguments>
+            <argument name="config" xsi:type="object">BigFishPmgwConfig</argument>
+        </arguments>
+    </type>-->
+
+    <!-- Authorize command -->
+    <!--<virtualType name="BigFishPmgwAuthorizeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">BigFish\Pmgw\Gateway\Request\AuthorizeRequest</argument>
+            <argument name="transferFactory" xsi:type="object">BigFish\Pmgw\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">BigFish\Pmgw\Gateway\Http\Client\AuthorizeClient</argument>
+        </arguments>
+    </virtualType>-->
+
+    <!-- Authorize request -->
+    <!--<type name="BigFish\Pmgw\Gateway\Request\AuthorizeRequest">
+        <arguments>
+            <argument name="logger" xsi:type="object">BigFishPmgwLogger</argument>
+        </arguments>
+    </type>-->
+
     <!-- Capture command -->
-    <virtualType name="BigFishPmgwCaptureCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+    <!--<virtualType name="BigFishPmgwCaptureCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
         <arguments>
             <argument name="requestBuilder" xsi:type="object">BigFish\Pmgw\Gateway\Request\CaptureRequest</argument>
             <argument name="transferFactory" xsi:type="object">BigFish\Pmgw\Gateway\Http\TransferFactory</argument>
             <argument name="client" xsi:type="object">BigFish\Pmgw\Gateway\Http\Client\CaptureClient</argument>
         </arguments>
-    </virtualType>
+    </virtualType>-->
 
     <!-- Capture request -->
-    <type name="BigFish\Pmgw\Gateway\Request\CaptureRequest">
+    <!--<type name="BigFish\Pmgw\Gateway\Request\CaptureRequest">
         <arguments>
             <argument name="config" xsi:type="object">BigFishPmgwConfig</argument>
         </arguments>
-    </type>
+    </type>-->
 
     <!-- Void command -->
-    <virtualType name="BigFishPmgwVoidCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+    <!--<virtualType name="BigFishPmgwVoidCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
         <arguments>
             <argument name="requestBuilder" xsi:type="object">BigFish\Pmgw\Gateway\Request\VoidRequest</argument>
             <argument name="transferFactory" xsi:type="object">BigFish\Pmgw\Gateway\Http\TransferFactory</argument>
             <argument name="client" xsi:type="object">BigFish\Pmgw\Gateway\Http\Client\VoidClient</argument>
             <argument name="validator" xsi:type="object">BigFish\Pmgw\Gateway\Validator\ResponseCodeValidator</argument>
         </arguments>
-    </virtualType>
+    </virtualType>-->
 
     <!-- Void Request -->
-    <type name="BigFish\Pmgw\Gateway\Request\VoidRequest">
+    <!--<type name="BigFish\Pmgw\Gateway\Request\VoidRequest">
         <arguments>
             <argument name="config" xsi:type="object">BigFishPmgwConfig</argument>
         </arguments>
-    </type>
-
-    <type name="BigFish\Pmgw\Block\Info">
-        <arguments>
-            <argument name="config" xsi:type="object">BigFishPmgwConfig</argument>
-        </arguments>
-    </type>
-
-    <preference for="Magento\Sales\Model\Order\Email\Sender\OrderSender" type="BigFish\Pmgw\Model\Order\Email\Sender\OrderSender"/>
+    </type>-->
 
     <!-- Provider specific configuration -->
 

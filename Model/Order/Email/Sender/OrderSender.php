@@ -13,41 +13,37 @@
 namespace BigFish\Pmgw\Model\Order\Email\Sender;
 
 use Magento\Sales\Model\Order;
-use Magento\Sales\Model\Order\Email\Sender\OrderSender as OrderSenderFactory;
 
-/**
- * Class EmailSender
- *
- * @package BigFish\Pmgw\Model\Order\Email\Sender
- */
-class OrderSender extends OrderSenderFactory {
-
+class OrderSender extends \Magento\Sales\Model\Order\Email\Sender\OrderSender
+{
     /**
      * @param \Magento\Sales\Model\Order $order
      * @param bool $forceSyncMode
-     *
-     * @param bool $forceSend
-     *
      * @return bool
      */
-    public function send(Order $order, $forceSyncMode = false, $forceSend = false)
+    public function send(Order $order, $forceSyncMode = false)
     {
-        $payment = $order->getPayment()->getMethodInstance()->getCode();
-
-        if (strpos($payment, 'bigfish_pmgw_') === 0 && !$forceSend) {
+        if (
+            $this->isPaymentGatewayPayment($order) &&
+            !in_array($order->getState(), [
+                Order::STATE_PROCESSING,
+                Order::STATE_COMPLETE,
+                Order::STATE_CLOSED,
+            ])
+        ) {
             return false;
         }
 
-        $order->setSendEmail(true);
-
-        if ((!$this->globalConfig->getValue('sales_email/general/async_sending') || $forceSyncMode) && $this->checkAndSend($order)) {
-            $order->setEmailSent(true);
-            $this->orderResource->saveAttribute($order, ['send_email', 'email_sent']);
-            return true;
-        }
-
-        $this->orderResource->saveAttribute($order, 'send_email');
-
-        return false;
+        parent::send($order, $forceSyncMode);
     }
+
+    /**
+     * @param Order $order
+     * @return bool
+     */
+    protected function isPaymentGatewayPayment(Order $order)
+    {
+        return (strpos($order->getPayment()->getMethodInstance()->getCode(), 'bigfish_pmgw_') === 0);
+    }
+
 }
