@@ -25,7 +25,7 @@ use BigFish\PaymentGateway\Response;
 use BigFish\Pmgw\Model\Response\ResultInterface;
 use Magento\Framework\Json\Helper\Data as JsonHelper;
 
-class ResponseEvent
+class ResponseProcessor
 {
     /**
      * @var Order

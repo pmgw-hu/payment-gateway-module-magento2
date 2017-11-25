@@ -15,7 +15,7 @@ namespace BigFish\Pmgw\Controller\Payment;
 use BigFish\Pmgw\Gateway\Helper\Helper;
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
-use BigFish\Pmgw\Gateway\Response\ResponseEvent;
+use BigFish\Pmgw\Gateway\Response\ResponseProcessor;
 use Magento\Payment\Gateway\ConfigInterface;
 use Magento\Payment\Model\Method\Logger;
 use BigFish\PaymentGateway;
@@ -26,9 +26,9 @@ use BigFish\Pmgw\Model\Response\ResultInterface;
 class Response extends Action
 {
     /**
-     * @var ResponseEvent
+     * @var ResponseProcessor
      */
-    private $responseEvent;
+    private $responseProcessor;
 
     /**
      * @var ConfigInterface
@@ -44,19 +44,19 @@ class Response extends Action
      * Response constructor.
      *
      * @param Context $context
-     * @param ResponseEvent $responseEvent
+     * @param ResponseProcessor $responseProcessor
      * @param ConfigInterface $config
      * @param Logger $logger
      */
     public function __construct(
         Context $context,
-        ResponseEvent $responseEvent,
+        ResponseProcessor $responseProcessor,
         ConfigInterface $config,
         Logger $logger
     ) {
         parent::__construct($context);
 
-        $this->responseEvent = $responseEvent;
+        $this->responseProcessor = $responseProcessor;
         $this->config = $config;
         $this->logger = $logger;
     }
@@ -83,9 +83,9 @@ class Response extends Action
 
         $this->logger->debug((array)$response);
 
-        $this->responseEvent->setResponse($response);
+        $this->responseProcessor->setResponse($response);
 
-        $result = $this->responseEvent->processResponse();
+        $result = $this->responseProcessor->processResponse();
 
         switch ($result->getCode()) {
             case PaymentGateway::RESULT_CODE_TIMEOUT:
