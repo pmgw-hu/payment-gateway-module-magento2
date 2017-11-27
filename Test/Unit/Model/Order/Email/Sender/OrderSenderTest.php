@@ -1,0 +1,95 @@
+<?php
+namespace BigFish\Pmgw\Test\Unit\Model\Order\Email\Sender;
+
+use BigFish\Pmgw\Model\Order\Email\Sender\OrderSender;
+use Magento\Sales\Model\Order\Email\Container\Template;
+use Magento\Sales\Model\Order\Email\Container\OrderIdentity;
+use Magento\Sales\Model\Order\Email\SenderBuilderFactory;
+use Psr\Log\LoggerInterface;
+use Magento\Sales\Model\Order\Address\Renderer;
+use Magento\Payment\Helper\Data as PaymentHelper;
+use Magento\Sales\Model\ResourceModel\Order as OrderResource;
+use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\Event\ManagerInterface;
+use Magento\Sales\Model\Order;
+use Magento\Payment\Model\InfoInterface;
+use Magento\Payment\Model\MethodInterface;
+
+class OrderSenderTest extends \PHPUnit_Framework_TestCase
+{
+    /**
+     * @test
+     */
+    public function skipSendEmailAfterPlaceOrderTest()
+    {
+        $templateContainerMock = $this->getMockBuilder(Template::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $identityContainerMock = $this->getMockBuilder(OrderIdentity::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $senderBuilderFactoryMock = $this->getMockBuilder(SenderBuilderFactory::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $loggerMock = $this->getMockBuilder(LoggerInterface::class)
+            ->getMock();
+
+        $addressRendererMock = $this->getMockBuilder(Renderer::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $paymentHelperMock = $this->getMockBuilder(PaymentHelper::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $orderResourceMock = $this->getMockBuilder(OrderResource::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $globalConfigMock = $this->getMockBuilder(ScopeConfigInterface::class)
+            ->getMock();
+
+        $eventManagerMock = $this->getMockBuilder(ManagerInterface::class)
+            ->getMock();
+
+        $methodMock = $this->getMockBuilder(MethodInterface::class)
+            ->getMock();
+
+        $methodMock->expects(static::any())
+            ->method('getCode')
+            ->willReturn('bigfish_pmgw_test');
+
+        $paymentMock = $this->getMockBuilder(InfoInterface::class)
+            ->getMock();
+
+        $paymentMock->expects(static::any())
+            ->method('getMethodInstance')
+            ->willReturn($methodMock);
+
+        $orderMock = $this->getMockBuilder(Order::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $orderMock->expects(static::any())
+            ->method('getPayment')
+            ->willReturn($paymentMock);
+
+        $orderSender = new OrderSender(
+            $templateContainerMock,
+            $identityContainerMock,
+            $senderBuilderFactoryMock,
+            $loggerMock,
+            $addressRendererMock,
+            $paymentHelperMock,
+            $orderResourceMock,
+            $globalConfigMock,
+            $eventManagerMock
+        );
+
+        $this->assertEquals(false, $orderSender->send($orderMock));
+    }
+
+}
