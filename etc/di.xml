@@ -41,6 +41,7 @@
 
     <type name="BigFish\Pmgw\Gateway\Http\Client\InitializeClient">
         <arguments>
+            <argument name="config" xsi:type="object">BigFishPmgwConfig</argument>
             <argument name="logger" xsi:type="object">BigFishPmgwLogger</argument>
         </arguments>
     </type>

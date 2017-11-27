@@ -21,7 +21,6 @@ use Magento\Payment\Model\Method\Logger;
 use BigFish\PaymentGateway;
 use BigFish\PaymentGateway\Config;
 use BigFish\PaymentGateway\Request\Result as ResultRequest;
-use BigFish\Pmgw\Model\Response\ResultInterface;
 
 class Response extends Action
 {

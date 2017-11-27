@@ -15,17 +15,25 @@ namespace BigFish\Pmgw\Controller\Payment;
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\App\Action\Context;
-use Magento\Framework\App\ObjectManager;
 use Magento\Framework\Controller\ResultInterface;
+use Magento\Customer\Model\Session;
 
 class Start extends Action
 {
     /**
-     * @param Context $context
+     * @var Session
      */
-    public function __construct(Context $context)
+    private $customerSession;
+
+    /**
+     * @param Context $context
+     * @param Session $customerSession
+     */
+    public function __construct(Context $context, Session $customerSession)
     {
         parent::__construct($context);
+
+        $this->customerSession = $customerSession;
     }
 
     /**
@@ -33,8 +41,7 @@ class Start extends Action
      */
     public function execute()
     {
-        $redirectUrl = ObjectManager::getInstance()->create('Magento\Customer\Model\Session')
-            ->getPmgwRedirectUrlValue();
+        $redirectUrl = $this->customerSession->getPmgwRedirectUrlValue();
 
         if ($redirectUrl) {
             $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
