@@ -12,8 +12,7 @@ use Magento\Sales\Model\ResourceModel\Order as OrderResource;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Event\ManagerInterface;
 use Magento\Sales\Model\Order;
-use Magento\Payment\Model\InfoInterface;
-use Magento\Payment\Model\MethodInterface;
+use Magento\Sales\Api\Data\OrderPaymentInterface;
 
 class OrderSenderTest extends \PHPUnit_Framework_TestCase
 {
@@ -55,19 +54,12 @@ class OrderSenderTest extends \PHPUnit_Framework_TestCase
         $eventManagerMock = $this->getMockBuilder(ManagerInterface::class)
             ->getMock();
 
-        $methodMock = $this->getMockBuilder(MethodInterface::class)
-            ->getMock();
-
-        $methodMock->expects(static::any())
-            ->method('getCode')
-            ->willReturn('bigfish_pmgw_test');
-
-        $paymentMock = $this->getMockBuilder(InfoInterface::class)
+        $paymentMock = $this->getMockBuilder(OrderPaymentInterface::class)
             ->getMock();
 
         $paymentMock->expects(static::any())
-            ->method('getMethodInstance')
-            ->willReturn($methodMock);
+            ->method('getMethod')
+            ->will($this->returnValue('bigfish_pmgw_test'));
 
         $orderMock = $this->getMockBuilder(Order::class)
             ->disableOriginalConstructor()
@@ -75,7 +67,7 @@ class OrderSenderTest extends \PHPUnit_Framework_TestCase
 
         $orderMock->expects(static::any())
             ->method('getPayment')
-            ->willReturn($paymentMock);
+            ->will($this->returnValue($paymentMock));
 
         $orderSender = new OrderSender(
             $templateContainerMock,

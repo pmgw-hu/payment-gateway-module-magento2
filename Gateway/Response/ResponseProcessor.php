@@ -127,22 +127,18 @@ class ResponseProcessor
 
     protected function validateResponse()
     {
-        if (empty($this->response)) {
-            throw new LocalizedException(__('Empty response object.'));
-        }
-
         if (!property_exists($this->response, 'TransactionId') || empty($this->response->TransactionId)) {
-            throw new LocalizedException(__('Invalid response object.'));
+            throw new LocalizedException(__('Missing or invalid transaction id.'));
         }
 
         if (!property_exists($this->response, 'ResultCode') || empty($this->response->ResultCode)) {
-            throw new LocalizedException(__('Invalid response object.'));
+            throw new LocalizedException(__('Missing or invalid result code.'));
         }
 
         $this->transaction = $this->helper->getTransactionByTransactionId($this->response->TransactionId);
 
         if (!$this->transaction || !$this->transaction->getId()) {
-            throw new LocalizedException(__('Invalid transaction.'));
+            throw new LocalizedException(__('Transaction not found.'));
         }
 
         $this->order->loadByIncrementId($this->transaction->getOrderId());
@@ -151,7 +147,7 @@ class ResponseProcessor
             throw new LocalizedException(__('Order not found.'));
         }
 
-        if (strpos($this->order->getPayment()->getMethodInstance()->getCode(), 'bigfish_pmgw_') !== 0) {
+        if (strpos($this->order->getPayment()->getMethod(), 'bigfish_pmgw_') !== 0) {
             throw new LocalizedException(__('Invalid payment method.'));
         }
     }
@@ -188,6 +184,7 @@ class ResponseProcessor
      */
     protected function processFailure($transactionStatus)
     {
+        $this->order->getPayment()->setLastTransId($this->response->TransactionId);
         $this->order->cancel();
         $this->order->save();
 

@@ -43,7 +43,7 @@ class OrderSender extends \Magento\Sales\Model\Order\Email\Sender\OrderSender
      */
     protected function isPaymentGatewayPayment(Order $order)
     {
-        return (strpos($order->getPayment()->getMethodInstance()->getCode(), 'bigfish_pmgw_') === 0);
+        return (strpos($order->getPayment()->getMethod(), 'bigfish_pmgw_') === 0);
     }
 
 }
