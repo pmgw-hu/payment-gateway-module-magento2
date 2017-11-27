@@ -630,7 +630,7 @@ class ResponseProcessorTest extends \PHPUnit_Framework_TestCase
     {
         $this->invoiceMock->expects(static::any())
             ->method('register')
-            ->will($this->returnValue($this->invoiceMock));
+            ->will($this->returnSelf());
     }
 
     /**
