@@ -1,0 +1,23 @@
+before_script:
+  - pwd
+
+stages:
+  - syntax-check
+
+Syntax Check PHP 5.6:
+  image: docker.big.hu/test/php:5.6
+  script:
+    - find . -type f -name "*.php" -print0 | xargs -0L1 /usr/bin/php -l
+  tags:
+    - docker
+  stage: syntax-check
+  allow_failure: false
+
+Syntax Check PHP 7.0:
+  image: docker.big.hu/test/php:7.0
+  script:
+    - find . -type f -name "*.php" -print0 | xargs -0L1 /usr/bin/php -l
+  tags:
+    - docker
+  stage: syntax-check
+  allow_failure: false
