@@ -18,42 +18,42 @@ class ResponseProcessorTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $paymentMock;
+    private $paymentMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $invoiceMock;
+    private $invoiceMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $orderMock;
+    private $orderMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $orderSenderMock;
+    private $orderSenderMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $loggerMock;
+    private $loggerMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $transactionMock;
+    private $transactionMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $helperMock;
+    private $helperMock;
 
     /**
      * @var Result
      */
-    protected $result;
+    private $result;
 
     public function setUp()
     {
