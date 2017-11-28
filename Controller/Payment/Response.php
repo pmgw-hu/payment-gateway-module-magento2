@@ -12,15 +12,13 @@
  */
 namespace BigFish\Pmgw\Controller\Payment;
 
-use BigFish\Pmgw\Gateway\Helper\Helper;
-use Magento\Framework\App\Action\Action;
-use Magento\Framework\App\Action\Context;
-use BigFish\Pmgw\Gateway\Response\ResponseProcessor;
-use Magento\Payment\Gateway\ConfigInterface;
-use Magento\Payment\Model\Method\Logger;
 use BigFish\PaymentGateway;
 use BigFish\PaymentGateway\Config;
-use BigFish\PaymentGateway\Request\Result as ResultRequest;
+use BigFish\Pmgw\Gateway\Helper\Helper;
+use BigFish\Pmgw\Gateway\Response\ResponseProcessor;
+use Magento\Framework\App\Action\Action;
+use Magento\Framework\App\Action\Context;
+use Magento\Payment\Gateway\ConfigInterface;
 
 class Response extends Action
 {
@@ -35,9 +33,9 @@ class Response extends Action
     private $config;
 
     /**
-     * @var Logger
+     * @var Helper
      */
-    private $logger;
+    private $helper;
 
     /**
      * Response constructor.
@@ -45,19 +43,19 @@ class Response extends Action
      * @param Context $context
      * @param ResponseProcessor $responseProcessor
      * @param ConfigInterface $config
-     * @param Logger $logger
+     * @param Helper $helper
      */
     public function __construct(
         Context $context,
         ResponseProcessor $responseProcessor,
         ConfigInterface $config,
-        Logger $logger
+        Helper $helper
     ) {
         parent::__construct($context);
 
         $this->responseProcessor = $responseProcessor;
         $this->config = $config;
-        $this->logger = $logger;
+        $this->helper = $helper;
     }
 
     /**
@@ -71,16 +69,13 @@ class Response extends Action
             throw new \InvalidArgumentException(__('process_noTransactionIdInResponse'));
         }
 
-        $config = new Config();
-        $this->setPaymentGatewayConfig($config);
-
-        PaymentGateway::setConfig($config);
-
-        $response = PaymentGateway::result(
-            new ResultRequest($urlParams[Helper::RESPONSE_FIELD_TRANSACTION_ID])
+        $this->helper->setPaymentGatewayConfig(
+            $this->getPaymentGatewayConfig()
         );
 
-        $this->logger->debug((array)$response);
+        $response = $this->helper->getPaymentGatewayResult(
+            $urlParams[Helper::RESPONSE_FIELD_TRANSACTION_ID]
+        );
 
         $this->responseProcessor->setResponse($response);
 
@@ -100,21 +95,17 @@ class Response extends Action
     }
 
     /**
-     * @param Config $config
+     * @return Config
      */
-    protected function setPaymentGatewayConfig(Config $config)
+    protected function getPaymentGatewayConfig()
     {
+        $config = new Config();
+
         $config->storeName = $this->config->getValue('storename');
         $config->apiKey = $this->config->getValue('apikey');
         $config->testMode = ((int)$this->config->getValue('testmode') === 1);
 
-        $this->logger->debug([
-            'storeName' => $config->storeName,
-            'apiKey' => $config->apiKey,
-            'testMode' => $config->testMode,
-            'moduleName' => $config->moduleName,
-            'moduleVersion' => $config->moduleVersion,
-        ]);
+        return $config;
     }
 
 }

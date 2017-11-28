@@ -12,13 +12,12 @@
  */
 namespace BigFish\Pmgw\Gateway\Http\Client;
 
-use Magento\Payment\Gateway\Http\ClientInterface;
-use Magento\Payment\Gateway\Http\TransferInterface;
 use BigFish\PaymentGateway;
 use BigFish\Pmgw\Gateway\Helper\Helper;
-use Magento\Payment\Model\Method\Logger;
-use Magento\Payment\Gateway\ConfigInterface;
 use BigFish\PaymentGateway\Config;
+use Magento\Payment\Gateway\Http\ClientInterface;
+use Magento\Payment\Gateway\Http\TransferInterface;
+use Magento\Payment\Gateway\ConfigInterface;
 use Magento\Customer\Model\Session;
 
 class InitializeClient implements ClientInterface
@@ -27,11 +26,6 @@ class InitializeClient implements ClientInterface
      * @var ConfigInterface
      */
     private $config;
-
-    /**
-     * @var Logger
-     */
-    private $logger;
 
     /**
      * @var Helper
@@ -45,18 +39,15 @@ class InitializeClient implements ClientInterface
 
     /**
      * @param ConfigInterface $config
-     * @param Logger $logger
      * @param Helper $helper
      * @param Session $customerSession
      */
     public function __construct(
         ConfigInterface $config,
-        Logger $logger,
         Helper $helper,
         Session $customerSession
     ) {
         $this->config = $config;
-        $this->logger = $logger;
         $this->helper = $helper;
         $this->customerSession = $customerSession;
     }
@@ -70,10 +61,11 @@ class InitializeClient implements ClientInterface
         $response = $transferObject->getBody();
 
         if ($response[Helper::RESPONSE_FIELD_RESULT_CODE] === PaymentGateway::RESULT_CODE_SUCCESS) {
-            $config = new Config();
-            $this->setPaymentGatewayConfig($config);
+            $this->helper->setPaymentGatewayConfig(
+                $this->getPaymentGatewayConfig()
+            );
 
-            $url = PaymentGateway::getStartUrl(new PaymentGateway\Request\Start($response[Helper::RESPONSE_FIELD_TRANSACTION_ID]));
+            $url = $this->helper->getPaymentGatewayStartUrl($response[Helper::RESPONSE_FIELD_TRANSACTION_ID]);
 
             $this->customerSession->setPmgwRedirectUrlValue($url);
 
@@ -82,28 +74,22 @@ class InitializeClient implements ClientInterface
             $this->helper->updateTransactionStatus($transaction, Helper::TRANSACTION_STATUS_STARTED);
 
             $this->helper->addTransactionLog($transaction, ['startUrl' => $url]);
-
-            $this->logger->debug(['startUrl' => $url]);
         }
         return $response;
     }
 
     /**
-     * @param Config $config
+     * @return Config
      */
-    protected function setPaymentGatewayConfig(Config $config)
+    protected function getPaymentGatewayConfig()
     {
+        $config = new Config();
+
         $config->storeName = $this->config->getValue('storename');
         $config->apiKey = $this->config->getValue('apikey');
         $config->testMode = ((int)$this->config->getValue('testmode') === 1);
 
-        $this->logger->debug([
-            'storeName' => $config->storeName,
-            'apiKey' => $config->apiKey,
-            'testMode' => $config->testMode,
-            'moduleName' => $config->moduleName,
-            'moduleVersion' => $config->moduleVersion,
-        ]);
+        return $config;
     }
 
 }

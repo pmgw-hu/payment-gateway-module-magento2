@@ -12,12 +12,19 @@
  */
 namespace BigFish\Pmgw\Gateway\Helper;
 
-use Magento\Braintree\Model\Paypal\Helper\AbstractHelper;
+use BigFish\PaymentGateway;
+use BigFish\PaymentGateway\Config;
+use BigFish\PaymentGateway\Request\Start as StartRequest;
+use BigFish\PaymentGateway\Request\Init as InitRequest;
+use BigFish\PaymentGateway\Request\Result as ResultRequest;
+use BigFish\PaymentGateway\Response;
 use BigFish\Pmgw\Model\TransactionFactory;
+use BigFish\Pmgw\Model\Transaction;
 use BigFish\Pmgw\Model\LogFactory;
+use Magento\Braintree\Model\Paypal\Helper\AbstractHelper;
 use Magento\Framework\Json\Helper\Data as JsonHelper;
 use Magento\Framework\Stdlib\DateTime\DateTime;
-use BigFish\Pmgw\Model\Transaction;
+use Magento\Payment\Model\Method\Logger;
 
 class Helper extends AbstractHelper
 {
@@ -45,6 +52,11 @@ class Helper extends AbstractHelper
     private $logFactory;
 
     /**
+     * @var Logger
+     */
+    private $paymentLogger;
+
+    /**
      * @var JsonHelper
      */
     private $jsonHelper;
@@ -57,11 +69,13 @@ class Helper extends AbstractHelper
     public function __construct(
         TransactionFactory $transactionFactory,
         LogFactory $logFactory,
+        Logger $paymentLogger,
         JsonHelper $jsonHelper,
         DateTime $dateTime
     ) {
         $this->transactionFactory = $transactionFactory;
         $this->logFactory = $logFactory;
+        $this->paymentLogger = $paymentLogger;
         $this->jsonHelper = $jsonHelper;
         $this->dateTime = $dateTime;
     }
@@ -104,6 +118,78 @@ class Helper extends AbstractHelper
             ->setCreatedTime($this->dateTime->date())
             ->setDebug($this->jsonHelper->jsonEncode($debug))
             ->save();
+    }
+
+    /**
+     * @param Config $config
+     */
+    public function setPaymentGatewayConfig(Config $config)
+    {
+        PaymentGateway::setConfig($config);
+
+        $this->paymentLogger->debug([
+            'action' => 'setConfig',
+            'data' => [
+                'storeName' => $config->storeName,
+                'apiKey' => $config->apiKey,
+                'testMode' => $config->testMode,
+                'moduleName' => $config->moduleName,
+                'moduleVersion' => $config->moduleVersion,
+            ]
+        ]);
+    }
+
+    /**
+     * @param string $transactionId
+     * @return string
+     */
+    public function getPaymentGatewayStartUrl($transactionId)
+    {
+        $startUrl = PaymentGateway::getStartUrl(new StartRequest($transactionId));
+
+        $this->paymentLogger->debug([
+            'action' => 'getStartUrl',
+            [
+                'transactionId' => $transactionId,
+                'startUrl' => $startUrl,
+            ]
+        ]);
+
+        return $startUrl;
+    }
+
+    /**
+     * @param InitRequest $request
+     * @return Response
+     */
+    public function initializePaymentGatewayTransaction(InitRequest $request)
+    {
+        $response = PaymentGateway::init($request);
+
+        $this->paymentLogger->debug([
+            'action' => 'init',
+            'request' => (array)$request,
+            'response' => (array)$response,
+        ]);
+
+        return $response;
+    }
+
+    /**
+     * @param string $transactionId
+     * @return Response
+     */
+    public function getPaymentGatewayResult($transactionId)
+    {
+        $response = PaymentGateway::result(new ResultRequest($transactionId));
+
+        $this->paymentLogger->debug([
+            'action' => 'result',
+            'transactionId' => $transactionId,
+            'response' => (array)$response,
+        ]);
+
+        return $response;
     }
 
 }

@@ -12,28 +12,23 @@
  */
 namespace BigFish\Pmgw\Gateway\Request;
 
+use BigFish\Pmgw\Model\ConfigProvider;
+use BigFish\Pmgw\Gateway\Helper\Helper;
+use BigFish\PaymentGateway;
+use BigFish\PaymentGateway\Config;
+use BigFish\PaymentGateway\Request\Init as InitRequest;
 use Magento\Framework\Module\ModuleListInterface;
 use Magento\Payment\Gateway\Data\OrderAdapterInterface;
 use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 use Magento\Payment\Gateway\Request\BuilderInterface;
 use Magento\Backend\Model\UrlInterface;
-use BigFish\Pmgw\Model\ConfigProvider;
-use BigFish\Pmgw\Gateway\Helper\Helper;
-use BigFish\PaymentGateway;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\App\ProductMetadataInterface;
-use BigFish\PaymentGateway\Config;
-use BigFish\PaymentGateway\Request\Init as InitRequest;
-use Magento\Payment\Model\Method\Logger;
 use Magento\Framework\Stdlib\DateTime\DateTime;
+use Psr\Log\LoggerInterface;
 
 class InitializeRequest implements BuilderInterface
 {
-    /**
-     * @var Logger
-     */
-    private $logger;
-
     /**
      * @var ConfigProvider
      */
@@ -60,34 +55,39 @@ class InitializeRequest implements BuilderInterface
     private $helper;
 
     /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
      * @var DateTime
      */
     private $dateTime;
 
     /**
-     * @param Logger $logger
      * @param ConfigProvider $providerConfig
      * @param StoreManagerInterface $storeManager
      * @param ProductMetadataInterface $productMetadata
      * @param ModuleListInterface $moduleList
      * @param Helper $helper
+     * @param LoggerInterface $logger
      * @param DateTime $dateTime
      */
     public function __construct(
-        Logger $logger,
         ConfigProvider $providerConfig,
         StoreManagerInterface $storeManager,
         ProductMetadataInterface $productMetadata,
         ModuleListInterface $moduleList,
         Helper $helper,
+        LoggerInterface $logger,
         DateTime $dateTime
     ) {
-        $this->logger = $logger;
         $this->providerConfig = $providerConfig;
         $this->storeManager = $storeManager;
         $this->productMetaData = $productMetadata;
         $this->moduleList = $moduleList;
         $this->helper = $helper;
+        $this->logger = $logger;
         $this->dateTime = $dateTime;
     }
 
@@ -116,17 +116,13 @@ class InitializeRequest implements BuilderInterface
             throw new \UnexpectedValueException('Payment parameter array should be provided');
         }
 
-        $config = new Config();
-        $this->setPaymentGatewayConfig($config, $providerConfig);
+        $this->helper->setPaymentGatewayConfig(
+            $this->getPaymentGatewayConfig($providerConfig)
+        );
 
-        PaymentGateway::setConfig($config);
-
-        $request = new InitRequest();
-        $this->setPaymentGatewayInitRequest($request, $order, $providerConfig);
-
-        $response = PaymentGateway::init($request);
-
-        $this->logger->debug((array)$response);
+        $response = $this->helper->initializePaymentGatewayTransaction(
+            $this->getPaymentGatewayInitRequest($order, $providerConfig)
+        );
 
         if ($response->ResultCode === PaymentGateway::RESULT_CODE_SUCCESS) {
             $transaction = $this->helper->createTransaction();
@@ -159,34 +155,29 @@ class InitializeRequest implements BuilderInterface
     }
 
     /**
-     * @param Config $config
      * @param array $providerConfig
+     * @return Config
      */
-    protected function setPaymentGatewayConfig(Config $config, array $providerConfig)
+    protected function getPaymentGatewayConfig(array $providerConfig)
     {
+        $config = new Config();
+
         $config->storeName = $providerConfig['storename'];
         $config->apiKey = $providerConfig['apikey'];
         $config->testMode = ((int)$providerConfig['testmode'] === 1);
 
-        $this->logger->debug([
-            'storeName' => $config->storeName,
-            'apiKey' => $config->apiKey,
-            'testMode' => $config->testMode,
-            'moduleName' => $config->moduleName,
-            'moduleVersion' => $config->moduleVersion,
-        ]);
+        return $config;
     }
 
     /**
-     * @param InitRequest $request
      * @param OrderAdapterInterface $order
      * @param $providerConfig
+     * @return InitRequest
      */
-    protected function setPaymentGatewayInitRequest(
-        InitRequest $request,
-        OrderAdapterInterface $order,
-        array $providerConfig
-    ) {
+    protected function getPaymentGatewayInitRequest(OrderAdapterInterface $order, array $providerConfig)
+    {
+        $request = new InitRequest();
+
         $request
             ->setProviderName($providerConfig['provider_code'])
             ->setResponseUrl($this->getStoreBaseUrl() . $providerConfig['responseUrl'])
@@ -239,7 +230,7 @@ class InitializeRequest implements BuilderInterface
             $request->setExtra($extraData);
         }
 
-        $this->logger->debug((array)$request);
+        return $request;
     }
 
     /**

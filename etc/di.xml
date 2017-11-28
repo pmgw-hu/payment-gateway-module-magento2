@@ -42,14 +42,18 @@
     <type name="BigFish\Pmgw\Gateway\Http\Client\InitializeClient">
         <arguments>
             <argument name="config" xsi:type="object">BigFishPmgwConfig</argument>
-            <argument name="logger" xsi:type="object">BigFishPmgwLogger</argument>
         </arguments>
     </type>
 
     <type name="BigFish\Pmgw\Controller\Payment\Response">
         <arguments>
             <argument name="config" xsi:type="object">BigFishPmgwConfig</argument>
-            <argument name="logger" xsi:type="object">BigFishPmgwLogger</argument>
+        </arguments>
+    </type>
+
+    <type name="BigFish\Pmgw\Gateway\Helper\Helper">
+        <arguments>
+            <argument name="paymentLogger" xsi:type="object">BigFishPmgwLogger</argument>
         </arguments>
     </type>
 
@@ -93,13 +97,6 @@
             <argument name="client" xsi:type="object">BigFish\Pmgw\Gateway\Http\Client\InitializeClient</argument>
         </arguments>
     </virtualType>
-
-    <!-- Initialize request -->
-    <type name="BigFish\Pmgw\Gateway\Request\InitializeRequest">
-        <arguments>
-            <argument name="logger" xsi:type="object">BigFishPmgwLogger</argument>
-        </arguments>
-    </type>
 
     <!-- Provider specific configuration -->
 
