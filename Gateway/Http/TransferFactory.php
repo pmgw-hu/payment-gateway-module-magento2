@@ -38,7 +38,6 @@ class TransferFactory implements TransferFactoryInterface
     {
         return $this->transferBuilder
             ->setBody($body)
-            ->setMethod('POST')
             ->build();
     }
 

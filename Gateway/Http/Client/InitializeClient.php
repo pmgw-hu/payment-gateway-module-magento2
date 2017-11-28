@@ -58,24 +58,24 @@ class InitializeClient implements ClientInterface
      */
     public function placeRequest(TransferInterface $transferObject)
     {
-        $response = $transferObject->getBody();
+        $request = $transferObject->getBody();
 
-        if ($response[Helper::RESPONSE_FIELD_RESULT_CODE] === PaymentGateway::RESULT_CODE_SUCCESS) {
+        if ($request[Helper::RESPONSE_FIELD_RESULT_CODE] === PaymentGateway::RESULT_CODE_SUCCESS) {
             $this->helper->setPaymentGatewayConfig(
                 $this->getPaymentGatewayConfig()
             );
 
-            $url = $this->helper->getPaymentGatewayStartUrl($response[Helper::RESPONSE_FIELD_TRANSACTION_ID]);
+            $url = $this->helper->getPaymentGatewayStartUrl($request[Helper::RESPONSE_FIELD_TRANSACTION_ID]);
 
             $this->customerSession->setPmgwRedirectUrlValue($url);
 
-            $transaction = $this->helper->getTransactionByTransactionId($response[Helper::RESPONSE_FIELD_TRANSACTION_ID]);
+            $transaction = $this->helper->getTransactionByTransactionId($request[Helper::RESPONSE_FIELD_TRANSACTION_ID]);
 
             $this->helper->updateTransactionStatus($transaction, Helper::TRANSACTION_STATUS_STARTED);
 
             $this->helper->addTransactionLog($transaction, ['startUrl' => $url]);
         }
-        return $response;
+        return $request;
     }
 
     /**
