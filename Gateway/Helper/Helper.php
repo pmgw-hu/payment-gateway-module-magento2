@@ -127,7 +127,7 @@ class Helper extends AbstractHelper
     {
         PaymentGateway::setConfig($config);
 
-        $this->paymentLogger->debug([
+        $this->debug([
             'action' => 'setConfig',
             'data' => [
                 'storeName' => $config->storeName,
@@ -147,7 +147,7 @@ class Helper extends AbstractHelper
     {
         $startUrl = PaymentGateway::getStartUrl(new StartRequest($transactionId));
 
-        $this->paymentLogger->debug([
+        $this->debug([
             'action' => 'getStartUrl',
             [
                 'transactionId' => $transactionId,
@@ -166,7 +166,7 @@ class Helper extends AbstractHelper
     {
         $response = PaymentGateway::init($request);
 
-        $this->paymentLogger->debug([
+        $this->debug([
             'action' => 'init',
             'request' => (array)$request,
             'response' => (array)$response,
@@ -183,13 +183,21 @@ class Helper extends AbstractHelper
     {
         $response = PaymentGateway::result(new ResultRequest($transactionId));
 
-        $this->paymentLogger->debug([
+        $this->debug([
             'action' => 'result',
             'transactionId' => $transactionId,
             'response' => (array)$response,
         ]);
 
         return $response;
+    }
+
+    /**
+     * @param array $data
+     */
+    protected function debug(array $data)
+    {
+        $this->paymentLogger->debug($data);
     }
 
 }
