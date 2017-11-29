@@ -166,6 +166,120 @@ class InitializeRequestTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Payment data object should be provided
+     */
+    public function invalidPaymentDataObjectTest()
+    {
+        $initializeRequest = new InitializeRequest(
+            $this->configProviderMock,
+            $this->storeManagerMock,
+            $this->productMetaDataMock,
+            $this->moduleListMock,
+            $this->helperMock,
+            $this->loggerMock,
+            $this->dateTimeMock
+        );
+
+        $initializeRequest->build([]);
+    }
+
+    /**
+     * @test
+     * @expectedException \UnexpectedValueException
+     * @expectedExceptionMessage Payment parameter array should be provided
+     */
+    public function emptyProviderConfigTest()
+    {
+        $this->setPaymentDataObjectMockGetPayment();
+        $this->setPaymentMockGetMethodInstance();
+
+        $code = 'bigfish_pmgw_test';
+        $config = [];
+
+        $this->setPaymentMethodMockGetCode($code);
+        $this->setConfigProviderMockGetProviderConfig($code, $config);
+
+        $initializeRequest = new InitializeRequest(
+            $this->configProviderMock,
+            $this->storeManagerMock,
+            $this->productMetaDataMock,
+            $this->moduleListMock,
+            $this->helperMock,
+            $this->loggerMock,
+            $this->dateTimeMock
+        );
+
+        $initializeRequest->build([
+            'payment' => $this->paymentDataObjectMock,
+        ]);
+    }
+
+    /**
+     * @test
+     * @expectedException \UnexpectedValueException
+     * @expectedExceptionMessage ERROR: Error message
+     */
+    public function failedBuildRequestTest()
+    {
+        $expectedInitRequest = $this->getExpectedInitRequest();
+
+        $expectedInitRequest->providerName = 'test_provider_code';
+
+        $response = $this->createResponse([
+            'ResultCode' => PaymentGateway::RESULT_CODE_ERROR,
+            'ResultMessage' => 'Error message',
+        ]);
+
+        $this->setProductDataMockGetVersion();
+        $this->setModuleListMockGetOne();
+        $this->setPaymentDataObjectMockGetPayment();
+        $this->setPaymentDataObjectMockGetOrder();
+        $this->setPaymentMockGetMethodInstance();
+        $this->setStoreManagerMockGetStore();
+        $this->setStoreMockGetBaseUrl();
+        $this->setStoreMockGetLocaleCode();
+        $this->setOrderMockGetOrderIncrementId();
+        $this->setOrderMockGetGrandTotalAmount();
+        $this->setOrderMockGetCurrencyCode();
+        $this->setOrderMockGetCustomerId();
+        $this->setHelperMockInitializePaymentGatewayTransaction($expectedInitRequest, $response);
+        $this->setLoggerMockCritical('ERROR: Error message');
+
+        $code = 'bigfish_pmgw_test';
+        $config = [
+            'name' => 'bigfish_pmgw_test',
+            'storename' => 'test_storename',
+            'apikey' => 'test_apikey',
+            'provider_code' => 'test_provider_code',
+            'response_url' => '/test_response_url',
+            'one_click_payment' => 0,
+            'testmode' => 1,
+            'active' => 1,
+            'debug' => 1,
+        ];
+
+        $this->setPaymentMethodMockGetCode($code);
+        $this->setConfigProviderMockGetProviderConfig($code, $config);
+
+        $initializeRequest = new InitializeRequest(
+            $this->configProviderMock,
+            $this->storeManagerMock,
+            $this->productMetaDataMock,
+            $this->moduleListMock,
+            $this->helperMock,
+            $this->loggerMock,
+            $this->dateTimeMock
+        );
+
+        $initializeRequest->build([
+            'payment' => $this->paymentDataObjectMock,
+        ]);
+
+    }
+
+    /**
+     * @test
      */
     public function successfulBuildRequestTest()
     {
@@ -173,31 +287,28 @@ class InitializeRequestTest extends \PHPUnit_Framework_TestCase
 
         $expectedInitRequest->providerName = 'test_provider_code';
 
-        $response = new Response(json_encode([
+        $response = $this->createResponse([
             'ResultCode' => PaymentGateway::RESULT_CODE_SUCCESS,
             'TransactionId' => $this->transactionId,
-        ]));
+        ]);
 
         $this->setSuccessfulRequestCommon($expectedInitRequest, $response);
 
-        $this->configProviderMock->expects(static::once())
-            ->method('getProviderConfig')
-            ->with('bigfish_pmgw_test')
-            ->will($this->returnValue([
-                'name' => 'bigfish_pmgw_test',
-                'storename' => 'test_storename',
-                'apikey' => 'test_apikey',
-                'provider_code' => 'test_provider_code',
-                'response_url' => '/test_response_url',
-                'one_click_payment' => 0,
-                'testmode' => 1,
-                'active' => 1,
-                'debug' => 1,
-            ]));
+        $code = 'bigfish_pmgw_test';
+        $config = [
+            'name' => 'bigfish_pmgw_test',
+            'storename' => 'test_storename',
+            'apikey' => 'test_apikey',
+            'provider_code' => 'test_provider_code',
+            'response_url' => '/test_response_url',
+            'one_click_payment' => 0,
+            'testmode' => 1,
+            'active' => 1,
+            'debug' => 1,
+        ];
 
-        $this->paymentMethodMock->expects(static::once())
-            ->method('getCode')
-            ->will($this->returnValue('bigfish_pmgw_test'));
+        $this->setPaymentMethodMockGetCode($code);
+        $this->setConfigProviderMockGetProviderConfig($code, $config);
 
         $initializeRequest = new InitializeRequest(
             $this->configProviderMock,
@@ -228,31 +339,28 @@ class InitializeRequestTest extends \PHPUnit_Framework_TestCase
         $expectedInitRequest->providerName = 'test_provider_code';
         $expectedInitRequest->oneClickPayment = true;
 
-        $response = new Response(json_encode([
+        $response = $this->createResponse([
             'ResultCode' => PaymentGateway::RESULT_CODE_SUCCESS,
             'TransactionId' => $this->transactionId,
-        ]));
+        ]);
 
         $this->setSuccessfulRequestCommon($expectedInitRequest, $response);
 
-        $this->configProviderMock->expects(static::once())
-            ->method('getProviderConfig')
-            ->with('bigfish_pmgw_test')
-            ->will($this->returnValue([
-                'name' => 'bigfish_pmgw_test',
-                'storename' => 'test_storename',
-                'apikey' => 'test_apikey',
-                'provider_code' => 'test_provider_code',
-                'response_url' => '/test_response_url',
-                'one_click_payment' => 1,
-                'testmode' => 1,
-                'active' => 1,
-                'debug' => 1,
-            ]));
+        $code = 'bigfish_pmgw_test';
+        $config = [
+            'name' => 'bigfish_pmgw_test',
+            'storename' => 'test_storename',
+            'apikey' => 'test_apikey',
+            'provider_code' => 'test_provider_code',
+            'response_url' => '/test_response_url',
+            'one_click_payment' => 1,
+            'testmode' => 1,
+            'active' => 1,
+            'debug' => 1,
+        ];
 
-        $this->paymentMethodMock->expects(static::once())
-            ->method('getCode')
-            ->will($this->returnValue('bigfish_pmgw_test'));
+        $this->setPaymentMethodMockGetCode($code);
+        $this->setConfigProviderMockGetProviderConfig($code, $config);
 
         $initializeRequest = new InitializeRequest(
             $this->configProviderMock,
@@ -294,32 +402,29 @@ class InitializeRequestTest extends \PHPUnit_Framework_TestCase
         unset($expectedInitRequest->mkbSzepCardNumber);
         unset($expectedInitRequest->mkbSzepCvv);
 
-        $response = new Response(json_encode([
+        $response = $this->createResponse([
             'ResultCode' => PaymentGateway::RESULT_CODE_SUCCESS,
             'TransactionId' => $this->transactionId,
-        ]));
+        ]);
 
         $this->setSuccessfulRequestCommon($expectedInitRequest, $response);
 
-        $this->configProviderMock->expects(static::once())
-            ->method('getProviderConfig')
-            ->with('bigfish_pmgw_khbszep')
-            ->will($this->returnValue([
-                'name' => 'bigfish_pmgw_khbszep',
-                'storename' => 'test_storename',
-                'apikey' => 'test_apikey',
-                'provider_code' => 'KHBSZEP',
-                'response_url' => '/test_response_url',
-                'card_pocket_id' => 'test_card_pocket_id',
-                'one_click_payment' => 0,
-                'testmode' => 1,
-                'active' => 1,
-                'debug' => 1,
-            ]));
+        $code = 'bigfish_pmgw_khbszep';
+        $config = [
+            'name' => 'bigfish_pmgw_khbszep',
+            'storename' => 'test_storename',
+            'apikey' => 'test_apikey',
+            'provider_code' => 'KHBSZEP',
+            'response_url' => '/test_response_url',
+            'card_pocket_id' => 'test_card_pocket_id',
+            'one_click_payment' => 0,
+            'testmode' => 1,
+            'active' => 1,
+            'debug' => 1,
+        ];
 
-        $this->paymentMethodMock->expects(static::once())
-            ->method('getCode')
-            ->will($this->returnValue('bigfish_pmgw_khbszep'));
+        $this->setPaymentMethodMockGetCode($code);
+        $this->setConfigProviderMockGetProviderConfig($code, $config);
 
         $initializeRequest = new InitializeRequest(
             $this->configProviderMock,
@@ -351,32 +456,214 @@ class InitializeRequestTest extends \PHPUnit_Framework_TestCase
         $expectedInitRequest->mkbSzepCafeteriaId = 10;
         $expectedInitRequest->gatewayPaymentPage = true;
 
-        $response = new Response(json_encode([
+        $response = $this->createResponse([
             'ResultCode' => PaymentGateway::RESULT_CODE_SUCCESS,
             'TransactionId' => $this->transactionId,
-        ]));
+        ]);
 
         $this->setSuccessfulRequestCommon($expectedInitRequest, $response);
 
-        $this->configProviderMock->expects(static::once())
-            ->method('getProviderConfig')
-            ->with('bigfish_pmgw_mkbszep')
-            ->will($this->returnValue([
-                'name' => 'bigfish_pmgw_mkbszep',
-                'storename' => 'test_storename',
-                'apikey' => 'test_apikey',
-                'provider_code' => 'MKBSZEP',
-                'response_url' => '/test_response_url',
-                'card_pocket_id' => 10,
-                'one_click_payment' => 0,
-                'testmode' => 1,
-                'active' => 1,
-                'debug' => 1,
-            ]));
+        $code = 'bigfish_pmgw_mkbszep';
+        $config = [
+            'name' => 'bigfish_pmgw_mkbszep',
+            'storename' => 'test_storename',
+            'apikey' => 'test_apikey',
+            'provider_code' => 'MKBSZEP',
+            'response_url' => '/test_response_url',
+            'card_pocket_id' => 10,
+            'one_click_payment' => 0,
+            'testmode' => 1,
+            'active' => 1,
+            'debug' => 1,
+        ];
 
-        $this->paymentMethodMock->expects(static::once())
-            ->method('getCode')
-            ->will($this->returnValue('bigfish_pmgw_mkbszep'));
+        $this->setPaymentMethodMockGetCode($code);
+        $this->setConfigProviderMockGetProviderConfig($code, $config);
+
+        $initializeRequest = new InitializeRequest(
+            $this->configProviderMock,
+            $this->storeManagerMock,
+            $this->productMetaDataMock,
+            $this->moduleListMock,
+            $this->helperMock,
+            $this->loggerMock,
+            $this->dateTimeMock
+        );
+
+        $this->assertEquals([
+            'ResultCode' => 'SUCCESSFUL',
+            'TransactionId' => $this->transactionId,
+        ], $initializeRequest->build([
+            'payment' => $this->paymentDataObjectMock,
+        ]));
+
+    }
+
+    /**
+     * @test
+     */
+    public function successfulBuildRequestWithOtpSzepProviderTest()
+    {
+        $expectedInitRequest = $this->getExpectedInitRequest();
+
+        $expectedInitRequest->providerName = 'OTP';
+        $expectedInitRequest->otpCardPocketId = 10;
+
+        $response = $this->createResponse([
+            'ResultCode' => PaymentGateway::RESULT_CODE_SUCCESS,
+            'TransactionId' => $this->transactionId,
+        ]);
+
+        $this->setSuccessfulRequestCommon($expectedInitRequest, $response);
+
+        $code = 'bigfish_pmgw_otpszep';
+        $config = [
+            'name' => 'bigfish_pmgw_otpszep',
+            'storename' => 'test_storename',
+            'apikey' => 'test_apikey',
+            'provider_code' => 'OTP',
+            'response_url' => '/test_response_url',
+            'card_pocket_id' => 10,
+            'one_click_payment' => 0,
+            'testmode' => 1,
+            'active' => 1,
+            'debug' => 1,
+        ];
+
+        $this->setPaymentMethodMockGetCode($code);
+        $this->setConfigProviderMockGetProviderConfig($code, $config);
+
+        $initializeRequest = new InitializeRequest(
+            $this->configProviderMock,
+            $this->storeManagerMock,
+            $this->productMetaDataMock,
+            $this->moduleListMock,
+            $this->helperMock,
+            $this->loggerMock,
+            $this->dateTimeMock
+        );
+
+        $this->assertEquals([
+            'ResultCode' => 'SUCCESSFUL',
+            'TransactionId' => $this->transactionId,
+        ], $initializeRequest->build([
+            'payment' => $this->paymentDataObjectMock,
+        ]));
+
+    }
+
+    /**
+     * @test
+     */
+    public function successfulBuildRequestWithSaferpayProviderTest()
+    {
+        $expectedInitRequest = $this->getExpectedInitRequest();
+
+        $expectedInitRequest->providerName = 'Saferpay';
+        $expectedInitRequest->extra = $this->urlSafeEncode(json_encode([
+            'SaferpayPaymentMethods' => ['foo', 'bar'],
+            'SaferpayWallets' => ['bar', 'foo'],
+        ]));
+
+        unset($expectedInitRequest->otpCardPocketId);
+        unset($expectedInitRequest->oneClickPayment);
+        unset($expectedInitRequest->oneClickReferenceId);
+        unset($expectedInitRequest->otpCardNumber);
+        unset($expectedInitRequest->otpExpiration);
+        unset($expectedInitRequest->otpCvc);
+        unset($expectedInitRequest->otpConsumerRegistrationId);
+        unset($expectedInitRequest->mkbSzepCardNumber);
+        unset($expectedInitRequest->mkbSzepCvv);
+
+        $response = $this->createResponse([
+            'ResultCode' => PaymentGateway::RESULT_CODE_SUCCESS,
+            'TransactionId' => $this->transactionId,
+        ]);
+
+        $this->setSuccessfulRequestCommon($expectedInitRequest, $response);
+
+        $code = 'bigfish_pmgw_saferpay';
+        $config = [
+            'name' => 'bigfish_pmgw_saferpay',
+            'storename' => 'test_storename',
+            'apikey' => 'test_apikey',
+            'provider_code' => 'Saferpay',
+            'response_url' => '/test_response_url',
+            'payment_methods' => 'foo,bar',
+            'wallets' => 'bar,foo',
+            'one_click_payment' => 0,
+            'testmode' => 1,
+            'active' => 1,
+            'debug' => 1,
+        ];
+
+        $this->setPaymentMethodMockGetCode($code);
+        $this->setConfigProviderMockGetProviderConfig($code, $config);
+
+        $initializeRequest = new InitializeRequest(
+            $this->configProviderMock,
+            $this->storeManagerMock,
+            $this->productMetaDataMock,
+            $this->moduleListMock,
+            $this->helperMock,
+            $this->loggerMock,
+            $this->dateTimeMock
+        );
+
+        $this->assertEquals([
+            'ResultCode' => 'SUCCESSFUL',
+            'TransactionId' => $this->transactionId,
+        ], $initializeRequest->build([
+            'payment' => $this->paymentDataObjectMock,
+        ]));
+
+    }
+
+    /**
+     * @test
+     */
+    public function successfulBuildRequestWithWirecardProviderTest()
+    {
+        $expectedInitRequest = $this->getExpectedInitRequest();
+
+        $expectedInitRequest->providerName = 'QPAY';
+        $expectedInitRequest->extra = $this->urlSafeEncode(json_encode([
+            'QpayPaymentType' => 'foo',
+        ]));
+
+        unset($expectedInitRequest->otpCardPocketId);
+        unset($expectedInitRequest->oneClickPayment);
+        unset($expectedInitRequest->oneClickReferenceId);
+        unset($expectedInitRequest->otpCardNumber);
+        unset($expectedInitRequest->otpExpiration);
+        unset($expectedInitRequest->otpCvc);
+        unset($expectedInitRequest->otpConsumerRegistrationId);
+        unset($expectedInitRequest->mkbSzepCardNumber);
+        unset($expectedInitRequest->mkbSzepCvv);
+
+        $response = $this->createResponse([
+            'ResultCode' => PaymentGateway::RESULT_CODE_SUCCESS,
+            'TransactionId' => $this->transactionId,
+        ]);
+
+        $this->setSuccessfulRequestCommon($expectedInitRequest, $response);
+
+        $code = 'bigfish_pmgw_wirecard';
+        $config = [
+            'name' => 'bigfish_pmgw_wirecard',
+            'storename' => 'test_storename',
+            'apikey' => 'test_apikey',
+            'provider_code' => 'QPAY',
+            'response_url' => '/test_response_url',
+            'payment_type' => 'foo',
+            'one_click_payment' => 0,
+            'testmode' => 1,
+            'active' => 1,
+            'debug' => 1,
+        ];
+
+        $this->setPaymentMethodMockGetCode($code);
+        $this->setConfigProviderMockGetProviderConfig($code, $config);
 
         $initializeRequest = new InitializeRequest(
             $this->configProviderMock,
@@ -403,97 +690,47 @@ class InitializeRequestTest extends \PHPUnit_Framework_TestCase
      */
     private function setSuccessfulRequestCommon(InitRequest $expectedInitRequest, Response $response)
     {
-        $this->productMetaDataMock->expects(static::once())
-            ->method('getVersion')
-            ->will($this->returnValue('test_magento_version'));
+        $this->setProductDataMockGetVersion();
 
-        $this->moduleListMock->expects(static::once())
-            ->method('getOne')
-            ->with('BigFish_Pmgw')
-            ->will($this->returnValue([
-                'setup_version' => 'test_setup_version',
-            ]));
+        $this->setModuleListMockGetOne();
 
-        $this->dateTimeMock->expects(static::once())
-            ->method('date')
-            ->will($this->returnValue($this->date));
+        $this->setDateTimeMockDate();
 
-        $this->paymentDataObjectMock->expects(static::once())
-            ->method('getPayment')
-            ->will($this->returnValue($this->paymentMock));
+        $this->setPaymentDataObjectMockGetPayment();
 
-        $this->paymentDataObjectMock->expects(static::once())
-            ->method('getOrder')
-            ->will($this->returnValue($this->orderMock));
+        $this->setPaymentDataObjectMockGetOrder();
 
-        $this->paymentMock->expects(static::once())
-            ->method('getMethodInstance')
-            ->will($this->returnValue($this->paymentMethodMock));
+        $this->setPaymentMockGetMethodInstance();
 
-        $this->storeManagerMock->expects(static::any())
-            ->method('getStore')
-            ->will($this->returnValue($this->storeMock));
+        $this->setStoreManagerMockGetStore();
 
-        $this->storeMock->expects(static::once())
-            ->method('getBaseUrl')
-            ->with('web')
-            ->will($this->returnValue('http://example.com'));
+        $this->setStoreMockGetBaseUrl();
 
-        $this->storeMock->expects(static::once())
-            ->method('getLocaleCode')
-            ->will($this->returnValue('ts_TS'));
+        $this->setStoreMockGetLocaleCode();
 
-        $this->orderMock->expects(static::any())
-            ->method('getOrderIncrementId')
-            ->will($this->returnValue($this->orderId));
+        $this->setOrderMockGetOrderIncrementId();
 
-        $this->orderMock->expects(static::once())
-            ->method('getGrandTotalAmount')
-            ->will($this->returnValue($this->amount));
+        $this->setOrderMockGetGrandTotalAmount();
 
-        $this->orderMock->expects(static::once())
-            ->method('getCurrencyCode')
-            ->will($this->returnValue('TES'));
+        $this->setOrderMockGetCurrencyCode();
 
-        $this->orderMock->expects(static::once())
-            ->method('getCustomerId')
-            ->will($this->returnValue($this->userId));
+        $this->setOrderMockGetCustomerId();
 
-        $this->transactionMock->expects(static::once())
-            ->method('setOrderId')
-            ->with($this->orderId)
-            ->will($this->returnSelf());
+        $this->setHelperMockInitializePaymentGatewayTransaction($expectedInitRequest, $response);
 
-        $this->transactionMock->expects(static::once())
-            ->method('setTransactionId')
-            ->with($this->transactionId)
-            ->will($this->returnSelf());
+        $this->setTransactionMockSetOrderId();
 
-        $this->transactionMock->expects(static::once())
-            ->method('setCreatedTime')
-            ->with($this->date)
-            ->will($this->returnSelf());
+        $this->setTransactionMockSetTransactionId();
 
-        $this->transactionMock->expects(static::once())
-            ->method('setStatus')
-            ->with(100)
-            ->will($this->returnSelf());
+        $this->setTransactionMockSetCreatedTime();
 
-        $this->transactionMock->expects(static::once())
-            ->method('save');
+        $this->setTransactionMockSetStatus();
 
-        $this->helperMock->expects(static::once())
-            ->method('createTransaction')
-            ->will($this->returnValue($this->transactionMock));
+        $this->setTransactionMockSave();
 
-        $this->helperMock->expects(static::once())
-            ->method('initializePaymentGatewayTransaction')
-            ->with($expectedInitRequest)
-            ->will($this->returnValue($response));
+        $this->setHelperMockCreateTransaction();
 
-        $this->helperMock->expects(static::once())
-            ->method('addTransactionLog')
-            ->with($this->transactionMock, $response);
+        $this->setHelperMockAddTransactionLog($response);
 
     }
 
@@ -525,6 +762,210 @@ class InitializeRequestTest extends \PHPUnit_Framework_TestCase
     {
         $data = str_replace(array('+', '/', '='), array('-', '_', '.'), base64_encode($string));
         return $data;
+    }
+
+    private function setProductDataMockGetVersion()
+    {
+        $this->productMetaDataMock->expects(static::once())
+            ->method('getVersion')
+            ->will($this->returnValue('test_magento_version'));
+    }
+
+    private function setModuleListMockGetOne()
+    {
+        $this->moduleListMock->expects(static::once())
+            ->method('getOne')
+            ->with('BigFish_Pmgw')
+            ->will($this->returnValue([
+                'setup_version' => 'test_setup_version',
+            ]));
+    }
+
+    private function setDateTimeMockDate()
+    {
+        $this->dateTimeMock->expects(static::once())
+            ->method('date')
+            ->will($this->returnValue($this->date));
+    }
+
+    private function setPaymentDataObjectMockGetPayment()
+    {
+        $this->paymentDataObjectMock->expects(static::once())
+            ->method('getPayment')
+            ->will($this->returnValue($this->paymentMock));
+    }
+
+    private function setPaymentDataObjectMockGetOrder()
+    {
+        $this->paymentDataObjectMock->expects(static::once())
+            ->method('getOrder')
+            ->will($this->returnValue($this->orderMock));
+    }
+
+    private function setPaymentMockGetMethodInstance()
+    {
+        $this->paymentMock->expects(static::once())
+            ->method('getMethodInstance')
+            ->will($this->returnValue($this->paymentMethodMock));
+    }
+
+    private function setStoreManagerMockGetStore()
+    {
+        $this->storeManagerMock->expects(static::any())
+            ->method('getStore')
+            ->will($this->returnValue($this->storeMock));
+    }
+
+    private function setStoreMockGetBaseUrl()
+    {
+        $this->storeMock->expects(static::once())
+            ->method('getBaseUrl')
+            ->with('web')
+            ->will($this->returnValue('http://example.com'));
+    }
+
+    private function setStoreMockGetLocaleCode()
+    {
+        $this->storeMock->expects(static::once())
+            ->method('getLocaleCode')
+            ->will($this->returnValue('ts_TS'));
+    }
+
+    private function setOrderMockGetOrderIncrementId()
+    {
+        $this->orderMock->expects(static::any())
+            ->method('getOrderIncrementId')
+            ->will($this->returnValue($this->orderId));
+    }
+
+    private function setOrderMockGetGrandTotalAmount()
+    {
+        $this->orderMock->expects(static::once())
+            ->method('getGrandTotalAmount')
+            ->will($this->returnValue($this->amount));
+    }
+
+    private function setOrderMockGetCurrencyCode()
+    {
+        $this->orderMock->expects(static::once())
+            ->method('getCurrencyCode')
+            ->will($this->returnValue('TES'));
+    }
+
+    private function setOrderMockGetCustomerId()
+    {
+        $this->orderMock->expects(static::once())
+            ->method('getCustomerId')
+            ->will($this->returnValue($this->userId));
+    }
+
+    private function setTransactionMockSetOrderId()
+    {
+        $this->transactionMock->expects(static::once())
+            ->method('setOrderId')
+            ->with($this->orderId)
+            ->will($this->returnSelf());
+    }
+
+    private function setTransactionMockSetTransactionId()
+    {
+        $this->transactionMock->expects(static::once())
+            ->method('setTransactionId')
+            ->with($this->transactionId)
+            ->will($this->returnSelf());
+    }
+
+    private function setTransactionMockSetCreatedTime()
+    {
+        $this->transactionMock->expects(static::once())
+            ->method('setCreatedTime')
+            ->with($this->date)
+            ->will($this->returnSelf());
+    }
+
+    private function setTransactionMockSetStatus()
+    {
+        $this->transactionMock->expects(static::once())
+            ->method('setStatus')
+            ->with(100)
+            ->will($this->returnSelf());
+    }
+
+    private function setTransactionMockSave()
+    {
+        $this->transactionMock->expects(static::once())
+            ->method('save');
+    }
+
+    private function setHelperMockCreateTransaction()
+    {
+        $this->helperMock->expects(static::once())
+            ->method('createTransaction')
+            ->will($this->returnValue($this->transactionMock));
+    }
+
+    /**
+     * @param InitRequest $expectedInitRequest
+     * @param Response $response
+     */
+    private function setHelperMockInitializePaymentGatewayTransaction(InitRequest $expectedInitRequest, Response $response)
+    {
+        $this->helperMock->expects(static::once())
+            ->method('initializePaymentGatewayTransaction')
+            ->with($expectedInitRequest)
+            ->will($this->returnValue($response));
+    }
+
+    /**
+     * @param Response $response
+     */
+    private function setHelperMockAddTransactionLog(Response $response)
+    {
+        $this->helperMock->expects(static::once())
+            ->method('addTransactionLog')
+            ->with($this->transactionMock, $response);
+    }
+
+    /**
+     * @param string $code
+     */
+    private function setPaymentMethodMockGetCode($code)
+    {
+        $this->paymentMethodMock->expects(static::once())
+            ->method('getCode')
+            ->will($this->returnValue($code));
+    }
+
+    /**
+     * @param string $code
+     * @param array $config
+     */
+    private function setConfigProviderMockGetProviderConfig($code, array $config)
+    {
+        $this->configProviderMock->expects(static::once())
+            ->method('getProviderConfig')
+            ->with($code)
+            ->will($this->returnValue($config));
+    }
+
+    /**
+     * @param array $data
+     * @return Response
+     */
+    private function createResponse(array $data)
+    {
+        $response = new Response(json_encode($data));
+        return $response;
+    }
+
+    /**
+     * @param $errorMessage
+     */
+    private function setLoggerMockCritical($errorMessage)
+    {
+        $this->loggerMock->expects(static::once())
+            ->method('critical')
+            ->with($errorMessage);
     }
 
 }
