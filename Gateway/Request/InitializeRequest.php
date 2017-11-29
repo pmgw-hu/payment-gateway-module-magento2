@@ -22,6 +22,7 @@ use Magento\Payment\Gateway\Data\OrderAdapterInterface;
 use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 use Magento\Payment\Gateway\Request\BuilderInterface;
 use Magento\Backend\Model\UrlInterface;
+use Magento\Store\Model\StoreManager;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\App\ProductMetadataInterface;
 use Magento\Framework\Stdlib\DateTime\DateTime;
@@ -180,7 +181,7 @@ class InitializeRequest implements BuilderInterface
 
         $request
             ->setProviderName($providerConfig['provider_code'])
-            ->setResponseUrl($this->getStoreBaseUrl() . $providerConfig['responseUrl'])
+            ->setResponseUrl($this->getStoreBaseUrl() . $providerConfig['response_url'])
             ->setAmount($order->getGrandTotalAmount())
             ->setCurrency($order->getCurrencyCode())
             ->setOrderId($order->getOrderIncrementId())
