@@ -85,12 +85,14 @@ class Response extends Action
             case PaymentGateway::RESULT_CODE_TIMEOUT:
             case PaymentGateway::RESULT_CODE_ERROR:
             case PaymentGateway::RESULT_CODE_USER_CANCEL:
-                $this->_redirect('checkout/onepage/failure', array('_secure'=>true));
+                $this->_redirect('checkout/onepage/failure', ['_secure' => true]);
                 break;
             case PaymentGateway::RESULT_CODE_PENDING:
             case PaymentGateway::RESULT_CODE_SUCCESS:
-                $this->_redirect('checkout/onepage/success', array('_secure'=>true));
+                $this->_redirect('checkout/onepage/success', ['_secure' => true]);
                 break;
+            default:
+                throw new \UnexpectedValueException('Invalid response code.');
         }
     }
 
