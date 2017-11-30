@@ -2,6 +2,8 @@
 namespace BigFish\Pmgw\Test\Unit\Gateway\Helper;
 
 use BigFish\PaymentGateway\Config;
+use BigFish\PaymentGateway\Request\Init as InitRequest;
+use BigFish\PaymentGateway\Response;
 use BigFish\Pmgw\Gateway\Helper\Helper;
 use BigFish\Pmgw\Model\TransactionFactory;
 use BigFish\Pmgw\Model\LogFactory;
@@ -120,6 +122,22 @@ class HelperTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function updateTransactionStatusTest()
+    {
+        $this->transactionMock->expects(static::once())
+            ->method('setStatus')
+            ->with(100)
+            ->will($this->returnSelf());
+
+        $this->transactionMock->expects(static::once())
+            ->method('save');
+
+        $this->createHelper()->updateTransactionStatus($this->transactionMock, 100);
+    }
+
+    /**
+     * @test
+     */
     public function addTransactionLogTest()
     {
         $transactionId = 1;
@@ -225,6 +243,99 @@ class HelperTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @test
+     */
+    public function initializePaymentGatewayTransactionTest()
+    {
+        $helper = $this->createHelper();
+
+        $helper->setPaymentGatewayConfig($this->createPaymentGatewayConfig([
+            'storeName' => 'test_storename',
+            'apiKey' => 'test_apikey',
+            'testMode' => true,
+            'moduleName' => 'test_modulename',
+            'moduleVersion' => 'test_moduleversion',
+        ]));
+
+        $request = $this->createPaymentGatewayInitRequest()
+            ->setProviderName('test_provider')
+            ->setAmount(1);
+
+        $_SERVER['HTTP_HOST'] = null;
+
+        $expectedResponse = $this->createPaymentGatewayResponse([
+            'ResultCode' => 'UnknownStore',
+            'ResultMessage' => 'Ismeretlen kereskedő (test_storename)',
+        ]);
+
+        $this->paymentLoggerMock->expects(static::at(0))
+            ->method('debug')
+            ->with([
+                'action' => 'init',
+                'request' => [
+                    'StoreName' => 'test_storename',
+                    'ProviderName' => 'test_provider',
+                    'ResponseUrl' => null,
+                    'NotificationUrl' => null,
+                    'Amount' => '1',
+                    'OrderId' => null,
+                    'UserId' => null,
+                    'Currency' => null,
+                    'Language' => null,
+                    'MppPhoneNumber' => null,
+                    'MkbSzepCafeteriaId' => null,
+                    'AutoCommit' => '1',
+                    'Extra' => null,
+                    'GatewayPaymentPage' => '',
+                    'ModuleName' => 'test_modulename',
+                    'ModuleVersion' => 'test_moduleversion',
+                ],
+                'response' => (array)$expectedResponse,
+            ]);
+
+        $this->assertEquals(
+            $expectedResponse,
+            $helper->initializePaymentGatewayTransaction($request)
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function getPaymentGatewayResultTest()
+    {
+        $helper = $this->createHelper();
+
+        $helper->setPaymentGatewayConfig($this->createPaymentGatewayConfig([
+            'storeName' => 'test_storename',
+            'apiKey' => 'test_apikey',
+            'testMode' => true,
+            'moduleName' => 'test_modulename',
+            'moduleVersion' => 'test_moduleversion',
+        ]));
+
+        $_SERVER['HTTP_HOST'] = null;
+
+        $expectedResponse = $this->createPaymentGatewayResponse([
+            'ResultCode' => 'UnknownTransaction',
+            'ResultMessage' => 'Ismeretlen tranzakció (test_transaction_id)',
+        ]);
+
+        $this->paymentLoggerMock->expects(static::at(0))
+            ->method('debug')
+            ->with([
+                'action' => 'result',
+                'transactionId' => 'test_transaction_id',
+                'response' => (array)$expectedResponse,
+            ]);
+
+        $this->assertEquals(
+            $expectedResponse,
+            $helper->getPaymentGatewayResult('test_transaction_id')
+        );
+    }
+
+    /**
      * @return Helper
      */
     private function createHelper()
@@ -247,6 +358,23 @@ class HelperTest extends \PHPUnit_Framework_TestCase
     {
         $config = new Config($data);
         return $config;
+    }
+
+    /**
+     * @return InitRequest
+     */
+    private function createPaymentGatewayInitRequest()
+    {
+        return new InitRequest();
+    }
+
+    /**
+     * @param array $data
+     * @return Response
+     */
+    private function createPaymentGatewayResponse(array $data)
+    {
+        return new Response(json_encode($data));
     }
 
 }
