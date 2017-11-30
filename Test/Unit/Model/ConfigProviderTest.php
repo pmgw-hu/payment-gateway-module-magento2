@@ -218,10 +218,94 @@ class ConfigProviderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @test
+     */
+    public function getKhbCardPocketIdTest()
+    {
+        $configProvider = new ConfigProvider($this->scopeConfigMock);
+
+        $result = $configProvider->getKhbCardPocketId();
+
+        $this->assertEquals(4, count($result));
+
+        $this->assertEquals([
+            '', '1', '2', '3'
+        ], array_keys($result));
+    }
+
+    /**
+     * @test
+     */
+    public function getMkbCardPocketIdTest()
+    {
+        $configProvider = new ConfigProvider($this->scopeConfigMock);
+
+        $result = $configProvider->getMkbCardPocketId();
+
+        $this->assertEquals(4, count($result));
+
+        $this->assertEquals([
+            '', '1111', '2222', '3333'
+        ], array_keys($result));
+    }
+
+    /**
+     * @test
+     */
+    public function getOtpCardPocketIdTest()
+    {
+        $configProvider = new ConfigProvider($this->scopeConfigMock);
+
+        $result = $configProvider->getOtpCardPocketId();
+
+        $this->assertEquals(4, count($result));
+
+        $this->assertEquals([
+            '', '09', '07', '08'
+        ], array_keys($result));
+    }
+
+    /**
+     * @test
+     */
+    public function getSaferpayPaymentMethodsTest()
+    {
+        $configProvider = new ConfigProvider($this->scopeConfigMock);
+
+        $result = $configProvider->getSaferpayPaymentMethods();
+
+        $this->assertEquals(20, count($result));
+    }
+
+    /**
+     * @test
+     */
+    public function getSaferpayWalletsTest()
+    {
+        $configProvider = new ConfigProvider($this->scopeConfigMock);
+
+        $result = $configProvider->getSaferpayWallets();
+
+        $this->assertEquals(1, count($result));
+    }
+
+    /**
+     * @test
+     */
+    public function getWirecardPaymentTypesTest()
+    {
+        $configProvider = new ConfigProvider($this->scopeConfigMock);
+
+        $result = $configProvider->getWirecardPaymentTypes();
+
+        $this->assertEquals(25, count($result));
+    }
+
+    /**
      * @param array $scopeConfig
      * @param array $expected
      */
-    protected function assertConfig(array $scopeConfig, array $expected)
+    private function assertConfig(array $scopeConfig, array $expected)
     {
         $this->setScopeConfigMockGetValue($scopeConfig);
 
@@ -239,7 +323,7 @@ class ConfigProviderTest extends \PHPUnit_Framework_TestCase
     /**
      * @param array $scopeConfig
      */
-    protected function setScopeConfigMockGetValue(array $scopeConfig)
+    private function setScopeConfigMockGetValue(array $scopeConfig)
     {
         $this->scopeConfigMock->expects(static::once())
             ->method('getValue')
