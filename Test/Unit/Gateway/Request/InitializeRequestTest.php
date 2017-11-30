@@ -8,8 +8,7 @@ use BigFish\Pmgw\Model\ConfigProvider;
 use BigFish\Pmgw\Gateway\Request\InitializeRequest;
 use BigFish\Pmgw\Gateway\Helper\Helper;
 use BigFish\Pmgw\Test\Unit\Fixtures\StoreInterfaceFixture as StoreInterface;
-use BigFish\Pmgw\Test\Unit\Fixtures\TransactionFixture as Transaction;
-
+use BigFish\Pmgw\Test\Unit\Fixtures\Model\Transaction;
 use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\App\ProductMetadataInterface;

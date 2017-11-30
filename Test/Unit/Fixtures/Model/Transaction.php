@@ -1,9 +1,7 @@
 <?php
-namespace BigFish\Pmgw\Test\Unit\Fixtures;
+namespace BigFish\Pmgw\Test\Unit\Fixtures\Model;
 
-use BigFish\Pmgw\Model\Transaction;
-
-class TransactionFixture extends Transaction
+class Transaction extends \BigFish\Pmgw\Model\Transaction
 {
     /**
      * @param int $orderId
@@ -33,6 +31,11 @@ class TransactionFixture extends Transaction
      * @param int $status
      */
     public function setStatus($status)
+    {
+
+    }
+
+    public function getStatus()
     {
 
     }

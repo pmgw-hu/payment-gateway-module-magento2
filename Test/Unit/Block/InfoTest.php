@@ -1,7 +1,7 @@
 <?php
 namespace BigFish\Pmgw\Test\Unit\Block;
 
-use BigFish\Pmgw\Test\Unit\Fixtures\InfoBlockFixture as Info;
+use BigFish\Pmgw\Test\Unit\Fixtures\Block\Info;
 use Magento\Framework\View\Element\Template\Context;
 use Magento\Payment\Gateway\ConfigInterface;
 use Magento\Framework\Phrase;

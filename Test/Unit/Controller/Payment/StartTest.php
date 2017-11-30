@@ -2,7 +2,7 @@
 namespace BigFish\Pmgw\Test\Unit\Controller\Payment;
 
 use BigFish\Pmgw\Test\Unit\Fixtures\SessionFixture as Session;
-use BigFish\Pmgw\Test\Unit\Fixtures\ResultInterfaceFixture as ResultInterface;
+use BigFish\Pmgw\Test\Unit\Fixtures\Model\Response\ResultInterface;
 use BigFish\Pmgw\Controller\Payment\Start as StartController;
 
 class StartTest extends AbstractTest

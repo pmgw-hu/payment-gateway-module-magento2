@@ -1,9 +1,7 @@
 <?php
-namespace BigFish\Pmgw\Test\Unit\Fixtures;
+namespace BigFish\Pmgw\Test\Unit\Fixtures\Block;
 
-use BigFish\Pmgw\Block\Info;
-
-class InfoBlockFixture extends Info
+class Info extends \BigFish\Pmgw\Block\Info
 {
     /**
      * @param string $field
