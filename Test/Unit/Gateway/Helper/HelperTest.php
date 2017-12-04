@@ -261,8 +261,6 @@ class HelperTest extends \PHPUnit_Framework_TestCase
             ->setProviderName('test_provider')
             ->setAmount(1);
 
-        $_SERVER['HTTP_HOST'] = null;
-
         $expectedResponse = $this->createPaymentGatewayResponse([
             'ResultCode' => 'UnknownStore',
             'ResultMessage' => 'Ismeretlen kereskedő (test_storename)',
@@ -313,8 +311,6 @@ class HelperTest extends \PHPUnit_Framework_TestCase
             'moduleName' => 'test_modulename',
             'moduleVersion' => 'test_moduleversion',
         ]));
-
-        $_SERVER['HTTP_HOST'] = null;
 
         $expectedResponse = $this->createPaymentGatewayResponse([
             'ResultCode' => 'UnknownTransaction',

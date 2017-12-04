@@ -67,6 +67,12 @@
         <method name="bigfish_pmgw_paypal">
             <allow_multiple_address>1</allow_multiple_address>
         </method>
+        <method name="bigfish_pmgw_paysafecard">
+            <allow_multiple_address>1</allow_multiple_address>
+        </method>
+        <method name="bigfish_pmgw_paysafecash">
+            <allow_multiple_address>1</allow_multiple_address>
+        </method>
         <method name="bigfish_pmgw_payu2">
             <allow_multiple_address>1</allow_multiple_address>
         </method>

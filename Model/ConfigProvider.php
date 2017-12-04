@@ -35,6 +35,8 @@ class ConfigProvider implements ConfigProviderInterface
     const CODE_OTP_SIMPLE = 'bigfish_pmgw_otpsimple';
     const CODE_OTP_SZEP = 'bigfish_pmgw_otpszep';
     const CODE_PAYPAL = 'bigfish_pmgw_paypal';
+    const CODE_PAYSAFECARD = 'bigfish_pmgw_paysafecard';
+    const CODE_PAYSAFECASH = 'bigfish_pmgw_paysafecash';
     const CODE_PAYU2 = 'bigfish_pmgw_payu2';
     const CODE_SAFERPAY = 'bigfish_pmgw_saferpay';
     const CODE_SOFORT = 'bigfish_pmgw_sofort';

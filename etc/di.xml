@@ -628,6 +628,72 @@
     </virtualType>
     <!-- Paypal -->
 
+    <!-- Paysafecard -->
+    <virtualType name="BigFishPmgwPaysafecardFacade" type="Magento\Payment\Model\Method\Adapter">
+        <arguments>
+            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_PAYSAFECARD</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
+            <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">BigFishPmgwPaysafecardValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">BigFishPmgwCommandPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Configuration reader -->
+    <virtualType name="BigFishPmgwPaysafecardConfig" type="Magento\Payment\Gateway\Config\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_PAYSAFECARD</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Value handlers infrastructure -->
+    <virtualType name="BigFishPmgwPaysafecardValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">BigFishPmgwPaysafecardConfigValueHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="BigFishPmgwPaysafecardConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">BigFishPmgwPaysafecardConfig</argument>
+        </arguments>
+    </virtualType>
+    <!-- Paysafecard -->
+
+    <!-- Paysafecash -->
+    <virtualType name="BigFishPmgwPaysafecashFacade" type="Magento\Payment\Model\Method\Adapter">
+        <arguments>
+            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_PAYSAFECASH</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
+            <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">BigFishPmgwPaysafecashValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">BigFishPmgwCommandPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Configuration reader -->
+    <virtualType name="BigFishPmgwPaysafecashConfig" type="Magento\Payment\Gateway\Config\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_PAYSAFECASH</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Value handlers infrastructure -->
+    <virtualType name="BigFishPmgwPaysafecashValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">BigFishPmgwPaysafecashConfigValueHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="BigFishPmgwPaysafecashConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">BigFishPmgwPaysafecashConfig</argument>
+        </arguments>
+    </virtualType>
+    <!-- Paysafecash -->
+
     <!-- Payu2 -->
     <virtualType name="BigFishPmgwPayu2Facade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
@@ -763,7 +829,7 @@
     <!-- Wirecard -->
     <virtualType name="BigFishPmgwWirecardFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_OTP_SZEP</argument>
+            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_WIRECARD</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
             <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
             <argument name="valueHandlerPool" xsi:type="object">BigFishPmgwWirecardValueHandlerPool</argument>
@@ -774,7 +840,7 @@
     <!-- Configuration reader -->
     <virtualType name="BigFishPmgwWirecardConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_OTP_SZEP</argument>
+            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_WIRECARD</argument>
         </arguments>
     </virtualType>
 

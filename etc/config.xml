@@ -286,6 +286,38 @@
                 <can_initialize>1</can_initialize>
             </bigfish_pmgw_paypal>
 
+            <bigfish_pmgw_paysafecard>
+                <title>Paysafecard</title>
+                <active>0</active>
+                <allowspecific>0</allowspecific>
+                <sort_order>1</sort_order>
+                <!-- -->
+                <group>bigfish_pmgw</group>
+                <model>BigFishPmgwPaysafecardFacade</model>
+                <provider_code>PSC</provider_code>
+                <order_status>pending_payment</order_status>
+                <payment_action>sale</payment_action>
+                <is_gateway>1</is_gateway>
+                <can_use_checkout>1</can_use_checkout>
+                <can_initialize>1</can_initialize>
+            </bigfish_pmgw_paysafecard>
+
+            <bigfish_pmgw_paysafecash>
+                <title>Paysafecash</title>
+                <active>0</active>
+                <allowspecific>0</allowspecific>
+                <sort_order>1</sort_order>
+                <!-- -->
+                <group>bigfish_pmgw</group>
+                <model>BigFishPmgwPaysafecashFacade</model>
+                <provider_code>Paysafecash</provider_code>
+                <order_status>pending_payment</order_status>
+                <payment_action>sale</payment_action>
+                <is_gateway>1</is_gateway>
+                <can_use_checkout>1</can_use_checkout>
+                <can_initialize>1</can_initialize>
+            </bigfish_pmgw_paysafecash>
+
             <bigfish_pmgw_payu2>
                 <title>PayU</title>
                 <active>0</active>
