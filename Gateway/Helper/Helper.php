@@ -22,6 +22,7 @@ use BigFish\Pmgw\Model\TransactionFactory;
 use BigFish\Pmgw\Model\Transaction;
 use BigFish\Pmgw\Model\LogFactory;
 use Magento\Braintree\Model\Paypal\Helper\AbstractHelper;
+use Magento\Framework\DataObject;
 use Magento\Framework\Json\Helper\Data as JsonHelper;
 use Magento\Framework\Stdlib\DateTime\DateTime;
 use Magento\Payment\Model\Method\Logger;
@@ -118,6 +119,18 @@ class Helper extends AbstractHelper
             ->setCreatedTime($this->dateTime->date())
             ->setDebug($this->jsonHelper->jsonEncode($debug))
             ->save();
+    }
+
+    /**
+     * @param Transaction $transaction
+     * @return DataObject
+     */
+    public function getTransactionLog(Transaction $transaction)
+    {
+        return $this->logFactory->create()->getCollection()
+            ->addFilter('paymentgateway_id', $transaction->getId())
+            ->addFilter('status', $transaction->getStatus())
+            ->getFirstItem();
     }
 
     /**
