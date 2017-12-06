@@ -191,10 +191,6 @@ class InitializeRequest implements BuilderInterface
             ->setModuleVersion($this->moduleList->getOne(Helper::MODULE_NAME)['setup_version'])
             ->setAutoCommit(true);
 
-        if (isset($providerConfig['one_click_payment']) && (int)$providerConfig['one_click_payment'] === 1) {
-            $request->setOneClickPayment(true);
-        }
-
         $extraData = [];
 
         if ($providerConfig['name'] == ConfigProvider::CODE_KHB_SZEP) {

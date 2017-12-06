@@ -62,7 +62,6 @@
             <bigfish_pmgw_borgun2>
                 <title>Borgun RPG</title>
                 <active>0</active>
-                <one_click_payment>0</one_click_payment>
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
                 <!-- -->
@@ -95,7 +94,6 @@
             <bigfish_pmgw_escalion>
                 <title>Escalion</title>
                 <active>0</active>
-                <one_click_payment>0</one_click_payment>
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
                 <!-- -->
@@ -240,7 +238,6 @@
             <bigfish_pmgw_otpsimple>
                 <title>SimplePay</title>
                 <active>0</active>
-                <one_click_payment>0</one_click_payment>
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
                 <!-- -->
@@ -337,7 +334,6 @@
             <bigfish_pmgw_saferpay>
                 <title>SIX Payment - Saferpay</title>
                 <active>0</active>
-                <one_click_payment>0</one_click_payment>
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
                 <!-- -->
