@@ -14,6 +14,7 @@ namespace BigFish\Pmgw\Block;
 
 use BigFish\Pmgw\Gateway\Helper\Helper;
 use BigFish\Pmgw\Model\Log;
+use BigFish\Pmgw\Model\Transaction;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
 use Magento\Checkout\Model\Session;
@@ -154,6 +155,7 @@ class Success extends Template
      */
     private function getTransactionData($transactionId)
     {
+        /** @var Transaction $transaction */
         $transaction = $this->helper->getTransactionByTransactionId($transactionId);
 
         if (!$transaction || !$transaction->getId()) {

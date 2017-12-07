@@ -2,16 +2,17 @@
 <?php if ($block->getOrderId() && $block->getCanViewOrder()):?>
     <?php /** @var \stdClass $response */ ?>
     <?php $response = $block->getResponse(); ?>
+    <?php if ($response && is_object($response)): ?>
+        <?php if (property_exists($response, 'ResultMessage')): ?>
+        <p><?php echo __('ResultMessage: %1', $response->ResultMessage); ?></p>
+        <?php endif; ?>
 
-    <?php if (property_exists($response, 'ResultMessage')): ?>
-    <p><?php echo __('ResultMessage: %1', $response->ResultMessage); ?></p>
-    <?php endif; ?>
+        <?php if (property_exists($response, 'ProviderTransactionId')): ?>
+        <p><?php echo __('ProviderTransactionId: %1', $response->ProviderTransactionId); ?></p>
+        <?php endif; ?>
 
-    <?php if (property_exists($response, 'ProviderTransactionId')): ?>
-    <p><?php echo __('ProviderTransactionId: %1', $response->ProviderTransactionId); ?></p>
-    <?php endif; ?>
-
-    <?php if (property_exists($response, 'Anum')): ?>
-    <p><?php echo __('Anum: %1', $response->Anum); ?></p>
+        <?php if (property_exists($response, 'Anum')): ?>
+        <p><?php echo __('Anum: %1', $response->Anum); ?></p>
+        <?php endif; ?>
     <?php endif; ?>
 <?php endif;?>
