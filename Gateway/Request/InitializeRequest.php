@@ -17,12 +17,12 @@ use BigFish\Pmgw\Gateway\Helper\Helper;
 use BigFish\PaymentGateway;
 use BigFish\PaymentGateway\Config;
 use BigFish\PaymentGateway\Request\Init as InitRequest;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Module\ModuleListInterface;
 use Magento\Payment\Gateway\Data\OrderAdapterInterface;
 use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 use Magento\Payment\Gateway\Request\BuilderInterface;
 use Magento\Backend\Model\UrlInterface;
-use Magento\Store\Model\StoreManager;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\App\ProductMetadataInterface;
 use Magento\Framework\Stdlib\DateTime\DateTime;
@@ -95,6 +95,7 @@ class InitializeRequest implements BuilderInterface
     /**
      * @param array $buildSubject
      * @return array
+     * @throws \Exception
      */
     public function build(array $buildSubject)
     {
@@ -147,6 +148,7 @@ class InitializeRequest implements BuilderInterface
     /**
      * @param PaymentDataObjectInterface $payment
      * @return array
+     * @throws LocalizedException
      */
     protected function getProviderConfig(PaymentDataObjectInterface $payment)
     {
@@ -174,6 +176,7 @@ class InitializeRequest implements BuilderInterface
      * @param OrderAdapterInterface $order
      * @param $providerConfig
      * @return InitRequest
+     * @throws \Exception
      */
     protected function getPaymentGatewayInitRequest(OrderAdapterInterface $order, array $providerConfig)
     {

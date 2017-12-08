@@ -85,7 +85,6 @@ class ConfigProviderTest extends \PHPUnit_Framework_TestCase
             [
                 'name' => 'bigfish_pmgw_test',
                 'active' => 1,
-                'debug' => 1,
             ],
         ]);
     }
@@ -109,12 +108,10 @@ class ConfigProviderTest extends \PHPUnit_Framework_TestCase
             [
                 'name' => 'bigfish_pmgw_foo',
                 'active' => 1,
-                'debug' => 1,
             ],
             [
                 'name' => 'bigfish_pmgw_bar',
                 'active' => 1,
-                'debug' => 1,
             ],
         ]);
     }
@@ -141,12 +138,10 @@ class ConfigProviderTest extends \PHPUnit_Framework_TestCase
             [
                 'name' => 'bigfish_pmgw_foo',
                 'active' => 1,
-                'debug' => 1,
             ],
             [
                 'name' => 'bigfish_pmgw_bar',
                 'active' => 1,
-                'debug' => 1,
             ],
         ]);
     }
@@ -174,14 +169,12 @@ class ConfigProviderTest extends \PHPUnit_Framework_TestCase
                 'active' => 1,
                 'foo' => 'bar',
                 'bar' => null,
-                'debug' => 1,
             ],
             [
                 'name' => 'bigfish_pmgw_bar',
                 'active' => 1,
                 'foo' => null,
                 'bar' => 'foo',
-                'debug' => 1,
             ],
         ]);
     }
@@ -336,7 +329,7 @@ class ConfigProviderTest extends \PHPUnit_Framework_TestCase
      */
     private function setScopeConfigMockGetValue(array $scopeConfig)
     {
-        $this->scopeConfigMock->expects(static::once())
+        $this->scopeConfigMock->expects(static::any())
             ->method('getValue')
             ->with('payment')
             ->will($this->returnValue($scopeConfig));

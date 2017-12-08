@@ -17,8 +17,8 @@
         <payment>
             <bigfish_pmgw>
                 <active>1</active>
-                <storename>sdk_test</storename>
-                <apikey>86af3-80e4f-f8228-9498f-910ad</apikey>
+                <storename backend_model="Magento\Config\Model\Config\Backend\Encrypted">sdk_test</storename>
+                <apikey backend_model="Magento\Config\Model\Config\Backend\Encrypted">86af3-80e4f-f8228-9498f-910ad</apikey>
                 <testmode>1</testmode>
                 <sort_order>1</sort_order>
                 <!-- -->
