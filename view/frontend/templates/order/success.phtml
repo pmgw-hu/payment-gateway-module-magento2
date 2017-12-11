@@ -4,11 +4,11 @@
     <?php $response = $block->getResponse(); ?>
     <?php if ($response && is_object($response)): ?>
         <?php if (property_exists($response, 'ResultMessage')): ?>
-        <p><?php echo __('ResultMessage: %1', $response->ResultMessage); ?></p>
+        <p><?php echo __('Result message: %1', $response->ResultMessage); ?></p>
         <?php endif; ?>
 
         <?php if (property_exists($response, 'ProviderTransactionId')): ?>
-        <p><?php echo __('ProviderTransactionId: %1', $response->ProviderTransactionId); ?></p>
+        <p><?php echo __('Provider transaction id: %1', $response->ProviderTransactionId); ?></p>
         <?php endif; ?>
 
         <?php if (property_exists($response, 'Anum')): ?>

@@ -204,83 +204,83 @@ class ConfigProvider implements ConfigProviderInterface
         return [
             [
                 'value' => 'AMEX',
-                'label' => __('saferpay_payment_method_amex')
+                'label' => __('American Express'),
             ],
             [
                 'value' => 'DIRECTDEBIT',
-                'label' => __('saferpay_payment_method_directdebit')
+                'label' => __('Direct Debit'),
             ],
             [
                 'value' => 'INVOICE',
-                'label' => __('saferpay_payment_method_invoice')
+                'label' => __('Invoice'),
             ],
             [
                 'value' => 'BONUS',
-                'label' => __('saferpay_payment_method_bonus')
+                'label' => __('Bonus')
             ],
             [
                 'value' => 'DINERS',
-                'label' => __('saferpay_payment_method_diners')
+                'label' => __('Diners')
             ],
             [
                 'value' => 'EPRZELEWY',
-                'label' => __('saferpay_payment_method_eprzelewy')
+                'label' => __('ePrzelewy')
             ],
             [
                 'value' => 'EPS',
-                'label' => __('saferpay_payment_method_eps')
+                'label' => __('eps Online-wire')
             ],
             [
                 'value' => 'GIROPAY',
-                'label' => __('saferpay_payment_method_giropay')
+                'label' => __('giropay')
             ],
             [
                 'value' => 'IDEAL',
-                'label' => __('saferpay_payment_method_ideal')
+                'label' => __('iDEAL')
             ],
             [
                 'value' => 'JCB',
-                'label' => __('saferpay_payment_method_jcb')
+                'label' => __('JCB')
             ],
             [
                 'value' => 'MAESTRO',
-                'label' => __('saferpay_payment_method_maestro')
+                'label' => __('Maestro')
             ],
             [
                 'value' => 'MASTERCARD',
-                'label' => __('saferpay_payment_method_mastercard')
+                'label' => __('MasterCard')
             ],
             [
                 'value' => 'MYONE',
-                'label' => __('saferpay_payment_method_myone')
+                'label' => __('My One')
             ],
             [
                 'value' => 'PAYPAL',
-                'label' => __('saferpay_payment_method_paypal')
+                'label' => __('PayPal')
             ],
             [
                 'value' => 'POSTCARD',
-                'label' => __('saferpay_payment_method_postcard')
+                'label' => __('PostFinance Card')
             ],
             [
                 'value' => 'POSTFINANCE',
-                'label' => __('saferpay_payment_method_postfinance')
+                'label' => __('PostFinance')
             ],
             [
                 'value' => 'SAFERPAYTEST',
-                'label' => __('saferpay_payment_method_saferpaytest')
+                'label' => __('Saferpay test')
             ],
             [
                 'value' => 'SOFORT',
-                'label' => __('saferpay_payment_method_sofort')
+                'label' => __('SOFORT Banking')
             ],
             [
                 'value' => 'VISA',
-                'label' => __('saferpay_payment_method_visa')
+                'label' => __('Visa')
             ],
             [
                 'value' => 'VPAY',
-                'label' => __('saferpay_payment_method_vpay')
+                'label' => __('V PAY')
             ],
         ];
     }
@@ -295,7 +295,7 @@ class ConfigProvider implements ConfigProviderInterface
         return [
             [
                 'value' => 'MASTERPASS',
-                'label' => __('saferpay_wallet_masterpass')
+                'label' => __('MasterPass'),
             ],
         ];
     }
@@ -306,31 +306,31 @@ class ConfigProvider implements ConfigProviderInterface
     public function getWirecardPaymentTypes()
     {
         return [
-            'SELECT' => __('wirecard_payment_type_select'),
-            'BANCONTACT_MISTERCASH' => __('wirecard_payment_type_bancontact_mistercash'),
-            'CCARD' => __('wirecard_payment_type_ccard'),
-            'CCARD-MOTO' => __('wirecard_payment_type_ccard_moto'),
-            'EKONTO' => __('wirecard_payment_type_ekonto'),
-            'EPAY_BG' => __('wirecard_payment_type_epay_bg'),
-            'EPS' => __('wirecard_payment_type_eps'),
-            'GIROPAY' => __('wirecard_payment_type_giropay'),
-            'IDL' => __('wirecard_payment_type_idl'),
-            'MONETA' => __('wirecard_payment_type_moneta'),
-            'MPASS' => __('wirecard_payment_type_mpass'),
-            'PRZELEWY24' => __('wirecard_payment_type_przelewy24'),
-            'PAYPAL' => __('wirecard_payment_type_paypal'),
-            'PBX' => __('wirecard_payment_type_pbx'),
-            'POLI' => __('wirecard_payment_type_poli'),
-            'PSC' => __('wirecard_payment_type_psc'),
-            'QUICK' => __('wirecard_payment_type_quick'),
-            'SEPA-DD' => __('wirecard_payment_type_sepa_dd'),
-            'SKRILLDIRECT' => __('wirecard_payment_type_skrilldirect'),
-            'SKRILLWALLET' => __('wirecard_payment_type_skrillwallet'),
-            'SOFORTUEBERWEISUNG' => __('wirecard_payment_type_sofortueberweisung'),
-            'TATRAPAY' => __('wirecard_payment_type_tatrapay'),
-            'TRUSTLY' => __('wirecard_payment_type_trustly'),
-            'TRUSTPAY' => __('wirecard_payment_type_trustpay'),
-            'VOUCHER' => __('wirecard_payment_type_voucher'),
+            'SELECT' => __('Select it on Wirecard side'),
+            'BANCONTACT_MISTERCASH' => __('Bancontact/Mister Cash'),
+            'CCARD' => __('Credit Card Maestro SecureCode'),
+            'CCARD-MOTO' => __('Credit Card - Mail Order and Telephone Order'),
+            'EKONTO' => __('eKonto'),
+            'EPAY_BG' => __('ePay.bg'),
+            'EPS' => __('eps Online-wire'),
+            'GIROPAY' => __('giropay'),
+            'IDL' => __('iDEAL'),
+            'MONETA' => __('moneta.ru'),
+            'MPASS' => __('mpass'),
+            'PRZELEWY24' => __('Przelewy24'),
+            'PAYPAL' => __('PayPal'),
+            'PBX' => __('paybox'),
+            'POLI' => __('POLi'),
+            'PSC' => __('paysafecard'),
+            'QUICK' => __('@Quick'),
+            'SEPA-DD' => __('SEPA Direct Debit'),
+            'SKRILLDIRECT' => __('Skrill Direct'),
+            'SKRILLWALLET' => __('Skrill Digital Wallet'),
+            'SOFORTUEBERWEISUNG' => __('SOFORT Banking'),
+            'TATRAPAY' => __('TatraPay'),
+            'TRUSTLY' => __('Trustly'),
+            'TRUSTPAY' => __('TrustPay'),
+            'VOUCHER' => __('My Voucher'),
         ];
     }
 

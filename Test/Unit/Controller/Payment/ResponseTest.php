@@ -77,8 +77,8 @@ class ResponseTest extends AbstractTest
 
     /**
      * @test
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage process_noTransactionIdInResponse
+     * @expectedException \Magento\Framework\Exception\LocalizedException
+     * @expectedExceptionMessage Missing or invalid transaction id.
      */
     public function missingTransactionIdTest()
     {
@@ -223,8 +223,8 @@ class ResponseTest extends AbstractTest
 
     /**
      * @test
-     * @expectedException \UnexpectedValueException
-     * @expectedExceptionMessage Invalid response code.
+     * @expectedException \Magento\Framework\Exception\LocalizedException
+     * @expectedExceptionMessage Missing or invalid result code.
      */
     public function invalidResultCodeTest()
     {
