@@ -1,4 +1,15 @@
 <?php
+/**
+ * BIG FISH Ltd.
+ * http://www.bigfish.hu
+ *
+ * @title      Magento -> Custom Payment Module for BIG FISH Payment Gateway
+ * @category   BigFish
+ * @package    BigFish_Pmgw
+ * @author     BIG FISH Ltd., paymentgateway [at] bigfish [dot] hu
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @copyright  Copyright (c) 2017, BIG FISH Ltd.
+ */
 namespace BigFish\Pmgw\Test\Unit\Gateway\Request;
 
 use BigFish\PaymentGateway;
@@ -252,7 +263,6 @@ class InitializeRequestTest extends \PHPUnit_Framework_TestCase
             'apikey' => 'test_apikey',
             'provider_code' => 'test_provider_code',
             'response_url' => '/test_response_url',
-            'one_click_payment' => 0,
             'testmode' => 1,
             'active' => 1,
             'debug' => 1,
@@ -300,59 +310,6 @@ class InitializeRequestTest extends \PHPUnit_Framework_TestCase
             'apikey' => 'test_apikey',
             'provider_code' => 'test_provider_code',
             'response_url' => '/test_response_url',
-            'one_click_payment' => 0,
-            'testmode' => 1,
-            'active' => 1,
-            'debug' => 1,
-        ];
-
-        $this->setPaymentMethodMockGetCode($code);
-        $this->setConfigProviderMockGetProviderConfig($code, $config);
-
-        $initializeRequest = new InitializeRequest(
-            $this->configProviderMock,
-            $this->storeManagerMock,
-            $this->productMetaDataMock,
-            $this->moduleListMock,
-            $this->helperMock,
-            $this->loggerMock,
-            $this->dateTimeMock
-        );
-
-        $this->assertEquals([
-            'ResultCode' => 'SUCCESSFUL',
-            'TransactionId' => $this->transactionId,
-        ], $initializeRequest->build([
-            'payment' => $this->paymentDataObjectMock,
-        ]));
-
-    }
-
-    /**
-     * @test
-     */
-    public function successfulBuildRequestWithOneClickPaymentTest()
-    {
-        $expectedInitRequest = $this->getExpectedInitRequest();
-
-        $expectedInitRequest->providerName = 'test_provider_code';
-        $expectedInitRequest->oneClickPayment = true;
-
-        $response = $this->createResponse([
-            'ResultCode' => PaymentGateway::RESULT_CODE_SUCCESS,
-            'TransactionId' => $this->transactionId,
-        ]);
-
-        $this->setSuccessfulRequestCommon($expectedInitRequest, $response);
-
-        $code = 'bigfish_pmgw_test';
-        $config = [
-            'name' => 'bigfish_pmgw_test',
-            'storename' => 'test_storename',
-            'apikey' => 'test_apikey',
-            'provider_code' => 'test_provider_code',
-            'response_url' => '/test_response_url',
-            'one_click_payment' => 1,
             'testmode' => 1,
             'active' => 1,
             'debug' => 1,
@@ -416,7 +373,6 @@ class InitializeRequestTest extends \PHPUnit_Framework_TestCase
             'provider_code' => 'KHBSZEP',
             'response_url' => '/test_response_url',
             'card_pocket_id' => 'test_card_pocket_id',
-            'one_click_payment' => 0,
             'testmode' => 1,
             'active' => 1,
             'debug' => 1,
@@ -470,7 +426,6 @@ class InitializeRequestTest extends \PHPUnit_Framework_TestCase
             'provider_code' => 'MKBSZEP',
             'response_url' => '/test_response_url',
             'card_pocket_id' => 10,
-            'one_click_payment' => 0,
             'testmode' => 1,
             'active' => 1,
             'debug' => 1,
@@ -523,7 +478,6 @@ class InitializeRequestTest extends \PHPUnit_Framework_TestCase
             'provider_code' => 'OTP',
             'response_url' => '/test_response_url',
             'card_pocket_id' => 10,
-            'one_click_payment' => 0,
             'testmode' => 1,
             'active' => 1,
             'debug' => 1,
@@ -590,7 +544,6 @@ class InitializeRequestTest extends \PHPUnit_Framework_TestCase
             'response_url' => '/test_response_url',
             'payment_methods' => 'foo,bar',
             'wallets' => 'bar,foo',
-            'one_click_payment' => 0,
             'testmode' => 1,
             'active' => 1,
             'debug' => 1,
@@ -655,7 +608,6 @@ class InitializeRequestTest extends \PHPUnit_Framework_TestCase
             'provider_code' => 'QPAY',
             'response_url' => '/test_response_url',
             'payment_type' => 'foo',
-            'one_click_payment' => 0,
             'testmode' => 1,
             'active' => 1,
             'debug' => 1,

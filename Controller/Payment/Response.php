@@ -18,6 +18,7 @@ use BigFish\Pmgw\Gateway\Helper\Helper;
 use BigFish\Pmgw\Gateway\Response\ResponseProcessor;
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Payment\Gateway\ConfigInterface;
 
 class Response extends Action
@@ -60,13 +61,14 @@ class Response extends Action
 
     /**
      * @return mixed
+     * @throws LocalizedException
      */
     public function execute()
     {
         $urlParams = $this->getRequest()->getParams();
 
         if (!array_key_exists(Helper::RESPONSE_FIELD_TRANSACTION_ID, $urlParams)) {
-            throw new \InvalidArgumentException(__('process_noTransactionIdInResponse'));
+            throw new LocalizedException(__('Missing or invalid transaction id.'));
         }
 
         $this->helper->setPaymentGatewayConfig(
@@ -92,7 +94,7 @@ class Response extends Action
                 $this->_redirect('checkout/onepage/success', ['_secure' => true]);
                 break;
             default:
-                throw new \UnexpectedValueException('Invalid response code.');
+                throw new LocalizedException(__('Missing or invalid result code.'));
         }
     }
 

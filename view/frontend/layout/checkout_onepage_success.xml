@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<body>
+    <referenceContainer name="order.success.additional.info">
+        <block class="BigFish\Pmgw\Block\Success"
+               name="bigfish.pmgw.order.success"
+               template="BigFish_Pmgw::order/success.phtml"/>
+    </referenceContainer>
+</body>

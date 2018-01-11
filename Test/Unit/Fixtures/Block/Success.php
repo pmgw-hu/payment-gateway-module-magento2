@@ -10,15 +10,18 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  * @copyright  Copyright (c) 2017, BIG FISH Ltd.
  */
-namespace BigFish\Pmgw\Test\Unit\Fixtures;
+namespace BigFish\Pmgw\Test\Unit\Fixtures\Block;
 
-use Magento\Customer\Model\Session;
+use Magento\Framework\View\Element\Template;
 
-class SessionFixture extends Session
+class Success extends \BigFish\Pmgw\Block\Success
 {
-    public function getPmgwRedirectUrlValue()
+    /**
+     * @return Template
+     */
+    public function _beforeToHtml()
     {
-
+        return parent::_beforeToHtml();
     }
 
 }

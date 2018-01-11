@@ -25,10 +25,12 @@
                 <field id="storename" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Store name</label>
                     <config_path>payment/bigfish_pmgw/storename</config_path>
+                    <backend_model>\Magento\Config\Model\Config\Backend\Encrypted</backend_model>
                 </field>
                 <field id="apikey" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>API key</label>
                     <config_path>payment/bigfish_pmgw/apikey</config_path>
+                    <backend_model>\Magento\Config\Model\Config\Backend\Encrypted</backend_model>
                 </field>
                 <field id="testmode" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Test mode</label>

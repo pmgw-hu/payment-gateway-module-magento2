@@ -1,4 +1,15 @@
 <?php
+/**
+ * BIG FISH Ltd.
+ * http://www.bigfish.hu
+ *
+ * @title      Magento -> Custom Payment Module for BIG FISH Payment Gateway
+ * @category   BigFish
+ * @package    BigFish_Pmgw
+ * @author     BIG FISH Ltd., paymentgateway [at] bigfish [dot] hu
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @copyright  Copyright (c) 2017, BIG FISH Ltd.
+ */
 namespace BigFish\Pmgw\Test\Unit\Model;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
@@ -74,7 +85,6 @@ class ConfigProviderTest extends \PHPUnit_Framework_TestCase
             [
                 'name' => 'bigfish_pmgw_test',
                 'active' => 1,
-                'debug' => 1,
             ],
         ]);
     }
@@ -98,12 +108,10 @@ class ConfigProviderTest extends \PHPUnit_Framework_TestCase
             [
                 'name' => 'bigfish_pmgw_foo',
                 'active' => 1,
-                'debug' => 1,
             ],
             [
                 'name' => 'bigfish_pmgw_bar',
                 'active' => 1,
-                'debug' => 1,
             ],
         ]);
     }
@@ -130,12 +138,10 @@ class ConfigProviderTest extends \PHPUnit_Framework_TestCase
             [
                 'name' => 'bigfish_pmgw_foo',
                 'active' => 1,
-                'debug' => 1,
             ],
             [
                 'name' => 'bigfish_pmgw_bar',
                 'active' => 1,
-                'debug' => 1,
             ],
         ]);
     }
@@ -163,14 +169,12 @@ class ConfigProviderTest extends \PHPUnit_Framework_TestCase
                 'active' => 1,
                 'foo' => 'bar',
                 'bar' => null,
-                'debug' => 1,
             ],
             [
                 'name' => 'bigfish_pmgw_bar',
                 'active' => 1,
                 'foo' => null,
                 'bar' => 'foo',
-                'debug' => 1,
             ],
         ]);
     }
@@ -325,7 +329,7 @@ class ConfigProviderTest extends \PHPUnit_Framework_TestCase
      */
     private function setScopeConfigMockGetValue(array $scopeConfig)
     {
-        $this->scopeConfigMock->expects(static::once())
+        $this->scopeConfigMock->expects(static::any())
             ->method('getValue')
             ->with('payment')
             ->will($this->returnValue($scopeConfig));
