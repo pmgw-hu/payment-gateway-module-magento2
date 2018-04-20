@@ -15,9 +15,9 @@
 
   - Create a directory for Magento and uncompress code
 
-    `mkdir magento`
+    `mkdir magento2`
 
-    `cd magento`
+    `cd magento2`
 
     `unzip /path/to/Magento-CE-[version]_sample_data-[release date].zip -d ./`
 
@@ -35,7 +35,7 @@
 
   - Set folder rights
 
-    `chmod -R og+w app/etc/ pub/media/ pub/static/ var/`
+    `chmod -R og+w app/etc/ generated/ pub/media/ pub/static/ var/`
 
   - Set magento binary attributes
 
@@ -51,13 +51,13 @@
 
   - Setup Magento application via web interface
 
-    `http://magento.dev.big.hu/setup/`
+    `http://magento2.dev.big.hu/setup/`
 
   - OR via command line
 
-    `docker exec -ti -u www-data magento_web_1 /bin/bash`
+    `docker exec -ti -u www-data magento2_web_1 /bin/bash`
 
-    `cd /var/www/dev/magento/`
+    `cd /var/www/dev/magento2/`
 
     ```bash
     bin/magento setup:install \
@@ -73,7 +73,7 @@
     --db-user=magento \
     --db-password=magento \
     --use-secure=0 \
-    --base-url=http://magento.dev.big.hu/ \
+    --base-url=http://magento2.dev.big.hu/ \
     --use-secure-admin=0 \
     --backend-frontname=admin \
     --use-rewrites=0 \
@@ -103,11 +103,11 @@
 
   - Check webshop
 
-    `http://magento.dev.big.hu/`
+    `http://magento2.dev.big.hu/`
 
   - Check admin interface
 
-    `http://magento.dev.big.hu/admin/`
+    `http://magento2.dev.big.hu/admin/`
 
 ### Setup Payment Gateway Module
 
@@ -115,7 +115,7 @@
 
     `https://marketplace.magento.com/customer/accessKeys/`
 
-  - Create `auth.json` in `magento` directory
+  - Create `auth.json` in `magento2` directory
 
     ```json
     {
@@ -134,9 +134,9 @@
 
     `chmod -R og+w vendor/`
 
-    `docker exec -ti -u www-data magento_web_1 /bin/bash`
+    `docker exec -ti -u www-data magento2_web_1 /bin/bash`
 
-    `cd /var/www/dev/magento/`
+    `cd /var/www/dev/magento2/`
 
     `composer require bigfish/paymentgateway`
 
@@ -172,7 +172,7 @@
 
   - Clear cache
 
-    `bin/magento cache:clear`
+    `bin/magento cache:clean`
 
   - Upgrade Magento application
 
@@ -185,3 +185,39 @@
   - Set developer mode
 
     `php bin/magento deploy:mode:set developer`
+
+## Extension publishing
+
+### Check coding standards
+
+  - Install Magento EQP Coding Standard
+
+    `https://github.com/magento/marketplace-eqp`
+
+    `docker exec -ti -u www-data magento2_web_1 /bin/bash`
+
+    `cd /var/www/dev/magento2/`
+
+    `composer create-project --repository=https://repo.magento.com magento/marketplace-eqp magento-coding-standard`
+
+  - Code review
+
+    `cd /var/www/dev/magento2/magento-coding-standard/`
+
+    `vendor/bin/phpcs --config-set php7.0_path /usr/bin/php7.0`
+
+    `vendor/bin/phpcs ../app/code/BigFish/Pmgw/ --standard=MEQP2 --severity=10 --extensions=php,phtml`
+
+### Validation
+
+  - Install Magento Marketplace tools
+
+    `https://github.com/magento/marketplace-tools`
+
+  - Create a zipped package file from the module on the github branch
+
+    `zip -r [vendor name]-module-[module name]-[version number].zip . -x '.git/*' '.docker/*' '.gitignore' '.gitlab-ci.yml' 'docker-compose.yml'`
+
+  - Use the validator
+
+    `php validate_m2_package.php -d [vendor name]-module-[module name]-[version number].zip`

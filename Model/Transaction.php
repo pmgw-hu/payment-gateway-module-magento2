@@ -10,7 +10,7 @@ class Transaction extends AbstractModel implements IdentityInterface
 
     protected function _construct()
     {
-        $this->_init('BigFish\Pmgw\Model\Resource\Transaction');
+        $this->_init('BigFish\Pmgw\Model\Source\Transaction');
     }
 
     public function getIdentities()

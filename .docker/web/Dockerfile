@@ -57,8 +57,8 @@ ADD ./src/postfix/main.cf /etc/postfix/main.cf
 #
 # Docroot
 #
-RUN mkdir -p /var/www/dev/magento \
-    && chown -R www-data:www-data /var/www/dev/magento \
-    && rm -rf /var/www/dev/magento/*
+RUN mkdir -p /var/www/dev/magento2 \
+    && chown -R www-data:www-data /var/www/dev/magento2 \
+    && rm -rf /var/www/dev/magento2/*
 
-VOLUME ["/var/www/dev/magento"]
+VOLUME ["/var/www/dev/magento2"]

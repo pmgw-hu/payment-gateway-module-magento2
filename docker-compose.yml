@@ -4,14 +4,14 @@ services:
     build: ./.docker/web/
     environment:
       - TERM=xterm
-    hostname: magento
+    hostname: magento2
     domainname: dev.big.hu
     volumes:
-      - ./:/var/www/dev/magento
+      - ./:/var/www/dev/magento2
     labels:
       - traefik.enable=true
       - traefik.port=80
-      - traefik.frontend.rule=Host:magento.dev.big.hu
+      - traefik.frontend.rule=Host:magento2.dev.big.hu
     network_mode: bridge
     links:
       - db

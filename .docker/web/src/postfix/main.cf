@@ -1,6 +1,6 @@
 smtpd_banner = $myhostname ESMTP $mail_name (Debian/GNU)
 
-myhostname = magento.dev.big.hu
+myhostname = magento2.dev.big.hu
 mydestination = localhost.localdomain, localhost
 mynetworks = 127.0.0.0/8
 

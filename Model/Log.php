@@ -10,7 +10,7 @@ class Log extends AbstractModel implements IdentityInterface
 
     protected function _construct()
     {
-        $this->_init('BigFish\Pmgw\Model\Resource\Log');
+        $this->_init('BigFish\Pmgw\Model\Source\Log');
     }
 
     public function getIdentities()
