@@ -23,15 +23,15 @@
 
   - Clone module code
 
-    `mkdir -p app/code/BigFish`
+    `mkdir -p app/code/Bigfishpaymentgateway`
 
-    `git clone -b master https://gitlab.big.hu/payment-gateway/sdk-magento2.git app/code/BigFish/Pmgw/`
+    `git clone -b master https://gitlab.big.hu/payment-gateway/sdk-magento2.git app/code/Bigfishpaymentgateway/Pmgw/`
 
   - Symlink Docker specific files and folders
 
-    `ln -s app/code/BigFish/Pmgw/.docker/`
+    `ln -s app/code/Bigfishpaymentgateway/Pmgw/.docker/`
 
-    `ln -s app/code/BigFish/Pmgw/docker-compose.yml`
+    `ln -s app/code/Bigfishpaymentgateway/Pmgw/docker-compose.yml`
 
   - Set folder rights
 
@@ -206,7 +206,7 @@
 
     `vendor/bin/phpcs --config-set php7.0_path /usr/bin/php7.0`
 
-    `vendor/bin/phpcs ../app/code/BigFish/Pmgw/ --standard=MEQP2 --severity=10 --extensions=php,phtml`
+    `vendor/bin/phpcs ../app/code/Bigfishpaymentgateway/Pmgw/ --standard=MEQP2 --severity=10 --extensions=php,phtml`
 
 ### Validation
 

@@ -5,16 +5,16 @@
  *
  * @title      Magento -> Custom Payment Module for BIG FISH Payment Gateway
  * @category   BigFish
- * @package    BigFish_Pmgw
+ * @package    Bigfishpaymentgateway_Pmgw
  * @author     BIG FISH Ltd., paymentgateway [at] bigfish [dot] hu
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  * @copyright  Copyright (c) 2017, BIG FISH Ltd.
  */
-namespace BigFish\Pmgw\Test\Unit\Controller\Payment;
+namespace Bigfishpaymentgateway\Pmgw\Test\Unit\Controller\Payment;
 
-use BigFish\Pmgw\Test\Unit\Fixtures\SessionFixture as Session;
-use BigFish\Pmgw\Test\Unit\Fixtures\Model\Response\ResultInterface;
-use BigFish\Pmgw\Controller\Payment\Start as StartController;
+use Bigfishpaymentgateway\Pmgw\Test\Unit\Fixtures\SessionFixture as Session;
+use Bigfishpaymentgateway\Pmgw\Test\Unit\Fixtures\Model\Response\ResultInterface;
+use Bigfishpaymentgateway\Pmgw\Controller\Payment\Start as StartController;
 
 class StartTest extends AbstractTest
 {

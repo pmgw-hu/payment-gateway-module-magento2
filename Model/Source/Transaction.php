@@ -1,5 +1,5 @@
 <?php
-namespace BigFish\Pmgw\Model\Source;
+namespace Bigfishpaymentgateway\Pmgw\Model\Source;
 
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 

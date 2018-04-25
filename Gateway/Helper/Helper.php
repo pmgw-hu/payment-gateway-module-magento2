@@ -5,12 +5,12 @@
  *
  * @title      Magento -> Custom Payment Module for BIG FISH Payment Gateway
  * @category   BigFish
- * @package    BigFish_Pmgw
+ * @package    Bigfishpaymentgateway_Pmgw
  * @author     BIG FISH Ltd., paymentgateway [at] bigfish [dot] hu
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  * @copyright  Copyright (c) 2017, BIG FISH Ltd.
  */
-namespace BigFish\Pmgw\Gateway\Helper;
+namespace Bigfishpaymentgateway\Pmgw\Gateway\Helper;
 
 use BigFish\PaymentGateway;
 use BigFish\PaymentGateway\Config;
@@ -18,9 +18,9 @@ use BigFish\PaymentGateway\Request\Start as StartRequest;
 use BigFish\PaymentGateway\Request\Init as InitRequest;
 use BigFish\PaymentGateway\Request\Result as ResultRequest;
 use BigFish\PaymentGateway\Response;
-use BigFish\Pmgw\Model\TransactionFactory;
-use BigFish\Pmgw\Model\Transaction;
-use BigFish\Pmgw\Model\LogFactory;
+use Bigfishpaymentgateway\Pmgw\Model\TransactionFactory;
+use Bigfishpaymentgateway\Pmgw\Model\Transaction;
+use Bigfishpaymentgateway\Pmgw\Model\LogFactory;
 use Magento\Braintree\Model\Paypal\Helper\AbstractHelper;
 use Magento\Framework\DataObject;
 use Magento\Framework\Json\Helper\Data as JsonHelper;
@@ -29,7 +29,7 @@ use Magento\Payment\Model\Method\Logger;
 
 class Helper extends AbstractHelper
 {
-    const MODULE_NAME = 'BigFish_Pmgw';
+    const MODULE_NAME = 'Bigfishpaymentgateway_Pmgw';
 
     const RESPONSE_FIELD_TRANSACTION_ID = 'TransactionId';
     const RESPONSE_FIELD_RESULT_CODE = 'ResultCode';

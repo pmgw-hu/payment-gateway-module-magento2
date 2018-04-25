@@ -5,12 +5,12 @@
  *
  * @title      Magento -> Custom Payment Module for BIG FISH Payment Gateway
  * @category   BigFish
- * @package    BigFish_Pmgw
+ * @package    Bigfishpaymentgateway_Pmgw
  * @author     BIG FISH Ltd., paymentgateway [at] bigfish [dot] hu
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  * @copyright  Copyright (c) 2017, BIG FISH Ltd.
  */
-namespace BigFish\Pmgw\Model\Order\Email\Sender;
+namespace Bigfishpaymentgateway\Pmgw\Model\Order\Email\Sender;
 
 use Magento\Sales\Model\Order;
 
@@ -43,7 +43,7 @@ class OrderSender extends \Magento\Sales\Model\Order\Email\Sender\OrderSender
      */
     protected function isPaymentGatewayPayment(Order $order)
     {
-        return (strpos($order->getPayment()->getMethod(), 'bigfish_pmgw_') === 0);
+        return (strpos($order->getPayment()->getMethod(), 'bigfishpaymentgateway_pmgw_') === 0);
     }
 
 }

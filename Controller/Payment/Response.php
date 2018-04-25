@@ -5,17 +5,17 @@
  *
  * @title      Magento -> Custom Payment Module for BIG FISH Payment Gateway
  * @category   BigFish
- * @package    BigFish_Pmgw
+ * @package    Bigfishpaymentgateway_Pmgw
  * @author     BIG FISH Ltd., paymentgateway [at] bigfish [dot] hu
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  * @copyright  Copyright (c) 2017, BIG FISH Ltd.
  */
-namespace BigFish\Pmgw\Controller\Payment;
+namespace Bigfishpaymentgateway\Pmgw\Controller\Payment;
 
 use BigFish\PaymentGateway;
 use BigFish\PaymentGateway\Config;
-use BigFish\Pmgw\Gateway\Helper\Helper;
-use BigFish\Pmgw\Gateway\Response\ResponseProcessor;
+use Bigfishpaymentgateway\Pmgw\Gateway\Helper\Helper;
+use Bigfishpaymentgateway\Pmgw\Gateway\Response\ResponseProcessor;
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\Exception\LocalizedException;

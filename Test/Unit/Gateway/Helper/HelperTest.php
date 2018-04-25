@@ -5,21 +5,21 @@
  *
  * @title      Magento -> Custom Payment Module for BIG FISH Payment Gateway
  * @category   BigFish
- * @package    BigFish_Pmgw
+ * @package    Bigfishpaymentgateway_Pmgw
  * @author     BIG FISH Ltd., paymentgateway [at] bigfish [dot] hu
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  * @copyright  Copyright (c) 2017, BIG FISH Ltd.
  */
-namespace BigFish\Pmgw\Test\Unit\Gateway\Helper;
+namespace Bigfishpaymentgateway\Pmgw\Test\Unit\Gateway\Helper;
 
 use BigFish\PaymentGateway\Config;
 use BigFish\PaymentGateway\Request\Init as InitRequest;
 use BigFish\PaymentGateway\Response;
-use BigFish\Pmgw\Gateway\Helper\Helper;
-use BigFish\Pmgw\Model\TransactionFactory;
-use BigFish\Pmgw\Model\LogFactory;
-use BigFish\Pmgw\Test\Unit\Fixtures\Model\Transaction;
-use BigFish\Pmgw\Test\Unit\Fixtures\Model\Log;
+use Bigfishpaymentgateway\Pmgw\Gateway\Helper\Helper;
+use Bigfishpaymentgateway\Pmgw\Model\TransactionFactory;
+use Bigfishpaymentgateway\Pmgw\Model\LogFactory;
+use Bigfishpaymentgateway\Pmgw\Test\Unit\Fixtures\Model\Transaction;
+use Bigfishpaymentgateway\Pmgw\Test\Unit\Fixtures\Model\Log;
 use Magento\Payment\Model\Method\Logger;
 use Magento\Framework\Json\Helper\Data as JsonHelper;
 use Magento\Framework\Stdlib\DateTime\DateTime;

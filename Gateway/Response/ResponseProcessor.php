@@ -5,22 +5,22 @@
  *
  * @title      Magento -> Custom Payment Module for BIG FISH Payment Gateway
  * @category   BigFish
- * @package    BigFish_Pmgw
+ * @package    Bigfishpaymentgateway_Pmgw
  * @author     BIG FISH Ltd., paymentgateway [at] bigfish [dot] hu
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  * @copyright  Copyright (c) 2017, BIG FISH Ltd.
  */
-namespace BigFish\Pmgw\Gateway\Response;
+namespace Bigfishpaymentgateway\Pmgw\Gateway\Response;
 
 use BigFish\PaymentGateway;
-use BigFish\Pmgw\Gateway\Helper\Helper;
-use BigFish\Pmgw\Model\Transaction;
+use Bigfishpaymentgateway\Pmgw\Gateway\Helper\Helper;
+use Bigfishpaymentgateway\Pmgw\Model\Transaction;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Sales\Model\Order;
 use Psr\Log\LoggerInterface;
 use Magento\Sales\Model\Order\Email\Sender\OrderSender;
 use BigFish\PaymentGateway\Response;
-use BigFish\Pmgw\Model\Response\ResultInterface;
+use Bigfishpaymentgateway\Pmgw\Model\Response\ResultInterface;
 
 class ResponseProcessor
 {
@@ -147,7 +147,7 @@ class ResponseProcessor
             throw new LocalizedException(__('Order not found.'));
         }
 
-        if (strpos($this->order->getPayment()->getMethod(), 'bigfish_pmgw_') !== 0) {
+        if (strpos($this->order->getPayment()->getMethod(), 'bigfishpaymentgateway_pmgw_') !== 0) {
             throw new LocalizedException(__('Invalid payment method.'));
         }
     }

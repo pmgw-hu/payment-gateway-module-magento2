@@ -5,12 +5,12 @@
  *
  * @title      Magento -> Custom Payment Module for BIG FISH Payment Gateway
  * @category   BigFish
- * @package    BigFish_Pmgw
+ * @package    Bigfishpaymentgateway_Pmgw
  * @author     BIG FISH Ltd., paymentgateway [at] bigfish [dot] hu
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  * @copyright  Copyright (c) 2017, BIG FISH Ltd.
  */
-namespace BigFish\Pmgw\Setup;
+namespace Bigfishpaymentgateway\Pmgw\Setup;
 
 use Magento\Framework\Setup\InstallSchemaInterface;
 use Magento\Framework\Setup\ModuleContextInterface;
@@ -241,7 +241,7 @@ class InstallSchema implements InstallSchemaInterface
         }
 
         foreach ($this->deprecatedPaymentMethods as $paymentMethod) {
-            $configPath = 'payment/bigfish_pmgw_' . strtolower($paymentMethod) . '/active';
+            $configPath = 'payment/bigfishpaymentgateway_pmgw_' . strtolower($paymentMethod) . '/active';
 
             if ($this->scopeConfig->getValue($configPath) !== null) {
                 $this->configWriter->save($configPath, 0);

@@ -5,21 +5,21 @@
  *
  * @title      Magento -> Custom Payment Module for BIG FISH Payment Gateway
  * @category   BigFish
- * @package    BigFish_Pmgw
+ * @package    Bigfishpaymentgateway_Pmgw
  * @author     BIG FISH Ltd., paymentgateway [at] bigfish [dot] hu
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  * @copyright  Copyright (c) 2017, BIG FISH Ltd.
  */
-namespace BigFish\Pmgw\Test\Unit\Gateway\Request;
+namespace Bigfishpaymentgateway\Pmgw\Test\Unit\Gateway\Request;
 
 use BigFish\PaymentGateway;
 use BigFish\PaymentGateway\Request\Init as InitRequest;
 use BigFish\PaymentGateway\Response;
-use BigFish\Pmgw\Model\ConfigProvider;
-use BigFish\Pmgw\Gateway\Request\InitializeRequest;
-use BigFish\Pmgw\Gateway\Helper\Helper;
-use BigFish\Pmgw\Test\Unit\Fixtures\StoreInterfaceFixture as StoreInterface;
-use BigFish\Pmgw\Test\Unit\Fixtures\Model\Transaction;
+use Bigfishpaymentgateway\Pmgw\Model\ConfigProvider;
+use Bigfishpaymentgateway\Pmgw\Gateway\Request\InitializeRequest;
+use Bigfishpaymentgateway\Pmgw\Gateway\Helper\Helper;
+use Bigfishpaymentgateway\Pmgw\Test\Unit\Fixtures\StoreInterfaceFixture as StoreInterface;
+use Bigfishpaymentgateway\Pmgw\Test\Unit\Fixtures\Model\Transaction;
 use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\App\ProductMetadataInterface;
@@ -204,7 +204,7 @@ class InitializeRequestTest extends \PHPUnit_Framework_TestCase
         $this->setPaymentDataObjectMockGetPayment();
         $this->setPaymentMockGetMethodInstance();
 
-        $code = 'bigfish_pmgw_test';
+        $code = 'bigfishpaymentgateway_pmgw_test';
         $config = [];
 
         $this->setPaymentMethodMockGetCode($code);
@@ -256,9 +256,9 @@ class InitializeRequestTest extends \PHPUnit_Framework_TestCase
         $this->setHelperMockInitializePaymentGatewayTransaction($expectedInitRequest, $response);
         $this->setLoggerMockCritical('ERROR: Error message');
 
-        $code = 'bigfish_pmgw_test';
+        $code = 'bigfishpaymentgateway_pmgw_test';
         $config = [
-            'name' => 'bigfish_pmgw_test',
+            'name' => 'bigfishpaymentgateway_pmgw_test',
             'storename' => 'test_storename',
             'apikey' => 'test_apikey',
             'provider_code' => 'test_provider_code',
@@ -303,9 +303,9 @@ class InitializeRequestTest extends \PHPUnit_Framework_TestCase
 
         $this->setSuccessfulRequestCommon($expectedInitRequest, $response);
 
-        $code = 'bigfish_pmgw_test';
+        $code = 'bigfishpaymentgateway_pmgw_test';
         $config = [
-            'name' => 'bigfish_pmgw_test',
+            'name' => 'bigfishpaymentgateway_pmgw_test',
             'storename' => 'test_storename',
             'apikey' => 'test_apikey',
             'provider_code' => 'test_provider_code',
@@ -365,9 +365,9 @@ class InitializeRequestTest extends \PHPUnit_Framework_TestCase
 
         $this->setSuccessfulRequestCommon($expectedInitRequest, $response);
 
-        $code = 'bigfish_pmgw_khbszep';
+        $code = 'bigfishpaymentgateway_pmgw_khbszep';
         $config = [
-            'name' => 'bigfish_pmgw_khbszep',
+            'name' => 'bigfishpaymentgateway_pmgw_khbszep',
             'storename' => 'test_storename',
             'apikey' => 'test_apikey',
             'provider_code' => 'KHBSZEP',
@@ -418,9 +418,9 @@ class InitializeRequestTest extends \PHPUnit_Framework_TestCase
 
         $this->setSuccessfulRequestCommon($expectedInitRequest, $response);
 
-        $code = 'bigfish_pmgw_mkbszep';
+        $code = 'bigfishpaymentgateway_pmgw_mkbszep';
         $config = [
-            'name' => 'bigfish_pmgw_mkbszep',
+            'name' => 'bigfishpaymentgateway_pmgw_mkbszep',
             'storename' => 'test_storename',
             'apikey' => 'test_apikey',
             'provider_code' => 'MKBSZEP',
@@ -470,9 +470,9 @@ class InitializeRequestTest extends \PHPUnit_Framework_TestCase
 
         $this->setSuccessfulRequestCommon($expectedInitRequest, $response);
 
-        $code = 'bigfish_pmgw_otpszep';
+        $code = 'bigfishpaymentgateway_pmgw_otpszep';
         $config = [
-            'name' => 'bigfish_pmgw_otpszep',
+            'name' => 'bigfishpaymentgateway_pmgw_otpszep',
             'storename' => 'test_storename',
             'apikey' => 'test_apikey',
             'provider_code' => 'OTP',
@@ -535,9 +535,9 @@ class InitializeRequestTest extends \PHPUnit_Framework_TestCase
 
         $this->setSuccessfulRequestCommon($expectedInitRequest, $response);
 
-        $code = 'bigfish_pmgw_saferpay';
+        $code = 'bigfishpaymentgateway_pmgw_saferpay';
         $config = [
-            'name' => 'bigfish_pmgw_saferpay',
+            'name' => 'bigfishpaymentgateway_pmgw_saferpay',
             'storename' => 'test_storename',
             'apikey' => 'test_apikey',
             'provider_code' => 'Saferpay',
@@ -600,9 +600,9 @@ class InitializeRequestTest extends \PHPUnit_Framework_TestCase
 
         $this->setSuccessfulRequestCommon($expectedInitRequest, $response);
 
-        $code = 'bigfish_pmgw_wirecard';
+        $code = 'bigfishpaymentgateway_pmgw_wirecard';
         $config = [
-            'name' => 'bigfish_pmgw_wirecard',
+            'name' => 'bigfishpaymentgateway_pmgw_wirecard',
             'storename' => 'test_storename',
             'apikey' => 'test_apikey',
             'provider_code' => 'QPAY',
@@ -726,7 +726,7 @@ class InitializeRequestTest extends \PHPUnit_Framework_TestCase
     {
         $this->moduleListMock->expects(static::once())
             ->method('getOne')
-            ->with('BigFish_Pmgw')
+            ->with('Bigfishpaymentgateway_Pmgw')
             ->will($this->returnValue([
                 'setup_version' => 'test_setup_version',
             ]));

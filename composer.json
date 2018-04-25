@@ -1,12 +1,12 @@
 {
-    "name": "bigfish/pmgw",
+    "name": "bigfishpaymentgateway/pmgw",
     "description": "Custom Payment Module for BIG FISH Payment Gateway",
     "require": {
         "magento/module-payment": "100.1.*",
         "magento/module-checkout": "100.1.*",
         "magento/module-sales": "100.1.*",
         "bigfish/paymentgateway": "dev-master",
-        "php": "~5.6.0|~7.0.0"
+        "php": "~5.6.0|~7.0"
     },
     "type": "magento2-module",
     "version": "2.0.0",
@@ -19,7 +19,7 @@
             "registration.php"
         ],
         "psr-4": {
-            "BigFish\\Pmgw\\": ""
+            "Bigfishpaymentgateway\\Pmgw\\": ""
         }
     }
 }

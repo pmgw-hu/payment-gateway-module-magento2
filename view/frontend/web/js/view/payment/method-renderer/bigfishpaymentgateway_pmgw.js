@@ -13,7 +13,7 @@ define(
 
         return Component.extend({
             defaults: {
-                template: 'BigFish_Pmgw/payment/form',
+                template: 'Bigfishpaymentgateway_Pmgw/payment/form',
                 redirectAfterPlaceOrder: false
             },
 
@@ -21,13 +21,13 @@ define(
                 return {
                     'method': this.item.method,
                     'additional_data': {
-                        'provider': 'bigfish_pmgw'
+                        'provider': 'bigfishpaymentgateway_pmgw'
                     }
                 };
             },
 
             afterPlaceOrder: function () {
-                window.location.replace(url.build('bigfish_pmgw/payment/start'));
+                window.location.replace(url.build('bigfishpaymentgateway_pmgw/payment/start'));
             }
 
         });

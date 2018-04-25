@@ -5,16 +5,16 @@
  *
  * @title      Magento -> Custom Payment Module for BIG FISH Payment Gateway
  * @category   BigFish
- * @package    BigFish_Pmgw
+ * @package    Bigfishpaymentgateway_Pmgw
  * @author     BIG FISH Ltd., paymentgateway [at] bigfish [dot] hu
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  * @copyright  Copyright (c) 2017, BIG FISH Ltd.
  */
-namespace BigFish\Pmgw\Block;
+namespace Bigfishpaymentgateway\Pmgw\Block;
 
-use BigFish\Pmgw\Gateway\Helper\Helper;
-use BigFish\Pmgw\Model\Log;
-use BigFish\Pmgw\Model\Transaction;
+use Bigfishpaymentgateway\Pmgw\Gateway\Helper\Helper;
+use Bigfishpaymentgateway\Pmgw\Model\Log;
+use Bigfishpaymentgateway\Pmgw\Model\Transaction;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
 use Magento\Checkout\Model\Session;

@@ -6,7 +6,7 @@
  *
  * @title      Magento -> Custom Payment Module for BIG FISH Payment Gateway
  * @category   BigFish
- * @package    BigFish_Pmgw
+ * @package    Bigfishpaymentgateway_Pmgw
  * @author     BIG FISH Ltd., paymentgateway [at] bigfish [dot] hu
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  * @copyright  Copyright (c) 2017, BIG FISH Ltd.
@@ -15,385 +15,385 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
     <default>
         <payment>
-            <bigfish_pmgw>
+            <bigfishpaymentgateway_pmgw>
                 <active>1</active>
                 <storename backend_model="Magento\Config\Model\Config\Backend\Encrypted">sdk_test</storename>
                 <apikey backend_model="Magento\Config\Model\Config\Backend\Encrypted">86af3-80e4f-f8228-9498f-910ad</apikey>
                 <testmode>1</testmode>
                 <sort_order>1</sort_order>
                 <!-- -->
-                <response_url>bigfish_pmgw/payment/response</response_url>
-                <model>BigFishPmgwFacade</model>
+                <response_url>bigfishpaymentgateway_pmgw/payment/response</response_url>
+                <model>BigfishpaymentgatewayPmgwFacade</model>
                 <debug>1</debug>
-            </bigfish_pmgw>
+            </bigfishpaymentgateway_pmgw>
 
-            <bigfish_pmgw_barion2>
+            <bigfishpaymentgateway_pmgw_barion2>
                 <title>Barion Smart Gateway</title>
                 <active>0</active>
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
                 <!-- -->
-                <group>bigfish_pmgw</group>
-                <model>BigFishPmgwBarion2Facade</model>
+                <group>bigfishpaymentgateway_pmgw</group>
+                <model>BigfishpaymentgatewayPmgwBarion2Facade</model>
                 <provider_code>Barion2</provider_code>
                 <order_status>pending_payment</order_status>
                 <payment_action>sale</payment_action>
                 <is_gateway>1</is_gateway>
                 <can_use_checkout>1</can_use_checkout>
                 <can_initialize>1</can_initialize>
-            </bigfish_pmgw_barion2>
+            </bigfishpaymentgateway_pmgw_barion2>
 
-            <bigfish_pmgw_borgun>
+            <bigfishpaymentgateway_pmgw_borgun>
                 <title>Borgun SecurePay</title>
                 <active>0</active>
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
                 <!-- -->
-                <group>bigfish_pmgw</group>
-                <model>BigFishPmgwBorgunFacade</model>
+                <group>bigfishpaymentgateway_pmgw</group>
+                <model>BigfishpaymentgatewayPmgwBorgunFacade</model>
                 <provider_code>Borgun</provider_code>
                 <order_status>pending_payment</order_status>
                 <payment_action>sale</payment_action>
                 <is_gateway>1</is_gateway>
                 <can_use_checkout>1</can_use_checkout>
                 <can_initialize>1</can_initialize>
-            </bigfish_pmgw_borgun>
+            </bigfishpaymentgateway_pmgw_borgun>
 
-            <bigfish_pmgw_borgun2>
+            <bigfishpaymentgateway_pmgw_borgun2>
                 <title>Borgun RPG</title>
                 <active>0</active>
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
                 <!-- -->
-                <group>bigfish_pmgw</group>
-                <model>BigFishPmgwBorgun2Facade</model>
+                <group>bigfishpaymentgateway_pmgw</group>
+                <model>BigfishpaymentgatewayPmgwBorgun2Facade</model>
                 <provider_code>Borgun2</provider_code>
                 <order_status>pending_payment</order_status>
                 <payment_action>sale</payment_action>
                 <is_gateway>1</is_gateway>
                 <can_use_checkout>1</can_use_checkout>
                 <can_initialize>1</can_initialize>
-            </bigfish_pmgw_borgun2>
+            </bigfishpaymentgateway_pmgw_borgun2>
 
-            <bigfish_pmgw_cib>
+            <bigfishpaymentgateway_pmgw_cib>
                 <title>CIB Bank</title>
                 <active>0</active>
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
                 <!-- -->
-                <group>bigfish_pmgw</group>
-                <model>BigFishPmgwCibFacade</model>
+                <group>bigfishpaymentgateway_pmgw</group>
+                <model>BigfishpaymentgatewayPmgwCibFacade</model>
                 <provider_code>CIB</provider_code>
                 <order_status>pending_payment</order_status>
                 <payment_action>sale</payment_action>
                 <is_gateway>1</is_gateway>
                 <can_use_checkout>1</can_use_checkout>
                 <can_initialize>1</can_initialize>
-            </bigfish_pmgw_cib>
+            </bigfishpaymentgateway_pmgw_cib>
 
-            <bigfish_pmgw_escalion>
+            <bigfishpaymentgateway_pmgw_escalion>
                 <title>Escalion</title>
                 <active>0</active>
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
                 <!-- -->
-                <group>bigfish_pmgw</group>
-                <model>BigFishPmgwEscalionFacade</model>
+                <group>bigfishpaymentgateway_pmgw</group>
+                <model>BigfishpaymentgatewayPmgwEscalionFacade</model>
                 <provider_code>Escalion</provider_code>
                 <order_status>pending_payment</order_status>
                 <payment_action>sale</payment_action>
                 <is_gateway>1</is_gateway>
                 <can_use_checkout>1</can_use_checkout>
                 <can_initialize>1</can_initialize>
-            </bigfish_pmgw_escalion>
+            </bigfishpaymentgateway_pmgw_escalion>
 
-            <bigfish_pmgw_fhb>
+            <bigfishpaymentgateway_pmgw_fhb>
                 <title>FHB Bank</title>
                 <active>0</active>
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
                 <!-- -->
-                <group>bigfish_pmgw</group>
-                <model>BigFishPmgwFhbFacade</model>
+                <group>bigfishpaymentgateway_pmgw</group>
+                <model>BigfishpaymentgatewayPmgwFhbFacade</model>
                 <provider_code>FHB</provider_code>
                 <order_status>pending_payment</order_status>
                 <payment_action>sale</payment_action>
                 <is_gateway>1</is_gateway>
                 <can_use_checkout>1</can_use_checkout>
                 <can_initialize>1</can_initialize>
-            </bigfish_pmgw_fhb>
+            </bigfishpaymentgateway_pmgw_fhb>
 
-            <bigfish_pmgw_gp>
+            <bigfishpaymentgateway_pmgw_gp>
                 <title>Global Payments</title>
                 <active>0</active>
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
                 <!-- -->
-                <group>bigfish_pmgw</group>
-                <model>BigFishPmgwGpFacade</model>
+                <group>bigfishpaymentgateway_pmgw</group>
+                <model>BigfishpaymentgatewayPmgwGpFacade</model>
                 <provider_code>GP</provider_code>
                 <order_status>pending_payment</order_status>
                 <payment_action>sale</payment_action>
                 <is_gateway>1</is_gateway>
                 <can_use_checkout>1</can_use_checkout>
                 <can_initialize>1</can_initialize>
-            </bigfish_pmgw_gp>
+            </bigfishpaymentgateway_pmgw_gp>
 
-            <bigfish_pmgw_ipg>
+            <bigfishpaymentgateway_pmgw_ipg>
                 <title>Intelligent Payments</title>
                 <active>0</active>
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
                 <!-- -->
-                <group>bigfish_pmgw</group>
-                <model>BigFishPmgwIpgFacade</model>
+                <group>bigfishpaymentgateway_pmgw</group>
+                <model>BigfishpaymentgatewayPmgwIpgFacade</model>
                 <provider_code>IPG</provider_code>
                 <order_status>pending_payment</order_status>
                 <payment_action>sale</payment_action>
                 <is_gateway>1</is_gateway>
                 <can_use_checkout>1</can_use_checkout>
                 <can_initialize>1</can_initialize>
-            </bigfish_pmgw_ipg>
+            </bigfishpaymentgateway_pmgw_ipg>
 
-            <bigfish_pmgw_khb>
+            <bigfishpaymentgateway_pmgw_khb>
                 <title>K&amp;H Bank</title>
                 <active>0</active>
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
                 <!-- -->
-                <group>bigfish_pmgw</group>
-                <model>BigFishPmgwKhbFacade</model>
+                <group>bigfishpaymentgateway_pmgw</group>
+                <model>BigfishpaymentgatewayPmgwKhbFacade</model>
                 <provider_code>KHB</provider_code>
                 <order_status>pending_payment</order_status>
                 <payment_action>sale</payment_action>
                 <is_gateway>1</is_gateway>
                 <can_use_checkout>1</can_use_checkout>
                 <can_initialize>1</can_initialize>
-            </bigfish_pmgw_khb>
+            </bigfishpaymentgateway_pmgw_khb>
 
-            <bigfish_pmgw_khbszep>
+            <bigfishpaymentgateway_pmgw_khbszep>
                 <title>K&amp;H SZÉP Card</title>
                 <active>0</active>
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
                 <!-- -->
-                <group>bigfish_pmgw</group>
-                <model>BigFishPmgwKhbszepFacade</model>
+                <group>bigfishpaymentgateway_pmgw</group>
+                <model>BigfishpaymentgatewayPmgwKhbszepFacade</model>
                 <provider_code>KHBSZEP</provider_code>
                 <order_status>pending_payment</order_status>
                 <payment_action>sale</payment_action>
                 <is_gateway>1</is_gateway>
                 <can_use_checkout>1</can_use_checkout>
                 <can_initialize>1</can_initialize>
-            </bigfish_pmgw_khbszep>
+            </bigfishpaymentgateway_pmgw_khbszep>
 
-            <bigfish_pmgw_mkbszep>
+            <bigfishpaymentgateway_pmgw_mkbszep>
                 <title>MKB SZÉP Card</title>
                 <active>0</active>
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
                 <!-- -->
-                <group>bigfish_pmgw</group>
-                <model>BigFishPmgwMkbszepFacade</model>
+                <group>bigfishpaymentgateway_pmgw</group>
+                <model>BigfishpaymentgatewayPmgwMkbszepFacade</model>
                 <provider_code>MKBSZEP</provider_code>
                 <order_status>pending_payment</order_status>
                 <payment_action>sale</payment_action>
                 <is_gateway>1</is_gateway>
                 <can_use_checkout>1</can_use_checkout>
                 <can_initialize>1</can_initialize>
-            </bigfish_pmgw_mkbszep>
+            </bigfishpaymentgateway_pmgw_mkbszep>
 
-            <bigfish_pmgw_otp>
+            <bigfishpaymentgateway_pmgw_otp>
                 <title>OTP Bank</title>
                 <active>0</active>
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
                 <!-- -->
-                <group>bigfish_pmgw</group>
-                <model>BigFishPmgwOtpFacade</model>
+                <group>bigfishpaymentgateway_pmgw</group>
+                <model>BigfishpaymentgatewayPmgwOtpFacade</model>
                 <provider_code>OTP</provider_code>
                 <order_status>pending_payment</order_status>
                 <payment_action>sale</payment_action>
                 <is_gateway>1</is_gateway>
                 <can_use_checkout>1</can_use_checkout>
                 <can_initialize>1</can_initialize>
-            </bigfish_pmgw_otp>
+            </bigfishpaymentgateway_pmgw_otp>
 
-            <bigfish_pmgw_otpaymp>
+            <bigfishpaymentgateway_pmgw_otpaymp>
                 <title>OTPay MasterPass</title>
                 <active>0</active>
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
                 <!-- -->
-                <group>bigfish_pmgw</group>
-                <model>BigFishPmgwOtpaympFacade</model>
+                <group>bigfishpaymentgateway_pmgw</group>
+                <model>BigfishpaymentgatewayPmgwOtpaympFacade</model>
                 <provider_code>OTPayMP</provider_code>
                 <order_status>pending_payment</order_status>
                 <payment_action>sale</payment_action>
                 <is_gateway>1</is_gateway>
                 <can_use_checkout>1</can_use_checkout>
                 <can_initialize>1</can_initialize>
-            </bigfish_pmgw_otpaymp>
+            </bigfishpaymentgateway_pmgw_otpaymp>
 
-            <bigfish_pmgw_otpsimple>
+            <bigfishpaymentgateway_pmgw_otpsimple>
                 <title>SimplePay</title>
                 <active>0</active>
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
                 <!-- -->
-                <group>bigfish_pmgw</group>
-                <model>BigFishPmgwOtpsimpleFacade</model>
+                <group>bigfishpaymentgateway_pmgw</group>
+                <model>BigfishpaymentgatewayPmgwOtpsimpleFacade</model>
                 <provider_code>OTPSimple</provider_code>
                 <order_status>pending_payment</order_status>
                 <payment_action>sale</payment_action>
                 <is_gateway>1</is_gateway>
                 <can_use_checkout>1</can_use_checkout>
                 <can_initialize>1</can_initialize>
-            </bigfish_pmgw_otpsimple>
+            </bigfishpaymentgateway_pmgw_otpsimple>
 
-            <bigfish_pmgw_otpszep>
+            <bigfishpaymentgateway_pmgw_otpszep>
                 <title>OTP SZÉP Card</title>
                 <active>0</active>
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
                 <!-- -->
-                <group>bigfish_pmgw</group>
-                <model>BigFishPmgwOtpszepFacade</model>
+                <group>bigfishpaymentgateway_pmgw</group>
+                <model>BigfishpaymentgatewayPmgwOtpszepFacade</model>
                 <provider_code>OTP</provider_code>
                 <order_status>pending_payment</order_status>
                 <payment_action>sale</payment_action>
                 <is_gateway>1</is_gateway>
                 <can_use_checkout>1</can_use_checkout>
                 <can_initialize>1</can_initialize>
-            </bigfish_pmgw_otpszep>
+            </bigfishpaymentgateway_pmgw_otpszep>
 
-            <bigfish_pmgw_paypal>
+            <bigfishpaymentgateway_pmgw_paypal>
                 <title>PayPal</title>
                 <active>0</active>
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
                 <!-- -->
-                <group>bigfish_pmgw</group>
-                <model>BigFishPmgwPaypalFacade</model>
+                <group>bigfishpaymentgateway_pmgw</group>
+                <model>BigfishpaymentgatewayPmgwPaypalFacade</model>
                 <provider_code>PayPal</provider_code>
                 <order_status>pending_payment</order_status>
                 <payment_action>sale</payment_action>
                 <is_gateway>1</is_gateway>
                 <can_use_checkout>1</can_use_checkout>
                 <can_initialize>1</can_initialize>
-            </bigfish_pmgw_paypal>
+            </bigfishpaymentgateway_pmgw_paypal>
 
-            <bigfish_pmgw_paysafecard>
+            <bigfishpaymentgateway_pmgw_paysafecard>
                 <title>Paysafecard</title>
                 <active>0</active>
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
                 <!-- -->
-                <group>bigfish_pmgw</group>
-                <model>BigFishPmgwPaysafecardFacade</model>
+                <group>bigfishpaymentgateway_pmgw</group>
+                <model>BigfishpaymentgatewayPmgwPaysafecardFacade</model>
                 <provider_code>PSC</provider_code>
                 <order_status>pending_payment</order_status>
                 <payment_action>sale</payment_action>
                 <is_gateway>1</is_gateway>
                 <can_use_checkout>1</can_use_checkout>
                 <can_initialize>1</can_initialize>
-            </bigfish_pmgw_paysafecard>
+            </bigfishpaymentgateway_pmgw_paysafecard>
 
-            <bigfish_pmgw_paysafecash>
+            <bigfishpaymentgateway_pmgw_paysafecash>
                 <title>Paysafecash</title>
                 <active>0</active>
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
                 <!-- -->
-                <group>bigfish_pmgw</group>
-                <model>BigFishPmgwPaysafecashFacade</model>
+                <group>bigfishpaymentgateway_pmgw</group>
+                <model>BigfishpaymentgatewayPmgwPaysafecashFacade</model>
                 <provider_code>Paysafecash</provider_code>
                 <order_status>pending_payment</order_status>
                 <payment_action>sale</payment_action>
                 <is_gateway>1</is_gateway>
                 <can_use_checkout>1</can_use_checkout>
                 <can_initialize>1</can_initialize>
-            </bigfish_pmgw_paysafecash>
+            </bigfishpaymentgateway_pmgw_paysafecash>
 
-            <bigfish_pmgw_payu2>
+            <bigfishpaymentgateway_pmgw_payu2>
                 <title>PayU</title>
                 <active>0</active>
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
                 <!-- -->
-                <group>bigfish_pmgw</group>
-                <model>BigFishPmgwPayu2Facade</model>
+                <group>bigfishpaymentgateway_pmgw</group>
+                <model>BigfishpaymentgatewayPmgwPayu2Facade</model>
                 <provider_code>PayU2</provider_code>
                 <order_status>pending_payment</order_status>
                 <payment_action>sale</payment_action>
                 <is_gateway>1</is_gateway>
                 <can_use_checkout>1</can_use_checkout>
                 <can_initialize>1</can_initialize>
-            </bigfish_pmgw_payu2>
+            </bigfishpaymentgateway_pmgw_payu2>
 
-            <bigfish_pmgw_saferpay>
+            <bigfishpaymentgateway_pmgw_saferpay>
                 <title>SIX Payment - Saferpay</title>
                 <active>0</active>
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
                 <!-- -->
-                <group>bigfish_pmgw</group>
-                <model>BigFishPmgwSaferpayFacade</model>
+                <group>bigfishpaymentgateway_pmgw</group>
+                <model>BigfishpaymentgatewayPmgwSaferpayFacade</model>
                 <provider_code>Saferpay</provider_code>
                 <order_status>pending_payment</order_status>
                 <payment_action>sale</payment_action>
                 <is_gateway>1</is_gateway>
                 <can_use_checkout>1</can_use_checkout>
                 <can_initialize>1</can_initialize>
-            </bigfish_pmgw_saferpay>
+            </bigfishpaymentgateway_pmgw_saferpay>
 
-            <bigfish_pmgw_sofort>
+            <bigfishpaymentgateway_pmgw_sofort>
                 <title>Sofort Banking</title>
                 <active>0</active>
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
                 <!-- -->
-                <group>bigfish_pmgw</group>
-                <model>BigFishPmgwSofortFacade</model>
+                <group>bigfishpaymentgateway_pmgw</group>
+                <model>BigfishpaymentgatewayPmgwSofortFacade</model>
                 <provider_code>Sofort</provider_code>
                 <order_status>pending_payment</order_status>
                 <payment_action>sale</payment_action>
                 <is_gateway>1</is_gateway>
                 <can_use_checkout>1</can_use_checkout>
                 <can_initialize>1</can_initialize>
-            </bigfish_pmgw_sofort>
+            </bigfishpaymentgateway_pmgw_sofort>
 
-            <bigfish_pmgw_unicredit>
+            <bigfishpaymentgateway_pmgw_unicredit>
                 <title>UniCredit Bank</title>
                 <active>0</active>
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
                 <!-- -->
-                <group>bigfish_pmgw</group>
-                <model>BigFishPmgwUnicreditFacade</model>
+                <group>bigfishpaymentgateway_pmgw</group>
+                <model>BigfishpaymentgatewayPmgwUnicreditFacade</model>
                 <provider_code>UniCredit</provider_code>
                 <order_status>pending_payment</order_status>
                 <payment_action>sale</payment_action>
                 <is_gateway>1</is_gateway>
                 <can_use_checkout>1</can_use_checkout>
                 <can_initialize>1</can_initialize>
-            </bigfish_pmgw_unicredit>
+            </bigfishpaymentgateway_pmgw_unicredit>
 
-            <bigfish_pmgw_wirecard>
+            <bigfishpaymentgateway_pmgw_wirecard>
                 <title>Wirecard Checkout Page</title>
                 <active>0</active>
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
                 <!-- -->
-                <group>bigfish_pmgw</group>
-                <model>BigFishPmgwWirecardFacade</model>
+                <group>bigfishpaymentgateway_pmgw</group>
+                <model>BigfishpaymentgatewayPmgwWirecardFacade</model>
                 <provider_code>QPAY</provider_code>
                 <order_status>pending_payment</order_status>
                 <payment_action>sale</payment_action>
                 <is_gateway>1</is_gateway>
                 <can_use_checkout>1</can_use_checkout>
                 <can_initialize>1</can_initialize>
-            </bigfish_pmgw_wirecard>
+            </bigfishpaymentgateway_pmgw_wirecard>
         </payment>
     </default>
 </config>

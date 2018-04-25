@@ -5,15 +5,15 @@
  *
  * @title      Magento -> Custom Payment Module for BIG FISH Payment Gateway
  * @category   BigFish
- * @package    BigFish_Pmgw
+ * @package    Bigfishpaymentgateway_Pmgw
  * @author     BIG FISH Ltd., paymentgateway [at] bigfish [dot] hu
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  * @copyright  Copyright (c) 2017, BIG FISH Ltd.
  */
-namespace BigFish\Pmgw\Test\Unit\Model;
+namespace Bigfishpaymentgateway\Pmgw\Test\Unit\Model;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
-use BigFish\Pmgw\Model\ConfigProvider;
+use Bigfishpaymentgateway\Pmgw\Model\ConfigProvider;
 
 class ConfigProviderTest extends \PHPUnit_Framework_TestCase
 {
@@ -45,7 +45,7 @@ class ConfigProviderTest extends \PHPUnit_Framework_TestCase
     public function noPmgwProviderInScopeConfigTest()
     {
         $this->assertConfig([
-            'bigfish_pmgw' => [
+            'bigfishpaymentgateway_pmgw' => [
                 'debug' => 1,
             ],
             'other_provider' => [
@@ -60,10 +60,10 @@ class ConfigProviderTest extends \PHPUnit_Framework_TestCase
     public function noActivePmgwProviderInScopeConfigTest()
     {
         $this->assertConfig([
-            'bigfish_pmgw' => [
+            'bigfishpaymentgateway_pmgw' => [
                 'debug' => 1,
             ],
-            'bigfish_pmgw_test' => [
+            'bigfishpaymentgateway_pmgw_test' => [
                 'active' => 0,
             ],
         ], []);
@@ -75,15 +75,15 @@ class ConfigProviderTest extends \PHPUnit_Framework_TestCase
     public function oneActivePmgwProviderInScopeConfigTest()
     {
         $this->assertConfig([
-            'bigfish_pmgw' => [
+            'bigfishpaymentgateway_pmgw' => [
                 'debug' => 1,
             ],
-            'bigfish_pmgw_test' => [
+            'bigfishpaymentgateway_pmgw_test' => [
                 'active' => 1,
             ],
         ], [
             [
-                'name' => 'bigfish_pmgw_test',
+                'name' => 'bigfishpaymentgateway_pmgw_test',
                 'active' => 1,
             ],
         ]);
@@ -95,22 +95,22 @@ class ConfigProviderTest extends \PHPUnit_Framework_TestCase
     public function multipleActivePmgwProviderInScopeConfigTest()
     {
         $this->assertConfig([
-            'bigfish_pmgw' => [
+            'bigfishpaymentgateway_pmgw' => [
                 'debug' => 1,
             ],
-            'bigfish_pmgw_foo' => [
+            'bigfishpaymentgateway_pmgw_foo' => [
                 'active' => 1,
             ],
-            'bigfish_pmgw_bar' => [
+            'bigfishpaymentgateway_pmgw_bar' => [
                 'active' => 1,
             ],
         ], [
             [
-                'name' => 'bigfish_pmgw_foo',
+                'name' => 'bigfishpaymentgateway_pmgw_foo',
                 'active' => 1,
             ],
             [
-                'name' => 'bigfish_pmgw_bar',
+                'name' => 'bigfishpaymentgateway_pmgw_bar',
                 'active' => 1,
             ],
         ]);
@@ -122,25 +122,25 @@ class ConfigProviderTest extends \PHPUnit_Framework_TestCase
     public function multipleActiveAndInactivePmgwProviderInScopeConfigTest()
     {
         $this->assertConfig([
-            'bigfish_pmgw' => [
+            'bigfishpaymentgateway_pmgw' => [
                 'debug' => 1,
             ],
-            'bigfish_pmgw_foo' => [
+            'bigfishpaymentgateway_pmgw_foo' => [
                 'active' => 1,
             ],
-            'bigfish_pmgw_test' => [
+            'bigfishpaymentgateway_pmgw_test' => [
                 'active' => 0,
             ],
-            'bigfish_pmgw_bar' => [
+            'bigfishpaymentgateway_pmgw_bar' => [
                 'active' => 1,
             ],
         ], [
             [
-                'name' => 'bigfish_pmgw_foo',
+                'name' => 'bigfishpaymentgateway_pmgw_foo',
                 'active' => 1,
             ],
             [
-                'name' => 'bigfish_pmgw_bar',
+                'name' => 'bigfishpaymentgateway_pmgw_bar',
                 'active' => 1,
             ],
         ]);
@@ -152,26 +152,26 @@ class ConfigProviderTest extends \PHPUnit_Framework_TestCase
     public function unifyPmgwProviderConfigValuesTest()
     {
         $this->assertConfig([
-            'bigfish_pmgw' => [
+            'bigfishpaymentgateway_pmgw' => [
                 'debug' => 1,
             ],
-            'bigfish_pmgw_foo' => [
+            'bigfishpaymentgateway_pmgw_foo' => [
                 'active' => 1,
                 'foo' => 'bar',
             ],
-            'bigfish_pmgw_bar' => [
+            'bigfishpaymentgateway_pmgw_bar' => [
                 'active' => 1,
                 'bar' => 'foo',
             ],
         ], [
             [
-                'name' => 'bigfish_pmgw_foo',
+                'name' => 'bigfishpaymentgateway_pmgw_foo',
                 'active' => 1,
                 'foo' => 'bar',
                 'bar' => null,
             ],
             [
-                'name' => 'bigfish_pmgw_bar',
+                'name' => 'bigfishpaymentgateway_pmgw_bar',
                 'active' => 1,
                 'foo' => null,
                 'bar' => 'foo',
@@ -185,17 +185,17 @@ class ConfigProviderTest extends \PHPUnit_Framework_TestCase
     public function getProviderConfigWithInvalidCodeTest()
     {
         $this->setScopeConfigMockGetValue([
-            'bigfish_pmgw' => [
+            'bigfishpaymentgateway_pmgw' => [
                 'debug' => 1,
             ],
-            'bigfish_pmgw_test' => [
+            'bigfishpaymentgateway_pmgw_test' => [
                 'active' => 1,
             ],
         ]);
 
         $configProvider = new ConfigProvider($this->scopeConfigMock);
 
-        $this->assertEquals([], $configProvider->getProviderConfig('bigfish_pmgw_foo'));
+        $this->assertEquals([], $configProvider->getProviderConfig('bigfishpaymentgateway_pmgw_foo'));
     }
 
     /**
@@ -204,10 +204,10 @@ class ConfigProviderTest extends \PHPUnit_Framework_TestCase
     public function getProviderConfigWithValidCodeTest()
     {
         $this->setScopeConfigMockGetValue([
-            'bigfish_pmgw' => [
+            'bigfishpaymentgateway_pmgw' => [
                 'debug' => 1,
             ],
-            'bigfish_pmgw_test' => [
+            'bigfishpaymentgateway_pmgw_test' => [
                 'active' => 1,
             ],
         ]);
@@ -215,10 +215,10 @@ class ConfigProviderTest extends \PHPUnit_Framework_TestCase
         $configProvider = new ConfigProvider($this->scopeConfigMock);
 
         $this->assertEquals([
-            'name' => 'bigfish_pmgw_test',
+            'name' => 'bigfishpaymentgateway_pmgw_test',
             'active' => 1,
             'debug' => 1,
-        ], $configProvider->getProviderConfig('bigfish_pmgw_test'));
+        ], $configProvider->getProviderConfig('bigfishpaymentgateway_pmgw_test'));
     }
 
     /**
@@ -317,7 +317,7 @@ class ConfigProviderTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals([
             'payment' => [
-                'bigfish_pmgw' => [
+                'bigfishpaymentgateway_pmgw' => [
                     'providers' => $expected,
                 ],
             ],

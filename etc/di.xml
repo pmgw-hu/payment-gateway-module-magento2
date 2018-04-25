@@ -6,7 +6,7 @@
  *
  * @title      Magento -> Custom Payment Module for BIG FISH Payment Gateway
  * @category   BigFish
- * @package    BigFish_Pmgw
+ * @package    Bigfishpaymentgateway_Pmgw
  * @author     BIG FISH Ltd., paymentgateway [at] bigfish [dot] hu
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  * @copyright  Copyright (c) 2017, BIG FISH Ltd.
@@ -15,846 +15,846 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <!-- General configuration -->
 
-    <virtualType name="BigFishPmgwFacade" type="Magento\Payment\Model\Method\Adapter">
+    <virtualType name="BigfishpaymentgatewayPmgwFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE</argument>
+            <argument name="code" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
-            <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
-            <argument name="valueHandlerPool" xsi:type="object">BigFishPmgwValueHandlerPool</argument>
-            <argument name="commandPool" xsi:type="object">BigFishPmgwCommandPool</argument>
+            <argument name="infoBlockType" xsi:type="string">Bigfishpaymentgateway\Pmgw\Block\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">BigfishpaymentgatewayPmgwValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">BigfishpaymentgatewayPmgwCommandPool</argument>
         </arguments>
     </virtualType>
 
     <!-- Configuration reader -->
-    <virtualType name="BigFishPmgwConfig" type="Magento\Payment\Gateway\Config\Config">
+    <virtualType name="BigfishpaymentgatewayPmgwConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE</argument>
+            <argument name="methodCode" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE</argument>
         </arguments>
     </virtualType>
 
-    <!-- Logger, initialized with BigFishPmgwConfig -->
-    <virtualType name="BigFishPmgwLogger" type="Magento\Payment\Model\Method\Logger">
+    <!-- Logger, initialized with BigfishpaymentgatewayPmgwConfig -->
+    <virtualType name="BigfishpaymentgatewayPmgwLogger" type="Magento\Payment\Model\Method\Logger">
         <arguments>
-            <argument name="config" xsi:type="object">BigFishPmgwConfig</argument>
+            <argument name="config" xsi:type="object">BigfishpaymentgatewayPmgwConfig</argument>
         </arguments>
     </virtualType>
 
-    <type name="BigFish\Pmgw\Gateway\Http\Client\InitializeClient">
+    <type name="Bigfishpaymentgateway\Pmgw\Gateway\Http\Client\InitializeClient">
         <arguments>
-            <argument name="config" xsi:type="object">BigFishPmgwConfig</argument>
+            <argument name="config" xsi:type="object">BigfishpaymentgatewayPmgwConfig</argument>
         </arguments>
     </type>
 
-    <type name="BigFish\Pmgw\Controller\Payment\Response">
+    <type name="Bigfishpaymentgateway\Pmgw\Controller\Payment\Response">
         <arguments>
-            <argument name="config" xsi:type="object">BigFishPmgwConfig</argument>
+            <argument name="config" xsi:type="object">BigfishpaymentgatewayPmgwConfig</argument>
         </arguments>
     </type>
 
-    <type name="BigFish\Pmgw\Gateway\Helper\Helper">
+    <type name="Bigfishpaymentgateway\Pmgw\Gateway\Helper\Helper">
         <arguments>
-            <argument name="paymentLogger" xsi:type="object">BigFishPmgwLogger</argument>
+            <argument name="paymentLogger" xsi:type="object">BigfishpaymentgatewayPmgwLogger</argument>
         </arguments>
     </type>
 
-    <type name="BigFish\Pmgw\Block\Info">
+    <type name="Bigfishpaymentgateway\Pmgw\Block\Info">
         <arguments>
-            <argument name="config" xsi:type="object">BigFishPmgwConfig</argument>
+            <argument name="config" xsi:type="object">BigfishpaymentgatewayPmgwConfig</argument>
         </arguments>
     </type>
 
-    <preference for="Magento\Sales\Model\Order\Email\Sender\OrderSender" type="BigFish\Pmgw\Model\Order\Email\Sender\OrderSender"/>
-    <preference for="BigFish\Pmgw\Model\Response\ResultInterface" type="BigFish\Pmgw\Model\Response\Result"/>
+    <preference for="Magento\Sales\Model\Order\Email\Sender\OrderSender" type="Bigfishpaymentgateway\Pmgw\Model\Order\Email\Sender\OrderSender"/>
+    <preference for="Bigfishpaymentgateway\Pmgw\Model\Response\ResultInterface" type="Bigfishpaymentgateway\Pmgw\Model\Response\Result"/>
 
     <!-- Value handlers infrastructure -->
-    <virtualType name="BigFishPmgwValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+    <virtualType name="BigfishpaymentgatewayPmgwValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
         <arguments>
             <argument name="handlers" xsi:type="array">
-                <item name="default" xsi:type="string">BigFishPmgwConfigValueHandler</item>
+                <item name="default" xsi:type="string">BigfishpaymentgatewayPmgwConfigValueHandler</item>
             </argument>
         </arguments>
     </virtualType>
-    <virtualType name="BigFishPmgwConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+    <virtualType name="BigfishpaymentgatewayPmgwConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
         <arguments>
-            <argument name="configInterface" xsi:type="object">BigFishPmgwConfig</argument>
+            <argument name="configInterface" xsi:type="object">BigfishpaymentgatewayPmgwConfig</argument>
         </arguments>
     </virtualType>
 
     <!-- Commands infrastructure -->
-    <virtualType name="BigFishPmgwCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
+    <virtualType name="BigfishpaymentgatewayPmgwCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="initialize" xsi:type="string">BigFishPmgwInitializeCommand</item>
+                <item name="initialize" xsi:type="string">BigfishpaymentgatewayPmgwInitializeCommand</item>
             </argument>
         </arguments>
     </virtualType>
 
     <!-- Initialize command -->
-    <virtualType name="BigFishPmgwInitializeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+    <virtualType name="BigfishpaymentgatewayPmgwInitializeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
         <arguments>
-            <argument name="requestBuilder" xsi:type="object">BigFish\Pmgw\Gateway\Request\InitializeRequest</argument>
-            <argument name="transferFactory" xsi:type="object">BigFish\Pmgw\Gateway\Http\TransferFactory</argument>
-            <argument name="client" xsi:type="object">BigFish\Pmgw\Gateway\Http\Client\InitializeClient</argument>
+            <argument name="requestBuilder" xsi:type="object">Bigfishpaymentgateway\Pmgw\Gateway\Request\InitializeRequest</argument>
+            <argument name="transferFactory" xsi:type="object">Bigfishpaymentgateway\Pmgw\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Bigfishpaymentgateway\Pmgw\Gateway\Http\Client\InitializeClient</argument>
         </arguments>
     </virtualType>
 
     <!-- Provider specific configuration -->
 
     <!-- Barion2 -->
-    <virtualType name="BigFishPmgwBarion2Facade" type="Magento\Payment\Model\Method\Adapter">
+    <virtualType name="BigfishpaymentgatewayPmgwBarion2Facade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_BARION2</argument>
+            <argument name="code" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_BARION2</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
-            <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
-            <argument name="valueHandlerPool" xsi:type="object">BigFishPmgwBarion2ValueHandlerPool</argument>
-            <argument name="commandPool" xsi:type="object">BigFishPmgwCommandPool</argument>
+            <argument name="infoBlockType" xsi:type="string">Bigfishpaymentgateway\Pmgw\Block\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">BigfishpaymentgatewayPmgwBarion2ValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">BigfishpaymentgatewayPmgwCommandPool</argument>
         </arguments>
     </virtualType>
 
     <!-- Configuration reader -->
-    <virtualType name="BigFishPmgwBarion2Config" type="Magento\Payment\Gateway\Config\Config">
+    <virtualType name="BigfishpaymentgatewayPmgwBarion2Config" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_BARION2</argument>
+            <argument name="methodCode" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_BARION2</argument>
         </arguments>
     </virtualType>
 
     <!-- Value handlers infrastructure -->
-    <virtualType name="BigFishPmgwBarion2ValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+    <virtualType name="BigfishpaymentgatewayPmgwBarion2ValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
         <arguments>
             <argument name="handlers" xsi:type="array">
-                <item name="default" xsi:type="string">BigFishPmgwBarion2ConfigValueHandler</item>
+                <item name="default" xsi:type="string">BigfishpaymentgatewayPmgwBarion2ConfigValueHandler</item>
             </argument>
         </arguments>
     </virtualType>
-    <virtualType name="BigFishPmgwBarion2ConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+    <virtualType name="BigfishpaymentgatewayPmgwBarion2ConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
         <arguments>
-            <argument name="configInterface" xsi:type="object">BigFishPmgwBarion2Config</argument>
+            <argument name="configInterface" xsi:type="object">BigfishpaymentgatewayPmgwBarion2Config</argument>
         </arguments>
     </virtualType>
     <!-- Barion2 -->
 
     <!-- Borgun -->
-    <virtualType name="BigFishPmgwBorgunFacade" type="Magento\Payment\Model\Method\Adapter">
+    <virtualType name="BigfishpaymentgatewayPmgwBorgunFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_BORGUN</argument>
+            <argument name="code" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_BORGUN</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
-            <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
-            <argument name="valueHandlerPool" xsi:type="object">BigFishPmgwBorgunValueHandlerPool</argument>
-            <argument name="commandPool" xsi:type="object">BigFishPmgwCommandPool</argument>
+            <argument name="infoBlockType" xsi:type="string">Bigfishpaymentgateway\Pmgw\Block\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">BigfishpaymentgatewayPmgwBorgunValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">BigfishpaymentgatewayPmgwCommandPool</argument>
         </arguments>
     </virtualType>
 
     <!-- Configuration reader -->
-    <virtualType name="BigFishPmgwBorgunConfig" type="Magento\Payment\Gateway\Config\Config">
+    <virtualType name="BigfishpaymentgatewayPmgwBorgunConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_BORGUN</argument>
+            <argument name="methodCode" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_BORGUN</argument>
         </arguments>
     </virtualType>
 
     <!-- Value handlers infrastructure -->
-    <virtualType name="BigFishPmgwBorgunValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+    <virtualType name="BigfishpaymentgatewayPmgwBorgunValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
         <arguments>
             <argument name="handlers" xsi:type="array">
-                <item name="default" xsi:type="string">BigFishPmgwBorgunConfigValueHandler</item>
+                <item name="default" xsi:type="string">BigfishpaymentgatewayPmgwBorgunConfigValueHandler</item>
             </argument>
         </arguments>
     </virtualType>
-    <virtualType name="BigFishPmgwBorgunConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+    <virtualType name="BigfishpaymentgatewayPmgwBorgunConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
         <arguments>
-            <argument name="configInterface" xsi:type="object">BigFishPmgwBorgunConfig</argument>
+            <argument name="configInterface" xsi:type="object">BigfishpaymentgatewayPmgwBorgunConfig</argument>
         </arguments>
     </virtualType>
     <!-- Borgun -->
 
     <!-- Borgun2 -->
-    <virtualType name="BigFishPmgwBorgun2Facade" type="Magento\Payment\Model\Method\Adapter">
+    <virtualType name="BigfishpaymentgatewayPmgwBorgun2Facade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_BORGUN2</argument>
+            <argument name="code" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_BORGUN2</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
-            <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
-            <argument name="valueHandlerPool" xsi:type="object">BigFishPmgwBorgun2ValueHandlerPool</argument>
-            <argument name="commandPool" xsi:type="object">BigFishPmgwCommandPool</argument>
+            <argument name="infoBlockType" xsi:type="string">Bigfishpaymentgateway\Pmgw\Block\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">BigfishpaymentgatewayPmgwBorgun2ValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">BigfishpaymentgatewayPmgwCommandPool</argument>
         </arguments>
     </virtualType>
 
     <!-- Configuration reader -->
-    <virtualType name="BigFishPmgwBorgun2Config" type="Magento\Payment\Gateway\Config\Config">
+    <virtualType name="BigfishpaymentgatewayPmgwBorgun2Config" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_BORGUN2</argument>
+            <argument name="methodCode" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_BORGUN2</argument>
         </arguments>
     </virtualType>
 
     <!-- Value handlers infrastructure -->
-    <virtualType name="BigFishPmgwBorgun2ValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+    <virtualType name="BigfishpaymentgatewayPmgwBorgun2ValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
         <arguments>
             <argument name="handlers" xsi:type="array">
-                <item name="default" xsi:type="string">BigFishPmgwBorgun2ConfigValueHandler</item>
+                <item name="default" xsi:type="string">BigfishpaymentgatewayPmgwBorgun2ConfigValueHandler</item>
             </argument>
         </arguments>
     </virtualType>
-    <virtualType name="BigFishPmgwBorgun2ConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+    <virtualType name="BigfishpaymentgatewayPmgwBorgun2ConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
         <arguments>
-            <argument name="configInterface" xsi:type="object">BigFishPmgwBorgun2Config</argument>
+            <argument name="configInterface" xsi:type="object">BigfishpaymentgatewayPmgwBorgun2Config</argument>
         </arguments>
     </virtualType>
     <!-- Borgun2 -->
 
     <!-- Cib -->
-    <virtualType name="BigFishPmgwCibFacade" type="Magento\Payment\Model\Method\Adapter">
+    <virtualType name="BigfishpaymentgatewayPmgwCibFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_CIB</argument>
+            <argument name="code" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_CIB</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
-            <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
-            <argument name="valueHandlerPool" xsi:type="object">BigFishPmgwCibValueHandlerPool</argument>
-            <argument name="commandPool" xsi:type="object">BigFishPmgwCommandPool</argument>
+            <argument name="infoBlockType" xsi:type="string">Bigfishpaymentgateway\Pmgw\Block\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">BigfishpaymentgatewayPmgwCibValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">BigfishpaymentgatewayPmgwCommandPool</argument>
         </arguments>
     </virtualType>
 
     <!-- Configuration reader -->
-    <virtualType name="BigFishPmgwCibConfig" type="Magento\Payment\Gateway\Config\Config">
+    <virtualType name="BigfishpaymentgatewayPmgwCibConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_CIB</argument>
+            <argument name="methodCode" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_CIB</argument>
         </arguments>
     </virtualType>
 
     <!-- Value handlers infrastructure -->
-    <virtualType name="BigFishPmgwCibValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+    <virtualType name="BigfishpaymentgatewayPmgwCibValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
         <arguments>
             <argument name="handlers" xsi:type="array">
-                <item name="default" xsi:type="string">BigFishPmgwCibConfigValueHandler</item>
+                <item name="default" xsi:type="string">BigfishpaymentgatewayPmgwCibConfigValueHandler</item>
             </argument>
         </arguments>
     </virtualType>
-    <virtualType name="BigFishPmgwCibConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+    <virtualType name="BigfishpaymentgatewayPmgwCibConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
         <arguments>
-            <argument name="configInterface" xsi:type="object">BigFishPmgwCibConfig</argument>
+            <argument name="configInterface" xsi:type="object">BigfishpaymentgatewayPmgwCibConfig</argument>
         </arguments>
     </virtualType>
     <!-- Cib -->
 
     <!-- Escalion -->
-    <virtualType name="BigFishPmgwEscalionFacade" type="Magento\Payment\Model\Method\Adapter">
+    <virtualType name="BigfishpaymentgatewayPmgwEscalionFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_ESCALION</argument>
+            <argument name="code" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_ESCALION</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
-            <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
-            <argument name="valueHandlerPool" xsi:type="object">BigFishPmgwEscalionValueHandlerPool</argument>
-            <argument name="commandPool" xsi:type="object">BigFishPmgwCommandPool</argument>
+            <argument name="infoBlockType" xsi:type="string">Bigfishpaymentgateway\Pmgw\Block\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">BigfishpaymentgatewayPmgwEscalionValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">BigfishpaymentgatewayPmgwCommandPool</argument>
         </arguments>
     </virtualType>
 
     <!-- Configuration reader -->
-    <virtualType name="BigFishPmgwEscalionConfig" type="Magento\Payment\Gateway\Config\Config">
+    <virtualType name="BigfishpaymentgatewayPmgwEscalionConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_ESCALION</argument>
+            <argument name="methodCode" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_ESCALION</argument>
         </arguments>
     </virtualType>
 
     <!-- Value handlers infrastructure -->
-    <virtualType name="BigFishPmgwEscalionValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+    <virtualType name="BigfishpaymentgatewayPmgwEscalionValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
         <arguments>
             <argument name="handlers" xsi:type="array">
-                <item name="default" xsi:type="string">BigFishPmgwEscalionConfigValueHandler</item>
+                <item name="default" xsi:type="string">BigfishpaymentgatewayPmgwEscalionConfigValueHandler</item>
             </argument>
         </arguments>
     </virtualType>
-    <virtualType name="BigFishPmgwEscalionConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+    <virtualType name="BigfishpaymentgatewayPmgwEscalionConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
         <arguments>
-            <argument name="configInterface" xsi:type="object">BigFishPmgwEscalionConfig</argument>
+            <argument name="configInterface" xsi:type="object">BigfishpaymentgatewayPmgwEscalionConfig</argument>
         </arguments>
     </virtualType>
     <!-- Escalion -->
 
     <!-- Fhb -->
-    <virtualType name="BigFishPmgwFhbFacade" type="Magento\Payment\Model\Method\Adapter">
+    <virtualType name="BigfishpaymentgatewayPmgwFhbFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_FHB</argument>
+            <argument name="code" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_FHB</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
-            <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
-            <argument name="valueHandlerPool" xsi:type="object">BigFishPmgwFhbValueHandlerPool</argument>
-            <argument name="commandPool" xsi:type="object">BigFishPmgwCommandPool</argument>
+            <argument name="infoBlockType" xsi:type="string">Bigfishpaymentgateway\Pmgw\Block\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">BigfishpaymentgatewayPmgwFhbValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">BigfishpaymentgatewayPmgwCommandPool</argument>
         </arguments>
     </virtualType>
 
     <!-- Configuration reader -->
-    <virtualType name="BigFishPmgwFhbConfig" type="Magento\Payment\Gateway\Config\Config">
+    <virtualType name="BigfishpaymentgatewayPmgwFhbConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_FHB</argument>
+            <argument name="methodCode" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_FHB</argument>
         </arguments>
     </virtualType>
 
     <!-- Value handlers infrastructure -->
-    <virtualType name="BigFishPmgwFhbValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+    <virtualType name="BigfishpaymentgatewayPmgwFhbValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
         <arguments>
             <argument name="handlers" xsi:type="array">
-                <item name="default" xsi:type="string">BigFishPmgwFhbConfigValueHandler</item>
+                <item name="default" xsi:type="string">BigfishpaymentgatewayPmgwFhbConfigValueHandler</item>
             </argument>
         </arguments>
     </virtualType>
-    <virtualType name="BigFishPmgwFhbConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+    <virtualType name="BigfishpaymentgatewayPmgwFhbConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
         <arguments>
-            <argument name="configInterface" xsi:type="object">BigFishPmgwFhbConfig</argument>
+            <argument name="configInterface" xsi:type="object">BigfishpaymentgatewayPmgwFhbConfig</argument>
         </arguments>
     </virtualType>
     <!-- Fhb -->
 
     <!-- Gp -->
-    <virtualType name="BigFishPmgwGpFacade" type="Magento\Payment\Model\Method\Adapter">
+    <virtualType name="BigfishpaymentgatewayPmgwGpFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_GP</argument>
+            <argument name="code" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_GP</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
-            <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
-            <argument name="valueHandlerPool" xsi:type="object">BigFishPmgwGpValueHandlerPool</argument>
-            <argument name="commandPool" xsi:type="object">BigFishPmgwCommandPool</argument>
+            <argument name="infoBlockType" xsi:type="string">Bigfishpaymentgateway\Pmgw\Block\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">BigfishpaymentgatewayPmgwGpValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">BigfishpaymentgatewayPmgwCommandPool</argument>
         </arguments>
     </virtualType>
 
     <!-- Configuration reader -->
-    <virtualType name="BigFishPmgwGpConfig" type="Magento\Payment\Gateway\Config\Config">
+    <virtualType name="BigfishpaymentgatewayPmgwGpConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_GP</argument>
+            <argument name="methodCode" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_GP</argument>
         </arguments>
     </virtualType>
 
     <!-- Value handlers infrastructure -->
-    <virtualType name="BigFishPmgwGpValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+    <virtualType name="BigfishpaymentgatewayPmgwGpValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
         <arguments>
             <argument name="handlers" xsi:type="array">
-                <item name="default" xsi:type="string">BigFishPmgwGpConfigValueHandler</item>
+                <item name="default" xsi:type="string">BigfishpaymentgatewayPmgwGpConfigValueHandler</item>
             </argument>
         </arguments>
     </virtualType>
-    <virtualType name="BigFishPmgwGpConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+    <virtualType name="BigfishpaymentgatewayPmgwGpConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
         <arguments>
-            <argument name="configInterface" xsi:type="object">BigFishPmgwGpConfig</argument>
+            <argument name="configInterface" xsi:type="object">BigfishpaymentgatewayPmgwGpConfig</argument>
         </arguments>
     </virtualType>
     <!-- Gp -->
 
     <!-- Ipg -->
-    <virtualType name="BigFishPmgwIpgFacade" type="Magento\Payment\Model\Method\Adapter">
+    <virtualType name="BigfishpaymentgatewayPmgwIpgFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_IPG</argument>
+            <argument name="code" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_IPG</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
-            <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
-            <argument name="valueHandlerPool" xsi:type="object">BigFishPmgwIpgValueHandlerPool</argument>
-            <argument name="commandPool" xsi:type="object">BigFishPmgwCommandPool</argument>
+            <argument name="infoBlockType" xsi:type="string">Bigfishpaymentgateway\Pmgw\Block\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">BigfishpaymentgatewayPmgwIpgValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">BigfishpaymentgatewayPmgwCommandPool</argument>
         </arguments>
     </virtualType>
 
     <!-- Configuration reader -->
-    <virtualType name="BigFishPmgwIpgConfig" type="Magento\Payment\Gateway\Config\Config">
+    <virtualType name="BigfishpaymentgatewayPmgwIpgConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_IPG</argument>
+            <argument name="methodCode" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_IPG</argument>
         </arguments>
     </virtualType>
 
     <!-- Value handlers infrastructure -->
-    <virtualType name="BigFishPmgwIpgValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+    <virtualType name="BigfishpaymentgatewayPmgwIpgValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
         <arguments>
             <argument name="handlers" xsi:type="array">
-                <item name="default" xsi:type="string">BigFishPmgwIpgConfigValueHandler</item>
+                <item name="default" xsi:type="string">BigfishpaymentgatewayPmgwIpgConfigValueHandler</item>
             </argument>
         </arguments>
     </virtualType>
-    <virtualType name="BigFishPmgwIpgConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+    <virtualType name="BigfishpaymentgatewayPmgwIpgConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
         <arguments>
-            <argument name="configInterface" xsi:type="object">BigFishPmgwIpgConfig</argument>
+            <argument name="configInterface" xsi:type="object">BigfishpaymentgatewayPmgwIpgConfig</argument>
         </arguments>
     </virtualType>
     <!-- Ipg -->
 
     <!-- Khb -->
-    <virtualType name="BigFishPmgwKhbFacade" type="Magento\Payment\Model\Method\Adapter">
+    <virtualType name="BigfishpaymentgatewayPmgwKhbFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_KHB</argument>
+            <argument name="code" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_KHB</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
-            <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
-            <argument name="valueHandlerPool" xsi:type="object">BigFishPmgwKhbValueHandlerPool</argument>
-            <argument name="commandPool" xsi:type="object">BigFishPmgwCommandPool</argument>
+            <argument name="infoBlockType" xsi:type="string">Bigfishpaymentgateway\Pmgw\Block\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">BigfishpaymentgatewayPmgwKhbValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">BigfishpaymentgatewayPmgwCommandPool</argument>
         </arguments>
     </virtualType>
 
     <!-- Configuration reader -->
-    <virtualType name="BigFishPmgwKhbConfig" type="Magento\Payment\Gateway\Config\Config">
+    <virtualType name="BigfishpaymentgatewayPmgwKhbConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_KHB</argument>
+            <argument name="methodCode" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_KHB</argument>
         </arguments>
     </virtualType>
 
     <!-- Value handlers infrastructure -->
-    <virtualType name="BigFishPmgwKhbValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+    <virtualType name="BigfishpaymentgatewayPmgwKhbValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
         <arguments>
             <argument name="handlers" xsi:type="array">
-                <item name="default" xsi:type="string">BigFishPmgwKhbConfigValueHandler</item>
+                <item name="default" xsi:type="string">BigfishpaymentgatewayPmgwKhbConfigValueHandler</item>
             </argument>
         </arguments>
     </virtualType>
-    <virtualType name="BigFishPmgwKhbConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+    <virtualType name="BigfishpaymentgatewayPmgwKhbConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
         <arguments>
-            <argument name="configInterface" xsi:type="object">BigFishPmgwKhbConfig</argument>
+            <argument name="configInterface" xsi:type="object">BigfishpaymentgatewayPmgwKhbConfig</argument>
         </arguments>
     </virtualType>
     <!-- Khb -->
 
     <!-- Khbszep -->
-    <virtualType name="BigFishPmgwKhbszepFacade" type="Magento\Payment\Model\Method\Adapter">
+    <virtualType name="BigfishpaymentgatewayPmgwKhbszepFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_KHB_SZEP</argument>
+            <argument name="code" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_KHB_SZEP</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
-            <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
-            <argument name="valueHandlerPool" xsi:type="object">BigFishPmgwKhbszepValueHandlerPool</argument>
-            <argument name="commandPool" xsi:type="object">BigFishPmgwCommandPool</argument>
+            <argument name="infoBlockType" xsi:type="string">Bigfishpaymentgateway\Pmgw\Block\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">BigfishpaymentgatewayPmgwKhbszepValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">BigfishpaymentgatewayPmgwCommandPool</argument>
         </arguments>
     </virtualType>
 
     <!-- Configuration reader -->
-    <virtualType name="BigFishPmgwKhbszepConfig" type="Magento\Payment\Gateway\Config\Config">
+    <virtualType name="BigfishpaymentgatewayPmgwKhbszepConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_KHB_SZEP</argument>
+            <argument name="methodCode" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_KHB_SZEP</argument>
         </arguments>
     </virtualType>
 
     <!-- Value handlers infrastructure -->
-    <virtualType name="BigFishPmgwKhbszepValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+    <virtualType name="BigfishpaymentgatewayPmgwKhbszepValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
         <arguments>
             <argument name="handlers" xsi:type="array">
-                <item name="default" xsi:type="string">BigFishPmgwKhbszepConfigValueHandler</item>
+                <item name="default" xsi:type="string">BigfishpaymentgatewayPmgwKhbszepConfigValueHandler</item>
             </argument>
         </arguments>
     </virtualType>
-    <virtualType name="BigFishPmgwKhbszepConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+    <virtualType name="BigfishpaymentgatewayPmgwKhbszepConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
         <arguments>
-            <argument name="configInterface" xsi:type="object">BigFishPmgwKhbszepConfig</argument>
+            <argument name="configInterface" xsi:type="object">BigfishpaymentgatewayPmgwKhbszepConfig</argument>
         </arguments>
     </virtualType>
     <!-- Khbszep -->
 
     <!-- Mkbszep -->
-    <virtualType name="BigFishPmgwMkbszepFacade" type="Magento\Payment\Model\Method\Adapter">
+    <virtualType name="BigfishpaymentgatewayPmgwMkbszepFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_MKB_SZEP</argument>
+            <argument name="code" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_MKB_SZEP</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
-            <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
-            <argument name="valueHandlerPool" xsi:type="object">BigFishPmgwMkbszepValueHandlerPool</argument>
-            <argument name="commandPool" xsi:type="object">BigFishPmgwCommandPool</argument>
+            <argument name="infoBlockType" xsi:type="string">Bigfishpaymentgateway\Pmgw\Block\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">BigfishpaymentgatewayPmgwMkbszepValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">BigfishpaymentgatewayPmgwCommandPool</argument>
         </arguments>
     </virtualType>
 
     <!-- Configuration reader -->
-    <virtualType name="BigFishPmgwMkbszepConfig" type="Magento\Payment\Gateway\Config\Config">
+    <virtualType name="BigfishpaymentgatewayPmgwMkbszepConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_MKB_SZEP</argument>
+            <argument name="methodCode" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_MKB_SZEP</argument>
         </arguments>
     </virtualType>
 
     <!-- Value handlers infrastructure -->
-    <virtualType name="BigFishPmgwMkbszepValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+    <virtualType name="BigfishpaymentgatewayPmgwMkbszepValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
         <arguments>
             <argument name="handlers" xsi:type="array">
-                <item name="default" xsi:type="string">BigFishPmgwMkbszepConfigValueHandler</item>
+                <item name="default" xsi:type="string">BigfishpaymentgatewayPmgwMkbszepConfigValueHandler</item>
             </argument>
         </arguments>
     </virtualType>
-    <virtualType name="BigFishPmgwMkbszepConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+    <virtualType name="BigfishpaymentgatewayPmgwMkbszepConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
         <arguments>
-            <argument name="configInterface" xsi:type="object">BigFishPmgwMkbszepConfig</argument>
+            <argument name="configInterface" xsi:type="object">BigfishpaymentgatewayPmgwMkbszepConfig</argument>
         </arguments>
     </virtualType>
     <!-- Mkbszep -->
 
     <!-- Otp -->
-    <virtualType name="BigFishPmgwOtpFacade" type="Magento\Payment\Model\Method\Adapter">
+    <virtualType name="BigfishpaymentgatewayPmgwOtpFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_OTP</argument>
+            <argument name="code" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_OTP</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
-            <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
-            <argument name="valueHandlerPool" xsi:type="object">BigFishPmgwOtpValueHandlerPool</argument>
-            <argument name="commandPool" xsi:type="object">BigFishPmgwCommandPool</argument>
+            <argument name="infoBlockType" xsi:type="string">Bigfishpaymentgateway\Pmgw\Block\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">BigfishpaymentgatewayPmgwOtpValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">BigfishpaymentgatewayPmgwCommandPool</argument>
         </arguments>
     </virtualType>
 
     <!-- Configuration reader -->
-    <virtualType name="BigFishPmgwOtpConfig" type="Magento\Payment\Gateway\Config\Config">
+    <virtualType name="BigfishpaymentgatewayPmgwOtpConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_OTP</argument>
+            <argument name="methodCode" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_OTP</argument>
         </arguments>
     </virtualType>
 
     <!-- Value handlers infrastructure -->
-    <virtualType name="BigFishPmgwOtpValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+    <virtualType name="BigfishpaymentgatewayPmgwOtpValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
         <arguments>
             <argument name="handlers" xsi:type="array">
-                <item name="default" xsi:type="string">BigFishPmgwOtpConfigValueHandler</item>
+                <item name="default" xsi:type="string">BigfishpaymentgatewayPmgwOtpConfigValueHandler</item>
             </argument>
         </arguments>
     </virtualType>
-    <virtualType name="BigFishPmgwOtpConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+    <virtualType name="BigfishpaymentgatewayPmgwOtpConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
         <arguments>
-            <argument name="configInterface" xsi:type="object">BigFishPmgwOtpConfig</argument>
+            <argument name="configInterface" xsi:type="object">BigfishpaymentgatewayPmgwOtpConfig</argument>
         </arguments>
     </virtualType>
     <!-- Otp -->
 
     <!-- Otpaymp -->
-    <virtualType name="BigFishPmgwOtpaympFacade" type="Magento\Payment\Model\Method\Adapter">
+    <virtualType name="BigfishpaymentgatewayPmgwOtpaympFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_OTPAY_MP</argument>
+            <argument name="code" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_OTPAY_MP</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
-            <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
-            <argument name="valueHandlerPool" xsi:type="object">BigFishPmgwOtpaympValueHandlerPool</argument>
-            <argument name="commandPool" xsi:type="object">BigFishPmgwCommandPool</argument>
+            <argument name="infoBlockType" xsi:type="string">Bigfishpaymentgateway\Pmgw\Block\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">BigfishpaymentgatewayPmgwOtpaympValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">BigfishpaymentgatewayPmgwCommandPool</argument>
         </arguments>
     </virtualType>
 
     <!-- Configuration reader -->
-    <virtualType name="BigFishPmgwOtpaympConfig" type="Magento\Payment\Gateway\Config\Config">
+    <virtualType name="BigfishpaymentgatewayPmgwOtpaympConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_OTPAY_MP</argument>
+            <argument name="methodCode" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_OTPAY_MP</argument>
         </arguments>
     </virtualType>
 
     <!-- Value handlers infrastructure -->
-    <virtualType name="BigFishPmgwOtpaympValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+    <virtualType name="BigfishpaymentgatewayPmgwOtpaympValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
         <arguments>
             <argument name="handlers" xsi:type="array">
-                <item name="default" xsi:type="string">BigFishPmgwOtpaympConfigValueHandler</item>
+                <item name="default" xsi:type="string">BigfishpaymentgatewayPmgwOtpaympConfigValueHandler</item>
             </argument>
         </arguments>
     </virtualType>
-    <virtualType name="BigFishPmgwOtpaympConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+    <virtualType name="BigfishpaymentgatewayPmgwOtpaympConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
         <arguments>
-            <argument name="configInterface" xsi:type="object">BigFishPmgwOtpaympConfig</argument>
+            <argument name="configInterface" xsi:type="object">BigfishpaymentgatewayPmgwOtpaympConfig</argument>
         </arguments>
     </virtualType>
     <!-- Otpaymp -->
 
     <!-- Otpsimple -->
-    <virtualType name="BigFishPmgwOtpsimpleFacade" type="Magento\Payment\Model\Method\Adapter">
+    <virtualType name="BigfishpaymentgatewayPmgwOtpsimpleFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_OTP_SIMPLE</argument>
+            <argument name="code" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_OTP_SIMPLE</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
-            <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
-            <argument name="valueHandlerPool" xsi:type="object">BigFishPmgwOtpsimpleValueHandlerPool</argument>
-            <argument name="commandPool" xsi:type="object">BigFishPmgwCommandPool</argument>
+            <argument name="infoBlockType" xsi:type="string">Bigfishpaymentgateway\Pmgw\Block\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">BigfishpaymentgatewayPmgwOtpsimpleValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">BigfishpaymentgatewayPmgwCommandPool</argument>
         </arguments>
     </virtualType>
 
     <!-- Configuration reader -->
-    <virtualType name="BigFishPmgwOtpsimpleConfig" type="Magento\Payment\Gateway\Config\Config">
+    <virtualType name="BigfishpaymentgatewayPmgwOtpsimpleConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_OTP_SIMPLE</argument>
+            <argument name="methodCode" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_OTP_SIMPLE</argument>
         </arguments>
     </virtualType>
 
     <!-- Value handlers infrastructure -->
-    <virtualType name="BigFishPmgwOtpsimpleValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+    <virtualType name="BigfishpaymentgatewayPmgwOtpsimpleValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
         <arguments>
             <argument name="handlers" xsi:type="array">
-                <item name="default" xsi:type="string">BigFishPmgwOtpsimpleConfigValueHandler</item>
+                <item name="default" xsi:type="string">BigfishpaymentgatewayPmgwOtpsimpleConfigValueHandler</item>
             </argument>
         </arguments>
     </virtualType>
-    <virtualType name="BigFishPmgwOtpsimpleConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+    <virtualType name="BigfishpaymentgatewayPmgwOtpsimpleConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
         <arguments>
-            <argument name="configInterface" xsi:type="object">BigFishPmgwOtpsimpleConfig</argument>
+            <argument name="configInterface" xsi:type="object">BigfishpaymentgatewayPmgwOtpsimpleConfig</argument>
         </arguments>
     </virtualType>
     <!-- Otpsimple -->
 
     <!-- Otpszep -->
-    <virtualType name="BigFishPmgwOtpszepFacade" type="Magento\Payment\Model\Method\Adapter">
+    <virtualType name="BigfishpaymentgatewayPmgwOtpszepFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_OTP_SZEP</argument>
+            <argument name="code" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_OTP_SZEP</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
-            <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
-            <argument name="valueHandlerPool" xsi:type="object">BigFishPmgwOtpszepValueHandlerPool</argument>
-            <argument name="commandPool" xsi:type="object">BigFishPmgwCommandPool</argument>
+            <argument name="infoBlockType" xsi:type="string">Bigfishpaymentgateway\Pmgw\Block\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">BigfishpaymentgatewayPmgwOtpszepValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">BigfishpaymentgatewayPmgwCommandPool</argument>
         </arguments>
     </virtualType>
 
     <!-- Configuration reader -->
-    <virtualType name="BigFishPmgwOtpszepConfig" type="Magento\Payment\Gateway\Config\Config">
+    <virtualType name="BigfishpaymentgatewayPmgwOtpszepConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_OTP_SZEP</argument>
+            <argument name="methodCode" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_OTP_SZEP</argument>
         </arguments>
     </virtualType>
 
     <!-- Value handlers infrastructure -->
-    <virtualType name="BigFishPmgwOtpszepValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+    <virtualType name="BigfishpaymentgatewayPmgwOtpszepValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
         <arguments>
             <argument name="handlers" xsi:type="array">
-                <item name="default" xsi:type="string">BigFishPmgwOtpszepConfigValueHandler</item>
+                <item name="default" xsi:type="string">BigfishpaymentgatewayPmgwOtpszepConfigValueHandler</item>
             </argument>
         </arguments>
     </virtualType>
-    <virtualType name="BigFishPmgwOtpszepConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+    <virtualType name="BigfishpaymentgatewayPmgwOtpszepConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
         <arguments>
-            <argument name="configInterface" xsi:type="object">BigFishPmgwOtpszepConfig</argument>
+            <argument name="configInterface" xsi:type="object">BigfishpaymentgatewayPmgwOtpszepConfig</argument>
         </arguments>
     </virtualType>
     <!-- Otpszep -->
 
     <!-- Paypal -->
-    <virtualType name="BigFishPmgwPaypalFacade" type="Magento\Payment\Model\Method\Adapter">
+    <virtualType name="BigfishpaymentgatewayPmgwPaypalFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_PAYPAL</argument>
+            <argument name="code" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_PAYPAL</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
-            <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
-            <argument name="valueHandlerPool" xsi:type="object">BigFishPmgwPaypalValueHandlerPool</argument>
-            <argument name="commandPool" xsi:type="object">BigFishPmgwCommandPool</argument>
+            <argument name="infoBlockType" xsi:type="string">Bigfishpaymentgateway\Pmgw\Block\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">BigfishpaymentgatewayPmgwPaypalValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">BigfishpaymentgatewayPmgwCommandPool</argument>
         </arguments>
     </virtualType>
 
     <!-- Configuration reader -->
-    <virtualType name="BigFishPmgwPaypalConfig" type="Magento\Payment\Gateway\Config\Config">
+    <virtualType name="BigfishpaymentgatewayPmgwPaypalConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_PAYPAL</argument>
+            <argument name="methodCode" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_PAYPAL</argument>
         </arguments>
     </virtualType>
 
     <!-- Value handlers infrastructure -->
-    <virtualType name="BigFishPmgwPaypalValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+    <virtualType name="BigfishpaymentgatewayPmgwPaypalValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
         <arguments>
             <argument name="handlers" xsi:type="array">
-                <item name="default" xsi:type="string">BigFishPmgwPaypalConfigValueHandler</item>
+                <item name="default" xsi:type="string">BigfishpaymentgatewayPmgwPaypalConfigValueHandler</item>
             </argument>
         </arguments>
     </virtualType>
-    <virtualType name="BigFishPmgwPaypalConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+    <virtualType name="BigfishpaymentgatewayPmgwPaypalConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
         <arguments>
-            <argument name="configInterface" xsi:type="object">BigFishPmgwPaypalConfig</argument>
+            <argument name="configInterface" xsi:type="object">BigfishpaymentgatewayPmgwPaypalConfig</argument>
         </arguments>
     </virtualType>
     <!-- Paypal -->
 
     <!-- Paysafecard -->
-    <virtualType name="BigFishPmgwPaysafecardFacade" type="Magento\Payment\Model\Method\Adapter">
+    <virtualType name="BigfishpaymentgatewayPmgwPaysafecardFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_PAYSAFECARD</argument>
+            <argument name="code" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_PAYSAFECARD</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
-            <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
-            <argument name="valueHandlerPool" xsi:type="object">BigFishPmgwPaysafecardValueHandlerPool</argument>
-            <argument name="commandPool" xsi:type="object">BigFishPmgwCommandPool</argument>
+            <argument name="infoBlockType" xsi:type="string">Bigfishpaymentgateway\Pmgw\Block\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">BigfishpaymentgatewayPmgwPaysafecardValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">BigfishpaymentgatewayPmgwCommandPool</argument>
         </arguments>
     </virtualType>
 
     <!-- Configuration reader -->
-    <virtualType name="BigFishPmgwPaysafecardConfig" type="Magento\Payment\Gateway\Config\Config">
+    <virtualType name="BigfishpaymentgatewayPmgwPaysafecardConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_PAYSAFECARD</argument>
+            <argument name="methodCode" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_PAYSAFECARD</argument>
         </arguments>
     </virtualType>
 
     <!-- Value handlers infrastructure -->
-    <virtualType name="BigFishPmgwPaysafecardValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+    <virtualType name="BigfishpaymentgatewayPmgwPaysafecardValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
         <arguments>
             <argument name="handlers" xsi:type="array">
-                <item name="default" xsi:type="string">BigFishPmgwPaysafecardConfigValueHandler</item>
+                <item name="default" xsi:type="string">BigfishpaymentgatewayPmgwPaysafecardConfigValueHandler</item>
             </argument>
         </arguments>
     </virtualType>
-    <virtualType name="BigFishPmgwPaysafecardConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+    <virtualType name="BigfishpaymentgatewayPmgwPaysafecardConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
         <arguments>
-            <argument name="configInterface" xsi:type="object">BigFishPmgwPaysafecardConfig</argument>
+            <argument name="configInterface" xsi:type="object">BigfishpaymentgatewayPmgwPaysafecardConfig</argument>
         </arguments>
     </virtualType>
     <!-- Paysafecard -->
 
     <!-- Paysafecash -->
-    <virtualType name="BigFishPmgwPaysafecashFacade" type="Magento\Payment\Model\Method\Adapter">
+    <virtualType name="BigfishpaymentgatewayPmgwPaysafecashFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_PAYSAFECASH</argument>
+            <argument name="code" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_PAYSAFECASH</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
-            <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
-            <argument name="valueHandlerPool" xsi:type="object">BigFishPmgwPaysafecashValueHandlerPool</argument>
-            <argument name="commandPool" xsi:type="object">BigFishPmgwCommandPool</argument>
+            <argument name="infoBlockType" xsi:type="string">Bigfishpaymentgateway\Pmgw\Block\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">BigfishpaymentgatewayPmgwPaysafecashValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">BigfishpaymentgatewayPmgwCommandPool</argument>
         </arguments>
     </virtualType>
 
     <!-- Configuration reader -->
-    <virtualType name="BigFishPmgwPaysafecashConfig" type="Magento\Payment\Gateway\Config\Config">
+    <virtualType name="BigfishpaymentgatewayPmgwPaysafecashConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_PAYSAFECASH</argument>
+            <argument name="methodCode" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_PAYSAFECASH</argument>
         </arguments>
     </virtualType>
 
     <!-- Value handlers infrastructure -->
-    <virtualType name="BigFishPmgwPaysafecashValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+    <virtualType name="BigfishpaymentgatewayPmgwPaysafecashValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
         <arguments>
             <argument name="handlers" xsi:type="array">
-                <item name="default" xsi:type="string">BigFishPmgwPaysafecashConfigValueHandler</item>
+                <item name="default" xsi:type="string">BigfishpaymentgatewayPmgwPaysafecashConfigValueHandler</item>
             </argument>
         </arguments>
     </virtualType>
-    <virtualType name="BigFishPmgwPaysafecashConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+    <virtualType name="BigfishpaymentgatewayPmgwPaysafecashConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
         <arguments>
-            <argument name="configInterface" xsi:type="object">BigFishPmgwPaysafecashConfig</argument>
+            <argument name="configInterface" xsi:type="object">BigfishpaymentgatewayPmgwPaysafecashConfig</argument>
         </arguments>
     </virtualType>
     <!-- Paysafecash -->
 
     <!-- Payu2 -->
-    <virtualType name="BigFishPmgwPayu2Facade" type="Magento\Payment\Model\Method\Adapter">
+    <virtualType name="BigfishpaymentgatewayPmgwPayu2Facade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_PAYU2</argument>
+            <argument name="code" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_PAYU2</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
-            <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
-            <argument name="valueHandlerPool" xsi:type="object">BigFishPmgwPayu2ValueHandlerPool</argument>
-            <argument name="commandPool" xsi:type="object">BigFishPmgwCommandPool</argument>
+            <argument name="infoBlockType" xsi:type="string">Bigfishpaymentgateway\Pmgw\Block\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">BigfishpaymentgatewayPmgwPayu2ValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">BigfishpaymentgatewayPmgwCommandPool</argument>
         </arguments>
     </virtualType>
 
     <!-- Configuration reader -->
-    <virtualType name="BigFishPmgwPayu2Config" type="Magento\Payment\Gateway\Config\Config">
+    <virtualType name="BigfishpaymentgatewayPmgwPayu2Config" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_PAYU2</argument>
+            <argument name="methodCode" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_PAYU2</argument>
         </arguments>
     </virtualType>
 
     <!-- Value handlers infrastructure -->
-    <virtualType name="BigFishPmgwPayu2ValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+    <virtualType name="BigfishpaymentgatewayPmgwPayu2ValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
         <arguments>
             <argument name="handlers" xsi:type="array">
-                <item name="default" xsi:type="string">BigFishPmgwPayu2ConfigValueHandler</item>
+                <item name="default" xsi:type="string">BigfishpaymentgatewayPmgwPayu2ConfigValueHandler</item>
             </argument>
         </arguments>
     </virtualType>
-    <virtualType name="BigFishPmgwPayu2ConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+    <virtualType name="BigfishpaymentgatewayPmgwPayu2ConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
         <arguments>
-            <argument name="configInterface" xsi:type="object">BigFishPmgwPayu2Config</argument>
+            <argument name="configInterface" xsi:type="object">BigfishpaymentgatewayPmgwPayu2Config</argument>
         </arguments>
     </virtualType>
     <!-- Payu2 -->
 
     <!-- Saferpay -->
-    <virtualType name="BigFishPmgwSaferpayFacade" type="Magento\Payment\Model\Method\Adapter">
+    <virtualType name="BigfishpaymentgatewayPmgwSaferpayFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_SAFERPAY</argument>
+            <argument name="code" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_SAFERPAY</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
-            <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
-            <argument name="valueHandlerPool" xsi:type="object">BigFishPmgwSaferpayValueHandlerPool</argument>
-            <argument name="commandPool" xsi:type="object">BigFishPmgwCommandPool</argument>
+            <argument name="infoBlockType" xsi:type="string">Bigfishpaymentgateway\Pmgw\Block\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">BigfishpaymentgatewayPmgwSaferpayValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">BigfishpaymentgatewayPmgwCommandPool</argument>
         </arguments>
     </virtualType>
 
     <!-- Configuration reader -->
-    <virtualType name="BigFishPmgwSaferpayConfig" type="Magento\Payment\Gateway\Config\Config">
+    <virtualType name="BigfishpaymentgatewayPmgwSaferpayConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_SAFERPAY</argument>
+            <argument name="methodCode" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_SAFERPAY</argument>
         </arguments>
     </virtualType>
 
     <!-- Value handlers infrastructure -->
-    <virtualType name="BigFishPmgwSaferpayValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+    <virtualType name="BigfishpaymentgatewayPmgwSaferpayValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
         <arguments>
             <argument name="handlers" xsi:type="array">
-                <item name="default" xsi:type="string">BigFishPmgwSaferpayConfigValueHandler</item>
+                <item name="default" xsi:type="string">BigfishpaymentgatewayPmgwSaferpayConfigValueHandler</item>
             </argument>
         </arguments>
     </virtualType>
-    <virtualType name="BigFishPmgwSaferpayConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+    <virtualType name="BigfishpaymentgatewayPmgwSaferpayConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
         <arguments>
-            <argument name="configInterface" xsi:type="object">BigFishPmgwSaferpayConfig</argument>
+            <argument name="configInterface" xsi:type="object">BigfishpaymentgatewayPmgwSaferpayConfig</argument>
         </arguments>
     </virtualType>
     <!-- Saferpay -->
 
     <!-- Sofort -->
-    <virtualType name="BigFishPmgwSofortFacade" type="Magento\Payment\Model\Method\Adapter">
+    <virtualType name="BigfishpaymentgatewayPmgwSofortFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_SOFORT</argument>
+            <argument name="code" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_SOFORT</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
-            <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
-            <argument name="valueHandlerPool" xsi:type="object">BigFishPmgwSofortValueHandlerPool</argument>
-            <argument name="commandPool" xsi:type="object">BigFishPmgwCommandPool</argument>
+            <argument name="infoBlockType" xsi:type="string">Bigfishpaymentgateway\Pmgw\Block\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">BigfishpaymentgatewayPmgwSofortValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">BigfishpaymentgatewayPmgwCommandPool</argument>
         </arguments>
     </virtualType>
 
     <!-- Configuration reader -->
-    <virtualType name="BigFishPmgwSofortConfig" type="Magento\Payment\Gateway\Config\Config">
+    <virtualType name="BigfishpaymentgatewayPmgwSofortConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_SOFORT</argument>
+            <argument name="methodCode" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_SOFORT</argument>
         </arguments>
     </virtualType>
 
     <!-- Value handlers infrastructure -->
-    <virtualType name="BigFishPmgwSofortValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+    <virtualType name="BigfishpaymentgatewayPmgwSofortValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
         <arguments>
             <argument name="handlers" xsi:type="array">
-                <item name="default" xsi:type="string">BigFishPmgwSofortConfigValueHandler</item>
+                <item name="default" xsi:type="string">BigfishpaymentgatewayPmgwSofortConfigValueHandler</item>
             </argument>
         </arguments>
     </virtualType>
-    <virtualType name="BigFishPmgwSofortConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+    <virtualType name="BigfishpaymentgatewayPmgwSofortConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
         <arguments>
-            <argument name="configInterface" xsi:type="object">BigFishPmgwSofortConfig</argument>
+            <argument name="configInterface" xsi:type="object">BigfishpaymentgatewayPmgwSofortConfig</argument>
         </arguments>
     </virtualType>
     <!-- Sofort -->
 
     <!-- Unicredit -->
-    <virtualType name="BigFishPmgwUnicreditFacade" type="Magento\Payment\Model\Method\Adapter">
+    <virtualType name="BigfishpaymentgatewayPmgwUnicreditFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_UNICREDIT</argument>
+            <argument name="code" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_UNICREDIT</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
-            <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
-            <argument name="valueHandlerPool" xsi:type="object">BigFishPmgwUnicreditValueHandlerPool</argument>
-            <argument name="commandPool" xsi:type="object">BigFishPmgwCommandPool</argument>
+            <argument name="infoBlockType" xsi:type="string">Bigfishpaymentgateway\Pmgw\Block\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">BigfishpaymentgatewayPmgwUnicreditValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">BigfishpaymentgatewayPmgwCommandPool</argument>
         </arguments>
     </virtualType>
 
     <!-- Configuration reader -->
-    <virtualType name="BigFishPmgwUnicreditConfig" type="Magento\Payment\Gateway\Config\Config">
+    <virtualType name="BigfishpaymentgatewayPmgwUnicreditConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_UNICREDIT</argument>
+            <argument name="methodCode" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_UNICREDIT</argument>
         </arguments>
     </virtualType>
 
     <!-- Value handlers infrastructure -->
-    <virtualType name="BigFishPmgwUnicreditValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+    <virtualType name="BigfishpaymentgatewayPmgwUnicreditValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
         <arguments>
             <argument name="handlers" xsi:type="array">
-                <item name="default" xsi:type="string">BigFishPmgwUnicreditConfigValueHandler</item>
+                <item name="default" xsi:type="string">BigfishpaymentgatewayPmgwUnicreditConfigValueHandler</item>
             </argument>
         </arguments>
     </virtualType>
-    <virtualType name="BigFishPmgwUnicreditConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+    <virtualType name="BigfishpaymentgatewayPmgwUnicreditConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
         <arguments>
-            <argument name="configInterface" xsi:type="object">BigFishPmgwUnicreditConfig</argument>
+            <argument name="configInterface" xsi:type="object">BigfishpaymentgatewayPmgwUnicreditConfig</argument>
         </arguments>
     </virtualType>
     <!-- Unicredit -->
 
     <!-- Wirecard -->
-    <virtualType name="BigFishPmgwWirecardFacade" type="Magento\Payment\Model\Method\Adapter">
+    <virtualType name="BigfishpaymentgatewayPmgwWirecardFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="code" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_WIRECARD</argument>
+            <argument name="code" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_WIRECARD</argument>
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
-            <argument name="infoBlockType" xsi:type="string">BigFish\Pmgw\Block\Info</argument>
-            <argument name="valueHandlerPool" xsi:type="object">BigFishPmgwWirecardValueHandlerPool</argument>
-            <argument name="commandPool" xsi:type="object">BigFishPmgwCommandPool</argument>
+            <argument name="infoBlockType" xsi:type="string">Bigfishpaymentgateway\Pmgw\Block\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">BigfishpaymentgatewayPmgwWirecardValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">BigfishpaymentgatewayPmgwCommandPool</argument>
         </arguments>
     </virtualType>
 
     <!-- Configuration reader -->
-    <virtualType name="BigFishPmgwWirecardConfig" type="Magento\Payment\Gateway\Config\Config">
+    <virtualType name="BigfishpaymentgatewayPmgwWirecardConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="methodCode" xsi:type="const">\BigFish\Pmgw\Model\ConfigProvider::CODE_WIRECARD</argument>
+            <argument name="methodCode" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_WIRECARD</argument>
         </arguments>
     </virtualType>
 
     <!-- Value handlers infrastructure -->
-    <virtualType name="BigFishPmgwWirecardValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+    <virtualType name="BigfishpaymentgatewayPmgwWirecardValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
         <arguments>
             <argument name="handlers" xsi:type="array">
-                <item name="default" xsi:type="string">BigFishPmgwWirecardConfigValueHandler</item>
+                <item name="default" xsi:type="string">BigfishpaymentgatewayPmgwWirecardConfigValueHandler</item>
             </argument>
         </arguments>
     </virtualType>
-    <virtualType name="BigFishPmgwWirecardConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+    <virtualType name="BigfishpaymentgatewayPmgwWirecardConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
         <arguments>
-            <argument name="configInterface" xsi:type="object">BigFishPmgwWirecardConfig</argument>
+            <argument name="configInterface" xsi:type="object">BigfishpaymentgatewayPmgwWirecardConfig</argument>
         </arguments>
     </virtualType>
     <!-- Wirecard -->

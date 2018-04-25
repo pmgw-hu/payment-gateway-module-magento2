@@ -5,14 +5,14 @@
  *
  * @title      Magento -> Custom Payment Module for BIG FISH Payment Gateway
  * @category   BigFish
- * @package    BigFish_Pmgw
+ * @package    Bigfishpaymentgateway_Pmgw
  * @author     BIG FISH Ltd., paymentgateway [at] bigfish [dot] hu
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  * @copyright  Copyright (c) 2017, BIG FISH Ltd.
  */
-namespace BigFish\Pmgw\Test\Unit\Fixtures\Block;
+namespace Bigfishpaymentgateway\Pmgw\Test\Unit\Fixtures\Block;
 
-class Info extends \BigFish\Pmgw\Block\Info
+class Info extends \Bigfishpaymentgateway\Pmgw\Block\Info
 {
     /**
      * @param string $field

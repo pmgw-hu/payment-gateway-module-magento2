@@ -5,20 +5,20 @@
  *
  * @title      Magento -> Custom Payment Module for BIG FISH Payment Gateway
  * @category   BigFish
- * @package    BigFish_Pmgw
+ * @package    Bigfishpaymentgateway_Pmgw
  * @author     BIG FISH Ltd., paymentgateway [at] bigfish [dot] hu
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  * @copyright  Copyright (c) 2017, BIG FISH Ltd.
  */
-namespace BigFish\Pmgw\Test\Unit\Controller\Payment;
+namespace Bigfishpaymentgateway\Pmgw\Test\Unit\Controller\Payment;
 
 use BigFish\PaymentGateway;
 use BigFish\PaymentGateway\Config;
 use BigFish\PaymentGateway\Response as PaymentGatewayResponse;
-use BigFish\Pmgw\Gateway\Response\ResponseProcessor;
-use BigFish\Pmgw\Gateway\Helper\Helper;
-use BigFish\Pmgw\Controller\Payment\Response as ResponseController;
-use BigFish\Pmgw\Model\Response\ResultInterface;
+use Bigfishpaymentgateway\Pmgw\Gateway\Response\ResponseProcessor;
+use Bigfishpaymentgateway\Pmgw\Gateway\Helper\Helper;
+use Bigfishpaymentgateway\Pmgw\Controller\Payment\Response as ResponseController;
+use Bigfishpaymentgateway\Pmgw\Model\Response\ResultInterface;
 use Magento\Payment\Gateway\ConfigInterface;
 use Magento\Framework\App\Response\RedirectInterface;
 

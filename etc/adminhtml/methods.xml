@@ -6,34 +6,34 @@
  *
  * @title      Magento -> Custom Payment Module for BIG FISH Payment Gateway
  * @category   BigFish
- * @package    BigFish_Pmgw
+ * @package    Bigfishpaymentgateway_Pmgw
  * @author     BIG FISH Ltd., paymentgateway [at] bigfish [dot] hu
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  * @copyright  Copyright (c) 2017, BIG FISH Ltd.
  */
 -->
 <include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
-    <include path="BigFish_Pmgw::methods/barion2.xml"/>
-    <include path="BigFish_Pmgw::methods/borgun.xml"/>
-    <include path="BigFish_Pmgw::methods/borgun2.xml"/>
-    <include path="BigFish_Pmgw::methods/cib.xml"/>
-    <include path="BigFish_Pmgw::methods/escalion.xml"/>
-    <include path="BigFish_Pmgw::methods/fhb.xml"/>
-    <include path="BigFish_Pmgw::methods/gp.xml"/>
-    <include path="BigFish_Pmgw::methods/ipg.xml"/>
-    <include path="BigFish_Pmgw::methods/khb.xml"/>
-    <include path="BigFish_Pmgw::methods/khbszep.xml"/>
-    <include path="BigFish_Pmgw::methods/mkbszep.xml"/>
-    <include path="BigFish_Pmgw::methods/otp.xml"/>
-    <include path="BigFish_Pmgw::methods/otpaymp.xml"/>
-    <include path="BigFish_Pmgw::methods/otpsimple.xml"/>
-    <include path="BigFish_Pmgw::methods/otpszep.xml"/>
-    <include path="BigFish_Pmgw::methods/paypal.xml"/>
-    <include path="BigFish_Pmgw::methods/paysafecard.xml"/>
-    <include path="BigFish_Pmgw::methods/paysafecash.xml"/>
-    <include path="BigFish_Pmgw::methods/payu2.xml"/>
-    <include path="BigFish_Pmgw::methods/saferpay.xml"/>
-    <include path="BigFish_Pmgw::methods/sofort.xml"/>
-    <include path="BigFish_Pmgw::methods/unicredit.xml"/>
-    <include path="BigFish_Pmgw::methods/wirecard.xml"/>
+    <include path="Bigfishpaymentgateway_Pmgw::methods/barion2.xml"/>
+    <include path="Bigfishpaymentgateway_Pmgw::methods/borgun.xml"/>
+    <include path="Bigfishpaymentgateway_Pmgw::methods/borgun2.xml"/>
+    <include path="Bigfishpaymentgateway_Pmgw::methods/cib.xml"/>
+    <include path="Bigfishpaymentgateway_Pmgw::methods/escalion.xml"/>
+    <include path="Bigfishpaymentgateway_Pmgw::methods/fhb.xml"/>
+    <include path="Bigfishpaymentgateway_Pmgw::methods/gp.xml"/>
+    <include path="Bigfishpaymentgateway_Pmgw::methods/ipg.xml"/>
+    <include path="Bigfishpaymentgateway_Pmgw::methods/khb.xml"/>
+    <include path="Bigfishpaymentgateway_Pmgw::methods/khbszep.xml"/>
+    <include path="Bigfishpaymentgateway_Pmgw::methods/mkbszep.xml"/>
+    <include path="Bigfishpaymentgateway_Pmgw::methods/otp.xml"/>
+    <include path="Bigfishpaymentgateway_Pmgw::methods/otpaymp.xml"/>
+    <include path="Bigfishpaymentgateway_Pmgw::methods/otpsimple.xml"/>
+    <include path="Bigfishpaymentgateway_Pmgw::methods/otpszep.xml"/>
+    <include path="Bigfishpaymentgateway_Pmgw::methods/paypal.xml"/>
+    <include path="Bigfishpaymentgateway_Pmgw::methods/paysafecard.xml"/>
+    <include path="Bigfishpaymentgateway_Pmgw::methods/paysafecash.xml"/>
+    <include path="Bigfishpaymentgateway_Pmgw::methods/payu2.xml"/>
+    <include path="Bigfishpaymentgateway_Pmgw::methods/saferpay.xml"/>
+    <include path="Bigfishpaymentgateway_Pmgw::methods/sofort.xml"/>
+    <include path="Bigfishpaymentgateway_Pmgw::methods/unicredit.xml"/>
+    <include path="Bigfishpaymentgateway_Pmgw::methods/wirecard.xml"/>
 </include>

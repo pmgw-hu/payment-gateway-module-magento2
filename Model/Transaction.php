@@ -1,16 +1,16 @@
 <?php
-namespace BigFish\Pmgw\Model;
+namespace Bigfishpaymentgateway\Pmgw\Model;
 
 use Magento\Framework\Model\AbstractModel;
 use Magento\Framework\DataObject\IdentityInterface;
 
 class Transaction extends AbstractModel implements IdentityInterface
 {
-    const CACHE_TAG = 'bigfish_pmgw_transaction';
+    const CACHE_TAG = 'bigfishpaymentgateway_pmgw_transaction';
 
     protected function _construct()
     {
-        $this->_init('BigFish\Pmgw\Model\Source\Transaction');
+        $this->_init('Bigfishpaymentgateway\Pmgw\Model\Source\Transaction');
     }
 
     public function getIdentities()

@@ -6,7 +6,7 @@
  *
  * @title      Magento -> Custom Payment Module for BIG FISH Payment Gateway
  * @category   BigFish
- * @package    BigFish_Pmgw
+ * @package    Bigfishpaymentgateway_Pmgw
  * @author     BIG FISH Ltd., paymentgateway [at] bigfish [dot] hu
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  * @copyright  Copyright (c) 2017, BIG FISH Ltd.
@@ -16,11 +16,11 @@
     <type name="Magento\Checkout\Model\CompositeConfigProvider">
         <arguments>
             <argument name="configProviders" xsi:type="array">
-                <item name="bigfish_pmgw_config_provider" xsi:type="object">BigFish\Pmgw\Model\ConfigProvider</item>
+                <item name="bigfishpaymentgateway_pmgw_config_provider" xsi:type="object">Bigfishpaymentgateway\Pmgw\Model\ConfigProvider</item>
             </argument>
         </arguments>
     </type>
-    <type name="BigFish\Pmgw\Block\Info">
+    <type name="Bigfishpaymentgateway\Pmgw\Block\Info">
         <arguments>
             <argument name="data" xsi:type="array">
                 <item xsi:type="string" name="is_secure_mode">1</item>

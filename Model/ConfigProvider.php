@@ -5,43 +5,43 @@
  *
  * @title      Magento -> Custom Payment Module for BIG FISH Payment Gateway
  * @category   BigFish
- * @package    BigFish_Pmgw
+ * @package    Bigfishpaymentgateway_Pmgw
  * @author     BIG FISH Ltd., paymentgateway [at] bigfish [dot] hu
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  * @copyright  Copyright (c) 2017, BIG FISH Ltd.
  */
-namespace BigFish\Pmgw\Model;
+namespace Bigfishpaymentgateway\Pmgw\Model;
 
 use Magento\Checkout\Model\ConfigProviderInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 
 class ConfigProvider implements ConfigProviderInterface
 {
-    const CODE = 'bigfish_pmgw';
+    const CODE = 'bigfishpaymentgateway_pmgw';
 
-    const CODE_BARION2 = 'bigfish_pmgw_barion2';
-    const CODE_BORGUN = 'bigfish_pmgw_borgun';
-    const CODE_BORGUN2 = 'bigfish_pmgw_borgun2';
-    const CODE_CIB = 'bigfish_pmgw_cib';
-    const CODE_ESCALION = 'bigfish_pmgw_escalion';
-    const CODE_FHB = 'bigfish_pmgw_fhb';
-    const CODE_GP = 'bigfish_pmgw_gp';
-    const CODE_IPG = 'bigfish_pmgw_ipg';
-    const CODE_KHB = 'bigfish_pmgw_khb';
-    const CODE_KHB_SZEP = 'bigfish_pmgw_khbszep';
-    const CODE_MKB_SZEP = 'bigfish_pmgw_mkbszep';
-    const CODE_OTP = 'bigfish_pmgw_otp';
-    const CODE_OTPAY_MP = 'bigfish_pmgw_otpaymp';
-    const CODE_OTP_SIMPLE = 'bigfish_pmgw_otpsimple';
-    const CODE_OTP_SZEP = 'bigfish_pmgw_otpszep';
-    const CODE_PAYPAL = 'bigfish_pmgw_paypal';
-    const CODE_PAYSAFECARD = 'bigfish_pmgw_paysafecard';
-    const CODE_PAYSAFECASH = 'bigfish_pmgw_paysafecash';
-    const CODE_PAYU2 = 'bigfish_pmgw_payu2';
-    const CODE_SAFERPAY = 'bigfish_pmgw_saferpay';
-    const CODE_SOFORT = 'bigfish_pmgw_sofort';
-    const CODE_UNICREDIT = 'bigfish_pmgw_unicredit';
-    const CODE_WIRECARD = 'bigfish_pmgw_wirecard';
+    const CODE_BARION2 = 'bigfishpaymentgateway_pmgw_barion2';
+    const CODE_BORGUN = 'bigfishpaymentgateway_pmgw_borgun';
+    const CODE_BORGUN2 = 'bigfishpaymentgateway_pmgw_borgun2';
+    const CODE_CIB = 'bigfishpaymentgateway_pmgw_cib';
+    const CODE_ESCALION = 'bigfishpaymentgateway_pmgw_escalion';
+    const CODE_FHB = 'bigfishpaymentgateway_pmgw_fhb';
+    const CODE_GP = 'bigfishpaymentgateway_pmgw_gp';
+    const CODE_IPG = 'bigfishpaymentgateway_pmgw_ipg';
+    const CODE_KHB = 'bigfishpaymentgateway_pmgw_khb';
+    const CODE_KHB_SZEP = 'bigfishpaymentgateway_pmgw_khbszep';
+    const CODE_MKB_SZEP = 'bigfishpaymentgateway_pmgw_mkbszep';
+    const CODE_OTP = 'bigfishpaymentgateway_pmgw_otp';
+    const CODE_OTPAY_MP = 'bigfishpaymentgateway_pmgw_otpaymp';
+    const CODE_OTP_SIMPLE = 'bigfishpaymentgateway_pmgw_otpsimple';
+    const CODE_OTP_SZEP = 'bigfishpaymentgateway_pmgw_otpszep';
+    const CODE_PAYPAL = 'bigfishpaymentgateway_pmgw_paypal';
+    const CODE_PAYSAFECARD = 'bigfishpaymentgateway_pmgw_paysafecard';
+    const CODE_PAYSAFECASH = 'bigfishpaymentgateway_pmgw_paysafecash';
+    const CODE_PAYU2 = 'bigfishpaymentgateway_pmgw_payu2';
+    const CODE_SAFERPAY = 'bigfishpaymentgateway_pmgw_saferpay';
+    const CODE_SOFORT = 'bigfishpaymentgateway_pmgw_sofort';
+    const CODE_UNICREDIT = 'bigfishpaymentgateway_pmgw_unicredit';
+    const CODE_WIRECARD = 'bigfishpaymentgateway_pmgw_wirecard';
 
     /**
      * @var ScopeConfigInterface

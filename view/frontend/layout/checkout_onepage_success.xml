@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <body>
     <referenceContainer name="order.success.additional.info">
-        <block class="BigFish\Pmgw\Block\Success"
-               name="bigfish.pmgw.order.success"
-               template="BigFish_Pmgw::order/success.phtml"/>
+        <block class="Bigfishpaymentgateway\Pmgw\Block\Success"
+               name="bigfishpaymentgateway.pmgw.order.success"
+               template="Bigfishpaymentgateway_Pmgw::order/success.phtml"/>
     </referenceContainer>
 </body>

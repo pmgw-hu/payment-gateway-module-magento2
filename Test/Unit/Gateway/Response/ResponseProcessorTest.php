@@ -5,23 +5,23 @@
  *
  * @title      Magento -> Custom Payment Module for BIG FISH Payment Gateway
  * @category   BigFish
- * @package    BigFish_Pmgw
+ * @package    Bigfishpaymentgateway_Pmgw
  * @author     BIG FISH Ltd., paymentgateway [at] bigfish [dot] hu
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  * @copyright  Copyright (c) 2017, BIG FISH Ltd.
  */
-namespace BigFish\Pmgw\Test\Unit\Gateway\Response;
+namespace Bigfishpaymentgateway\Pmgw\Test\Unit\Gateway\Response;
 
 use BigFish\PaymentGateway;
 use Magento\Sales\Model\Order;
 use Magento\Sales\Model\Order\Invoice;
 use Magento\Sales\Model\Order\Email\Sender\OrderSender;
-use BigFish\Pmgw\Model\Response\Result;
+use Bigfishpaymentgateway\Pmgw\Model\Response\Result;
 use Psr\Log\LoggerInterface;
-use BigFish\Pmgw\Gateway\Helper\Helper;
-use BigFish\Pmgw\Gateway\Response\ResponseProcessor;
+use Bigfishpaymentgateway\Pmgw\Gateway\Helper\Helper;
+use Bigfishpaymentgateway\Pmgw\Gateway\Response\ResponseProcessor;
 use BigFish\PaymentGateway\Response;
-use BigFish\Pmgw\Model\Transaction;
+use Bigfishpaymentgateway\Pmgw\Model\Transaction;
 use Magento\Sales\Api\Data\OrderPaymentInterface;
 
 class ResponseProcessorTest extends \PHPUnit_Framework_TestCase
@@ -244,7 +244,7 @@ class ResponseProcessorTest extends \PHPUnit_Framework_TestCase
      */
     public function processPendingResponseTest()
     {
-        $this->setPaymentMockGetMethod('bigfish_pmgw_test');
+        $this->setPaymentMockGetMethod('bigfishpaymentgateway_pmgw_test');
         $this->setOrderMockGetId(1);
         $this->setOrderMockGetPayment();
         $this->setTransactionMockGetId(1);
@@ -299,7 +299,7 @@ class ResponseProcessorTest extends \PHPUnit_Framework_TestCase
      */
     public function processSuccessResponseWithAnumTest()
     {
-        $this->setPaymentMockGetMethod('bigfish_pmgw_test');
+        $this->setPaymentMockGetMethod('bigfishpaymentgateway_pmgw_test');
         $this->setInvoiceMockRegister();
         $this->setOrderMockGetId(1);
         $this->setOrderMockCanInvoice(true);
@@ -365,7 +365,7 @@ class ResponseProcessorTest extends \PHPUnit_Framework_TestCase
      */
     public function processSuccessResponseWithoutAnumTest()
     {
-        $this->setPaymentMockGetMethod('bigfish_pmgw_test');
+        $this->setPaymentMockGetMethod('bigfishpaymentgateway_pmgw_test');
         $this->setInvoiceMockRegister();
         $this->setOrderMockGetId(1);
         $this->setOrderMockGetPayment();
@@ -427,7 +427,7 @@ class ResponseProcessorTest extends \PHPUnit_Framework_TestCase
      */
     public function processUserCancelResponseTest()
     {
-        $this->setPaymentMockGetMethod('bigfish_pmgw_test');
+        $this->setPaymentMockGetMethod('bigfishpaymentgateway_pmgw_test');
         $this->setOrderMockGetId(1);
         $this->setOrderMockGetPayment();
         $this->setTransactionMockGetId(1);
@@ -484,7 +484,7 @@ class ResponseProcessorTest extends \PHPUnit_Framework_TestCase
      */
     public function processErrorResponseTest()
     {
-        $this->setPaymentMockGetMethod('bigfish_pmgw_test');
+        $this->setPaymentMockGetMethod('bigfishpaymentgateway_pmgw_test');
         $this->setOrderMockGetId(1);
         $this->setOrderMockGetPayment();
         $this->setTransactionMockGetId(1);
@@ -541,7 +541,7 @@ class ResponseProcessorTest extends \PHPUnit_Framework_TestCase
      */
     public function processTimeoutResponseTest()
     {
-        $this->setPaymentMockGetMethod('bigfish_pmgw_test');
+        $this->setPaymentMockGetMethod('bigfishpaymentgateway_pmgw_test');
         $this->setOrderMockGetId(1);
         $this->setOrderMockGetPayment();
         $this->setTransactionMockGetId(1);

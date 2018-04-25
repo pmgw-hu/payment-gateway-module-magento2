@@ -5,14 +5,14 @@
  *
  * @title      Magento -> Custom Payment Module for BIG FISH Payment Gateway
  * @category   BigFish
- * @package    BigFish_Pmgw
+ * @package    Bigfishpaymentgateway_Pmgw
  * @author     BIG FISH Ltd., paymentgateway [at] bigfish [dot] hu
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  * @copyright  Copyright (c) 2017, BIG FISH Ltd.
  */
-namespace BigFish\Pmgw\Test\Unit\Model\Order\Email\Sender;
+namespace Bigfishpaymentgateway\Pmgw\Test\Unit\Model\Order\Email\Sender;
 
-use BigFish\Pmgw\Model\Order\Email\Sender\OrderSender;
+use Bigfishpaymentgateway\Pmgw\Model\Order\Email\Sender\OrderSender;
 use Magento\Sales\Model\Order\Email\Container\Template;
 use Magento\Sales\Model\Order\Email\Container\OrderIdentity;
 use Magento\Sales\Model\Order\Email\SenderBuilderFactory;
@@ -70,7 +70,7 @@ class OrderSenderTest extends \PHPUnit_Framework_TestCase
 
         $paymentMock->expects(static::any())
             ->method('getMethod')
-            ->will($this->returnValue('bigfish_pmgw_test'));
+            ->will($this->returnValue('bigfishpaymentgateway_pmgw_test'));
 
         $orderMock = $this->getMockBuilder(Order::class)
             ->disableOriginalConstructor()
