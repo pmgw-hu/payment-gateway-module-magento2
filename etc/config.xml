@@ -4,7 +4,7 @@
  * BIG FISH Ltd.
  * http://www.bigfish.hu
  *
- * @title      Magento -> Custom Payment Module for BIG FISH Payment Gateway
+ * @title      BIG FISH Payment Gateway module for Magento 2
  * @category   BigFish
  * @package    Bigfishpaymentgateway_Pmgw
  * @author     BIG FISH Ltd., paymentgateway [at] bigfish [dot] hu
