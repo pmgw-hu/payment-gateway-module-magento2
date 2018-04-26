@@ -1,5 +1,9 @@
 # Payment Gateway module for Magento 2
 
+  - Use the `develop` branch to develop the module
+
+  - Use the `master` branch to publish the module
+
 ## Install
 
 ### Requirements
@@ -25,7 +29,7 @@
 
     `mkdir -p app/code/Bigfishpaymentgateway`
 
-    `git clone -b master https://gitlab.big.hu/payment-gateway/sdk-magento2.git app/code/Bigfishpaymentgateway/Pmgw/`
+    `git clone -b develop https://gitlab.big.hu/payment-gateway/sdk-magento2.git app/code/Bigfishpaymentgateway/Pmgw/`
 
   - Symlink Docker specific files and folders
 
@@ -188,6 +192,10 @@
 
 ## Extension publishing
 
+### Version
+
+  - Modify the version number
+
 ### Check coding standards
 
   - Install Magento EQP Coding Standard
@@ -214,10 +222,18 @@
 
     `https://github.com/magento/marketplace-tools`
 
-  - Create a zipped package file from the module on the github branch
+  - Create a zipped package file from the module on the `master` branch
 
-    `zip -r [vendor name]-module-[module name]-[version number].zip . -x '.git/*' '.docker/*' '.gitignore' '.gitlab-ci.yml' 'docker-compose.yml'`
+    `zip -r bigfishpaymentgateway-pmgw-[version number].zip . -x '.git/*' '.docker/*' '.gitignore' '.gitlab-ci.yml' 'docker-compose.yml'`
 
   - Use the validator
 
-    `php validate_m2_package.php -d [vendor name]-module-[module name]-[version number].zip`
+    `php validate_m2_package.php -d bigfishpaymentgateway-pmgw-[version number].zip`
+
+### Publishing
+
+  - Push `master` branch into https://github.com/bigfish-hu/payment-gateway-module-magento2 `master` branch
+
+  - Create new release on https://github.com/bigfish-hu/payment-gateway-module-magento2
+
+  - Upload zipped package to https://developer.magento.com/extension/extension/list/package_type/Extension/
