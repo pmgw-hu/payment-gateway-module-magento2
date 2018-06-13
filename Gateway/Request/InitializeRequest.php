@@ -27,6 +27,7 @@ use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\App\ProductMetadataInterface;
 use Magento\Framework\Stdlib\DateTime\DateTime;
 use Psr\Log\LoggerInterface;
+use Magento\Framework\App\Config\ScopeConfigInterface;
 
 class InitializeRequest implements BuilderInterface
 {
@@ -66,6 +67,11 @@ class InitializeRequest implements BuilderInterface
     private $dateTime;
 
     /**
+     * @var ScopeConfigInterface
+     */
+    private $scopeConfig;
+
+    /**
      * @param ConfigProvider $providerConfig
      * @param StoreManagerInterface $storeManager
      * @param ProductMetadataInterface $productMetadata
@@ -73,6 +79,7 @@ class InitializeRequest implements BuilderInterface
      * @param Helper $helper
      * @param LoggerInterface $logger
      * @param DateTime $dateTime
+     * @param ScopeConfigInterface $scopeConfig
      */
     public function __construct(
         ConfigProvider $providerConfig,
@@ -81,7 +88,8 @@ class InitializeRequest implements BuilderInterface
         ModuleListInterface $moduleList,
         Helper $helper,
         LoggerInterface $logger,
-        DateTime $dateTime
+        DateTime $dateTime,
+        ScopeConfigInterface $scopeConfig
     ) {
         $this->providerConfig = $providerConfig;
         $this->storeManager = $storeManager;
@@ -90,6 +98,7 @@ class InitializeRequest implements BuilderInterface
         $this->helper = $helper;
         $this->logger = $logger;
         $this->dateTime = $dateTime;
+        $this->scopeConfig = $scopeConfig;
     }
 
     /**
@@ -247,7 +256,7 @@ class InitializeRequest implements BuilderInterface
      */
     protected function getStoreLanguage()
     {
-        return strtoupper(strstr($this->storeManager->getStore()->getLocaleCode(), '_', true));
+        return strtoupper(strstr($this->scopeConfig->getValue('general/locale/code', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $this->storeManager->getStore()->getId()), '_', true));
     }
 
 }
