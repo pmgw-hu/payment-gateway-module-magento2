@@ -23,6 +23,8 @@ use Bigfishpaymentgateway\Pmgw\Gateway\Response\ResponseProcessor;
 use BigFish\PaymentGateway\Response;
 use Bigfishpaymentgateway\Pmgw\Model\Transaction;
 use Magento\Sales\Api\Data\OrderPaymentInterface;
+use Magento\Sales\Model\Order\Payment\Transaction\BuilderInterface as TransactionBuilderInterface;
+use Magento\Sales\Model\OrderFactory;
 
 class ResponseProcessorTest extends \PHPUnit_Framework_TestCase
 {
@@ -62,6 +64,16 @@ class ResponseProcessorTest extends \PHPUnit_Framework_TestCase
     private $helperMock;
 
     /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    private $transactionBuilderInterfaceMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    private $orderFactoryMock;
+
+    /**
      * @var Result
      */
     private $result;
@@ -97,6 +109,13 @@ class ResponseProcessorTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $this->transactionBuilderInterfaceMock = $this->getMockBuilder(TransactionBuilderInterface::class)
+            ->getMock();
+
+        $this->orderFactoryMock = $this->getMockBuilder(OrderFactory::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->result = new Result();
     }
 
@@ -110,7 +129,9 @@ class ResponseProcessorTest extends \PHPUnit_Framework_TestCase
             $this->orderSenderMock,
             $this->result,
             $this->loggerMock,
-            $this->helperMock
+            $this->helperMock,
+            $this->transactionBuilderInterfaceMock,
+            $this->orderFactoryMock
         );
 
         $response = new Response(json_encode([
@@ -135,7 +156,9 @@ class ResponseProcessorTest extends \PHPUnit_Framework_TestCase
             $this->orderSenderMock,
             $this->result,
             $this->loggerMock,
-            $this->helperMock
+            $this->helperMock,
+            $this->transactionBuilderInterfaceMock,
+            $this->orderFactoryMock
         );
 
         $response = new Response(json_encode([
@@ -160,7 +183,9 @@ class ResponseProcessorTest extends \PHPUnit_Framework_TestCase
             $this->orderSenderMock,
             $this->result,
             $this->loggerMock,
-            $this->helperMock
+            $this->helperMock,
+            $this->transactionBuilderInterfaceMock,
+            $this->orderFactoryMock
         );
 
         $response = new Response(json_encode([
@@ -190,7 +215,9 @@ class ResponseProcessorTest extends \PHPUnit_Framework_TestCase
             $this->orderSenderMock,
             $this->result,
             $this->loggerMock,
-            $this->helperMock
+            $this->helperMock,
+            $this->transactionBuilderInterfaceMock,
+            $this->orderFactoryMock
         );
 
         $response = new Response(json_encode([
@@ -222,7 +249,9 @@ class ResponseProcessorTest extends \PHPUnit_Framework_TestCase
             $this->orderSenderMock,
             $this->result,
             $this->loggerMock,
-            $this->helperMock
+            $this->helperMock,
+            $this->transactionBuilderInterfaceMock,
+            $this->orderFactoryMock
         );
 
         $response = new Response(json_encode([
@@ -255,7 +284,9 @@ class ResponseProcessorTest extends \PHPUnit_Framework_TestCase
             $this->orderSenderMock,
             $this->result,
             $this->loggerMock,
-            $this->helperMock
+            $this->helperMock,
+            $this->transactionBuilderInterfaceMock,
+            $this->orderFactoryMock
         );
 
         $response = new Response(json_encode([
@@ -315,7 +346,9 @@ class ResponseProcessorTest extends \PHPUnit_Framework_TestCase
             $this->orderSenderMock,
             $this->result,
             $this->loggerMock,
-            $this->helperMock
+            $this->helperMock,
+            $this->transactionBuilderInterfaceMock,
+            $this->orderFactoryMock
         );
 
         $response = new Response(json_encode([
@@ -379,7 +412,9 @@ class ResponseProcessorTest extends \PHPUnit_Framework_TestCase
             $this->orderSenderMock,
             $this->result,
             $this->loggerMock,
-            $this->helperMock
+            $this->helperMock,
+            $this->transactionBuilderInterfaceMock,
+            $this->orderFactoryMock
         );
 
         $response = new Response(json_encode([
@@ -438,7 +473,9 @@ class ResponseProcessorTest extends \PHPUnit_Framework_TestCase
             $this->orderSenderMock,
             $this->result,
             $this->loggerMock,
-            $this->helperMock
+            $this->helperMock,
+            $this->transactionBuilderInterfaceMock,
+            $this->orderFactoryMock
         );
 
         $response = new Response(json_encode([
@@ -495,7 +532,9 @@ class ResponseProcessorTest extends \PHPUnit_Framework_TestCase
             $this->orderSenderMock,
             $this->result,
             $this->loggerMock,
-            $this->helperMock
+            $this->helperMock,
+            $this->transactionBuilderInterfaceMock,
+            $this->orderFactoryMock
         );
 
         $response = new Response(json_encode([
@@ -552,7 +591,9 @@ class ResponseProcessorTest extends \PHPUnit_Framework_TestCase
             $this->orderSenderMock,
             $this->result,
             $this->loggerMock,
-            $this->helperMock
+            $this->helperMock,
+            $this->transactionBuilderInterfaceMock,
+            $this->orderFactoryMock
         );
 
         $response = new Response(json_encode([

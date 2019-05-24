@@ -24,6 +24,10 @@
             <config_path>payment/bigfishpaymentgateway_pmgw_mkbszep/active</config_path>
             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
         </field>
+        <field id="description" translate="label" type="textarea" sortOrder="12" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Description</label>
+            <config_path>payment/bigfishpaymentgateway_pmgw_mkbszep/description</config_path>
+        </field>
         <field id="card_pocket_id" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Available pocket</label>
             <config_path>payment/bigfishpaymentgateway_pmgw_mkbszep/card_pocket_id</config_path>
@@ -39,6 +43,14 @@
             <config_path>payment/bigfishpaymentgateway_pmgw_mkbszep/specificcountry</config_path>
             <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
             <can_be_empty>1</can_be_empty>
+        </field>
+        <field id="min_order_total" translate="label" type="text" sortOrder="98" showInDefault="1" showInWebsite="1" showInStore="0">
+            <config_path>payment/bigfishpaymentgateway_pmgw_mkbszep/min_order_total</config_path>
+            <label>Minimum Order Total</label>
+        </field>
+        <field id="max_order_total" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="0">
+            <config_path>payment/bigfishpaymentgateway_pmgw_mkbszep/max_order_total</config_path>
+            <label>Maximum Order Total</label>
         </field>
         <field id="sort_order" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
             <label>Sort Order</label>

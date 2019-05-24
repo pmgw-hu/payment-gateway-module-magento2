@@ -14,12 +14,14 @@ namespace Bigfishpaymentgateway\Pmgw\Model;
 
 use Magento\Checkout\Model\ConfigProviderInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Store\Model\Store as Store;
 
 class ConfigProvider implements ConfigProviderInterface
 {
     const CODE = 'bigfishpaymentgateway_pmgw';
 
     const CODE_BARION2 = 'bigfishpaymentgateway_pmgw_barion2';
+    const CODE_BBARUHITEL = 'bigfishpaymentgateway_pmgw_bbaruhitel';
     const CODE_BORGUN = 'bigfishpaymentgateway_pmgw_borgun';
     const CODE_BORGUN2 = 'bigfishpaymentgateway_pmgw_borgun2';
     const CODE_CIB = 'bigfishpaymentgateway_pmgw_cib';
@@ -41,6 +43,7 @@ class ConfigProvider implements ConfigProviderInterface
     const CODE_SAFERPAY = 'bigfishpaymentgateway_pmgw_saferpay';
     const CODE_SOFORT = 'bigfishpaymentgateway_pmgw_sofort';
     const CODE_UNICREDIT = 'bigfishpaymentgateway_pmgw_unicredit';
+    const CODE_VIRPAY = 'bigfishpaymentgateway_pmgw_virpay';
     const CODE_WIRECARD = 'bigfishpaymentgateway_pmgw_wirecard';
 
     /**
@@ -334,4 +337,15 @@ class ConfigProvider implements ConfigProviderInterface
         ];
     }
 
+    /**
+     * @return array
+     */
+    public function getCardRegistrationModes()
+    {
+        return [
+            '0' => __('No'),
+            '1' => __('Only card registration'),
+            '2' => __('Card registration and One Click Payment'),
+        ];
+    }
 }

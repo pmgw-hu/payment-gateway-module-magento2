@@ -75,6 +75,22 @@
                 <can_initialize>1</can_initialize>
             </bigfishpaymentgateway_pmgw_borgun2>
 
+            <bigfishpaymentgateway_pmgw_bbaruhitel>
+                <title>Budapest Bank Áruhitel</title>
+                <active>0</active>
+                <allowspecific>0</allowspecific>
+                <sort_order>1</sort_order>
+                <!-- -->
+                <group>bigfishpaymentgateway_pmgw</group>
+                <model>BigfishpaymentgatewayPmgwBBAruhitelFacade</model>
+                <provider_code>BBAruhitel</provider_code>
+                <order_status>pending_payment</order_status>
+                <payment_action>sale</payment_action>
+                <is_gateway>1</is_gateway>
+                <can_use_checkout>1</can_use_checkout>
+                <can_initialize>1</can_initialize>
+            </bigfishpaymentgateway_pmgw_bbaruhitel>
+
             <bigfishpaymentgateway_pmgw_cib>
                 <title>CIB Bank</title>
                 <active>0</active>
@@ -378,6 +394,22 @@
                 <can_use_checkout>1</can_use_checkout>
                 <can_initialize>1</can_initialize>
             </bigfishpaymentgateway_pmgw_unicredit>
+
+            <bigfishpaymentgateway_pmgw_virpay>
+                <title>Virpay</title>
+                <active>0</active>
+                <allowspecific>0</allowspecific>
+                <sort_order>1</sort_order>
+                <!-- -->
+                <group>bigfishpaymentgateway_pmgw</group>
+                <model>BigfishpaymentgatewayPmgwVirpayFacade</model>
+                <provider_code>Virpay</provider_code>
+                <order_status>pending_payment</order_status>
+                <payment_action>sale</payment_action>
+                <is_gateway>1</is_gateway>
+                <can_use_checkout>1</can_use_checkout>
+                <can_initialize>1</can_initialize>
+            </bigfishpaymentgateway_pmgw_virpay>
 
             <bigfishpaymentgateway_pmgw_wirecard>
                 <title>Wirecard Checkout Page</title>

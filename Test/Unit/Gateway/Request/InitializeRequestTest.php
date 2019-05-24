@@ -29,6 +29,9 @@ use Magento\Payment\Model\InfoInterface;
 use Magento\Payment\Model\MethodInterface;
 use Magento\Payment\Gateway\Data\OrderAdapterInterface;
 use Psr\Log\LoggerInterface;
+use \Magento\Framework\App\Config\ScopeConfigInterface;
+use \Magento\Quote\Api\Data\PaymentInterface;
+use \Magento\Webapi\Controller\Rest\InputParamsResolver;
 
 class InitializeRequestTest extends \PHPUnit_Framework_TestCase
 {
@@ -96,6 +99,21 @@ class InitializeRequestTest extends \PHPUnit_Framework_TestCase
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $transactionMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    private $scopeConfigMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    private $paymentInterfacedMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    private $inputParamsResolverMock;
 
     /**
      * @var string
@@ -167,6 +185,18 @@ class InitializeRequestTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $this->scopeConfigMock = $this->getMockBuilder(ScopeConfigInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->paymentInterfacedMock = $this->getMockBuilder(PaymentInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->inputParamsResolverMock = $this->getMockBuilder(InputParamsResolver::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->transactionId = md5(rand(1, 100));
         $this->amount = rand(2000, 4000);
         $this->orderId = rand(1, 1000);
@@ -188,7 +218,10 @@ class InitializeRequestTest extends \PHPUnit_Framework_TestCase
             $this->moduleListMock,
             $this->helperMock,
             $this->loggerMock,
-            $this->dateTimeMock
+            $this->dateTimeMock,
+            $this->scopeConfigMock,
+            $this->paymentInterfacedMock,
+            $this->inputParamsResolverMock
         );
 
         $initializeRequest->build([]);
@@ -217,7 +250,10 @@ class InitializeRequestTest extends \PHPUnit_Framework_TestCase
             $this->moduleListMock,
             $this->helperMock,
             $this->loggerMock,
-            $this->dateTimeMock
+            $this->dateTimeMock,
+            $this->scopeConfigMock,
+            $this->paymentInterfacedMock,
+            $this->inputParamsResolverMock
         );
 
         $initializeRequest->build([
@@ -278,7 +314,10 @@ class InitializeRequestTest extends \PHPUnit_Framework_TestCase
             $this->moduleListMock,
             $this->helperMock,
             $this->loggerMock,
-            $this->dateTimeMock
+            $this->dateTimeMock,
+            $this->scopeConfigMock,
+            $this->paymentInterfacedMock,
+            $this->inputParamsResolverMock
         );
 
         $initializeRequest->build([
@@ -325,7 +364,10 @@ class InitializeRequestTest extends \PHPUnit_Framework_TestCase
             $this->moduleListMock,
             $this->helperMock,
             $this->loggerMock,
-            $this->dateTimeMock
+            $this->dateTimeMock,
+            $this->scopeConfigMock,
+            $this->paymentInterfacedMock,
+            $this->inputParamsResolverMock
         );
 
         $this->assertEquals([
@@ -388,7 +430,10 @@ class InitializeRequestTest extends \PHPUnit_Framework_TestCase
             $this->moduleListMock,
             $this->helperMock,
             $this->loggerMock,
-            $this->dateTimeMock
+            $this->dateTimeMock,
+            $this->scopeConfigMock,
+            $this->paymentInterfacedMock,
+            $this->inputParamsResolverMock
         );
 
         $this->assertEquals([
@@ -441,7 +486,10 @@ class InitializeRequestTest extends \PHPUnit_Framework_TestCase
             $this->moduleListMock,
             $this->helperMock,
             $this->loggerMock,
-            $this->dateTimeMock
+            $this->dateTimeMock,
+            $this->scopeConfigMock,
+            $this->paymentInterfacedMock,
+            $this->inputParamsResolverMock
         );
 
         $this->assertEquals([
@@ -493,7 +541,10 @@ class InitializeRequestTest extends \PHPUnit_Framework_TestCase
             $this->moduleListMock,
             $this->helperMock,
             $this->loggerMock,
-            $this->dateTimeMock
+            $this->dateTimeMock,
+            $this->scopeConfigMock,
+            $this->paymentInterfacedMock,
+            $this->inputParamsResolverMock
         );
 
         $this->assertEquals([
@@ -559,7 +610,10 @@ class InitializeRequestTest extends \PHPUnit_Framework_TestCase
             $this->moduleListMock,
             $this->helperMock,
             $this->loggerMock,
-            $this->dateTimeMock
+            $this->dateTimeMock,
+            $this->scopeConfigMock,
+            $this->paymentInterfacedMock,
+            $this->inputParamsResolverMock
         );
 
         $this->assertEquals([
@@ -623,7 +677,10 @@ class InitializeRequestTest extends \PHPUnit_Framework_TestCase
             $this->moduleListMock,
             $this->helperMock,
             $this->loggerMock,
-            $this->dateTimeMock
+            $this->dateTimeMock,
+            $this->scopeConfigMock,
+            $this->paymentInterfacedMock,
+            $this->inputParamsResolverMock
         );
 
         $this->assertEquals([

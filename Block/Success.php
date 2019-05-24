@@ -105,8 +105,15 @@ class Success extends Template
             return;
         }
 
+        $payment = $order->getPayment();
+        $method = $payment->getMethodInstance();
+
         $this->addData([
             'order_id'  => $order->getIncrementId(),
+            'order_updated_at'  => $order->getUpdatedAt(),
+            'order_currency_code'  => $order->getBaseCurrencyCode(),
+            'order_total'  => (float)$order->getGrandTotal(),
+            'method_title'  => $method->getTitle(),
             'can_view_order' => $this->canViewOrder($order),
             'response' => $this->getTransactionData($transactionId),
         ]);
