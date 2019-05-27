@@ -36,7 +36,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.port=1080
-      - traefik.frontend.rule=Host:magento-mail.dev.big.hu
+      - traefik.frontend.rule=Host:magento2-mail.dev.big.hu
   session:
     image: docker.big.hu/development/memcached
     network_mode: bridge
