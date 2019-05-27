@@ -13,8 +13,8 @@ Syntax Check PHP 5.6:
   stage: syntax-check
   allow_failure: false
 
-Syntax Check PHP 7.0:
-  image: docker.big.hu/test/php:7.0
+Syntax Check PHP 7.2:
+  image: docker.big.hu/test/php:7.2
   script:
     - find . -type f -name "*.php" -print0 | xargs -0L1 /usr/bin/php -l
   tags:

@@ -1,21 +1,28 @@
 #
 # Web node
 #
-FROM docker.big.hu/development/nginx-php:7.0
+FROM docker.big.hu/development/nginx-php:7.2
 MAINTAINER BIG FISH <cafe@bigfish.hu>
+
+RUN printf "deb http://deb.debian.org/debian/ jessie main\ndeb http://security.debian.org/ jessie/updates main\ndeb http://repo.big.hu/debian jessie-backports main\ndeb http://repo.big.hu/debian jessie-bigfish main sury-php" > /etc/apt/sources.list
+
+RUN wget -qO - https://repo.big.hu/repo.big.hu.key | apt-key add -
 
 #
 # Install extra PHP modules
 #
 RUN apt-get update
 
-RUN apt-get install -t jessie-bigfish -yq \
-    php7.0-bcmath=${PHP7_VERSION} \
-    php7.0-intl=${PHP7_VERSION} \
-    php7.0-mbstring=${PHP7_VERSION} \
-    php7.0-soap=${PHP7_VERSION} \
-    php7.0-xml=${PHP7_VERSION} \
-    php7.0-zip=${PHP7_VERSION}
+RUN apt-get install -t jessie-bigfish -y \
+    php7.2-bcmath=${PHP7_VERSION} \
+    php7.2-intl=${PHP7_VERSION} \
+    php7.2-mbstring=${PHP7_VERSION} \
+    php7.2-soap=${PHP7_VERSION} \
+    php7.2-xml=${PHP7_VERSION} \
+    php7.2-zip=${PHP7_VERSION}
+
+RUN apt-get install -y zip \
+    unzip
 
 #
 # Get composer
@@ -28,9 +35,9 @@ RUN cd /usr/local/bin \
 #
 # PHP settings
 #
-ADD ./src/php/000-php-settings.ini /etc/php/7.0/mods-available/000-php-settings.ini
-RUN ln -s /etc/php/7.0/mods-available/000-php-settings.ini /etc/php/7.0/cli/conf.d/000-php-settings.ini
-RUN ln -s /etc/php/7.0/mods-available/000-php-settings.ini /etc/php/7.0/fpm/conf.d/000-php-settings.ini
+ADD ./src/php/000-php-settings.ini /etc/php/7.2/mods-available/000-php-settings.ini
+RUN ln -s /etc/php/7.2/mods-available/000-php-settings.ini /etc/php/7.2/cli/conf.d/000-php-settings.ini
+RUN ln -s /etc/php/7.2/mods-available/000-php-settings.ini /etc/php/7.2/fpm/conf.d/000-php-settings.ini
 
 #
 # Forward PHP error log to docker log collector
