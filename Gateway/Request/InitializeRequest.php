@@ -260,7 +260,7 @@ class InitializeRequest implements BuilderInterface
 
                 $request->setOneClickPayment(true);
 
-                if ($providerConfig['card_registration_mode'] === 1) {
+                if ($providerConfig['card_registration_mode'] == '1') {
                     $request->setOneClickForcedRegistration(true);
                 }
             }

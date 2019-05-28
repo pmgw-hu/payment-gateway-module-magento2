@@ -59,7 +59,7 @@ class ResponseProcessor
     private $response;
 
     /**
-     * @var Response
+     * @var Details
      */
     private $details;
 
@@ -190,7 +190,6 @@ class ResponseProcessor
 
     protected function processSuccess()
     {
-        $this->details = $this->helper->getPaymentGatewayDetails($this->response->TransactionId);
         $this->createInvoice();
 
         $this->order->setState(Order::STATE_PROCESSING);
@@ -220,6 +219,8 @@ class ResponseProcessor
         $provider = $this->order->getPayment()->getMethod();
 
         if ($this->helper->isOneClickProvider($provider)) {
+            $this->details = $this->helper->getPaymentGatewayDetails($this->response->TransactionId);
+
             if (isset($this->details->ProviderSpecificData->OneClickPayment) && !empty($this->details->ProviderSpecificData->OneClickPayment)) {
                 if (
                     $provider == ConfigProvider::CODE_BORGUN2 ||
