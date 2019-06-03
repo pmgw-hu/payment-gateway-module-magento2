@@ -3,11 +3,13 @@
 define(
     [
         'Magento_Checkout/js/view/payment/default',
-        'mage/url'
+        'mage/url',
+        'mage/translate'
     ],
     function (
         Component,
-        url
+        url,
+        $translate
     ) {
         'use strict';
 
@@ -32,63 +34,72 @@ define(
                 window.location.replace(url.build('bigfishpaymentgateway_pmgw/payment/start'));
             },
 
-	        getInstructions: function () {
-		        return window.checkoutConfig.payment.instructions[this.item.method];
-	        },
+            getInstructions: function () {
+                return window.checkoutConfig.payment.instructions[this.item.method];
+            },
 
-	        getCardRegistrationCode : function () {
-		        var config = window.checkoutConfig.payment.bigfishpaymentgateway_pmgw.providers;
-		        if (config.length > 0) {
-			        for (var i=0; i<config.length; i++) {
-				        if (config[i].name === this.item.method) {
-					        return config[i].card_registration_mode;
-				        }
-			        }
-		        }
-	        },
+            getCardRegistrationCode : function () {
+                var config = window.checkoutConfig.payment.bigfishpaymentgateway_pmgw.providers;
+                if (config.length > 0) {
+                    for (var i=0; i<config.length; i++) {
+                        if (config[i].name === this.item.method) {
+                            return config[i].card_registration_mode;
+                        }
+                    }
+                }
+            },
 
-	        getDescription : function () {
-		        var config = window.checkoutConfig.payment.bigfishpaymentgateway_pmgw.providers;
-		        if (config.length > 0) {
-			        for (var i=0; i<config.length; i++) {
-				        if (config[i].name === this.item.method && config[i].description) {
-					        return config[i].description;
-				        }
-			        }
-			        return null;
-		        }
-	        },
+            getDescription : function () {
+                var config = window.checkoutConfig.payment.bigfishpaymentgateway_pmgw.providers;
+                if (config.length > 0) {
+                    for (var i=0; i<config.length; i++) {
+                        if (config[i].name === this.item.method && config[i].description) {
+                            return this.nl2br(config[i].description);
+                        }
+                    }
+                    return null;
+                }
+            },
 
-	        cardDescriptionEnabled: function () {
-		        if (this.getDescription() != null) {
-			        return true;
-		        }
+            cardDescriptionEnabled: function () {
+                if (this.getDescription() != null) {
+                    return true;
+                }
 
-		        return false;
-	        },
+                return false;
+            },
 
-	        cardRegistrationEnabled: function () {
-            	var code = this.getCardRegistrationCode();
-		        if (code == 1 || code == 2) {
-			        return true;
-		        }
+            cardRegistrationEnabled: function () {
+                var code = this.getCardRegistrationCode();
+                if (code == 1 || code == 2) {
+                    return true;
+                }
 
-		        return false;
-	        },
+                return false;
+            },
 
-	        isPaymentMethodAccept: function (selectedProvider) {
-		        var checkboxes = document.getElementsByName('payment[method][card_registration]');
+            isPaymentMethodAccept: function (selectedProvider) {
+                var checkboxes = document.getElementsByName('payment[method][card_registration]');
 
-		        if (checkboxes.length > 0) {
-			        for (var i=0; i<checkboxes.length; i++) {
-				        if (checkboxes[i].value === selectedProvider && checkboxes[i].checked === true) {
+                if (checkboxes.length > 0) {
+                    for (var i=0; i<checkboxes.length; i++) {
+                        if (checkboxes[i].value === selectedProvider && checkboxes[i].checked === true) {
                             return true;
                         }
-			        }
-		        }
+                    }
+                }
 
-		        return false;
-	        }
+                return false;
+            },
+
+            nl2br: function (str, is_xhtml) {
+                if (typeof str === 'undefined' || str === null) {
+                    return '';
+                }
+                var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
+                var brStr = (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
+                return $translate(brStr);
+            }
         });
     }
 );

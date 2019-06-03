@@ -294,7 +294,7 @@ class Helper extends AbstractHelper
             ->setFailSafe(true)
             ->build($transactionType);
 
-        $message = __('Result code: %s.', $response->ResultCode);
+        $message = __('Result code: %1.', $response->ResultCode);
         $payment->addTransactionCommentsToOrder(
             $transaction,
             $message

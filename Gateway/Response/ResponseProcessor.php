@@ -282,41 +282,4 @@ class ResponseProcessor
     {
         $this->helper->addTransactionLog($this->transaction, $this->response);
     }
-
-    /**
-     * @param string $transactionType
-     */
-    protected function createPaymentTransaction($transactionType)
-    {
-        $payment = $this->order->getPayment();
-        $payment->setLastTransId($this->response->TransactionId);
-        $payment->setTransactionId($this->response->TransactionId);
-        $payment->setAdditionalInformation(
-            (array) $this->response
-        );
-
-        $formatedPrice = $this->order->getBaseCurrency()->formatTxt(
-            $this->order->getGrandTotal()
-        );
-
-        $message = __('The authorized amount is %1.', $formatedPrice);
-        $trans = $this->builder;
-        $transaction = $trans->setPayment($payment)
-            ->setOrder($this->order)
-            ->setTransactionId($this->response->TransactionId)
-            ->setAdditionalInformation(
-                (array) $this->response
-            )
-            ->setFailSafe(true)
-            ->build($transactionType);
-
-        $payment->addTransactionCommentsToOrder(
-            $transaction,
-            $message
-        );
-        $payment->setParentTransactionId(null);
-        $payment->save();
-        $this->order->save();
-        $transaction->save();
-    }
 }

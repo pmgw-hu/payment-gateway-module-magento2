@@ -11,7 +11,7 @@
 
     <div class="payment-method-content">
         <div class="field choice" data-bind="visible: cardDescriptionEnabled()">
-            <!-- ko i18n: getDescription() --><!-- /ko -->
+            <span data-bind="html: getDescription()"></span>
         </div>
         <div class="field choice" data-bind="visible: cardRegistrationEnabled()">
             <input type="checkbox"
