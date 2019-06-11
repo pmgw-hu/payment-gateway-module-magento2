@@ -28,6 +28,9 @@
         <method name="bigfishpaymentgateway_pmgw_borgun2">
             <allow_multiple_address>1</allow_multiple_address>
         </method>
+        <method name="bigfishpaymentgateway_pmgw_bbaruhitel">
+            <allow_multiple_address>1</allow_multiple_address>
+        </method>
         <method name="bigfishpaymentgateway_pmgw_cib">
             <allow_multiple_address>1</allow_multiple_address>
         </method>
@@ -83,6 +86,9 @@
             <allow_multiple_address>1</allow_multiple_address>
         </method>
         <method name="bigfishpaymentgateway_pmgw_unicredit">
+            <allow_multiple_address>1</allow_multiple_address>
+        </method>
+        <method name="bigfishpaymentgateway_pmgw_virpay">
             <allow_multiple_address>1</allow_multiple_address>
         </method>
         <method name="bigfishpaymentgateway_pmgw_wirecard">

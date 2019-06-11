@@ -12,6 +12,7 @@
  */
 namespace Bigfishpaymentgateway\Pmgw\Gateway\Request;
 
+use BigFish\PaymentGateway\Request\Init;
 use Bigfishpaymentgateway\Pmgw\Model\ConfigProvider;
 use Bigfishpaymentgateway\Pmgw\Gateway\Helper\Helper;
 use BigFish\PaymentGateway;
@@ -23,9 +24,12 @@ use Magento\Payment\Gateway\Data\OrderAdapterInterface;
 use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 use Magento\Payment\Gateway\Request\BuilderInterface;
 use Magento\Backend\Model\UrlInterface;
+use Magento\Quote\Api\Data\PaymentInterface;
+use Magento\Sales\Model\Order\Payment\Transaction;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\App\ProductMetadataInterface;
 use Magento\Framework\Stdlib\DateTime\DateTime;
+use Magento\Webapi\Controller\Rest\InputParamsResolver;
 use Psr\Log\LoggerInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 
@@ -72,6 +76,16 @@ class InitializeRequest implements BuilderInterface
     private $scopeConfig;
 
     /**
+     * @var PaymentInterface
+     */
+    private $paymentMethod;
+
+    /**
+     * @var InputParamsResolver
+     */
+    private $inputParamsResolver;
+
+    /**
      * @param ConfigProvider $providerConfig
      * @param StoreManagerInterface $storeManager
      * @param ProductMetadataInterface $productMetadata
@@ -80,6 +94,8 @@ class InitializeRequest implements BuilderInterface
      * @param LoggerInterface $logger
      * @param DateTime $dateTime
      * @param ScopeConfigInterface $scopeConfig
+     * @param PaymentInterface $paymentMethod
+     * @param InputParamsResolver $inputParamsResolver
      */
     public function __construct(
         ConfigProvider $providerConfig,
@@ -89,7 +105,9 @@ class InitializeRequest implements BuilderInterface
         Helper $helper,
         LoggerInterface $logger,
         DateTime $dateTime,
-        ScopeConfigInterface $scopeConfig
+        ScopeConfigInterface $scopeConfig,
+        PaymentInterface $paymentMethod,
+        InputParamsResolver $inputParamsResolver
     ) {
         $this->providerConfig = $providerConfig;
         $this->storeManager = $storeManager;
@@ -99,6 +117,8 @@ class InitializeRequest implements BuilderInterface
         $this->logger = $logger;
         $this->dateTime = $dateTime;
         $this->scopeConfig = $scopeConfig;
+        $this->paymentMethod = $paymentMethod;
+        $this->inputParamsResolver = $inputParamsResolver;
     }
 
     /**
@@ -235,6 +255,17 @@ class InitializeRequest implements BuilderInterface
             }
         }
 
+        if ($this->helper->isOneClickProvider($providerConfig['name']) && $this->customerAcceptCardRegistration()) {
+            if (isset($providerConfig['card_registration_mode']) && strlen($providerConfig['card_registration_mode'])) {
+
+                $request->setOneClickPayment(true);
+
+                if ($providerConfig['card_registration_mode'] == '1') {
+                    $request->setOneClickForcedRegistration(true);
+                }
+            }
+        }
+
         if (!empty($extraData)) {
             $request->setExtra($extraData);
         }
@@ -259,4 +290,20 @@ class InitializeRequest implements BuilderInterface
         return strtoupper(strstr($this->scopeConfig->getValue('general/locale/code', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $this->storeManager->getStore()->getId()), '_', true));
     }
 
+    /**
+     * @return bool
+     */
+    protected function customerAcceptCardRegistration()
+    {
+        $inputParams = $this->inputParamsResolver->resolve();
+        foreach ($inputParams as $inputParam) {
+            if ($inputParam instanceof \Magento\Quote\Model\Quote\Payment) {
+                $paymentData = $inputParam->getData('additional_data');
+                if(isset($paymentData['card_registration'])) {
+                    return (bool) $paymentData['card_registration'];
+                }
+            }
+        }
+        return false;
+    }
 }

@@ -23,6 +23,7 @@ use Bigfishpaymentgateway\Pmgw\Test\Unit\Fixtures\Model\Log;
 use Magento\Payment\Model\Method\Logger;
 use Magento\Framework\Json\Helper\Data as JsonHelper;
 use Magento\Framework\Stdlib\DateTime\DateTime;
+use Magento\Sales\Model\Order\Payment\Transaction\BuilderInterface as TransactionBuilderInterface;
 
 class HelperTest extends \PHPUnit_Framework_TestCase
 {
@@ -62,6 +63,11 @@ class HelperTest extends \PHPUnit_Framework_TestCase
      */
     private $logMock;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    private $transactionBuilderInterfaceMock;
+
     public function setUp()
     {
         parent::setUp();
@@ -92,6 +98,9 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
         $this->logMock = $this->getMockBuilder(Log::class)
             ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->transactionBuilderInterfaceMock = $this->getMockBuilder(TransactionBuilderInterface::class)
             ->getMock();
     }
 
@@ -349,6 +358,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
     {
         $helper = new Helper(
             $this->transactionFactoryMock,
+            $this->transactionBuilderInterfaceMock,
             $this->logFactoryMock,
             $this->paymentLoggerMock,
             $this->jsonHelperMock,

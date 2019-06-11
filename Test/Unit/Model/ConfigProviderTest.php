@@ -306,6 +306,22 @@ class ConfigProviderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @test
+     */
+    public function getCardRegistrationModesTest()
+    {
+        $configProvider = new ConfigProvider($this->scopeConfigMock);
+
+        $result = $configProvider->getCardRegistrationModes();
+
+        $this->assertEquals(3, count($result));
+
+        $this->assertEquals([
+            '0', '1', '2'
+        ], array_keys($result));
+    }
+
+    /**
      * @param array $scopeConfig
      * @param array $expected
      */

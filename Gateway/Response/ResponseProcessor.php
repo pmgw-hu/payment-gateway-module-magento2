@@ -14,9 +14,13 @@ namespace Bigfishpaymentgateway\Pmgw\Gateway\Response;
 
 use BigFish\PaymentGateway;
 use Bigfishpaymentgateway\Pmgw\Gateway\Helper\Helper;
+use Bigfishpaymentgateway\Pmgw\Model\ConfigProvider;
 use Bigfishpaymentgateway\Pmgw\Model\Transaction;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Sales\Model\Order;
+use Magento\Sales\Model\Order\Payment\Transaction as PaymentTransaction;
+use Magento\Sales\Model\Order\Payment\Transaction\BuilderInterface;
+use Magento\Sales\Model\OrderFactory;
 use Psr\Log\LoggerInterface;
 use Magento\Sales\Model\Order\Email\Sender\OrderSender;
 use BigFish\PaymentGateway\Response;
@@ -55,9 +59,24 @@ class ResponseProcessor
     private $response;
 
     /**
+     * @var Details
+     */
+    private $details;
+
+    /**
      * @var Transaction
      */
     private $transaction;
+
+    /**
+     * @var BuilderInterface
+     */
+    private $builder;
+
+    /**
+     * @var \Magento\Sales\Model\OrderRepository
+     */
+    private $orderFactory;
 
     /**
      * @param Order $order
@@ -65,19 +84,25 @@ class ResponseProcessor
      * @param ResultInterface $result
      * @param LoggerInterface $logger
      * @param Helper $helper
+     * @param BuilderInterface $builder
+     * @param OrderFactory $orderFactory
      */
     public function __construct(
         Order $order,
         OrderSender $orderSender,
         ResultInterface $result,
         LoggerInterface $logger,
-        Helper $helper
+        Helper $helper,
+        BuilderInterface $builder,
+        OrderFactory $orderFactory
     ) {
         $this->order = $order;
         $this->orderSender = $orderSender;
         $this->result = $result;
         $this->logger = $logger;
         $this->helper = $helper;
+        $this->builder = $builder;
+        $this->orderFactory = $orderFactory;
     }
 
     /**
@@ -141,7 +166,7 @@ class ResponseProcessor
             throw new LocalizedException(__('Transaction not found.'));
         }
 
-        $this->order->loadByIncrementId($this->transaction->getOrderId());
+        $this->order = $this->orderFactory->create()->loadByIncrementId($this->transaction->getOrderId());
 
         if (!$this->order->getId()) {
             throw new LocalizedException(__('Order not found.'));
@@ -159,6 +184,7 @@ class ResponseProcessor
         $this->order->save();
 
         $this->helper->updateTransactionStatus($this->transaction, Helper::TRANSACTION_STATUS_PENDING);
+        $this->helper->createOrderTransaction($this->order, $this->response, PaymentTransaction::TYPE_ORDER);
         $this->logResponse();
     }
 
@@ -175,8 +201,57 @@ class ResponseProcessor
         $this->orderSender->send($this->order, false);
         $this->order->save();
 
+        if ($this->isSuccessCardRegistration()) {
+            $this->helper->setCardRegistration($this->transaction, true);
+        }
+
         $this->helper->updateTransactionStatus($this->transaction, Helper::TRANSACTION_STATUS_SUCCESS);
+        $this->helper->createOrderTransaction($this->order, $this->response, PaymentTransaction::TYPE_ORDER);
+
         $this->logResponse();
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isSuccessCardRegistration()
+    {
+        $provider = $this->order->getPayment()->getMethod();
+
+        if ($this->helper->isOneClickProvider($provider)) {
+            $this->details = $this->helper->getPaymentGatewayDetails($this->response->TransactionId);
+
+            if (isset($this->details->ProviderSpecificData->OneClickPayment) && !empty($this->details->ProviderSpecificData->OneClickPayment)) {
+                if (
+                    $provider == ConfigProvider::CODE_BORGUN2 ||
+                    $provider == ConfigProvider::CODE_VIRPAY
+                ) {
+                    if (!isset($this->details->ProviderSpecificData->ParentBorgunTransactionId) || empty($this->details->ProviderSpecificData->ParentBorgunTransactionId)) {
+                        return true;
+                    }
+                }
+
+                if ($provider == ConfigProvider::CODE_BARION2) {
+                    if (!isset($this->details->ProviderSpecificData->RecurrenceId) || empty($this->details->ProviderSpecificData->RecurrenceId)) {
+                        return true;
+                    }
+                }
+
+                if ($provider == ConfigProvider::CODE_GP) {
+                    if (!isset($this->details->ProviderSpecificData->ParentOrdernumber) || empty($this->details->ProviderSpecificData->ParentOrdernumber)) {
+                        return true;
+                    }
+                }
+
+                if ($provider == ConfigProvider::CODE_SAFERPAY) {
+                    if (!isset($this->details->ProviderSpecificData->ParentSaferpayTransactionId) || empty($this->details->ProviderSpecificData->ParentSaferpayTransactionId)) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -189,6 +264,7 @@ class ResponseProcessor
         $this->order->save();
 
         $this->helper->updateTransactionStatus($this->transaction, $transactionStatus);
+        $this->helper->createOrderTransaction($this->order, $this->response, PaymentTransaction::TYPE_ORDER);
         $this->logResponse();
     }
 
@@ -206,5 +282,4 @@ class ResponseProcessor
     {
         $this->helper->addTransactionLog($this->transaction, $this->response);
     }
-
 }
