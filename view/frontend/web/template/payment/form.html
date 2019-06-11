@@ -10,9 +10,19 @@
     </div>
 
     <div class="payment-method-content">
-        <!-- ko foreach: getRegion('messages') -->
-        <!-- ko template: getTemplate() --><!-- /ko -->
-        <!--/ko-->
+        <div class="field choice" data-bind="visible: cardDescriptionEnabled()">
+            <span data-bind="html: getDescription()"></span>
+        </div>
+        <div class="field choice" data-bind="visible: cardRegistrationEnabled()">
+            <input type="checkbox"
+                   name="payment[method][card_registration]"
+                   class="checkbox"
+                   data-bind="attr: {'id': getCode() + '_card_registration'}, value: getCode(), checked: false"/>
+            <label class="label" data-bind="attr: {'for': getCode() + '_card_registration'}">
+                <span data-bind="visible: getCardRegistrationCode() == 1"><!-- ko i18n: 'Enable card registration'--><!-- /ko --></span>
+                <span data-bind="visible: getCardRegistrationCode() == 2"><!-- ko i18n: 'One Click Payment'--><!-- /ko --></span>
+            </label>
+        </div>
         <div class="payment-method-billing-address">
             <!-- ko foreach: $parent.getRegion(getBillingAddressFormName()) -->
             <!-- ko template: getTemplate() --><!-- /ko -->

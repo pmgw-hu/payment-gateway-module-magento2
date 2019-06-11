@@ -17,6 +17,7 @@ use BigFish\PaymentGateway\Config;
 use BigFish\PaymentGateway\Request\Start as StartRequest;
 use BigFish\PaymentGateway\Request\Init as InitRequest;
 use BigFish\PaymentGateway\Request\Result as ResultRequest;
+use BigFish\PaymentGateway\Request\Details as DetailsRequest;
 use BigFish\PaymentGateway\Response;
 use Bigfishpaymentgateway\Pmgw\Model\TransactionFactory;
 use Bigfishpaymentgateway\Pmgw\Model\Transaction;
@@ -26,6 +27,11 @@ use Magento\Framework\DataObject;
 use Magento\Framework\Json\Helper\Data as JsonHelper;
 use Magento\Framework\Stdlib\DateTime\DateTime;
 use Magento\Payment\Model\Method\Logger;
+use Magento\Payment\Gateway\Data\OrderAdapterInterface;
+use Magento\Sales\Model\Order;
+use Magento\Sales\Model\Order\Payment\Transaction as PaymentTransaction;
+use Magento\Sales\Model\Order\Payment\Transaction\BuilderInterface as TransactionBuilderInterface;
+use Bigfishpaymentgateway\Pmgw\Model\ConfigProvider;
 
 class Helper extends AbstractHelper
 {
@@ -67,8 +73,14 @@ class Helper extends AbstractHelper
      */
     private $dateTime;
 
+    /**
+     * @var TransactionBuilderInterface
+     */
+    private $transactionBuilder;
+
     public function __construct(
         TransactionFactory $transactionFactory,
+        TransactionBuilderInterface $transactionBuilder,
         LogFactory $logFactory,
         Logger $paymentLogger,
         JsonHelper $jsonHelper,
@@ -79,6 +91,7 @@ class Helper extends AbstractHelper
         $this->paymentLogger = $paymentLogger;
         $this->jsonHelper = $jsonHelper;
         $this->dateTime = $dateTime;
+        $this->transactionBuilder = $transactionBuilder;
     }
 
     /**
@@ -105,6 +118,15 @@ class Helper extends AbstractHelper
     public function updateTransactionStatus(Transaction $transaction, $status)
     {
         $transaction->setStatus($status)->save();
+    }
+
+    /**
+     * @param Transaction $transaction
+     * @param boolean $data
+     */
+    public function setCardRegistration(Transaction $transaction, $data = false)
+    {
+        $transaction->setCardRegistration($data)->save();
     }
 
     /**
@@ -206,6 +228,23 @@ class Helper extends AbstractHelper
     }
 
     /**
+     * @param string $transactionId
+     * @return Response
+     */
+    public function getPaymentGatewayDetails($transactionId)
+    {
+        $response = PaymentGateway::details(new DetailsRequest($transactionId));
+
+        $this->debug([
+            'action' => 'details',
+            'transactionId' => $transactionId,
+            'response' => (array)$response,
+        ]);
+
+        return $response;
+    }
+
+    /**
      * @param array $data
      */
     protected function debug(array $data)
@@ -213,4 +252,56 @@ class Helper extends AbstractHelper
         $this->paymentLogger->debug($data);
     }
 
+    /**
+     * @param string $configProvider
+     * @return bool
+     */
+    public function isOneClickProvider($configProvider)
+    {
+        switch ($configProvider) {
+            case ConfigProvider::CODE_SAFERPAY:
+            case ConfigProvider::CODE_BARION2:
+            case ConfigProvider::CODE_BORGUN2:
+            case ConfigProvider::CODE_GP:
+            case ConfigProvider::CODE_VIRPAY:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    /**
+     * @param Order $order
+     * @param Response $response
+     * @param string $transactionType
+     */
+    public function createOrderTransaction(Order $order, Response $response, $transactionType)
+    {
+        $payment = $order->getPayment();
+        $payment->setLastTransId($response->TransactionId);
+        $payment->setTransactionId($response->TransactionId);
+        $payment->setAdditionalInformation(
+            [PaymentTransaction::RAW_DETAILS => (array)$response]
+        );
+
+        $trans = $this->transactionBuilder;
+        $transaction = $trans->setPayment($payment)
+            ->setOrder($order)
+            ->setTransactionId($response->TransactionId)
+            ->setAdditionalInformation(
+                [PaymentTransaction::RAW_DETAILS => (array)$response]
+            )
+            ->setFailSafe(true)
+            ->build($transactionType);
+
+        $message = __('Result code: %1.', $response->ResultCode);
+        $payment->addTransactionCommentsToOrder(
+            $transaction,
+            $message
+        );
+        $payment->setParentTransactionId(null);
+        $payment->save();
+        $order->save();
+        $transaction->save()->getTransactionId();
+    }
 }

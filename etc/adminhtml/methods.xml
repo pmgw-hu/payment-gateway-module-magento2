@@ -14,6 +14,7 @@
 -->
 <include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
     <include path="Bigfishpaymentgateway_Pmgw::methods/barion2.xml"/>
+    <include path="Bigfishpaymentgateway_Pmgw::methods/bbaruhitel.xml"/>
     <include path="Bigfishpaymentgateway_Pmgw::methods/borgun.xml"/>
     <include path="Bigfishpaymentgateway_Pmgw::methods/borgun2.xml"/>
     <include path="Bigfishpaymentgateway_Pmgw::methods/cib.xml"/>
@@ -35,5 +36,6 @@
     <include path="Bigfishpaymentgateway_Pmgw::methods/saferpay.xml"/>
     <include path="Bigfishpaymentgateway_Pmgw::methods/sofort.xml"/>
     <include path="Bigfishpaymentgateway_Pmgw::methods/unicredit.xml"/>
+    <include path="Bigfishpaymentgateway_Pmgw::methods/virpay.xml"/>
     <include path="Bigfishpaymentgateway_Pmgw::methods/wirecard.xml"/>
 </include>
