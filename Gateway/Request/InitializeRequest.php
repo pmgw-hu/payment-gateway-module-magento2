@@ -46,6 +46,8 @@ class InitializeRequest implements BuilderInterface
     const MAX_COUNTRY_LENGTH = 50;
     const MAX_COUNTRY_CODE_2_LENGTH = 2;
 
+    const MB_DEFAULT_ENCODING = 'UTF-8';
+
     /**
      * @var ConfigProvider
      */
@@ -310,16 +312,16 @@ class InitializeRequest implements BuilderInterface
         $magentoShipping = $order->getShippingAddress();
         if ($magentoShipping !== null) {
             $shippingAddress
-                ->setLastName(mb_substr($magentoShipping->getLastname(),0,self::MAX_NAME_LENGTH, 'UTF-8'))
-                ->setFirstName(mb_substr($magentoShipping->getFirstname(),0,self::MAX_NAME_LENGTH, 'UTF-8'))
-                ->setEmail(mb_substr($magentoShipping->getEmail(),0,self::MAX_EMAIL_LENGTH, 'UTF-8'))
-                ->setPhone(mb_substr($magentoShipping->getTelephone(),0,self::MAX_PHONE_LENGTH, 'UTF-8'))
-                ->setPostalCode(mb_substr($magentoShipping->getPostcode(),0,self::MAX_POSTAL_CODE_LENGTH, 'UTF-8'))
-                ->setCity(mb_substr($magentoShipping->getCity(),0,self::MAX_CITY_LENGTH, 'UTF-8'))
-                ->setLine1(mb_substr($magentoShipping->getStreetLine1(),0,self::MAX_ADDRESS_LINE_LENGTH, 'UTF-8'))
-                ->setLine2(mb_substr($magentoShipping->getStreetLine2(),0,self::MAX_ADDRESS_LINE_LENGTH, 'UTF-8'))
-                ->setCountry(mb_substr($magentoShipping->getRegionCode(),0,self::MAX_COUNTRY_LENGTH, 'UTF-8'))
-                ->setCountryCode2(mb_substr($magentoShipping->getCountryId(),0,self::MAX_COUNTRY_CODE_2_LENGTH, 'UTF-8'));
+                ->setLastName(mb_substr($magentoShipping->getLastname(),0,self::MAX_NAME_LENGTH, self::MB_DEFAULT_ENCODING))
+                ->setFirstName(mb_substr($magentoShipping->getFirstname(),0,self::MAX_NAME_LENGTH, self::MB_DEFAULT_ENCODING))
+                ->setEmail(mb_substr($magentoShipping->getEmail(),0,self::MAX_EMAIL_LENGTH, self::MB_DEFAULT_ENCODING))
+                ->setPhone(mb_substr($magentoShipping->getTelephone(),0,self::MAX_PHONE_LENGTH, self::MB_DEFAULT_ENCODING))
+                ->setPostalCode(mb_substr($magentoShipping->getPostcode(),0,self::MAX_POSTAL_CODE_LENGTH, self::MB_DEFAULT_ENCODING))
+                ->setCity(mb_substr($magentoShipping->getCity(),0,self::MAX_CITY_LENGTH, self::MB_DEFAULT_ENCODING))
+                ->setLine1(mb_substr($magentoShipping->getStreetLine1(),0,self::MAX_ADDRESS_LINE_LENGTH, self::MB_DEFAULT_ENCODING))
+                ->setLine2(mb_substr($magentoShipping->getStreetLine2(),0,self::MAX_ADDRESS_LINE_LENGTH, self::MB_DEFAULT_ENCODING))
+                ->setCountry(mb_substr($magentoShipping->getRegionCode(),0,self::MAX_COUNTRY_LENGTH, self::MB_DEFAULT_ENCODING))
+                ->setCountryCode2(mb_substr($magentoShipping->getCountryId(),0,self::MAX_COUNTRY_CODE_2_LENGTH, self::MB_DEFAULT_ENCODING));
             $info->setData($shippingAddress);
         }
 
@@ -327,16 +329,16 @@ class InitializeRequest implements BuilderInterface
         $magentoBilling = $order->getBillingAddress();
         if ($magentoBilling !== null) {
             $billingAddress
-                ->setLastName(mb_substr($magentoBilling->getLastname(),0,self::MAX_NAME_LENGTH, 'UTF-8'))
-                ->setFirstName(mb_substr($magentoBilling->getFirstname(),0,self::MAX_NAME_LENGTH, 'UTF-8'))
-                ->setEmail(mb_substr($magentoBilling->getEmail(),0,self::MAX_EMAIL_LENGTH, 'UTF-8'))
-                ->setPhone(mb_substr($magentoBilling->getTelephone(),0,self::MAX_PHONE_LENGTH, 'UTF-8'))
-                ->setPostalCode(mb_substr($magentoBilling->getPostcode(),0,self::MAX_POSTAL_CODE_LENGTH, 'UTF-8'))
-                ->setCity(mb_substr($magentoBilling->getCity(),0,self::MAX_CITY_LENGTH, 'UTF-8'))
-                ->setLine1(mb_substr($magentoBilling->getStreetLine1(),0,self::MAX_ADDRESS_LINE_LENGTH, 'UTF-8'))
-                ->setLine2(mb_substr($magentoBilling->getStreetLine2(),0,self::MAX_ADDRESS_LINE_LENGTH, 'UTF-8'))
-                ->setCountry(mb_substr($magentoBilling->getRegionCode(),0,self::MAX_COUNTRY_LENGTH, 'UTF-8'))
-                ->setCountryCode2(mb_substr($magentoBilling->getCountryId(),0,self::MAX_COUNTRY_CODE_2_LENGTH, 'UTF-8'));
+                ->setLastName(mb_substr($magentoBilling->getLastname(),0,self::MAX_NAME_LENGTH, self::MB_DEFAULT_ENCODING))
+                ->setFirstName(mb_substr($magentoBilling->getFirstname(),0,self::MAX_NAME_LENGTH, self::MB_DEFAULT_ENCODING))
+                ->setEmail(mb_substr($magentoBilling->getEmail(),0,self::MAX_EMAIL_LENGTH, self::MB_DEFAULT_ENCODING))
+                ->setPhone(mb_substr($magentoBilling->getTelephone(),0,self::MAX_PHONE_LENGTH, self::MB_DEFAULT_ENCODING))
+                ->setPostalCode(mb_substr($magentoBilling->getPostcode(),0,self::MAX_POSTAL_CODE_LENGTH, self::MB_DEFAULT_ENCODING))
+                ->setCity(mb_substr($magentoBilling->getCity(),0,self::MAX_CITY_LENGTH, self::MB_DEFAULT_ENCODING))
+                ->setLine1(mb_substr($magentoBilling->getStreetLine1(),0,self::MAX_ADDRESS_LINE_LENGTH, self::MB_DEFAULT_ENCODING))
+                ->setLine2(mb_substr($magentoBilling->getStreetLine2(),0,self::MAX_ADDRESS_LINE_LENGTH, self::MB_DEFAULT_ENCODING))
+                ->setCountry(mb_substr($magentoBilling->getRegionCode(),0,self::MAX_COUNTRY_LENGTH, self::MB_DEFAULT_ENCODING))
+                ->setCountryCode2(mb_substr($magentoBilling->getCountryId(),0,self::MAX_COUNTRY_CODE_2_LENGTH, self::MB_DEFAULT_ENCODING));
             $info->setData($billingAddress);
         }
 
@@ -345,9 +347,9 @@ class InitializeRequest implements BuilderInterface
 
             $general = new PaymentGateway\Data\Info\InfoCustomerGeneral();
             $general
-                ->setLastName(mb_substr($magentoCustomer->getLastname(),0,self::MAX_NAME_LENGTH, 'UTF-8'))
-                ->setFirstName(mb_substr($magentoCustomer->getFirstname(),0,self::MAX_NAME_LENGTH, 'UTF-8'))
-                ->setEmail(mb_substr($magentoCustomer->getEmail(),0,self::MAX_EMAIL_LENGTH, 'UTF-8'))
+                ->setLastName(mb_substr($magentoCustomer->getLastname(),0,self::MAX_NAME_LENGTH, self::MB_DEFAULT_ENCODING))
+                ->setFirstName(mb_substr($magentoCustomer->getFirstname(),0,self::MAX_NAME_LENGTH, self::MB_DEFAULT_ENCODING))
+                ->setEmail(mb_substr($magentoCustomer->getEmail(),0,self::MAX_EMAIL_LENGTH, self::MB_DEFAULT_ENCODING))
                 ->setIp($order->getRemoteIp());
             $info->setData($general);
 
@@ -360,9 +362,9 @@ class InitializeRequest implements BuilderInterface
             if ($magentoBilling !== null) {
                 $general = new PaymentGateway\Data\Info\InfoCustomerGeneral();
                 $general
-                    ->setLastName(mb_substr($magentoBilling->getLastname(),0,self::MAX_NAME_LENGTH, 'UTF-8'))
-                    ->setFirstName(mb_substr($magentoBilling->getFirstname(),0,self::MAX_NAME_LENGTH, 'UTF-8'))
-                    ->setEmail(mb_substr($magentoBilling->getEmail(),0,self::MAX_EMAIL_LENGTH, 'UTF-8'))
+                    ->setLastName(mb_substr($magentoBilling->getLastname(),0,self::MAX_NAME_LENGTH, self::MB_DEFAULT_ENCODING))
+                    ->setFirstName(mb_substr($magentoBilling->getFirstname(),0,self::MAX_NAME_LENGTH, self::MB_DEFAULT_ENCODING))
+                    ->setEmail(mb_substr($magentoBilling->getEmail(),0,self::MAX_EMAIL_LENGTH, self::MB_DEFAULT_ENCODING))
                     ->setIp($order->getRemoteIp());
                 $info->setData($general);
             }
