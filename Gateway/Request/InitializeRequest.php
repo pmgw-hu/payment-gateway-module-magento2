@@ -190,7 +190,7 @@ class InitializeRequest implements BuilderInterface
             } else {
                 $message = $response->ResultCode . ': ' . $response->ResultMessage;
                 $this->logger->critical($message);
-                throw new CouldNotSaveException($message);
+                throw new \UnexpectedValueException($message);
             }
 
             return (array)$response;
