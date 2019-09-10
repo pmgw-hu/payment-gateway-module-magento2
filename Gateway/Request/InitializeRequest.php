@@ -12,12 +12,14 @@
  */
 namespace Bigfishpaymentgateway\Pmgw\Gateway\Request;
 
+use BigFish\PaymentGateway\Data\Info;
 use BigFish\PaymentGateway\Request\Init;
 use Bigfishpaymentgateway\Pmgw\Model\ConfigProvider;
 use Bigfishpaymentgateway\Pmgw\Gateway\Helper\Helper;
 use BigFish\PaymentGateway;
 use BigFish\PaymentGateway\Config;
 use BigFish\PaymentGateway\Request\Init as InitRequest;
+use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Module\ModuleListInterface;
 use Magento\Payment\Gateway\Data\OrderAdapterInterface;
@@ -35,6 +37,15 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
 
 class InitializeRequest implements BuilderInterface
 {
+    const MAX_NAME_LENGTH = 45;
+    const MAX_EMAIL_LENGTH = 254;
+    const MAX_PHONE_LENGTH = 18;
+    const MAX_POSTAL_CODE_LENGTH = 16;
+    const MAX_CITY_LENGTH = 50;
+    const MAX_ADDRESS_LINE_LENGTH = 50;
+    const MAX_COUNTRY_LENGTH = 50;
+    const MAX_COUNTRY_CODE_2_LENGTH = 2;
+
     /**
      * @var ConfigProvider
      */
@@ -84,6 +95,10 @@ class InitializeRequest implements BuilderInterface
      * @var InputParamsResolver
      */
     private $inputParamsResolver;
+    /**
+     * @var CustomerRepositoryInterface
+     */
+    private $customerRepository;
 
     /**
      * @param ConfigProvider $providerConfig
@@ -95,6 +110,7 @@ class InitializeRequest implements BuilderInterface
      * @param DateTime $dateTime
      * @param ScopeConfigInterface $scopeConfig
      * @param PaymentInterface $paymentMethod
+     * @param CustomerRepositoryInterface $customerRepository
      * @param InputParamsResolver $inputParamsResolver
      */
     public function __construct(
@@ -107,6 +123,7 @@ class InitializeRequest implements BuilderInterface
         DateTime $dateTime,
         ScopeConfigInterface $scopeConfig,
         PaymentInterface $paymentMethod,
+        CustomerRepositoryInterface $customerRepository,
         InputParamsResolver $inputParamsResolver
     ) {
         $this->providerConfig = $providerConfig;
@@ -119,6 +136,7 @@ class InitializeRequest implements BuilderInterface
         $this->scopeConfig = $scopeConfig;
         $this->paymentMethod = $paymentMethod;
         $this->inputParamsResolver = $inputParamsResolver;
+        $this->customerRepository = $customerRepository;
     }
 
     /**
@@ -128,50 +146,55 @@ class InitializeRequest implements BuilderInterface
      */
     public function build(array $buildSubject)
     {
-        if (
-            !isset($buildSubject['payment']) ||
-            !$buildSubject['payment'] instanceof PaymentDataObjectInterface
-        ) {
-            throw new \InvalidArgumentException('Payment data object should be provided');
+        try {
+            if (
+                !isset($buildSubject['payment']) ||
+                !$buildSubject['payment'] instanceof PaymentDataObjectInterface
+            ) {
+                throw new \InvalidArgumentException('Payment data object should be provided');
+            }
+
+            /** @var PaymentDataObjectInterface $payment */
+            $payment = $buildSubject['payment'];
+
+            /** @var OrderAdapterInterface $order */
+            $order = $payment->getOrder();
+
+            $providerConfig = $this->getProviderConfig($payment);
+
+            if (empty($providerConfig)) {
+                throw new \UnexpectedValueException('Payment parameter array should be provided');
+            }
+
+            $this->helper->setPaymentGatewayConfig(
+                $this->getPaymentGatewayConfig($providerConfig)
+            );
+
+            $response = $this->helper->initializePaymentGatewayTransaction(
+                $this->getPaymentGatewayInitRequest($order, $providerConfig)
+            );
+
+            if ($response->ResultCode === PaymentGateway::RESULT_CODE_SUCCESS) {
+                $transaction = $this->helper->createTransaction();
+
+                $transaction
+                    ->setOrderId($order->getOrderIncrementId())
+                    ->setTransactionId($response->TransactionId)
+                    ->setCreatedTime($this->dateTime->date())
+                    ->setStatus(Helper::TRANSACTION_STATUS_INITIALIZED)
+                    ->save();
+
+                $this->helper->addTransactionLog($transaction, $response);
+            } else {
+                $message = $response->ResultCode . ': ' . $response->ResultMessage;
+                $this->logger->critical($message);
+                throw new CouldNotSaveException($message);
+            }
+
+            return (array)$response;
+        } catch (\Exception $exception) {
+            throw new \Magento\Framework\Exception\LocalizedException(__($exception->getMessage()), $exception);
         }
-
-        /** @var PaymentDataObjectInterface $payment */
-        $payment = $buildSubject['payment'];
-
-        /** @var OrderAdapterInterface $order */
-        $order = $payment->getOrder();
-
-        $providerConfig = $this->getProviderConfig($payment);
-
-        if (empty($providerConfig)) {
-            throw new \UnexpectedValueException('Payment parameter array should be provided');
-        }
-
-        $this->helper->setPaymentGatewayConfig(
-            $this->getPaymentGatewayConfig($providerConfig)
-        );
-
-        $response = $this->helper->initializePaymentGatewayTransaction(
-            $this->getPaymentGatewayInitRequest($order, $providerConfig)
-        );
-
-        if ($response->ResultCode === PaymentGateway::RESULT_CODE_SUCCESS) {
-            $transaction = $this->helper->createTransaction();
-
-            $transaction
-                ->setOrderId($order->getOrderIncrementId())
-                ->setTransactionId($response->TransactionId)
-                ->setCreatedTime($this->dateTime->date())
-                ->setStatus(Helper::TRANSACTION_STATUS_INITIALIZED)
-                ->save();
-
-            $this->helper->addTransactionLog($transaction, $response);
-        } else {
-            $message = $response->ResultCode . ': ' . $response->ResultMessage;
-            $this->logger->critical($message);
-            throw new \UnexpectedValueException($message);
-        }
-        return (array)$response;
     }
 
     /**
@@ -270,7 +293,87 @@ class InitializeRequest implements BuilderInterface
             $request->setExtra($extraData);
         }
 
+        $request->setInfoObject($this->getInfo($order));
+
         return $request;
+    }
+
+    /**
+     * @param OrderAdapterInterface $order
+     * @return Info
+     */
+    protected function getInfo(OrderAdapterInterface $order)
+    {
+        $info = new Info();
+
+        $shippingAddress = new PaymentGateway\Data\Info\InfoOrderShippingData();
+        $magentoShipping = $order->getShippingAddress();
+        if ($magentoShipping !== null) {
+            $shippingAddress
+                ->setLastName(mb_substr($magentoShipping->getLastname(),0,self::MAX_NAME_LENGTH, 'UTF-8'))
+                ->setFirstName(mb_substr($magentoShipping->getFirstname(),0,self::MAX_NAME_LENGTH, 'UTF-8'))
+                ->setEmail(mb_substr($magentoShipping->getEmail(),0,self::MAX_EMAIL_LENGTH, 'UTF-8'))
+                ->setPhone(mb_substr($magentoShipping->getTelephone(),0,self::MAX_PHONE_LENGTH, 'UTF-8'))
+                ->setPostalCode(mb_substr($magentoShipping->getPostcode(),0,self::MAX_POSTAL_CODE_LENGTH, 'UTF-8'))
+                ->setCity(mb_substr($magentoShipping->getCity(),0,self::MAX_CITY_LENGTH, 'UTF-8'))
+                ->setLine1(mb_substr($magentoShipping->getStreetLine1(),0,self::MAX_ADDRESS_LINE_LENGTH, 'UTF-8'))
+                ->setLine2(mb_substr($magentoShipping->getStreetLine2(),0,self::MAX_ADDRESS_LINE_LENGTH, 'UTF-8'))
+                ->setCountry(mb_substr($magentoShipping->getRegionCode(),0,self::MAX_COUNTRY_LENGTH, 'UTF-8'))
+                ->setCountryCode2(mb_substr($magentoShipping->getCountryId(),0,self::MAX_COUNTRY_CODE_2_LENGTH, 'UTF-8'));
+            $info->setData($shippingAddress);
+        }
+
+        $billingAddress = new PaymentGateway\Data\Info\InfoOrderBillingData();
+        $magentoBilling = $order->getBillingAddress();
+        if ($magentoBilling !== null) {
+            $billingAddress
+                ->setLastName(mb_substr($magentoBilling->getLastname(),0,self::MAX_NAME_LENGTH, 'UTF-8'))
+                ->setFirstName(mb_substr($magentoBilling->getFirstname(),0,self::MAX_NAME_LENGTH, 'UTF-8'))
+                ->setEmail(mb_substr($magentoBilling->getEmail(),0,self::MAX_EMAIL_LENGTH, 'UTF-8'))
+                ->setPhone(mb_substr($magentoBilling->getTelephone(),0,self::MAX_PHONE_LENGTH, 'UTF-8'))
+                ->setPostalCode(mb_substr($magentoBilling->getPostcode(),0,self::MAX_POSTAL_CODE_LENGTH, 'UTF-8'))
+                ->setCity(mb_substr($magentoBilling->getCity(),0,self::MAX_CITY_LENGTH, 'UTF-8'))
+                ->setLine1(mb_substr($magentoBilling->getStreetLine1(),0,self::MAX_ADDRESS_LINE_LENGTH, 'UTF-8'))
+                ->setLine2(mb_substr($magentoBilling->getStreetLine2(),0,self::MAX_ADDRESS_LINE_LENGTH, 'UTF-8'))
+                ->setCountry(mb_substr($magentoBilling->getRegionCode(),0,self::MAX_COUNTRY_LENGTH, 'UTF-8'))
+                ->setCountryCode2(mb_substr($magentoBilling->getCountryId(),0,self::MAX_COUNTRY_CODE_2_LENGTH, 'UTF-8'));
+            $info->setData($billingAddress);
+        }
+
+        if ($order->getCustomerId() !== null) {
+            $magentoCustomer = $this->customerRepository->getById($order->getCustomerId());
+
+            $general = new PaymentGateway\Data\Info\InfoCustomerGeneral();
+            $general
+                ->setLastName(mb_substr($magentoCustomer->getLastname(),0,self::MAX_NAME_LENGTH, 'UTF-8'))
+                ->setFirstName(mb_substr($magentoCustomer->getFirstname(),0,self::MAX_NAME_LENGTH, 'UTF-8'))
+                ->setEmail(mb_substr($magentoCustomer->getEmail(),0,self::MAX_EMAIL_LENGTH, 'UTF-8'))
+                ->setIp($order->getRemoteIp());
+            $info->setData($general);
+
+            $storeSpecific = new PaymentGateway\Data\Info\InfoCustomerStoreSpecific();
+            $storeSpecific
+                ->setUpdateDate(date('Y-m-d', strtotime($magentoCustomer->getUpdatedAt())))
+                ->setCreationDate(date('Y-m-d', strtotime($magentoCustomer->getCreatedAt())));
+            $info->setData($storeSpecific);
+        } else {
+            if ($magentoBilling !== null) {
+                $general = new PaymentGateway\Data\Info\InfoCustomerGeneral();
+                $general
+                    ->setLastName(mb_substr($magentoBilling->getLastname(),0,self::MAX_NAME_LENGTH, 'UTF-8'))
+                    ->setFirstName(mb_substr($magentoBilling->getFirstname(),0,self::MAX_NAME_LENGTH, 'UTF-8'))
+                    ->setEmail(mb_substr($magentoBilling->getEmail(),0,self::MAX_EMAIL_LENGTH, 'UTF-8'))
+                    ->setIp($order->getRemoteIp());
+                $info->setData($general);
+            }
+
+            $storeSpecific = new PaymentGateway\Data\Info\InfoCustomerStoreSpecific();
+            $storeSpecific
+                ->setAuthenticationMethod('01');
+            $info->setData($storeSpecific);
+        }
+
+        return $info;
     }
 
     /**

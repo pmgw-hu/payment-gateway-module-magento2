@@ -9,6 +9,12 @@
         </label>
     </div>
 
+    <!-- ko foreach: messageContainer.getErrorMessages() -->
+    <div role="alert" class="message message-error error">
+        <div data-ui-id="checkout-cart-validationmessages-message-error" data-bind="text: $data"></div>
+    </div>
+    <!--/ko-->
+
     <div class="payment-method-content">
         <div class="field choice" data-bind="visible: cardDescriptionEnabled()">
             <span data-bind="html: getDescription()"></span>
@@ -28,7 +34,11 @@
             <!-- ko template: getTemplate() --><!-- /ko -->
             <!--/ko-->
         </div>
-
+        <div class="checkout-agreements-block">
+            <!-- ko foreach: $parent.getRegion('before-place-order') -->
+            <!-- ko template: getTemplate() --><!-- /ko -->
+            <!--/ko-->
+        </div>
         <div class="actions-toolbar">
             <div class="primary">
                 <button class="action primary checkout"
