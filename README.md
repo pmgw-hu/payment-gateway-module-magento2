@@ -45,7 +45,8 @@
     * Enabled: Yes
     * Store name: sdk_test
     * API key: 86af3-80e4f-f8228-9498f-910ad
-    * Test mode: Yes<br />
+    * Test mode: Yes
+
 
  * Enable any payment service provider.
 
