@@ -8,27 +8,27 @@
 
 #### 4. Open terminal and enter these commands:
 
-`bin/magento maintenance:enable`
+ * `bin/magento maintenance:enable`
 
-`bin/magento cache:flush`
+ * `bin/magento cache:flush`
 
-`bin/magento cache:disable`
+ * `bin/magento cache:disable`
 
-`bin/magento module:enable Bigfishpaymentgateway_Pmgw`
+ * `bin/magento module:enable Bigfishpaymentgateway_Pmgw`
 
-`composer require bigfish/paymentgateway`
+ * `composer require bigfish/paymentgateway`
 
-`bin/magento setup:upgrade`
+ * `bin/magento setup:upgrade`
 
-`bin/magento setup:di:compile`
+ * `bin/magento setup:di:compile`
 
-`bin/magento setup:static-content:deploy`
+ * `bin/magento setup:static-content:deploy`
 
-`bin/magento indexer:reindex`
+ * `bin/magento indexer:reindex`
 
-`bin/magento cache:enable`
+ * `bin/magento cache:enable`
 
-`bin/magento maintenance:disable`
+ * `bin/magento maintenance:disable`
 
 #### 5. Login to Magento 2 Admin panel.
 
@@ -46,8 +46,7 @@
 	* Store name: sdk_test
 	* API key: 86af3-80e4f-f8228-9498f-910ad
 	* Test mode: Yes
-
-
+<br />
  * Enable any payment service provider.
 
  * Save Config.
