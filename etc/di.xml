@@ -199,7 +199,7 @@
     </virtualType>
     <!-- Borgun2 -->
 
-    <!-- BBArugitel -->
+    <!-- BBAruhitel -->
     <virtualType name="BigfishpaymentgatewayPmgwBBAruhitelFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
             <argument name="code" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_BBARUHITEL</argument>
@@ -230,7 +230,7 @@
             <argument name="configInterface" xsi:type="object">BigfishpaymentgatewayPmgwBBAruhitelConfig</argument>
         </arguments>
     </virtualType>
-    <!-- BBArugitel -->
+    <!-- BBAruhitel -->
 
     <!-- Cib -->
     <virtualType name="BigfishpaymentgatewayPmgwCibFacade" type="Magento\Payment\Model\Method\Adapter">
@@ -528,6 +528,39 @@
         </arguments>
     </virtualType>
     <!-- Otp -->
+
+    <!-- OTPAruhitel -->
+    <virtualType name="BigfishpaymentgatewayPmgwOTPAruhitelFacade" type="Magento\Payment\Model\Method\Adapter">
+        <arguments>
+            <argument name="code" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_OTPARUHITEL</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
+            <argument name="infoBlockType" xsi:type="string">Bigfishpaymentgateway\Pmgw\Block\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">BigfishpaymentgatewayPmgwOTPAruhitelValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">BigfishpaymentgatewayPmgwCommandPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Configuration reader -->
+    <virtualType name="BigfishpaymentgatewayPmgwOTPAruhitelConfig" type="Magento\Payment\Gateway\Config\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_OTPARUHITEL</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Value handlers infrastructure -->
+    <virtualType name="BigfishpaymentgatewayPmgwOTPAruhitelValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">BigfishpaymentgatewayPmgwOTPAruhitelConfigValueHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="BigfishpaymentgatewayPmgwOTPAruhitelConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">BigfishpaymentgatewayPmgwOTPAruhitelConfig</argument>
+        </arguments>
+    </virtualType>
+    <!-- OTPAruhitel -->
 
     <!-- Otpaymp -->
     <virtualType name="BigfishpaymentgatewayPmgwOtpaympFacade" type="Magento\Payment\Model\Method\Adapter">

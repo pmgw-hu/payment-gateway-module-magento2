@@ -274,8 +274,9 @@ class Helper extends AbstractHelper
      * @param Order $order
      * @param Response $response
      * @param string $transactionType
+     * @param null|string $additionalComment
      */
-    public function createOrderTransaction(Order $order, Response $response, $transactionType)
+    public function createOrderTransaction(Order $order, Response $response, $transactionType, $additionalComment = null)
     {
         $payment = $order->getPayment();
         $payment->setLastTransId($response->TransactionId);
@@ -294,11 +295,18 @@ class Helper extends AbstractHelper
             ->setFailSafe(true)
             ->build($transactionType);
 
-        $message = __('Result code: %1.', $response->ResultCode);
         $payment->addTransactionCommentsToOrder(
             $transaction,
-            $message
+            __('Result code: %1.', $response->ResultCode)
         );
+
+        if (!empty($additionalComment)) {
+            $payment->addTransactionCommentsToOrder(
+                $transaction,
+                $additionalComment
+            );
+        }
+
         $payment->setParentTransactionId(null);
         $payment->save();
         $order->save();

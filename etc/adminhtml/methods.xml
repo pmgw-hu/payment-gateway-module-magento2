@@ -26,6 +26,7 @@
     <include path="Bigfishpaymentgateway_Pmgw::methods/khbszep.xml"/>
     <include path="Bigfishpaymentgateway_Pmgw::methods/mkbszep.xml"/>
     <include path="Bigfishpaymentgateway_Pmgw::methods/otp.xml"/>
+    <include path="Bigfishpaymentgateway_Pmgw::methods/otparuhitel.xml"/>
     <include path="Bigfishpaymentgateway_Pmgw::methods/otpaymp.xml"/>
     <include path="Bigfishpaymentgateway_Pmgw::methods/otpsimple.xml"/>
     <include path="Bigfishpaymentgateway_Pmgw::methods/otpszep.xml"/>

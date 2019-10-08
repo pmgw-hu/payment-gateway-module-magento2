@@ -235,6 +235,22 @@
                 <can_initialize>1</can_initialize>
             </bigfishpaymentgateway_pmgw_otp>
 
+            <bigfishpaymentgateway_pmgw_otparuhitel>
+                <title>OTP Bank Áruhitel</title>
+                <active>0</active>
+                <allowspecific>0</allowspecific>
+                <sort_order>1</sort_order>
+                <!-- -->
+                <group>bigfishpaymentgateway_pmgw</group>
+                <model>BigfishpaymentgatewayPmgwOTPAruhitelFacade</model>
+                <provider_code>OTPAruhitel</provider_code>
+                <order_status>pending_payment</order_status>
+                <payment_action>sale</payment_action>
+                <is_gateway>1</is_gateway>
+                <can_use_checkout>1</can_use_checkout>
+                <can_initialize>1</can_initialize>
+            </bigfishpaymentgateway_pmgw_otparuhitel>
+
             <bigfishpaymentgateway_pmgw_otpaymp>
                 <title>OTPay MasterPass</title>
                 <active>0</active>

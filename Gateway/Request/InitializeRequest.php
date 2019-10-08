@@ -280,6 +280,12 @@ class InitializeRequest implements BuilderInterface
             }
         }
 
+        if ($providerConfig['name'] == ConfigProvider::CODE_OTPARUHITEL) {
+            if (isset($providerConfig['construction_group']) && !empty(trim($providerConfig['construction_group']))) {
+                $extraData['ConstructionGroup'] = trim($providerConfig['construction_group']);
+            }
+        }
+
         if ($this->helper->isOneClickProvider($providerConfig['name']) && $this->customerAcceptCardRegistration()) {
             if (isset($providerConfig['card_registration_mode']) && strlen($providerConfig['card_registration_mode'])) {
 
