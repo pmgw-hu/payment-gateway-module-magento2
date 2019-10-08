@@ -28,6 +28,14 @@
             <label>Description</label>
             <config_path>payment/bigfishpaymentgateway_pmgw_bbaruhitel/description</config_path>
         </field>
+        <field id="offer_id" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Loan construction ID</label>
+            <config_path>payment/bigfishpaymentgateway_pmgw_bbaruhitel/offer_id</config_path>
+        </field>
+        <field id="term" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Loan term (month)</label>
+            <config_path>payment/bigfishpaymentgateway_pmgw_bbaruhitel/term</config_path>
+        </field>
         <field id="allowspecific" translate="label" type="allowspecific" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Payment from Applicable Countries</label>
             <config_path>payment/bigfishpaymentgateway_pmgw_bbaruhitel/allowspecific</config_path>

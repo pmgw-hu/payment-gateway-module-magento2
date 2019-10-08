@@ -24,7 +24,7 @@
         <p><?php echo __('%1 Provider transaction id: %2', $methodTitle, $response->ProviderTransactionId); ?></p>
         <?php endif; ?>
 
-        <?php if (property_exists($response, 'Anum')): ?>
+        <?php if (property_exists($response, 'Anum') && !empty($response->Anum)): ?>
         <p><?php echo __('Anum: %1', $response->Anum); ?></p>
         <?php endif; ?>
 

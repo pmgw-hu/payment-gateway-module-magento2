@@ -265,7 +265,7 @@ class ResponseProcessor
         $details = $this->helper->getPaymentGatewayDetails($this->response->TransactionId);
 
         if ($provider == ConfigProvider::CODE_OTPARUHITEL) {
-            return __('Credit amount: %1 %2', $details->ProviderSpecificData->CreditAmount, $details->ProviderSpecificData->Currency) . ', ' . __('Contribution: %1 %2', $details->ProviderSpecificData->Contribution, $details->ProviderSpecificData->Currency);
+            return sprintf('%s, %s', __('Credit amount: %1 %2', $details->ProviderSpecificData->CreditAmount, $details->ProviderSpecificData->Currency), __('Contribution: %1 %2', $details->ProviderSpecificData->Contribution, $details->ProviderSpecificData->Currency));
         }
     }
 
