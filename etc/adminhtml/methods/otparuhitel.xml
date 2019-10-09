@@ -13,52 +13,48 @@
  */
 -->
 <include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
-    <group id="paymentgateway_bbaruhitel" sortOrder="115" showInDefault="1" showInWebsite="1" showInStore="1" translate="label">
-        <label>Budapest Bank Áruhitel</label>
+    <group id="paymentgateway_otparuhitel" sortOrder="230" showInDefault="1" showInWebsite="1" showInStore="1" translate="label">
+        <label>OTP Bank Áruhitel</label>
         <field id="title" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Title</label>
-            <config_path>payment/bigfishpaymentgateway_pmgw_bbaruhitel/title</config_path>
+            <config_path>payment/bigfishpaymentgateway_pmgw_otparuhitel/title</config_path>
         </field>
         <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Enabled</label>
-            <config_path>payment/bigfishpaymentgateway_pmgw_bbaruhitel/active</config_path>
+            <config_path>payment/bigfishpaymentgateway_pmgw_otparuhitel/active</config_path>
             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
         </field>
         <field id="description" translate="label" type="textarea" sortOrder="12" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Description</label>
-            <config_path>payment/bigfishpaymentgateway_pmgw_bbaruhitel/description</config_path>
+            <config_path>payment/bigfishpaymentgateway_pmgw_otparuhitel/description</config_path>
         </field>
-        <field id="offer_id" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+        <field id="construction_group" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Loan construction ID</label>
-            <config_path>payment/bigfishpaymentgateway_pmgw_bbaruhitel/offer_id</config_path>
-        </field>
-        <field id="term" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
-            <label>Loan term (month)</label>
-            <config_path>payment/bigfishpaymentgateway_pmgw_bbaruhitel/term</config_path>
+            <config_path>payment/bigfishpaymentgateway_pmgw_otparuhitel/construction_group</config_path>
         </field>
         <field id="allowspecific" translate="label" type="allowspecific" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Payment from Applicable Countries</label>
-            <config_path>payment/bigfishpaymentgateway_pmgw_bbaruhitel/allowspecific</config_path>
+            <config_path>payment/bigfishpaymentgateway_pmgw_otparuhitel/allowspecific</config_path>
             <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
         </field>
         <field id="specificcountry" translate="label" type="multiselect" sortOrder="95" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Payment from Specific Countries</label>
-            <config_path>payment/bigfishpaymentgateway_pmgw_bbaruhitel/specificcountry</config_path>
+            <config_path>payment/bigfishpaymentgateway_pmgw_otparuhitel/specificcountry</config_path>
             <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
             <can_be_empty>1</can_be_empty>
         </field>
         <field id="min_order_total" translate="label" type="text" sortOrder="98" showInDefault="1" showInWebsite="1" showInStore="0">
-            <config_path>payment/bigfishpaymentgateway_pmgw_bbaruhitel/min_order_total</config_path>
+            <config_path>payment/bigfishpaymentgateway_pmgw_otparuhitel/min_order_total</config_path>
             <label>Minimum Order Total</label>
         </field>
         <field id="max_order_total" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="0">
-            <config_path>payment/bigfishpaymentgateway_pmgw_bbaruhitel/max_order_total</config_path>
+            <config_path>payment/bigfishpaymentgateway_pmgw_otparuhitel/max_order_total</config_path>
             <label>Maximum Order Total</label>
         </field>
         <field id="sort_order" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
             <label>Sort Order</label>
             <frontend_class>validate-number</frontend_class>
-            <config_path>payment/bigfishpaymentgateway_pmgw_bbaruhitel/sort_order</config_path>
+            <config_path>payment/bigfishpaymentgateway_pmgw_otparuhitel/sort_order</config_path>
             <depends>
                 <field id="active">1</field>
             </depends>
