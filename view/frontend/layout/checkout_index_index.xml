@@ -62,6 +62,9 @@
                                                                         <item name="bigfishpaymentgateway_pmgw_otp" xsi:type="array">
                                                                             <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
                                                                         </item>
+                                                                        <item name="bigfishpaymentgateway_pmgw_otparuhitel" xsi:type="array">
+                                                                            <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
+                                                                        </item>
                                                                         <item name="bigfishpaymentgateway_pmgw_otpaymp" xsi:type="array">
                                                                             <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
                                                                         </item>

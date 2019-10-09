@@ -280,6 +280,22 @@ class InitializeRequest implements BuilderInterface
             }
         }
 
+        if ($providerConfig['name'] == ConfigProvider::CODE_BBARUHITEL) {
+            if (isset($providerConfig['offer_id']) && !empty(trim($providerConfig['offer_id']))) {
+                $extraData['offerId'] = trim($providerConfig['offer_id']);
+            }
+
+            if (isset($providerConfig['term']) && !empty(trim($providerConfig['term']))) {
+                $extraData['term'] = trim($providerConfig['term']);
+            }
+        }
+
+        if ($providerConfig['name'] == ConfigProvider::CODE_OTPARUHITEL) {
+            if (isset($providerConfig['construction_group']) && !empty(trim($providerConfig['construction_group']))) {
+                $extraData['ConstructionGroup'] = trim($providerConfig['construction_group']);
+            }
+        }
+
         if ($this->helper->isOneClickProvider($providerConfig['name']) && $this->customerAcceptCardRegistration()) {
             if (isset($providerConfig['card_registration_mode']) && strlen($providerConfig['card_registration_mode'])) {
 

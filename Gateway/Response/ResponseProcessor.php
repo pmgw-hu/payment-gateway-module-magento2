@@ -203,7 +203,7 @@ class ResponseProcessor
         }
 
         $this->helper->updateTransactionStatus($this->transaction, Helper::TRANSACTION_STATUS_SUCCESS);
-        $this->helper->createOrderTransaction($this->order, $this->response, PaymentTransaction::TYPE_ORDER);
+        $this->helper->createOrderTransaction($this->order, $this->response, PaymentTransaction::TYPE_ORDER, $this->getProviderSpecificMessage());
 
         $this->logResponse();
     }
@@ -249,6 +249,28 @@ class ResponseProcessor
         }
 
         return false;
+    }
+
+    /**
+     * @return null|string
+     */
+    protected function getProviderSpecificMessage()
+    {
+        $provider = $this->order->getPayment()->getMethod();
+
+        if (!in_array($provider, array(ConfigProvider::CODE_OTPARUHITEL))) {
+            return;
+        }
+
+        $details = $this->helper->getPaymentGatewayDetails($this->response->TransactionId);
+
+        if ($provider == ConfigProvider::CODE_OTPARUHITEL) {
+            return sprintf(
+                '%s, %s',
+                __('Credit amount: %1 %2', $details->ProviderSpecificData->CreditAmount, $details->ProviderSpecificData->Currency),
+                __('Contribution: %1 %2', $details->ProviderSpecificData->Contribution, $details->ProviderSpecificData->Currency)
+            );
+        }
     }
 
     /**
