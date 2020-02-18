@@ -67,6 +67,9 @@
         <method name="bigfishpaymentgateway_pmgw_otpsimple">
             <allow_multiple_address>1</allow_multiple_address>
         </method>
+        <method name="bigfishpaymentgateway_pmgw_otpsimplewire">
+            <allow_multiple_address>1</allow_multiple_address>
+        </method>
         <method name="bigfishpaymentgateway_pmgw_otpszep">
             <allow_multiple_address>1</allow_multiple_address>
         </method>

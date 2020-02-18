@@ -29,6 +29,7 @@
     <include path="Bigfishpaymentgateway_Pmgw::methods/otparuhitel.xml"/>
     <include path="Bigfishpaymentgateway_Pmgw::methods/otpaymp.xml"/>
     <include path="Bigfishpaymentgateway_Pmgw::methods/otpsimple.xml"/>
+    <include path="Bigfishpaymentgateway_Pmgw::methods/otpsimplewire.xml"/>
     <include path="Bigfishpaymentgateway_Pmgw::methods/otpszep.xml"/>
     <include path="Bigfishpaymentgateway_Pmgw::methods/paypal.xml"/>
     <include path="Bigfishpaymentgateway_Pmgw::methods/paysafecard.xml"/>
