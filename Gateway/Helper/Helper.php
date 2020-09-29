@@ -264,6 +264,8 @@ class Helper extends AbstractHelper
             case ConfigProvider::CODE_BORGUN2:
             case ConfigProvider::CODE_GP:
             case ConfigProvider::CODE_VIRPAY:
+            case ConfigProvider::CODE_PAYPALREST:
+            case ConfigProvider::CODE_PAYUREST:
                 return true;
             default:
                 return false;

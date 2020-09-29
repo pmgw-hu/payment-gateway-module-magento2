@@ -90,6 +90,7 @@ class Response extends Action
                 $this->_redirect('checkout/onepage/failure', ['_secure' => true]);
                 break;
             case PaymentGateway::RESULT_CODE_PENDING:
+            case PaymentGateway::RESULT_CODE_OPEN:
             case PaymentGateway::RESULT_CODE_SUCCESS:
                 $this->_redirect('checkout/onepage/success', ['_secure' => true]);
                 break;

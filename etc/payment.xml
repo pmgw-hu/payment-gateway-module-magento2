@@ -76,6 +76,9 @@
         <method name="bigfishpaymentgateway_pmgw_paypal">
             <allow_multiple_address>1</allow_multiple_address>
         </method>
+        <method name="bigfishpaymentgateway_pmgw_paypalrest">
+            <allow_multiple_address>1</allow_multiple_address>
+        </method>
         <method name="bigfishpaymentgateway_pmgw_paysafecard">
             <allow_multiple_address>1</allow_multiple_address>
         </method>
@@ -83,6 +86,9 @@
             <allow_multiple_address>1</allow_multiple_address>
         </method>
         <method name="bigfishpaymentgateway_pmgw_payu2">
+            <allow_multiple_address>1</allow_multiple_address>
+        </method>
+        <method name="bigfishpaymentgateway_pmgw_payurest">
             <allow_multiple_address>1</allow_multiple_address>
         </method>
         <method name="bigfishpaymentgateway_pmgw_saferpay">
@@ -98,6 +104,9 @@
             <allow_multiple_address>1</allow_multiple_address>
         </method>
         <method name="bigfishpaymentgateway_pmgw_wirecard">
+            <allow_multiple_address>1</allow_multiple_address>
+        </method>
+        <method name="bigfishpaymentgateway_pmgw_wirecardee">
             <allow_multiple_address>1</allow_multiple_address>
         </method>
     </methods>

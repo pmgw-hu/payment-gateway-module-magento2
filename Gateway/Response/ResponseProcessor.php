@@ -123,6 +123,7 @@ class ResponseProcessor
 
             switch ($this->response->ResultCode) {
                 case PaymentGateway::RESULT_CODE_PENDING:
+                case PaymentGateway::RESULT_CODE_OPEN:
                     $this->processPending();
                     break;
                 case PaymentGateway::RESULT_CODE_SUCCESS:
@@ -242,6 +243,18 @@ class ResponseProcessor
 
                 if ($provider == ConfigProvider::CODE_SAFERPAY) {
                     if (!isset($this->details->ProviderSpecificData->ParentSaferpayTransactionId) || empty($this->details->ProviderSpecificData->ParentSaferpayTransactionId)) {
+                        return true;
+                    }
+                }
+
+                if ($provider == ConfigProvider::CODE_PAYPALREST) {
+                    if (!isset($this->details->ProviderSpecificData->ParentAgreementId) || empty($this->details->ProviderSpecificData->ParentAgreementId)) {
+                        return true;
+                    }
+                }
+
+                if ($provider == ConfigProvider::CODE_PAYUREST) {
+                    if (!isset($this->details->ProviderSpecificData->ParentPayuPaymentId) || empty($this->details->ProviderSpecificData->ParentPayuPaymentId)) {
                         return true;
                     }
                 }
