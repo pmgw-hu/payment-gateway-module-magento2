@@ -16,8 +16,12 @@
         <p><?php echo __('Amount: %1 %2', $total, $currencyCode); ?></p>
         <?php endif; ?>
 
-        <?php if (property_exists($response, 'ResultMessage')): ?>
-        <p><?php echo __('Result message: %1', $response->ResultMessage); ?></p>
+        <?php if (property_exists($response, 'ResultCode') && ($response->ResultCode === \BigFish\PaymentGateway::RESULT_CODE_PENDING || $response->ResultCode === \BigFish\PaymentGateway::RESULT_CODE_OPEN)): ?>
+            <p><?php echo __('Please be informed that the transaction has started with the following data, processing is in progress. We will notify you by email as soon as the transaction is successful.'); ?></p>
+        <?php endif; ?>
+
+        <?php if (property_exists($response, 'ResultCode') && $response->ResultCode === \BigFish\PaymentGateway::RESULT_CODE_SUCCESS && property_exists($response, 'ResultMessage')): ?>
+        <p><?php echo __('Result message: %1', ($response->ProviderName == \BigFish\PaymentGateway::PROVIDER_OTP_SIMPLE ? __('Successful transaction') : $response->ResultMessage)); ?></p>
         <?php endif; ?>
 
         <?php if (property_exists($response, 'ProviderTransactionId')): ?>

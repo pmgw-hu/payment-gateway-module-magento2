@@ -64,3 +64,5 @@
 "Unsuccessful transaction.","Sikertelen tranzakció."
 "Please double-check the data you have entered on the payment page. If all the data were correct, please contact your card issuing bank to investigate the cause of rejection.","Kérjük, ellenőrizze a tranzakció során megadott adatok helyességét. Amennyiben minden adatot helyesen adott meg, a visszautasítás okának kivizsgálása kapcsán kérjük, szíveskedjen kapcsolatba lépni kártyakibocsátó bankjával."
 "%1 Provider transaction id: %2","%1 tranzakció azonosító: %2"
+"Successful transaction","Sikeres tranzakció"
+"Please be informed that the transaction has started with the following data, processing is in progress. We will notify you by email as soon as the transaction is successful.","Tájékoztatjuk, hogy a tranzakció az alábbi adatokkal elindult, a feldolgozás folyamatban van. Email-ben értesítjük, amint a tranzakció sikeres lesz."

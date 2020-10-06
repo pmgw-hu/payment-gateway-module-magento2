@@ -32,12 +32,15 @@
     <include path="Bigfishpaymentgateway_Pmgw::methods/otpsimplewire.xml"/>
     <include path="Bigfishpaymentgateway_Pmgw::methods/otpszep.xml"/>
     <include path="Bigfishpaymentgateway_Pmgw::methods/paypal.xml"/>
+    <include path="Bigfishpaymentgateway_Pmgw::methods/paypalrest.xml"/>
     <include path="Bigfishpaymentgateway_Pmgw::methods/paysafecard.xml"/>
     <include path="Bigfishpaymentgateway_Pmgw::methods/paysafecash.xml"/>
     <include path="Bigfishpaymentgateway_Pmgw::methods/payu2.xml"/>
+    <include path="Bigfishpaymentgateway_Pmgw::methods/payurest.xml"/>
     <include path="Bigfishpaymentgateway_Pmgw::methods/saferpay.xml"/>
     <include path="Bigfishpaymentgateway_Pmgw::methods/sofort.xml"/>
     <include path="Bigfishpaymentgateway_Pmgw::methods/unicredit.xml"/>
     <include path="Bigfishpaymentgateway_Pmgw::methods/virpay.xml"/>
     <include path="Bigfishpaymentgateway_Pmgw::methods/wirecard.xml"/>
+    <include path="Bigfishpaymentgateway_Pmgw::methods/wirecardee.xml"/>
 </include>

@@ -64,3 +64,5 @@
 "Unsuccessful transaction.","Unsuccessful transaction."
 "Please double-check the data you have entered on the payment page. If all the data were correct, please contact your card issuing bank to investigate the cause of rejection.","Please double-check the data you have entered on the payment page. If all the data were correct, please contact your card issuing bank to investigate the cause of rejection."
 "%1 Provider transaction id: %2","%1 Provider transaction id: %2"
+"Successful transaction","Successful transaction"
+"Please be informed that the transaction has started with the following data, processing is in progress. We will notify you by email as soon as the transaction is successful.","Please be informed that the transaction has started with the following data, processing is in progress. We will notify you by email as soon as the transaction is successful."

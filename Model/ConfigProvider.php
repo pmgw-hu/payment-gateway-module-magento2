@@ -39,14 +39,17 @@ class ConfigProvider implements ConfigProviderInterface
     const CODE_OTP_SIMPLE_WIRE = 'bigfishpaymentgateway_pmgw_otpsimplewire';
     const CODE_OTP_SZEP = 'bigfishpaymentgateway_pmgw_otpszep';
     const CODE_PAYPAL = 'bigfishpaymentgateway_pmgw_paypal';
+    const CODE_PAYPALREST = 'bigfishpaymentgateway_pmgw_paypalrest';
     const CODE_PAYSAFECARD = 'bigfishpaymentgateway_pmgw_paysafecard';
     const CODE_PAYSAFECASH = 'bigfishpaymentgateway_pmgw_paysafecash';
     const CODE_PAYU2 = 'bigfishpaymentgateway_pmgw_payu2';
+    const CODE_PAYUREST = 'bigfishpaymentgateway_pmgw_payurest';
     const CODE_SAFERPAY = 'bigfishpaymentgateway_pmgw_saferpay';
     const CODE_SOFORT = 'bigfishpaymentgateway_pmgw_sofort';
     const CODE_UNICREDIT = 'bigfishpaymentgateway_pmgw_unicredit';
     const CODE_VIRPAY = 'bigfishpaymentgateway_pmgw_virpay';
     const CODE_WIRECARD = 'bigfishpaymentgateway_pmgw_wirecard';
+    const CODE_WIRECARDEE = 'bigfishpaymentgateway_pmgw_wirecardee';
 
     /**
      * @var ScopeConfigInterface
