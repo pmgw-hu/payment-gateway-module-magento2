@@ -31,7 +31,11 @@
         <?php endif; ?>
 
         <?php if (property_exists($response, 'ProviderTransactionId') && !empty($response->ProviderTransactionId)): ?>
-            <p><?php echo __('%1 Provider transaction id: %2', $methodTitle, $response->ProviderTransactionId); ?></p>
+            <?php if ($response->ProviderName == \BigFish\PaymentGateway::PROVIDER_CIB): ?>
+                <p><?php echo __('Transaction ID (TRID): %1', $response->ProviderTransactionId); ?></p>
+            <?php else: ?>
+                <p><?php echo __('%1 Provider transaction id: %2', $methodTitle, $response->ProviderTransactionId); ?></p>
+            <?php endif; ?>
         <?php endif; ?>
 
     <?php endif; ?>
