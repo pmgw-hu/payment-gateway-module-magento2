@@ -22,7 +22,6 @@ use BigFish\PaymentGateway\Response;
 use Bigfishpaymentgateway\Pmgw\Model\TransactionFactory;
 use Bigfishpaymentgateway\Pmgw\Model\Transaction;
 use Bigfishpaymentgateway\Pmgw\Model\LogFactory;
-use Magento\Braintree\Model\Paypal\Helper\AbstractHelper;
 use Magento\Framework\DataObject;
 use Magento\Framework\Json\Helper\Data as JsonHelper;
 use Magento\Framework\Stdlib\DateTime\DateTime;
