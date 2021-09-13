@@ -400,7 +400,7 @@ class InitializeRequest implements BuilderInterface
     protected function getStoreBaseUrl()
     {
         return $this->storeManager->getStore()
-            ->getBaseUrl(UrlInterface::URL_TYPE_WEB);
+            ->getBaseUrl();
     }
 
     /**
