@@ -1,4 +1,24 @@
-## BIG FISH Payment Gateway module manual installation and configure
+# BIG FISH Payment Gateway module for Magento 2
+
+## The steps required to use our services are as follows
+
+#### 1. Contracting with us:
+
+The online contracting process can be initiated by clicking on the following link and choosing the suitable package: [Tariff packages and contracting](https://www.paymentgateway.hu/arak)
+
+The language of contract and communication is Hungarian.
+
+#### 2. Contracting with the selected payment service provider(s) for online card acceptance:
+Our company is a payment technology platform (not a bank or a payment service provider), therefore to use our solution, you need to have an active contract with at least one PSP available on our system.
+
+The list of payment service providers available in our system can be found under the following link: [Our partners](https://www.paymentgateway.hu/partnereink)
+
+#### 3. Connecting to BIG FISH Payment Gateway:
+Your IT personnel can examine the integration opportunities even before signing the contract with us. The module is free to use in the test environment. Using the production environment requires an active contract with us and the [requirements](https://www.paymentgateway.hu/fejlesztoknek#front-end-kovetelmenyek) must be met.
+
+Should you need any further information, please do not hesitate to contact us through the [paymentgateway@bigfish.hu](mailto:paymentgateway@bigfish.hu) email address.
+
+## Manual installation and configure
 
 #### 1. Backup your store.
 
