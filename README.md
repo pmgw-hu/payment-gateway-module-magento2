@@ -15,7 +15,7 @@
 
   - Download Magento with sample data (free registration required)
 
-    `https://magento.com/tech-resources/download`
+    `https://magento.com/tech-resources/download` OR `https://github.com/magento/magento2/releases`
 
   - Create a directory for Magento and uncompress code
 
@@ -39,7 +39,7 @@
 
   - Set folder rights
 
-    `chmod -R og+w app/etc/ generated/ pub/media/ pub/static/ var/`
+    `chmod -R og+w app/etc/ generated/ pub/media/ pub/static/ var/ vendor/`
 
   - Set magento binary attributes
 
@@ -53,15 +53,18 @@
 
     `docker-compose up -d`
 
-  - Setup Magento application via web interface
+  - Install sub packages - composer install
+
+    `docker exec -ti -u www-data magento2_web_1 /bin/bash`
+    `composer install`
+
+  - Setup Magento application via web interface - not preferred
 
     `http://magento2.dev.big.hu/setup/`
 
-  - OR via command line
+  - OR via command line - best way
 
     `docker exec -ti -u www-data magento2_web_1 /bin/bash`
-
-    `cd /var/www/dev/magento2/`
 
     ```bash
     bin/magento setup:install \
@@ -69,7 +72,7 @@
     --currency=HUF \
     --admin-firstname=FISH \
     --admin-lastname=BIG \
-    --admin-email=[email address] \
+    --admin-email=it@paymentgateway.hu \
     --admin-user=bfadmin \
     --admin-password=NagyHal123 \
     --db-host=db \
@@ -80,9 +83,25 @@
     --base-url=http://magento2.dev.big.hu/ \
     --use-secure-admin=0 \
     --backend-frontname=admin \
-    --use-rewrites=0 \
-    --admin-use-security-key=0
+    --use-rewrites=1 \
+    --admin-use-security-key=0 \
+    --search-engine=elasticsearch7 \
+    --elasticsearch-host=elasticsearch \
+    --elasticsearch-port=9200
     ```
+
+  - Install example data set
+
+    `bin/magento sampledata:deploy`
+
+  - Enable PMGW module
+
+    `bin/magento module:enable Bigfishpaymentgateway_Pmgw`
+
+  - Upgrade @ DI compile
+
+    `bin/magento setup:upgrade`
+    `bin/magento setup:di:compile`
 
   - Reindex
 
@@ -125,8 +144,8 @@
     {
         "http-basic": {
             "repo.magento.com": {
-                "username": "[public key]",
-                "password": "[private key]"
+                "username": "7dd3d3f1d0c455c3b552de9760227e99",
+                "password": "cfc50ef6b525d84aa20a8596a2200f6b"
             }
         }
     }

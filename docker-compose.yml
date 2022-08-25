@@ -1,7 +1,8 @@
-version: '2'
+version: '3.7'
+
 services:
   web:
-    build: ./.docker/web/
+    build: ./.docker/
     environment:
       - TERM=xterm
     hostname: magento2
@@ -9,14 +10,20 @@ services:
     volumes:
       - ./:/var/www/dev/magento2
     labels:
-      - traefik.enable=true
-      - traefik.port=80
-      - traefik.frontend.rule=Host:magento2.dev.big.hu
-    network_mode: bridge
+     - traefik.enable=true
+     - traefik.docker.network=bigfish_network
+     - traefik.http.routers.magento.rule=Host(`magento2.dev.big.hu`)
+     - traefik.http.routers.magento.entrypoints=http
+     - traefik.http.services.magento.loadbalancer.server.port=80
+    networks:
+     - local
+     - bigfish_network
     links:
       - db
       - mailcatcher
       - session
+      - elasticsearch
+
   db:
     image: docker.big.hu/development/mariadb
     environment:
@@ -25,21 +32,61 @@ services:
       - MYSQL_USER=magento
       - MYSQL_PASSWORD=magento
       - MYSQL_DATABASE=magento
-    network_mode: bridge
+    networks:
+      - local
     volumes:
       - db_data:/var/lib/mysql
     ports:
       - 3306:3306
+
   mailcatcher:
     image: docker.big.hu/development/mailcatcher
-    network_mode: bridge
+    networks:
+      - local
     labels:
       - traefik.enable=true
-      - traefik.port=1080
-      - traefik.frontend.rule=Host:magento2-mail.dev.big.hu
+      - traefik.docker.network=bigfish_network
+      - traefik.http.routers.paymentgateway.rule=Host(`magento2-mail.dev.big.hu`)
+      - traefik.http.routers.paymentgateway.entrypoints=http
+      - traefik.http.services.paymentgateway.loadbalancer.server.port=1080
   session:
     image: docker.big.hu/development/memcached
-    network_mode: bridge
+    networks:
+      - local
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.4.0
+    container_name: elasticsearch
+    environment:
+      - xpack.security.enabled=false
+      - discovery.type=single-node
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    cap_add:
+      - IPC_LOCK
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+      - 9300:9300
+    networks:
+      - local
+
+networks:
+
+  local:
+    name: local
+    driver: bridge
+
+  bigfish_network:
+    external: true
 
 volumes:
   db_data:
+  elasticsearch-data:
+    driver: local
