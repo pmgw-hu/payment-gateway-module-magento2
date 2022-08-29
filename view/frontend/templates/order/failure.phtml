@@ -1,5 +1,5 @@
 <?php /* @var $block \Bigfishpaymentgateway\Pmgw\Block\Success */?>
-<?php if ($block->getOrderId() && $block->getCanViewOrder()):?>
+<?php if ($block->getOrderId()):?>
     <?php /** @var \stdClass $response */ ?>
     <?php $response = $block->getResponse(); ?>
     <?php $methodTitle = $block->getMethodTitle(); ?>

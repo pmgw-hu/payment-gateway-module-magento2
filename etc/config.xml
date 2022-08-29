@@ -284,7 +284,7 @@
             </bigfishpaymentgateway_pmgw_otpsimple>
 
             <bigfishpaymentgateway_pmgw_otpsimplewire>
-                <title>SimpleWire</title>
+                <title>SimplePay Instant Transfer</title>
                 <active>0</active>
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
