@@ -11,11 +11,11 @@
   - Docker Compose >= 1.7.0
   - Traefik (https://gitlab.big.hu/big-fish/traefik)
 
-### Setup Magento Community Edition (2.1.x or 2.2.x)
+### Setup Magento Community Edition (2.4.5)
 
-  - Download Magento with sample data (free registration required)
+  - Download Magento 2 release
 
-    `https://magento.com/tech-resources/download` OR `https://github.com/magento/magento2/releases`
+    `https://github.com/magento/magento2/archive/refs/tags/2.4.5.zip`
 
   - Create a directory for Magento and uncompress code
 
@@ -23,7 +23,7 @@
 
     `cd magento2`
 
-    `unzip /path/to/Magento-CE-[version]_sample_data-[release date].zip -d ./`
+    `unzip magento2-2.4.5.zip`
 
   - Clone module code
 
@@ -41,6 +41,10 @@
 
     `chmod -R og+w app/etc/ generated/ pub/media/ pub/static/ var/ vendor/`
 
+  - Set file rights
+
+    `chmod 666 composer.*`
+
   - Set magento binary attributes
 
     `chmod uog+x bin/magento`
@@ -56,13 +60,10 @@
   - Install sub packages - composer install
 
     `docker exec -ti -u www-data magento2_web_1 /bin/bash`
-    `composer install`
 
-  - Setup Magento application via web interface - not preferred
+    `composer update`
 
-    `http://magento2.dev.big.hu/setup/`
-
-  - OR via command line - best way
+  - Setup Magento
 
     `docker exec -ti -u www-data magento2_web_1 /bin/bash`
 
@@ -90,6 +91,16 @@
     --elasticsearch-port=9200
     ```
 
+  - Add repo to composer
+
+    `composer config repositories.magento composer https://repo.magento.com`
+
+    `Username: 7dd3d3f1d0c455c3b552de9760227e99`
+
+    `Password: cfc50ef6b525d84aa20a8596a2200f6b`
+
+    `Store credentials: Y`
+
   - Install example data set
 
     `bin/magento sampledata:deploy`
@@ -101,6 +112,7 @@
   - Upgrade @ DI compile
 
     `bin/magento setup:upgrade`
+
     `bin/magento setup:di:compile`
 
   - Reindex
@@ -111,19 +123,6 @@
 
     `bin/magento cache:clean`
 
-  - Logout container
-
-    `exit`
-
-  - Update session handler (edit `app/etc/env.php` file)
-
-    ```php
-    array (
-      'save' => 'memcached',
-      'save_path' => 'session:11211',
-    ),
-    ```
-
   - Check webshop
 
     `http://magento2.dev.big.hu/`
@@ -133,10 +132,6 @@
     `http://magento2.dev.big.hu/admin/`
 
 ### Setup Payment Gateway Module
-
-  - After registration create and get Magento 2 access keys
-
-    `https://marketplace.magento.com/customer/accessKeys/`
 
   - Create `auth.json` in `magento2` directory
 
@@ -152,14 +147,6 @@
     ```
 
   - Set Composer requirement
-
-    `chmod og+w composer.*`
-
-    `chmod -R og+w vendor/`
-
-    `docker exec -ti -u www-data magento2_web_1 /bin/bash`
-
-    `cd /var/www/dev/magento2/`
 
     `composer require bigfish/paymentgateway`
 

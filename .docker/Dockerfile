@@ -51,6 +51,7 @@ RUN apk add --update --no-cache \
     php${PHP_VERSION}-dom \
     php${PHP_VERSION}-simplexml \
     php${PHP_VERSION}-sodium \
+    php${PHP_VERSION}-sockets \
   && rm -rf /var/cache/apk/* \
   && curl -o /usr/local/bin/composer https://getcomposer.org/composer-stable.phar \
   && chmod ugo+rx /usr/local/bin/composer \
