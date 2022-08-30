@@ -57,9 +57,9 @@ RUN apk add --update --no-cache \
   # Create user
   && adduser -S www-data -G www-data \
   # Create document root
-  && mkdir -p /var/www/app \
-  && rm -rf /var/www/app/* \
-  && chown -R www-data:www-data /var/www/app \
+  && mkdir -p /var/www/dev/magento2 \
+  && rm -rf /var/www/dev/magento2/* \
+  && chown -R www-data:www-data /var/www/dev/magento2 \
   # Set up PHP
   && ln -sf /usr/bin/php${PHP_VERSION} /usr/bin/php \
   && ln -sf /usr/sbin/php-fpm${PHP_VERSION} /usr/sbin/php-fpm \
@@ -78,7 +78,7 @@ ENV TZ=Europe/Budapest
 RUN cp /usr/share/zoneinfo/${TZ} /etc/localtime \
     && echo "${TZ}" > /etc/timezone
 
-WORKDIR "/var/www/app"
+WORKDIR "/var/www/dev/magento2"
 
 COPY --chown=www-data:www-data . .
 RUN touch /var/log/app.log && chmod og+w /var/log/app.log
