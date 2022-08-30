@@ -23,7 +23,7 @@
 
     `cd magento2`
 
-    `unzip magento2-2.4.5.zip`
+    `unzip magento2-2.4.5.zip and copy the magento2-2.4.5 folder's files to magento2 project folder`
 
   - Clone module code
 
