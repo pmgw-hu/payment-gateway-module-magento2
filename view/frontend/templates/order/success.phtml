@@ -1,5 +1,5 @@
 <?php /* @var $block \Bigfishpaymentgateway\Pmgw\Block\Success */?>
-<?php if ($block->getOrderId() && $block->getCanViewOrder()):?>
+<?php if ($block->getOrderId()):?>
     <?php /** @var \stdClass $response */ ?>
     <?php $response = $block->getResponse(); ?>
     <?php $methodTitle = $block->getMethodTitle(); ?>
@@ -7,7 +7,7 @@
     <?php $total = $block->getOrderTotal(); ?>
     <?php $updatedAt = $block->getOrderUpdatedAt(); ?>
     <?php if ($response && is_object($response)): ?>
-        
+
         <?php if ($updatedAt): ?>
         <p><?php echo __('Transaction date: %1', $updatedAt); ?></p>
         <?php endif; ?>

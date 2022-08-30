@@ -4,20 +4,29 @@ before_script:
 stages:
   - syntax-check
 
-Syntax Check PHP 5.6:
-  image: docker.big.hu/test/php:5.6
+Syntax Check PHP 7.4:
+  image: php:7.4-cli
   script:
-    - find . -type f -name "*.php" -print0 | xargs -0L1 /usr/bin/php -l
-  tags:
-    - docker
+    - find . -type f -name "*.php" -print0 | xargs -0L1 php -l
   stage: syntax-check
   allow_failure: false
+  tags:
+    - docker
 
-Syntax Check PHP 7.2:
-  image: docker.big.hu/test/php:7.2
+Syntax Check PHP 8.0:
+  image: php:8.0-cli
   script:
-    - find . -type f -name "*.php" -print0 | xargs -0L1 /usr/bin/php -l
-  tags:
-    - docker
+    - find . -type f -name "*.php" -print0 | xargs -0L1 php -l
   stage: syntax-check
   allow_failure: false
+  tags:
+    - docker
+
+Syntax Check PHP 8.1:
+  image: php:8.1-cli
+  script:
+    - find . -type f -name "*.php" -print0 | xargs -0L1 php -l
+  stage: syntax-check
+  allow_failure: false
+  tags:
+    - docker
