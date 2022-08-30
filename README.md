@@ -57,15 +57,19 @@
 
     `docker-compose up -d`
 
-  - Install sub packages - composer install
+  - Go to the Magento docker container
 
     `docker exec -ti -u www-data magento2_web_1 /bin/bash`
+
+  - Go to the project folder
+
+    `cd /var/www/dev/magento2`
+
+  - Install composer
 
     `composer update`
 
   - Setup Magento
-
-    `docker exec -ti -u www-data magento2_web_1 /bin/bash`
 
     ```bash
     bin/magento setup:install \
