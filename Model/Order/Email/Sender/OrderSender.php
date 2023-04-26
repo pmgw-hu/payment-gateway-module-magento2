@@ -34,7 +34,7 @@ class OrderSender extends \Magento\Sales\Model\Order\Email\Sender\OrderSender
             return false;
         }
 
-        parent::send($order, $forceSyncMode);
+        return parent::send($order, $forceSyncMode);
     }
 
     /**
