@@ -20,7 +20,7 @@ services:
      - bigfish_network
     links:
       - db
-      - mailcatcher
+      - mail
       - session
       - elasticsearch
 
@@ -39,16 +39,20 @@ services:
     ports:
       - 3306:3306
 
-  mailcatcher:
-    image: docker.big.hu/development/mailcatcher
+  mail:
+    image: maildev/maildev
+    container_name: magento_mail
+    command: bin/maildev --web 80 --smtp 25
     networks:
       - local
+      - bigfish_network
     labels:
       - traefik.enable=true
       - traefik.docker.network=bigfish_network
-      - traefik.http.routers.paymentgateway.rule=Host(`magento2-mail.dev.big.hu`)
-      - traefik.http.routers.paymentgateway.entrypoints=http
-      - traefik.http.services.paymentgateway.loadbalancer.server.port=1080
+      - traefik.http.routers.magento-mail.rule=Host(`magento2-mail.dev.big.hu`)
+      - traefik.http.routers.magento-mail.entrypoints=http
+      - traefik.http.services.magento-mail.loadbalancer.server.port=80
+
   session:
     image: docker.big.hu/development/memcached
     networks:
