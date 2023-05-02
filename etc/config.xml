@@ -76,7 +76,7 @@
             </bigfishpaymentgateway_pmgw_borgun2>
 
             <bigfishpaymentgateway_pmgw_bbaruhitel>
-                <title>MKB Online Áruhitel</title>
+                <title>MBH Online Áruhitel</title>
                 <active>0</active>
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
@@ -204,7 +204,7 @@
             </bigfishpaymentgateway_pmgw_khbszep>
 
             <bigfishpaymentgateway_pmgw_mkbszep>
-                <title>MKB SZÉP Card</title>
+                <title>MBH SZÉP Card</title>
                 <active>0</active>
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
