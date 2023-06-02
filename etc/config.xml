@@ -412,7 +412,7 @@
             </bigfishpaymentgateway_pmgw_payurest>
 
             <bigfishpaymentgateway_pmgw_saferpay>
-                <title>SIX Payment - Saferpay</title>
+                <title>Worldline</title>
                 <active>0</active>
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
