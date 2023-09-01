@@ -40,9 +40,15 @@ define(
 
             getCardRegistrationCode : function () {
                 var config = window.checkoutConfig.payment.bigfishpaymentgateway_pmgw.providers;
+                var customerData = window.checkoutConfig.customerData;
                 if (config.length > 0) {
                     for (var i=0; i<config.length; i++) {
                         if (config[i].name === this.item.method) {
+                            // If the provider is KHB and the customer is not logged in, then return 0
+                            if (config[i].name === 'bigfishpaymentgateway_pmgw_khb' && customerData.length === 0) {
+                                return 0;
+                            }
+
                             return config[i].card_registration_mode;
                         }
                     }

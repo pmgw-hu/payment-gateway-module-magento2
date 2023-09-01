@@ -4,6 +4,7 @@ services:
   web:
     build: ./.docker/
     environment:
+      - PHP_IDE_CONFIG=serverName=magento2.dev.big.hu
       - TERM=xterm
     hostname: magento2
     domainname: dev.big.hu
@@ -18,6 +19,8 @@ services:
     networks:
      - local
      - bigfish_network
+    extra_hosts:
+      - host.docker.internal:host-gateway
     links:
       - db
       - mail

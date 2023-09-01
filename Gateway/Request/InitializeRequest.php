@@ -10,10 +10,12 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  * @copyright  Copyright (c) 2017, BIG FISH Ltd.
  */
+
 namespace Bigfishpaymentgateway\Pmgw\Gateway\Request;
 
 use BigFish\PaymentGateway\Data\Info;
 use BigFish\PaymentGateway\Request\Init;
+use BigFish\PaymentGateway\Request\GetPaymentRegistrations as GetPaymentRegistrationsRequest;
 use Bigfishpaymentgateway\Pmgw\Model\ConfigProvider;
 use Bigfishpaymentgateway\Pmgw\Gateway\Helper\Helper;
 use BigFish\PaymentGateway;
@@ -298,11 +300,44 @@ class InitializeRequest implements BuilderInterface
 
         if ($this->helper->isOneClickProvider($providerConfig['name']) && $this->customerAcceptCardRegistration()) {
             if (isset($providerConfig['card_registration_mode']) && strlen($providerConfig['card_registration_mode'])) {
+                // If the provider is not KHB proceed as before
+                if ($providerConfig['name'] != ConfigProvider::CODE_KHB) {
+                    $request->setOneClickPayment(true);
 
-                $request->setOneClickPayment(true);
+                    if ($providerConfig['card_registration_mode'] == '1') {
+                        $request->setOneClickForcedRegistration(true);
+                    }
+                } else {
+                    // For KHB provider and logged in customer we create the PSD2 compliant CIT payment
+                    if ($order->getCustomerId()) {
+                        $isCardRegistration = true;
+                        if ($providerConfig['card_registration_mode'] == '2') {
+                            // To determine if the customer already has a saved card registration we have to query the Payment Gateway GetPaymentRegistrations endpoint
+                            $paymentRegistrations = $this->helper->getPaymentRegistrations(
+                                $this->getPaymentRegistrationsRequest(
+                                    $providerConfig['provider_code'],
+                                    (int)$order->getCustomerId(),
+                                    PaymentGateway::PAYMENT_REGISTRATION_TYPE_CUSTOMER_INITIATED
+                                )
+                            );
+                            if (
+                                $paymentRegistrations->ResultCode == PaymentGateway::RESULT_CODE_SUCCESS
+                                && !empty($paymentRegistrations->Data->CIT)
+                                && is_array($paymentRegistrations->Data->CIT)
+                                && count($paymentRegistrations->Data->CIT) > 0
+                            ) {
+                                $isCardRegistration = false;
+                            }
+                        }
 
-                if ($providerConfig['card_registration_mode'] == '1') {
-                    $request->setOneClickForcedRegistration(true);
+                        if ($isCardRegistration) {
+                            $request->setPaymentRegistration(true);
+                            $request->setPaymentRegistrationType(PaymentGateway::PAYMENT_REGISTRATION_TYPE_CUSTOMER_INITIATED);
+                        } else {
+                            $request->setPaymentRegistration(false);
+                            $request->setOneClickPayment(true);
+                        }
+                    }
                 }
             }
         }
@@ -314,6 +349,19 @@ class InitializeRequest implements BuilderInterface
         $request->setInfoObject($this->getInfo($order));
 
         return $request;
+    }
+
+
+    /**
+     * @param string $providerName
+     * @param int|null $userId
+     * @param string|null $paymentRegistrationType
+     * @return GetPaymentRegistrationsRequest
+     * @throws PaymentGateway\Exception
+     */
+    protected function getPaymentRegistrationsRequest($providerName, $userId, $paymentRegistrationType = null)
+    {
+        return new GetPaymentRegistrationsRequest($providerName, $userId, $paymentRegistrationType);
     }
 
     /**
@@ -420,8 +468,8 @@ class InitializeRequest implements BuilderInterface
         foreach ($inputParams as $inputParam) {
             if ($inputParam instanceof \Magento\Quote\Model\Quote\Payment) {
                 $paymentData = $inputParam->getData('additional_data');
-                if(isset($paymentData['card_registration'])) {
-                    return (bool) $paymentData['card_registration'];
+                if (isset($paymentData['card_registration'])) {
+                    return (bool)$paymentData['card_registration'];
                 }
             }
         }

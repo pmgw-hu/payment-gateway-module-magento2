@@ -10,6 +10,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  * @copyright  Copyright (c) 2017, BIG FISH Ltd.
  */
+
 namespace Bigfishpaymentgateway\Pmgw\Gateway\Helper;
 
 use BigFish\PaymentGateway;
@@ -18,6 +19,7 @@ use BigFish\PaymentGateway\Request\Start as StartRequest;
 use BigFish\PaymentGateway\Request\Init as InitRequest;
 use BigFish\PaymentGateway\Request\Result as ResultRequest;
 use BigFish\PaymentGateway\Request\Details as DetailsRequest;
+use BigFish\PaymentGateway\Request\GetPaymentRegistrations as GetPaymentRegistrationsRequest;
 use BigFish\PaymentGateway\Response;
 use Bigfishpaymentgateway\Pmgw\Model\TransactionFactory;
 use Bigfishpaymentgateway\Pmgw\Model\Transaction;
@@ -244,6 +246,24 @@ class Helper extends AbstractHelper
     }
 
     /**
+     * @param GetPaymentRegistrationsRequest $getPaymentRegistrationsRequest
+     * @return Response
+     * @throws PaymentGateway\Exception
+     */
+    public function getPaymentRegistrations(GetPaymentRegistrationsRequest $getPaymentRegistrationsRequest)
+    {
+        $response = PaymentGateway::getPaymentRegistrations($getPaymentRegistrationsRequest);
+
+        $this->debug([
+            'action' => 'init',
+            'request' => (array)$getPaymentRegistrationsRequest,
+            'response' => (array)$response,
+        ]);
+
+        return $response;
+    }
+
+    /**
      * @param array $data
      */
     protected function debug(array $data)
@@ -265,6 +285,7 @@ class Helper extends AbstractHelper
             case ConfigProvider::CODE_VIRPAY:
             case ConfigProvider::CODE_PAYPALREST:
             case ConfigProvider::CODE_PAYUREST:
+            case ConfigProvider::CODE_KHB:
                 return true;
             default:
                 return false;
