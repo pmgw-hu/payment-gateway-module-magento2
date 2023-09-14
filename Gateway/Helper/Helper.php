@@ -255,7 +255,7 @@ class Helper extends AbstractHelper
         $response = PaymentGateway::getPaymentRegistrations($getPaymentRegistrationsRequest);
 
         $this->debug([
-            'action' => 'init',
+            'action' => 'getPaymentRegistrations',
             'request' => (array)$getPaymentRegistrationsRequest,
             'response' => (array)$response,
         ]);

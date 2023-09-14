@@ -324,7 +324,6 @@ class InitializeRequest implements BuilderInterface
                                 $paymentRegistrations->ResultCode == PaymentGateway::RESULT_CODE_SUCCESS
                                 && !empty($paymentRegistrations->Data->CIT)
                                 && is_array($paymentRegistrations->Data->CIT)
-                                && count($paymentRegistrations->Data->CIT) > 0
                             ) {
                                 $isCardRegistration = false;
                             }
