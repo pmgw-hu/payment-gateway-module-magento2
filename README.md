@@ -15,7 +15,7 @@
 
   - Download Magento 2 release
 
-    `https://github.com/magento/magento2/archive/refs/tags/2.4.5.zip`
+    `https://github.com/magento/magento2/archive/refs/tags/2.4.6-p2.zip`
 
   - Create a directory for Magento and uncompress code
 
