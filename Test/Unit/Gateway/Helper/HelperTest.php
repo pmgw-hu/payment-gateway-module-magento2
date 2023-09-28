@@ -14,7 +14,7 @@ namespace Bigfishpaymentgateway\Pmgw\Test\Unit\Gateway\Helper;
 
 use BigFish\PaymentGateway\Config;
 use BigFish\PaymentGateway\Request\Init as InitRequest;
-use BigFish\PaymentGateway\Response;
+use BigFish\PaymentGateway\Transport\Response\Response;
 use Bigfishpaymentgateway\Pmgw\Gateway\Helper\Helper;
 use Bigfishpaymentgateway\Pmgw\Model\TransactionFactory;
 use Bigfishpaymentgateway\Pmgw\Model\LogFactory;

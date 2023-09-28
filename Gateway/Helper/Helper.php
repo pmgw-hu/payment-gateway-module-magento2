@@ -20,7 +20,7 @@ use BigFish\PaymentGateway\Request\Init as InitRequest;
 use BigFish\PaymentGateway\Request\Result as ResultRequest;
 use BigFish\PaymentGateway\Request\Details as DetailsRequest;
 use BigFish\PaymentGateway\Request\GetPaymentRegistrations as GetPaymentRegistrationsRequest;
-use BigFish\PaymentGateway\Transport\Response;
+use BigFish\PaymentGateway\Transport\Response\Response;
 use Bigfishpaymentgateway\Pmgw\Model\TransactionFactory;
 use Bigfishpaymentgateway\Pmgw\Model\Transaction;
 use Bigfishpaymentgateway\Pmgw\Model\LogFactory;
@@ -171,11 +171,9 @@ class Helper extends AbstractHelper
         $this->debug([
             'action' => 'setConfig',
             'data' => [
-                'storeName' => $config->storeName,
-                'apiKey' => $config->apiKey,
-                'testMode' => $config->testMode,
-                'moduleName' => $config->moduleName,
-                'moduleVersion' => $config->moduleVersion,
+                'storeName' => $config->getStoreName(),
+                'apiKey' => $config->getApiKey(),
+                'testMode' => $config->isTestMode(),
             ]
         ]);
     }
@@ -209,8 +207,8 @@ class Helper extends AbstractHelper
 
         $this->debug([
             'action' => 'init',
-            'request' => (array)$request,
-            'response' => (array)$response,
+            'request' => $request->getData(),
+            'response' => $response->getData(),
         ]);
 
         return $response;
@@ -227,7 +225,7 @@ class Helper extends AbstractHelper
         $this->debug([
             'action' => 'result',
             'transactionId' => $transactionId,
-            'response' => (array)$response,
+            'response' => $response->getData(),
         ]);
 
         return $response;
@@ -239,12 +237,17 @@ class Helper extends AbstractHelper
      */
     public function getPaymentGatewayDetails($transactionId)
     {
-		$response = $this->paymentGateway->send((new DetailsRequest())->setTransactionId($transactionId));
+		$response = $this->paymentGateway->send(
+            (new DetailsRequest())
+                ->setTransactionId($transactionId)
+                ->setGetRelatedTransactions(false)
+                ->setGetInfoData(false)
+        );
 
         $this->debug([
             'action' => 'details',
             'transactionId' => $transactionId,
-            'response' => (array)$response,
+            'response' => $response->getData(),
         ]);
 
         return $response;
@@ -261,8 +264,8 @@ class Helper extends AbstractHelper
 
         $this->debug([
             'action' => 'getPaymentRegistrations',
-            'request' => (array)$getPaymentRegistrationsRequest,
-            'response' => (array)$response,
+            'request' => $getPaymentRegistrationsRequest->getData(),
+            'response' => $response->getData(),
         ]);
 
         return $response;

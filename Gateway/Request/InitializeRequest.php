@@ -195,7 +195,7 @@ class InitializeRequest implements BuilderInterface
                 throw new \UnexpectedValueException($message);
             }
 
-            return (array)$response;
+            return $response->getData();
         } catch (\Exception $exception) {
             throw new \Magento\Framework\Exception\LocalizedException(__($exception->getMessage()), $exception);
         }
@@ -244,7 +244,7 @@ class InitializeRequest implements BuilderInterface
             ->setAmount($order->getGrandTotalAmount())
             ->setCurrency($order->getCurrencyCode())
             ->setOrderId($order->getOrderIncrementId())
-            ->setUserId($order->getCustomerId())
+            ->setUserId((string)$order->getCustomerId())
             ->setLanguage($this->getStoreLanguage())
             ->setModuleName('Magento (' . $this->productMetaData->getVersion() . ')')
             ->setModuleVersion($this->moduleList->getOne(Helper::MODULE_NAME)['setup_version'])
@@ -322,8 +322,8 @@ class InitializeRequest implements BuilderInterface
                             );
                             if (
                                 $paymentRegistrations->ResultCode == PaymentGateway::RESULT_CODE_SUCCESS
-                                && !empty($paymentRegistrations->Data->CIT)
-                                && is_array($paymentRegistrations->Data->CIT)
+                                && !empty($paymentRegistrations->Data['CIT'])
+                                && is_array($paymentRegistrations->Data['CIT'])
                             ) {
                                 $isCardRegistration = false;
                             }
@@ -360,7 +360,7 @@ class InitializeRequest implements BuilderInterface
      */
     protected function getPaymentRegistrationsRequest($providerName, $userId, $paymentRegistrationType = null)
     {
-        return (new GetPaymentRegistrationsRequest())->setProviderName($providerName)->setUserId($userId)->setPaymentRegistrationType($paymentRegistrationType);
+        return (new GetPaymentRegistrationsRequest())->setProviderName($providerName)->setUserId((string)$userId)->setPaymentRegistrationType($paymentRegistrationType);
     }
 
     /**

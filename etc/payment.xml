@@ -97,6 +97,9 @@
         <method name="bigfishpaymentgateway_pmgw_sofort">
             <allow_multiple_address>1</allow_multiple_address>
         </method>
+        <method name="bigfishpaymentgateway_pmgw_stripe">
+            <allow_multiple_address>1</allow_multiple_address>
+        </method>
         <method name="bigfishpaymentgateway_pmgw_unicredit">
             <allow_multiple_address>1</allow_multiple_address>
         </method>
