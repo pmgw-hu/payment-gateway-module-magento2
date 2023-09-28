@@ -28,6 +28,11 @@
             <label>Description</label>
             <config_path>payment/bigfishpaymentgateway_pmgw_khb/description</config_path>
         </field>
+        <field id="card_registration_mode" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1">
+            <label>Card registration modes</label>
+            <config_path>payment/bigfishpaymentgateway_pmgw_khb/card_registration_mode</config_path>
+            <source_model>Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::getCardRegistrationModes</source_model>
+        </field>
         <field id="allowspecific" translate="label" type="allowspecific" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Payment from Applicable Countries</label>
             <config_path>payment/bigfishpaymentgateway_pmgw_khb/allowspecific</config_path>

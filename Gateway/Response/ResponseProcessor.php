@@ -13,6 +13,8 @@
 namespace Bigfishpaymentgateway\Pmgw\Gateway\Response;
 
 use BigFish\PaymentGateway;
+use BigFish\PaymentGateway\Exception;
+use BigFish\PaymentGateway\Request\GetPaymentRegistrations as GetPaymentRegistrationsRequest;
 use Bigfishpaymentgateway\Pmgw\Gateway\Helper\Helper;
 use Bigfishpaymentgateway\Pmgw\Model\ConfigProvider;
 use Bigfishpaymentgateway\Pmgw\Model\Transaction;
@@ -199,7 +201,7 @@ class ResponseProcessor
         $this->orderSender->send($this->order, false);
         $this->order->save();
 
-        if ($this->isSuccessCardRegistration()) {
+        if ($this->isSuccessCardRegistration($this->order)) {
             $this->helper->setCardRegistration($this->transaction, true);
         }
 
@@ -210,52 +212,79 @@ class ResponseProcessor
     }
 
     /**
+     * @param Order|null $order
      * @return bool
+     * @throws Exception
      */
-    protected function isSuccessCardRegistration()
+    protected function isSuccessCardRegistration(Order $order = null)
     {
         $provider = $this->order->getPayment()->getMethod();
 
         if ($this->helper->isOneClickProvider($provider)) {
-            $this->details = $this->helper->getPaymentGatewayDetails($this->response->TransactionId);
+            // For KHB provider, the PSD2 card registration logic is a bit different.
+            // The OneClickPayment field is false for the registration transaction.
+            // We have to query the payment registrations by a dedicated API endpoint.
+            if ($provider == ConfigProvider::CODE_KHB) {
+                $paymentRegistrations = $this->helper->getPaymentRegistrations(
+                    new GetPaymentRegistrationsRequest(
+                        PaymentGateway::PROVIDER_KHB,
+                        (int)$order->getCustomerId(),
+                        PaymentGateway::PAYMENT_REGISTRATION_TYPE_CUSTOMER_INITIATED
+                    )
+                );
 
-            if (isset($this->details->ProviderSpecificData->OneClickPayment) && !empty($this->details->ProviderSpecificData->OneClickPayment)) {
-                if (
-                    $provider == ConfigProvider::CODE_BORGUN2 ||
-                    $provider == ConfigProvider::CODE_VIRPAY
-                ) {
-                    if (!isset($this->details->ProviderSpecificData->ParentBorgunTransactionId) || empty($this->details->ProviderSpecificData->ParentBorgunTransactionId)) {
+                if ($paymentRegistrations->ResultCode != PaymentGateway::RESULT_CODE_SUCCESS || empty($paymentRegistrations->Data->CIT)) {
+                    return false;
+                }
+
+                foreach ($paymentRegistrations->Data->CIT as $citPaymentRegistrationData) {
+                    if (!empty($citPaymentRegistrationData->ReferenceTransactionId) && $citPaymentRegistrationData->ReferenceTransactionId == $this->response->TransactionId) {
                         return true;
                     }
                 }
 
-                if ($provider == ConfigProvider::CODE_BARION2) {
-                    if (!isset($this->details->ProviderSpecificData->RecurrenceId) || empty($this->details->ProviderSpecificData->RecurrenceId)) {
-                        return true;
-                    }
-                }
+                return false;
+            } else {
+                $this->details = $this->helper->getPaymentGatewayDetails($this->response->TransactionId);
 
-                if ($provider == ConfigProvider::CODE_GP) {
-                    if (!isset($this->details->ProviderSpecificData->ParentOrdernumber) || empty($this->details->ProviderSpecificData->ParentOrdernumber)) {
-                        return true;
+                if (isset($this->details->ProviderSpecificData->OneClickPayment) && !empty($this->details->ProviderSpecificData->OneClickPayment)) {
+                    if (
+                        $provider == ConfigProvider::CODE_BORGUN2 ||
+                        $provider == ConfigProvider::CODE_VIRPAY
+                    ) {
+                        if (!isset($this->details->ProviderSpecificData->ParentBorgunTransactionId) || empty($this->details->ProviderSpecificData->ParentBorgunTransactionId)) {
+                            return true;
+                        }
                     }
-                }
 
-                if ($provider == ConfigProvider::CODE_SAFERPAY) {
-                    if (!isset($this->details->ProviderSpecificData->ParentSaferpayTransactionId) || empty($this->details->ProviderSpecificData->ParentSaferpayTransactionId)) {
-                        return true;
+                    if ($provider == ConfigProvider::CODE_BARION2) {
+                        if (!isset($this->details->ProviderSpecificData->RecurrenceId) || empty($this->details->ProviderSpecificData->RecurrenceId)) {
+                            return true;
+                        }
                     }
-                }
 
-                if ($provider == ConfigProvider::CODE_PAYPALREST) {
-                    if (!isset($this->details->ProviderSpecificData->ParentAgreementId) || empty($this->details->ProviderSpecificData->ParentAgreementId)) {
-                        return true;
+                    if ($provider == ConfigProvider::CODE_GP) {
+                        if (!isset($this->details->ProviderSpecificData->ParentOrdernumber) || empty($this->details->ProviderSpecificData->ParentOrdernumber)) {
+                            return true;
+                        }
                     }
-                }
 
-                if ($provider == ConfigProvider::CODE_PAYUREST) {
-                    if (!isset($this->details->ProviderSpecificData->ParentPayuPaymentId) || empty($this->details->ProviderSpecificData->ParentPayuPaymentId)) {
-                        return true;
+                    if ($provider == ConfigProvider::CODE_SAFERPAY) {
+                        if (!isset($this->details->ProviderSpecificData->ParentSaferpayTransactionId) || empty($this->details->ProviderSpecificData->ParentSaferpayTransactionId)) {
+                            return true;
+                        }
+                    }
+
+                    if ($provider == ConfigProvider::CODE_PAYPALREST) {
+                        if (!isset($this->details->ProviderSpecificData->ParentAgreementId) || empty($this->details->ProviderSpecificData->ParentAgreementId)) {
+                            return true;
+                        }
+                    }
+
+                    if ($provider == ConfigProvider::CODE_PAYUREST) {
+                        if (!isset($this->details->ProviderSpecificData->ParentPayuPaymentId) || empty($this->details->ProviderSpecificData->ParentPayuPaymentId)) {
+                            return true;
+                        }
                     }
                 }
             }
