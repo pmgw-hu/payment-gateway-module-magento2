@@ -73,8 +73,8 @@ RUN apk add --update --no-cache \
   && chown -R www-data:www-data /var/tmp/nginx
 
 # FIX iconv
-RUN apk add gnu-libiconv --update-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ --allow-untrusted
-ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
+RUN apk add gnu-libiconv=1.15-r3 --update-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.13/community/ --allow-untrusted
+ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so
 
 #
 # Set timezone (https://wiki.alpinelinux.org/wiki/Setting_the_timezone)

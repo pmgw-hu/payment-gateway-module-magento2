@@ -79,10 +79,10 @@ class Helper extends AbstractHelper
      */
     private $transactionBuilder;
 
-	/**
-	 * @var PaymentGateway
-	 */
-	private $paymentGateway;
+    /**
+     * @var PaymentGateway
+     */
+    private $paymentGateway;
 
     public function __construct(
         TransactionFactory $transactionFactory,
@@ -166,7 +166,7 @@ class Helper extends AbstractHelper
      */
     public function setPaymentGatewayConfig(Config $config)
     {
-		$this->paymentGateway = new PaymentGateway($config);
+        $this->paymentGateway = new PaymentGateway($config);
 
         $this->debug([
             'action' => 'setConfig',
@@ -184,7 +184,7 @@ class Helper extends AbstractHelper
      */
     public function getPaymentGatewayStartUrl($transactionId)
     {
-		$startUrl = $this->paymentGateway->getRedirectUrl((new StartRequest())->setTransactionId($transactionId));
+        $startUrl = $this->paymentGateway->getRedirectUrl((new StartRequest())->setTransactionId($transactionId));
 
         $this->debug([
             'action' => 'getStartUrl',
@@ -203,7 +203,7 @@ class Helper extends AbstractHelper
      */
     public function initializePaymentGatewayTransaction(InitRequest $request)
     {
-		$response = $this->paymentGateway->send($request);
+        $response = $this->paymentGateway->send($request);
 
         $this->debug([
             'action' => 'init',
@@ -220,7 +220,7 @@ class Helper extends AbstractHelper
      */
     public function getPaymentGatewayResult($transactionId)
     {
-		$response = $this->paymentGateway->send((new ResultRequest())->setTransactionId($transactionId));
+        $response = $this->paymentGateway->send((new ResultRequest())->setTransactionId($transactionId));
 
         $this->debug([
             'action' => 'result',
@@ -237,7 +237,7 @@ class Helper extends AbstractHelper
      */
     public function getPaymentGatewayDetails($transactionId)
     {
-		$response = $this->paymentGateway->send(
+        $response = $this->paymentGateway->send(
             (new DetailsRequest())
                 ->setTransactionId($transactionId)
                 ->setGetRelatedTransactions(false)
@@ -260,7 +260,7 @@ class Helper extends AbstractHelper
      */
     public function getPaymentRegistrations(GetPaymentRegistrationsRequest $getPaymentRegistrationsRequest)
     {
-		$response = $this->paymentGateway->send($getPaymentRegistrationsRequest);
+        $response = $this->paymentGateway->send($getPaymentRegistrationsRequest);
 
         $this->debug([
             'action' => 'getPaymentRegistrations',
@@ -312,7 +312,7 @@ class Helper extends AbstractHelper
         $payment->setLastTransId($response->TransactionId);
         $payment->setTransactionId($response->TransactionId);
         $payment->setAdditionalInformation(
-            [PaymentTransaction::RAW_DETAILS => (array)$response]
+            [PaymentTransaction::RAW_DETAILS => $response->getData()]
         );
 
         $trans = $this->transactionBuilder;
@@ -320,7 +320,7 @@ class Helper extends AbstractHelper
             ->setOrder($order)
             ->setTransactionId($response->TransactionId)
             ->setAdditionalInformation(
-                [PaymentTransaction::RAW_DETAILS => (array)$response]
+                [PaymentTransaction::RAW_DETAILS => $response->getData()]
             )
             ->setFailSafe(true)
             ->build($transactionType);

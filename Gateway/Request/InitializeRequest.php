@@ -371,7 +371,7 @@ class InitializeRequest implements BuilderInterface
     {
         $info = new Info();
 
-		$shippingAddress = new PaymentGateway\Data\Info\Order\InfoOrderShippingData();
+        $shippingAddress = new PaymentGateway\Data\Info\Order\InfoOrderShippingData();
         $magentoShipping = $order->getShippingAddress();
         if ($magentoShipping !== null) {
             $shippingAddress

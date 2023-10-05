@@ -226,11 +226,10 @@ class ResponseProcessor
             // We have to query the payment registrations by a dedicated API endpoint.
             if ($provider == ConfigProvider::CODE_KHB) {
                 $paymentRegistrations = $this->helper->getPaymentRegistrations(
-                    new GetPaymentRegistrationsRequest(
-                        PaymentGateway::PROVIDER_KHB,
-                        (int)$order->getCustomerId(),
-                        PaymentGateway::PAYMENT_REGISTRATION_TYPE_CUSTOMER_INITIATED
-                    )
+                    (new GetPaymentRegistrationsRequest())
+                        ->setProviderName(PaymentGateway::PROVIDER_KHB)
+                        ->setUserId((string)$order->getCustomerId())
+                        ->setPaymentRegistrationType(PaymentGateway::PAYMENT_REGISTRATION_TYPE_CUSTOMER_INITIATED)
                 );
 
                 if ($paymentRegistrations->ResultCode != PaymentGateway::RESULT_CODE_SUCCESS || empty($paymentRegistrations->Data['CIT'])) {
@@ -247,42 +246,42 @@ class ResponseProcessor
             } else {
                 $this->details = $this->helper->getPaymentGatewayDetails($this->response->TransactionId);
 
-                if (isset($this->details->ProviderSpecificData['OneClickPayment']) && !empty($this->details->ProviderSpecificData['OneClickPayment'])) {
+                if (!empty($this->details->ProviderSpecificData['OneClickPayment'])) {
                     if (
                         $provider == ConfigProvider::CODE_BORGUN2 ||
                         $provider == ConfigProvider::CODE_VIRPAY
                     ) {
-                        if (!isset($this->details->ProviderSpecificData['ParentBorgunTransactionId']) || empty($this->details->ProviderSpecificData['ParentBorgunTransactionId'])) {
+                        if (empty($this->details->ProviderSpecificData['ParentBorgunTransactionId'])) {
                             return true;
                         }
                     }
 
                     if ($provider == ConfigProvider::CODE_BARION2) {
-                        if (!isset($this->details->ProviderSpecificData['RecurrenceId']) || empty($this->details->ProviderSpecificData['RecurrenceId'])) {
+                        if (empty($this->details->ProviderSpecificData['RecurrenceId'])) {
                             return true;
                         }
                     }
 
                     if ($provider == ConfigProvider::CODE_GP) {
-                        if (!isset($this->details->ProviderSpecificData['ParentOrdernumber']) || empty($this->details->ProviderSpecificData['ParentOrdernumber'])) {
+                        if (empty($this->details->ProviderSpecificData['ParentOrdernumber'])) {
                             return true;
                         }
                     }
 
                     if ($provider == ConfigProvider::CODE_SAFERPAY) {
-                        if (!isset($this->details->ProviderSpecificData['ParentSaferpayTransactionId']) || empty($this->details->ProviderSpecificData['ParentSaferpayTransactionId'])) {
+                        if (empty($this->details->ProviderSpecificData['ParentSaferpayTransactionId'])) {
                             return true;
                         }
                     }
 
                     if ($provider == ConfigProvider::CODE_PAYPALREST) {
-                        if (!isset($this->details->ProviderSpecificData['ParentAgreementId']) || empty($this->details->ProviderSpecificData['ParentAgreementId'])) {
+                        if (empty($this->details->ProviderSpecificData['ParentAgreementId'])) {
                             return true;
                         }
                     }
 
                     if ($provider == ConfigProvider::CODE_PAYUREST) {
-                        if (!isset($this->details->ProviderSpecificData['ParentPayuPaymentId']) || empty($this->details->ProviderSpecificData['ParentPayuPaymentId'])) {
+                        if (empty($this->details->ProviderSpecificData['ParentPayuPaymentId'])) {
                             return true;
                         }
                     }
