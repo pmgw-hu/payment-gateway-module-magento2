@@ -188,7 +188,7 @@ class InitializeRequest implements BuilderInterface
                     ->setStatus(Helper::TRANSACTION_STATUS_INITIALIZED)
                     ->save();
 
-                $this->helper->addTransactionLog($transaction, $response);
+                $this->helper->addTransactionLog($transaction, $response->getData());
             } else {
                 $message = $response->ResultCode . ': ' . $response->ResultMessage;
                 $this->logger->critical($message);
