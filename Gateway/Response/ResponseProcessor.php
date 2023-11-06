@@ -25,7 +25,7 @@ use Magento\Sales\Model\Order\Payment\Transaction\BuilderInterface;
 use Magento\Sales\Model\OrderFactory;
 use Psr\Log\LoggerInterface;
 use Magento\Sales\Model\Order\Email\Sender\OrderSender;
-use BigFish\PaymentGateway\Response;
+use BigFish\PaymentGateway\Transport\Response\Response;
 use Bigfishpaymentgateway\Pmgw\Model\Response\ResultInterface;
 
 class ResponseProcessor
@@ -61,7 +61,7 @@ class ResponseProcessor
     private $response;
 
     /**
-     * @var Details
+     * @var Response
      */
     private $details;
 
@@ -152,11 +152,11 @@ class ResponseProcessor
 
     protected function validateResponse()
     {
-        if (!property_exists($this->response, 'TransactionId') || empty($this->response->TransactionId)) {
+        if (!$this->response->TransactionId) {
             throw new LocalizedException(__('Missing or invalid transaction id.'));
         }
 
-        if (!property_exists($this->response, 'ResultCode') || empty($this->response->ResultCode)) {
+        if (!$this->response->ResultCode) {
             throw new LocalizedException(__('Missing or invalid result code.'));
         }
 
@@ -195,7 +195,7 @@ class ResponseProcessor
         $this->order->setState(Order::STATE_PROCESSING);
         $this->order->getPayment()->setLastTransId($this->response->TransactionId);
 
-        if (property_exists($this->response, 'Anum')) {
+        if ($this->response->Anum) {
             $this->order->getPayment()->setPoNumber($this->response->Anum);
         }
         $this->orderSender->send($this->order, false);
@@ -226,18 +226,17 @@ class ResponseProcessor
             // We have to query the payment registrations by a dedicated API endpoint.
             if ($provider == ConfigProvider::CODE_KHB) {
                 $paymentRegistrations = $this->helper->getPaymentRegistrations(
-                    new GetPaymentRegistrationsRequest(
-                        PaymentGateway::PROVIDER_KHB,
-                        (int)$order->getCustomerId(),
-                        PaymentGateway::PAYMENT_REGISTRATION_TYPE_CUSTOMER_INITIATED
-                    )
+                    (new GetPaymentRegistrationsRequest())
+                        ->setProviderName(PaymentGateway::PROVIDER_KHB)
+                        ->setUserId((string)$order->getCustomerId())
+                        ->setPaymentRegistrationType(PaymentGateway::PAYMENT_REGISTRATION_TYPE_CUSTOMER_INITIATED)
                 );
 
-                if ($paymentRegistrations->ResultCode != PaymentGateway::RESULT_CODE_SUCCESS || empty($paymentRegistrations->Data->CIT)) {
+                if ($paymentRegistrations->ResultCode != PaymentGateway::RESULT_CODE_SUCCESS || empty($paymentRegistrations->Data['CIT'])) {
                     return false;
                 }
 
-                foreach ($paymentRegistrations->Data->CIT as $citPaymentRegistrationData) {
+                foreach ($paymentRegistrations->Data['CIT'] as $citPaymentRegistrationData) {
                     if (!empty($citPaymentRegistrationData->ReferenceTransactionId) && $citPaymentRegistrationData->ReferenceTransactionId == $this->response->TransactionId) {
                         return true;
                     }
@@ -247,42 +246,42 @@ class ResponseProcessor
             } else {
                 $this->details = $this->helper->getPaymentGatewayDetails($this->response->TransactionId);
 
-                if (isset($this->details->ProviderSpecificData->OneClickPayment) && !empty($this->details->ProviderSpecificData->OneClickPayment)) {
+                if (!empty($this->details->ProviderSpecificData['OneClickPayment'])) {
                     if (
                         $provider == ConfigProvider::CODE_BORGUN2 ||
                         $provider == ConfigProvider::CODE_VIRPAY
                     ) {
-                        if (!isset($this->details->ProviderSpecificData->ParentBorgunTransactionId) || empty($this->details->ProviderSpecificData->ParentBorgunTransactionId)) {
+                        if (empty($this->details->ProviderSpecificData['ParentBorgunTransactionId'])) {
                             return true;
                         }
                     }
 
                     if ($provider == ConfigProvider::CODE_BARION2) {
-                        if (!isset($this->details->ProviderSpecificData->RecurrenceId) || empty($this->details->ProviderSpecificData->RecurrenceId)) {
+                        if (empty($this->details->ProviderSpecificData['RecurrenceId'])) {
                             return true;
                         }
                     }
 
                     if ($provider == ConfigProvider::CODE_GP) {
-                        if (!isset($this->details->ProviderSpecificData->ParentOrdernumber) || empty($this->details->ProviderSpecificData->ParentOrdernumber)) {
+                        if (empty($this->details->ProviderSpecificData['ParentOrdernumber'])) {
                             return true;
                         }
                     }
 
                     if ($provider == ConfigProvider::CODE_SAFERPAY) {
-                        if (!isset($this->details->ProviderSpecificData->ParentSaferpayTransactionId) || empty($this->details->ProviderSpecificData->ParentSaferpayTransactionId)) {
+                        if (empty($this->details->ProviderSpecificData['ParentSaferpayTransactionId'])) {
                             return true;
                         }
                     }
 
                     if ($provider == ConfigProvider::CODE_PAYPALREST) {
-                        if (!isset($this->details->ProviderSpecificData->ParentAgreementId) || empty($this->details->ProviderSpecificData->ParentAgreementId)) {
+                        if (empty($this->details->ProviderSpecificData['ParentAgreementId'])) {
                             return true;
                         }
                     }
 
                     if ($provider == ConfigProvider::CODE_PAYUREST) {
-                        if (!isset($this->details->ProviderSpecificData->ParentPayuPaymentId) || empty($this->details->ProviderSpecificData->ParentPayuPaymentId)) {
+                        if (empty($this->details->ProviderSpecificData['ParentPayuPaymentId'])) {
                             return true;
                         }
                     }
@@ -309,8 +308,8 @@ class ResponseProcessor
         if ($provider == ConfigProvider::CODE_OTPARUHITEL) {
             return sprintf(
                 '%s, %s',
-                __('Credit amount: %1 %2', $details->ProviderSpecificData->CreditAmount, $details->ProviderSpecificData->Currency),
-                __('Contribution: %1 %2', $details->ProviderSpecificData->Contribution, $details->ProviderSpecificData->Currency)
+                __('Credit amount: %1 %2', $details->ProviderSpecificData['CreditAmount'], $details->ProviderSpecificData['Currency']),
+                __('Contribution: %1 %2', $details->ProviderSpecificData['Contribution'], $details->ProviderSpecificData['Currency'])
             );
         }
     }
@@ -341,6 +340,6 @@ class ResponseProcessor
 
     protected function logResponse()
     {
-        $this->helper->addTransactionLog($this->transaction, $this->response);
+        $this->helper->addTransactionLog($this->transaction, $this->response->getData());
     }
 }

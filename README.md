@@ -2,8 +2,8 @@
 
 ## Latest supported Magento and PHP versions
 
-Magento 2.4.5<br />
-PHP 8.1
+Magento 2.4.6-p2<br />
+PHP 8.2
 
 ## The steps required to use our services are as follows
 
@@ -41,7 +41,7 @@ Should you need any further information, please do not hesitate to contact us th
 
  * `bin/magento module:enable Bigfishpaymentgateway_Pmgw`
 
- * `composer require bigfish/paymentgateway`
+ * `composer require bigfish/paymentgateway-php7-sdk`
 
  * `bin/magento setup:upgrade`
 
