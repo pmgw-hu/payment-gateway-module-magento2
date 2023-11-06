@@ -20,7 +20,7 @@ use Bigfishpaymentgateway\Pmgw\Model\Response\Result;
 use Psr\Log\LoggerInterface;
 use Bigfishpaymentgateway\Pmgw\Gateway\Helper\Helper;
 use Bigfishpaymentgateway\Pmgw\Gateway\Response\ResponseProcessor;
-use BigFish\PaymentGateway\Response;
+use BigFish\PaymentGateway\Transport\Response\Response;
 use Bigfishpaymentgateway\Pmgw\Model\Transaction;
 use Magento\Sales\Api\Data\OrderPaymentInterface;
 use Magento\Sales\Model\Order\Payment\Transaction\BuilderInterface as TransactionBuilderInterface;

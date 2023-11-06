@@ -14,7 +14,7 @@ namespace Bigfishpaymentgateway\Pmgw\Test\Unit\Controller\Payment;
 
 use BigFish\PaymentGateway;
 use BigFish\PaymentGateway\Config;
-use BigFish\PaymentGateway\Response as PaymentGatewayResponse;
+use BigFish\PaymentGateway\Transport\Response\Response as PaymentGatewayResponse;
 use Bigfishpaymentgateway\Pmgw\Gateway\Response\ResponseProcessor;
 use Bigfishpaymentgateway\Pmgw\Gateway\Helper\Helper;
 use Bigfishpaymentgateway\Pmgw\Controller\Payment\Response as ResponseController;

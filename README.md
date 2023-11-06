@@ -15,7 +15,7 @@
 
   - Download Magento 2 release
 
-    `https://github.com/magento/magento2/archive/refs/tags/2.4.5.zip`
+    `https://github.com/magento/magento2/archive/refs/tags/2.4.6-p2.zip`
 
   - Create a directory for Magento and uncompress code
 
@@ -23,7 +23,7 @@
 
     `cd magento2`
 
-    `unzip magento2-2.4.5.zip and copy the magento2-2.4.5 folder's files to magento2 project folder`
+    `unzip magento2-2.4.6-p2.zip and copy the magento2-2.4.6-p2 folder's files to magento2 project folder`
 
   - Clone module code
 
@@ -152,7 +152,7 @@
 
   - Set Composer requirement
 
-    `composer require bigfish/paymentgateway`
+    `composer require bigfish/paymentgateway-php7-sdk`
 
   - Logout container
 

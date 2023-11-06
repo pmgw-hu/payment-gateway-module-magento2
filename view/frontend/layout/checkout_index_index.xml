@@ -101,6 +101,9 @@
                                                                         <item name="bigfishpaymentgateway_pmgw_sofort" xsi:type="array">
                                                                             <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
                                                                         </item>
+                                                                        <item name="bigfishpaymentgateway_pmgw_stripe" xsi:type="array">
+                                                                            <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
+                                                                        </item>
                                                                         <item name="bigfishpaymentgateway_pmgw_unicredit" xsi:type="array">
                                                                             <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
                                                                         </item>

@@ -16,22 +16,22 @@
             <p><?php echo __('Amount: %1 %2', $total, $currencyCode); ?></p>
         <?php endif; ?>
 
-        <?php if (property_exists($response, 'ResultCode') && ($response->ResultCode === \BigFish\PaymentGateway::RESULT_CODE_USER_CANCEL || $response->ResultCode === \BigFish\PaymentGateway::RESULT_CODE_TIMEOUT)): ?>
+        <?php if ($response->ResultCode === \BigFish\PaymentGateway::RESULT_CODE_USER_CANCEL || $response->ResultCode === \BigFish\PaymentGateway::RESULT_CODE_TIMEOUT): ?>
             <p><?php echo __('Cancelled transaction.'); ?></p>
             <p><?php echo __('You have interrupted the payment process or run out of the maximum time limit available!'); ?></p>
         <?php endif; ?>
 
-        <?php if (property_exists($response, 'ResultCode') && $response->ResultCode === \BigFish\PaymentGateway::RESULT_CODE_ERROR): ?>
+        <?php if ($response->ResultCode === \BigFish\PaymentGateway::RESULT_CODE_ERROR): ?>
             <p><?php echo __('Unsuccessful transaction.'); ?></p>
             <p><?php echo __('Please double-check the data you have entered on the payment page. If all the data were correct, please contact your card issuing bank to investigate the cause of rejection.'); ?></p>
         <?php endif; ?>
 
-        <?php if ($response->ProviderName != \BigFish\PaymentGateway::PROVIDER_OTP_SIMPLE && property_exists($response, 'ResultMessage')): ?>
+        <?php if ($response->ProviderName !== \BigFish\PaymentGateway::PROVIDER_OTP_SIMPLE && $response->ResultMessage): ?>
             <p><?php echo __('Result message: %1', $response->ResultMessage); ?></p>
         <?php endif; ?>
 
-        <?php if (property_exists($response, 'ProviderTransactionId') && !empty($response->ProviderTransactionId)): ?>
-            <?php if ($response->ProviderName == \BigFish\PaymentGateway::PROVIDER_CIB): ?>
+        <?php if ($response->ProviderTransactionId): ?>
+            <?php if ($response->ProviderName === \BigFish\PaymentGateway::PROVIDER_CIB): ?>
                 <p><?php echo __('Transaction ID (TRID): %1', $response->ProviderTransactionId); ?></p>
             <?php else: ?>
                 <p><?php echo __('%1 Provider transaction id: %2', $methodTitle, $response->ProviderTransactionId); ?></p>

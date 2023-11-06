@@ -958,6 +958,39 @@
     </virtualType>
     <!-- Sofort -->
 
+    <!-- Stripe -->
+    <virtualType name="BigfishpaymentgatewayPmgwStripeFacade" type="Magento\Payment\Model\Method\Adapter">
+        <arguments>
+            <argument name="code" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_STRIPE</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
+            <argument name="infoBlockType" xsi:type="string">Bigfishpaymentgateway\Pmgw\Block\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">BigfishpaymentgatewayPmgwStripeValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">BigfishpaymentgatewayPmgwCommandPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Configuration reader -->
+    <virtualType name="BigfishpaymentgatewayPmgwStripeConfig" type="Magento\Payment\Gateway\Config\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_STRIPE</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Value handlers infrastructure -->
+    <virtualType name="BigfishpaymentgatewayPmgwStripeValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">BigfishpaymentgatewayPmgwStripeConfigValueHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="BigfishpaymentgatewayPmgwStripeConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">BigfishpaymentgatewayPmgwStripeConfig</argument>
+        </arguments>
+    </virtualType>
+    <!-- Stripe -->
+
     <!-- Unicredit -->
     <virtualType name="BigfishpaymentgatewayPmgwUnicreditFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>

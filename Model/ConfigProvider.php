@@ -46,6 +46,7 @@ class ConfigProvider implements ConfigProviderInterface
     const CODE_PAYUREST = 'bigfishpaymentgateway_pmgw_payurest';
     const CODE_SAFERPAY = 'bigfishpaymentgateway_pmgw_saferpay';
     const CODE_SOFORT = 'bigfishpaymentgateway_pmgw_sofort';
+    const CODE_STRIPE = 'bigfishpaymentgateway_pmgw_stripe';
     const CODE_UNICREDIT = 'bigfishpaymentgateway_pmgw_unicredit';
     const CODE_VIRPAY = 'bigfishpaymentgateway_pmgw_virpay';
     const CODE_WIRECARD = 'bigfishpaymentgateway_pmgw_wirecard';
