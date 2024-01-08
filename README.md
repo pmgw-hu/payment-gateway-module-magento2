@@ -59,7 +59,7 @@
 
   - Go to the Magento docker container
 
-    `docker exec -ti -u www-data magento2_web_1 /bin/bash`
+    `docker exec -ti -u www-data magento2-web-1 /bin/bash`
 
   - Go to the project folder
 
