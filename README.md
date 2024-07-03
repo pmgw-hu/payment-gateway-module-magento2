@@ -1,3 +1,7 @@
+> Repository github.com/bigfish-hu/payment-gateway-module-magento2 (bigfishpaymentgateway/pmgw) is abandoned, you should avoid using it.<br>
+><br>
+> Use https://github.com/pmgw-hu/payment-gateway-module-magento2 ([pmgw/payment-gateway-module-magento2](https://packagist.org/packages/pmgw/payment-gateway-module-magento2)) instead.
+
 # BIG FISH Payment Gateway module for Magento 2
 
 ## Latest supported Magento and PHP versions
