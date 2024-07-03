@@ -9,7 +9,7 @@
 ### Requirements
   - Docker >= 1.11.0
   - Docker Compose >= 1.7.0
-  - Traefik (https://gitlab.big.hu/big-fish/traefik)
+  - Traefik (https://gitlab.pmgw.hu/development/traefik)
 
 ### Setup Magento Community Edition (2.4.5)
 
@@ -29,7 +29,7 @@
 
     `mkdir -p app/code/Bigfishpaymentgateway`
 
-    `git clone -b develop https://gitlab.big.hu/payment-gateway/sdk-magento2.git app/code/Bigfishpaymentgateway/Pmgw/`
+    `git clone -b develop https://gitlab.pmgw.hu/payment-gateway/sdk-magento2.git app/code/Bigfishpaymentgateway/Pmgw/`
 
   - Symlink Docker specific files and folders
 
@@ -152,7 +152,7 @@
 
   - Set Composer requirement
 
-    `composer require bigfish/paymentgateway-php7-sdk`
+    `composer require pmgw/payment-gateway-php7-sdk`
 
   - Logout container
 
@@ -242,8 +242,8 @@
 
 ### Publishing
 
-  - Push `master` branch into https://github.com/bigfish-hu/payment-gateway-module-magento2 `master` branch
+  - Push `master` branch into https://github.com/pmgw-hu/payment-gateway-module-magento2 `master` branch
 
-  - Create new release on https://github.com/bigfish-hu/payment-gateway-module-magento2
+  - Create new release on https://github.com/pmgw-hu/payment-gateway-module-magento2
 
   - Upload zipped package to https://developer.magento.com/extension/extension/list/package_type/Extension/
