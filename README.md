@@ -45,7 +45,7 @@ Should you need any further information, please do not hesitate to contact us th
 
  * `bin/magento module:enable Bigfishpaymentgateway_Pmgw`
 
- * `composer require bigfish/paymentgateway-php7-sdk`
+ * `composer require pmgw/payment-gateway-php7-sdk`
 
  * `bin/magento setup:upgrade`
 
