@@ -233,7 +233,7 @@ class ConfigProviderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(4, count($result));
 
         $this->assertEquals([
-            '', '1', '2', '3'
+            '', '1', '3'
         ], array_keys($result));
     }
 
@@ -249,7 +249,7 @@ class ConfigProviderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(4, count($result));
 
         $this->assertEquals([
-            '', '1111', '2222', '3333'
+            '', '1111', '3333', '4444'
         ], array_keys($result));
     }
 
@@ -265,7 +265,7 @@ class ConfigProviderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(4, count($result));
 
         $this->assertEquals([
-            '', '09', '07', '08'
+            '', '09', '08'
         ], array_keys($result));
     }
 
