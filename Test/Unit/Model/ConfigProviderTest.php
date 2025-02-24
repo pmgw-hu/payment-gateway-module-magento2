@@ -230,7 +230,7 @@ class ConfigProviderTest extends \PHPUnit_Framework_TestCase
 
         $result = $configProvider->getKhbCardPocketId();
 
-        $this->assertEquals(4, count($result));
+        $this->assertEquals(3, count($result));
 
         $this->assertEquals([
             '', '1', '3'
@@ -262,7 +262,7 @@ class ConfigProviderTest extends \PHPUnit_Framework_TestCase
 
         $result = $configProvider->getOtpCardPocketId();
 
-        $this->assertEquals(4, count($result));
+        $this->assertEquals(3, count($result));
 
         $this->assertEquals([
             '', '09', '08'
