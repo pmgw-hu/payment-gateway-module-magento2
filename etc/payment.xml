@@ -43,6 +43,9 @@
         <method name="bigfishpaymentgateway_pmgw_gp">
             <allow_multiple_address>1</allow_multiple_address>
         </method>
+        <method name="bigfishpaymentgateway_pmgw_granit">
+            <allow_multiple_address>1</allow_multiple_address>
+        </method>
         <method name="bigfishpaymentgateway_pmgw_ipg">
             <allow_multiple_address>1</allow_multiple_address>
         </method>

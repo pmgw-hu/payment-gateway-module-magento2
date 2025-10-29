@@ -155,6 +155,22 @@
                 <can_initialize>1</can_initialize>
             </bigfishpaymentgateway_pmgw_gp>
 
+            <bigfishpaymentgateway_pmgw_granit>
+                <title>Gránit FairPay</title>
+                <active>0</active>
+                <allowspecific>0</allowspecific>
+                <sort_order>1</sort_order>
+                <!-- -->
+                <group>bigfishpaymentgateway_pmgw</group>
+                <model>BigfishpaymentgatewayPmgwGranitFacade</model>
+                <provider_code>Granit</provider_code>
+                <order_status>pending_payment</order_status>
+                <payment_action>sale</payment_action>
+                <is_gateway>1</is_gateway>
+                <can_use_checkout>1</can_use_checkout>
+                <can_initialize>1</can_initialize>
+            </bigfishpaymentgateway_pmgw_granit>
+
             <bigfishpaymentgateway_pmgw_ipg>
                 <title>Intelligent Payments</title>
                 <active>0</active>
