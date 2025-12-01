@@ -868,6 +868,54 @@
     </virtualType>
     <!-- Otpsimple -->
 
+    <!-- Otpsimplertp -->
+    <virtualType name="BigfishpaymentgatewayPmgwOtpsimplertpFacade" type="Magento\Payment\Model\Method\Adapter">
+        <arguments>
+            <argument name="code" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_OTP_SIMPLE_RTP</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
+            <argument name="infoBlockType" xsi:type="string">Bigfishpaymentgateway\Pmgw\Block\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">BigfishpaymentgatewayPmgwOtpsimplertpValueHandlerPool</argument>
+            <argument name="validatorPool" xsi:type="object">BigfishpaymentgatewayPmgwOtpsimplertpValidatorPool</argument>
+            <argument name="commandPool" xsi:type="object">BigfishpaymentgatewayPmgwCommandPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Configuration reader -->
+    <virtualType name="BigfishpaymentgatewayPmgwOtpsimplertpConfig" type="Magento\Payment\Gateway\Config\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_OTP_SIMPLE_RTP</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Value handlers infrastructure -->
+    <virtualType name="BigfishpaymentgatewayPmgwOtpsimplertpValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">BigfishpaymentgatewayPmgwOtpsimplertpConfigValueHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="BigfishpaymentgatewayPmgwOtpsimplertpConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">BigfishpaymentgatewayPmgwOtpsimplertpConfig</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Validator pool infrastructure -->
+    <virtualType name="BigfishpaymentgatewayPmgwOtpsimplertpCountryValidator" type="Magento\Payment\Gateway\Validator\CountryValidator">
+        <arguments>
+            <argument name="config" xsi:type="object">BigfishpaymentgatewayPmgwOtpsimplertpConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="BigfishpaymentgatewayPmgwOtpsimplertpValidatorPool" type="Magento\Payment\Gateway\Validator\ValidatorPool">
+        <arguments>
+            <argument name="validators" xsi:type="array">
+                <item name="country" xsi:type="string">BigfishpaymentgatewayPmgwOtpsimplertpCountryValidator</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <!-- Otpsimplertp -->
+
     <!-- Otpsimplewire -->
     <virtualType name="BigfishpaymentgatewayPmgwOtpsimplewireFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
