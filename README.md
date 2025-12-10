@@ -85,7 +85,7 @@
     --db-user=magento \
     --db-password=magento \
     --use-secure=0 \
-    --base-url=http://magento2.dev.big.hu/ \
+    --base-url=http://magento2.dev.bfpg.hu/ \
     --use-secure-admin=0 \
     --backend-frontname=admin \
     --use-rewrites=1 \
@@ -129,11 +129,11 @@
 
   - Check webshop
 
-    `http://magento2.dev.big.hu/`
+    `http://magento2.dev.bfpg.hu/`
 
   - Check admin interface
 
-    `http://magento2.dev.big.hu/admin/`
+    `http://magento2.dev.bfpg.hu/admin/`
 
 ### Setup Payment Gateway Module
 
