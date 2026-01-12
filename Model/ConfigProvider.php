@@ -36,6 +36,7 @@ class ConfigProvider implements ConfigProviderInterface
     const CODE_OTPARUHITEL = 'bigfishpaymentgateway_pmgw_otparuhitel';
     const CODE_OTPAY_MP = 'bigfishpaymentgateway_pmgw_otpaymp';
     const CODE_OTP_SIMPLE = 'bigfishpaymentgateway_pmgw_otpsimple';
+    const CODE_OTP_SIMPLE_RTP = 'bigfishpaymentgateway_pmgw_otpsimplertp';
     const CODE_OTP_SIMPLE_WIRE = 'bigfishpaymentgateway_pmgw_otpsimplewire';
     const CODE_OTP_SZEP = 'bigfishpaymentgateway_pmgw_otpszep';
     const CODE_PAYPAL = 'bigfishpaymentgateway_pmgw_paypal';

@@ -4,21 +4,21 @@ services:
   web:
     build: ./.docker/
     environment:
-      - PHP_IDE_CONFIG=serverName=magento2.dev.big.hu
+      - PHP_IDE_CONFIG=serverName=magento2.dev.bfpg.hu
       - TERM=xterm
     hostname: magento2
-    domainname: dev.big.hu
+    domainname: dev.bfpg.hu
     volumes:
       - ./:/var/www/dev/magento2
     labels:
-     - traefik.enable=true
-     - traefik.docker.network=bigfish_network
-     - traefik.http.routers.magento.rule=Host(`magento2.dev.big.hu`)
-     - traefik.http.routers.magento.entrypoints=http
-     - traefik.http.services.magento.loadbalancer.server.port=80
+      - traefik.enable=true
+      - traefik.docker.network=bigfish_network
+      - traefik.http.routers.magento.rule=Host(`magento2.dev.bfpg.hu`)
+      - traefik.http.routers.magento.entrypoints=http
+      - traefik.http.services.magento.loadbalancer.server.port=80
     networks:
-     - local
-     - bigfish_network
+      - local
+      - bigfish_network
     extra_hosts:
       - host.docker.internal:host-gateway
     links:
@@ -28,7 +28,8 @@ services:
       - elasticsearch
 
   db:
-    image: docker.big.hu/development/mariadb
+    image: docker.pmgw.hu/development/mariadb
+    command: --log-bin-trust-function-creators=1
     environment:
       - TERM=xterm
       - MYSQL_RANDOM_ROOT_PASSWORD=yes
@@ -40,7 +41,7 @@ services:
     volumes:
       - db_data:/var/lib/mysql
     ports:
-      - 3306:3306
+      - 3309:3306
 
   mail:
     image: maildev/maildev
@@ -52,12 +53,12 @@ services:
     labels:
       - traefik.enable=true
       - traefik.docker.network=bigfish_network
-      - traefik.http.routers.magento-mail.rule=Host(`magento2-mail.dev.big.hu`)
+      - traefik.http.routers.magento-mail.rule=Host(`magento2-mail.dev.bfpg.hu`)
       - traefik.http.routers.magento-mail.entrypoints=http
       - traefik.http.services.magento-mail.loadbalancer.server.port=80
 
   session:
-    image: docker.big.hu/development/memcached
+    image: docker.pmgw.hu/development/memcached
     networks:
       - local
 
@@ -77,9 +78,9 @@ services:
       - IPC_LOCK
     volumes:
       - elasticsearch-data:/usr/share/elasticsearch/data
-#    ports:
-#      - 9200:9200
-#      - 9300:9300
+    #    ports:
+    #      - 9200:9200
+    #      - 9300:9300
     networks:
       - local
 
