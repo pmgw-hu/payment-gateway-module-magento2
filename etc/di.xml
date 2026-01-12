@@ -484,6 +484,54 @@
     </virtualType>
     <!-- Gp -->
 
+    <!-- Granit -->
+    <virtualType name="BigfishpaymentgatewayPmgwGranitFacade" type="Magento\Payment\Model\Method\Adapter">
+        <arguments>
+            <argument name="code" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_GRANIT</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
+            <argument name="infoBlockType" xsi:type="string">Bigfishpaymentgateway\Pmgw\Block\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">BigfishpaymentgatewayPmgwGranitValueHandlerPool</argument>
+            <argument name="validatorPool" xsi:type="object">BigfishpaymentgatewayPmgwGranitValidatorPool</argument>
+            <argument name="commandPool" xsi:type="object">BigfishpaymentgatewayPmgwCommandPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Configuration reader -->
+    <virtualType name="BigfishpaymentgatewayPmgwGranitConfig" type="Magento\Payment\Gateway\Config\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_GRANIT</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Value handlers infrastructure -->
+    <virtualType name="BigfishpaymentgatewayPmgwGranitValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">BigfishpaymentgatewayPmgwGranitConfigValueHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="BigfishpaymentgatewayPmgwGranitConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">BigfishpaymentgatewayPmgwGranitConfig</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Validator pool infrastructure -->
+    <virtualType name="BigfishpaymentgatewayPmgwGranitCountryValidator" type="Magento\Payment\Gateway\Validator\CountryValidator">
+        <arguments>
+            <argument name="config" xsi:type="object">BigfishpaymentgatewayPmgwGranitConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="BigfishpaymentgatewayPmgwGranitValidatorPool" type="Magento\Payment\Gateway\Validator\ValidatorPool">
+        <arguments>
+            <argument name="validators" xsi:type="array">
+                <item name="country" xsi:type="string">BigfishpaymentgatewayPmgwGranitCountryValidator</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <!-- Granit -->
+
     <!-- Ipg -->
     <virtualType name="BigfishpaymentgatewayPmgwIpgFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>

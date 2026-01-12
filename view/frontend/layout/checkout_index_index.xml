@@ -47,6 +47,9 @@
                                                                         <item name="bigfishpaymentgateway_pmgw_gp" xsi:type="array">
                                                                             <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
                                                                         </item>
+                                                                        <item name="bigfishpaymentgateway_pmgw_granit" xsi:type="array">
+                                                                            <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
+                                                                        </item>
                                                                         <item name="bigfishpaymentgateway_pmgw_ipg" xsi:type="array">
                                                                             <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
                                                                         </item>
