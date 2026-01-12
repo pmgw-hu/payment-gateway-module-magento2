@@ -52,6 +52,7 @@ class ConfigProvider implements ConfigProviderInterface
     const CODE_VIRPAY = 'bigfishpaymentgateway_pmgw_virpay';
     const CODE_WIRECARD = 'bigfishpaymentgateway_pmgw_wirecard';
     const CODE_WIRECARDEE = 'bigfishpaymentgateway_pmgw_wirecardee';
+    const CODE_GRANIT = 'bigfishpaymentgateway_pmgw_granit';
 
     /**
      * @var ScopeConfigInterface
