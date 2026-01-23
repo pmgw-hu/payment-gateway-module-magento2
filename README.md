@@ -15,7 +15,7 @@
 
   - Download Magento 2 release
 
-    `https://github.com/magento/magento2/archive/refs/tags/2.4.6-p2.zip`
+    `https://github.com/magento/magento2/archive/refs/tags/2.4.8-p3.zip`
 
   - Create a directory for Magento and uncompress code
 
@@ -23,7 +23,7 @@
 
     `cd magento2`
 
-    `unzip magento2-2.4.6-p2.zip and copy the magento2-2.4.6-p2 folder's files to magento2 project folder`
+    `unzip magento2-2.4.8-p3.zip and copy the magento2-2.4.8-p3 folder's files to magento2 project folder`
 
   - Clone module code
 
@@ -51,11 +51,11 @@
 
   - Build docker image
 
-    `docker-compose build`
+    `docker compose build`
 
   - Start docker images
 
-    `docker-compose up -d`
+    `docker compose up -d`
 
   - Go to the Magento docker container
 
