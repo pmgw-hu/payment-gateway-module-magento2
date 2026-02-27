@@ -300,15 +300,15 @@ class InitializeRequest implements BuilderInterface
 
         if ($this->helper->isOneClickProvider($providerConfig['name']) && $this->customerAcceptCardRegistration()) {
             if (isset($providerConfig['card_registration_mode']) && strlen($providerConfig['card_registration_mode'])) {
-                // If the provider is not KHB proceed as before
-                if ($providerConfig['name'] != ConfigProvider::CODE_KHB) {
+                // If the provider is not PSD2 CIT proceed as before
+                if (!isset(ConfigProvider::PSD2_CIT_PROVIDERS_CONFIG_MAPPING[$providerConfig['name']])) {
                     $request->setOneClickPayment(true);
 
                     if ($providerConfig['card_registration_mode'] == '1') {
                         $request->setOneClickForcedRegistration(true);
                     }
                 } else {
-                    // For KHB provider and logged in customer we create the PSD2 compliant CIT payment
+                    // For specified providers and logged in customer we create the PSD2 compliant CIT payment
                     if ($order->getCustomerId()) {
                         $isCardRegistration = true;
                         if ($providerConfig['card_registration_mode'] == '2') {

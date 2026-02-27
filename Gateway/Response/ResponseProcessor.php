@@ -221,13 +221,16 @@ class ResponseProcessor
         $provider = $this->order->getPayment()->getMethod();
 
         if ($this->helper->isOneClickProvider($provider)) {
-            // For KHB provider, the PSD2 card registration logic is a bit different.
+            // For providers has the PSD2 card registration logic is a bit different.
             // The OneClickPayment field is false for the registration transaction.
             // We have to query the payment registrations by a dedicated API endpoint.
-            if ($provider == ConfigProvider::CODE_KHB) {
+			if (isset(ConfigProvider::PSD2_CIT_PROVIDERS_CONFIG_MAPPING[$provider])) {
+
+				$providerName = ConfigProvider::PSD2_CIT_PROVIDERS_CONFIG_MAPPING[$provider];
+
                 $paymentRegistrations = $this->helper->getPaymentRegistrations(
                     (new GetPaymentRegistrationsRequest())
-                        ->setProviderName(PaymentGateway::PROVIDER_KHB)
+                        ->setProviderName($providerName)
                         ->setUserId((string)$order->getCustomerId())
                         ->setPaymentRegistrationType(PaymentGateway::PAYMENT_REGISTRATION_TYPE_CUSTOMER_INITIATED)
                 );

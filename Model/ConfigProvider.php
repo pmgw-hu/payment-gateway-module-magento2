@@ -12,6 +12,7 @@
  */
 namespace Bigfishpaymentgateway\Pmgw\Model;
 
+use BigFish\PaymentGateway;
 use Magento\Checkout\Model\ConfigProviderInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Store\Model\StoreManagerInterface;
@@ -45,6 +46,7 @@ class ConfigProvider implements ConfigProviderInterface
     const CODE_PAYSAFECASH = 'bigfishpaymentgateway_pmgw_paysafecash';
     const CODE_PAYU2 = 'bigfishpaymentgateway_pmgw_payu2';
     const CODE_PAYUREST = 'bigfishpaymentgateway_pmgw_payurest';
+    const CODE_RAIFFEISEN_UPC = 'bigfishpaymentgateway_pmgw_raiffeisenupc';
     const CODE_SAFERPAY = 'bigfishpaymentgateway_pmgw_saferpay';
     const CODE_SOFORT = 'bigfishpaymentgateway_pmgw_sofort';
     const CODE_STRIPE = 'bigfishpaymentgateway_pmgw_stripe';
@@ -54,6 +56,10 @@ class ConfigProvider implements ConfigProviderInterface
     const CODE_WIRECARDEE = 'bigfishpaymentgateway_pmgw_wirecardee';
     const CODE_GRANIT = 'bigfishpaymentgateway_pmgw_granit';
 
+    const PSD2_CIT_PROVIDERS_CONFIG_MAPPING = [
+        self::CODE_KHB            => PaymentGateway::PROVIDER_KHB,
+        self::CODE_RAIFFEISEN_UPC => PaymentGateway::PROVIDER_RAIFFEISENUPC,
+    ];
     /**
      * @var ScopeConfigInterface
      */

@@ -97,6 +97,9 @@
         <method name="bigfishpaymentgateway_pmgw_payurest">
             <allow_multiple_address>1</allow_multiple_address>
         </method>
+        <method name="bigfishpaymentgateway_pmgw_raiffeisenupc">
+            <allow_multiple_address>1</allow_multiple_address>
+        </method>
         <method name="bigfishpaymentgateway_pmgw_saferpay">
             <allow_multiple_address>1</allow_multiple_address>
         </method>
