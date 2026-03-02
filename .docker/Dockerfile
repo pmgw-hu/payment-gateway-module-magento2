@@ -1,7 +1,7 @@
-FROM alpine:3.18.3 as base
+FROM alpine:3.19 as base
 MAINTAINER BIG FISH <cafe@bigfish.hu>
 
-ARG PHP_VERSION=82
+ARG PHP_VERSION=83
 ARG RELEASE=null
 
 ENV PHP_VERSION=${PHP_VERSION}
@@ -72,13 +72,11 @@ RUN apk add --update --no-cache \
   && mkdir /var/tmp/nginx \
   && chown -R www-data:www-data /var/tmp/nginx
 
-# FIX iconv
-RUN apk add gnu-libiconv=1.15-r3 --update-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.13/community/ --allow-untrusted
+# FIX iconv - Updated for Alpine 3.19
+RUN apk add --no-cache gnu-libiconv
 ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so
 
-#
-# Set timezone (https://wiki.alpinelinux.org/wiki/Setting_the_timezone)
-#
+# Set timezone
 ENV TZ=Europe/Budapest
 
 RUN cp /usr/share/zoneinfo/${TZ} /etc/localtime \
