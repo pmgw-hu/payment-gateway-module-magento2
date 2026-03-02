@@ -90,7 +90,7 @@
     --backend-frontname=admin \
     --use-rewrites=1 \
     --admin-use-security-key=0 \
-    --search-engine=elasticsearch7 \
+    --search-engine=elasticsearch8 \
     --elasticsearch-host=elasticsearch \
     --elasticsearch-port=9200
     ```
