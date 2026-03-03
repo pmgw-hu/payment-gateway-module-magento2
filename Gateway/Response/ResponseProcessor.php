@@ -224,9 +224,9 @@ class ResponseProcessor
             // For providers has the PSD2 card registration logic is a bit different.
             // The OneClickPayment field is false for the registration transaction.
             // We have to query the payment registrations by a dedicated API endpoint.
-			if (isset(ConfigProvider::PSD2_CIT_PROVIDERS_CONFIG_MAPPING[$provider])) {
+            if (isset(ConfigProvider::PSD2_CIT_PROVIDERS_CONFIG_MAPPING[$provider])) {
 
-				$providerName = ConfigProvider::PSD2_CIT_PROVIDERS_CONFIG_MAPPING[$provider];
+                $providerName = ConfigProvider::PSD2_CIT_PROVIDERS_CONFIG_MAPPING[$provider];
 
                 $paymentRegistrations = $this->helper->getPaymentRegistrations(
                     (new GetPaymentRegistrationsRequest())

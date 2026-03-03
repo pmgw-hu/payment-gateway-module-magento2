@@ -60,6 +60,7 @@ class ConfigProvider implements ConfigProviderInterface
         self::CODE_KHB            => PaymentGateway::PROVIDER_KHB,
         self::CODE_RAIFFEISEN_UPC => PaymentGateway::PROVIDER_RAIFFEISENUPC,
     ];
+
     /**
      * @var ScopeConfigInterface
      */
