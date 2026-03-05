@@ -293,6 +293,7 @@ class Helper extends AbstractHelper
             case ConfigProvider::CODE_VIRPAY:
             case ConfigProvider::CODE_PAYPALREST:
             case ConfigProvider::CODE_PAYUREST:
+            case ConfigProvider::CODE_RAIFFEISEN_UPC:
             case ConfigProvider::CODE_KHB:
                 return true;
             default:

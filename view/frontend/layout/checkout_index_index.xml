@@ -101,6 +101,9 @@
                                                                         <item name="bigfishpaymentgateway_pmgw_payurest" xsi:type="array">
                                                                             <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
                                                                         </item>
+                                                                        <item name="bigfishpaymentgateway_pmgw_raiffeisenupc" xsi:type="array">
+                                                                            <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
+                                                                        </item>
                                                                         <item name="bigfishpaymentgateway_pmgw_saferpay" xsi:type="array">
                                                                             <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
                                                                         </item>
