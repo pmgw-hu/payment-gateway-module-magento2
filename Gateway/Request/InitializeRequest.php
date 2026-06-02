@@ -276,6 +276,16 @@ class InitializeRequest implements BuilderInterface
             }
         }
 
+        if ($providerConfig['name'] == ConfigProvider::CODE_GOPAY) {
+            if (isset($providerConfig['allowed_payment_instruments']) && strlen($providerConfig['allowed_payment_instruments'])) {
+                $extraData['AllowedPaymentInstruments'] = explode(',', $providerConfig['allowed_payment_instruments']);
+            }
+
+            if (isset($providerConfig['default_payment_instrument']) && strlen($providerConfig['default_payment_instrument'])) {
+                $extraData['DefaultPaymentInstrument'] = $providerConfig['default_payment_instrument'];
+            }
+        }
+
         if ($providerConfig['name'] == ConfigProvider::CODE_WIRECARD) {
             if (isset($providerConfig['payment_type']) && strlen($providerConfig['payment_type'])) {
                 $extraData['QpayPaymentType'] = $providerConfig['payment_type'];

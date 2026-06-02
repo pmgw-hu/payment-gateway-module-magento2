@@ -79,15 +79,15 @@ services:
     volumes:
       - elasticsearch-data:/usr/share/elasticsearch/data
     ports:
-      - "9200:9200"
-      - "9300:9300"
+      - "9201:9200"
+      - "9301:9300"
     networks:
       - local
 
 networks:
 
   local:
-    name: local
+    name: magento2_local
     driver: bridge
 
   bigfish_network:
