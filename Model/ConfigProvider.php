@@ -336,11 +336,11 @@ class ConfigProvider implements ConfigProviderInterface
     }
 
     /**
-     * PaymentGateway GoPay Payment Instruments
+     * PaymentGateway GoPay Payment Methods
      *
      * @return array
      */
-    public function getGopayPaymentInstruments()
+    public function getGopayPaymentMethods()
     {
         return [
             ['value' => 'PAYMENT_CARD',  'label' => __('Payment card')],
@@ -359,19 +359,19 @@ class ConfigProvider implements ConfigProviderInterface
     }
 
     /**
-     * PaymentGateway GoPay default-instrument options.
+     * PaymentGateway GoPay default payment method options.
      *
-     * Wraps getGopayPaymentInstruments with a leading empty "None"
+     * Wraps getGopayPaymentMethods with a leading empty "None"
      * entry so the admin select is nullable. An empty value omits the
-     * DefaultPaymentInstrument key from the Init Extra payload.
+     * DefaultPaymentMethod key from the Init Extra payload.
      *
      * @return array
      */
-    public function getGopayDefaultPaymentInstrumentOptions()
+    public function getGopayDefaultPaymentMethodOptions()
     {
         return array_merge(
             [['value' => '', 'label' => __('-- None --')]],
-            $this->getGopayPaymentInstruments()
+            $this->getGopayPaymentMethods()
         );
     }
 

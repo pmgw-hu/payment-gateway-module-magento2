@@ -33,16 +33,16 @@
             <config_path>payment/bigfishpaymentgateway_pmgw_gopay/card_registration_mode</config_path>
             <source_model>Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::getCardRegistrationModes</source_model>
         </field>
-        <field id="allowed_payment_instruments" translate="label" type="multiselect" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
-            <label>Allowed payment instruments</label>
-            <config_path>payment/bigfishpaymentgateway_pmgw_gopay/allowed_payment_instruments</config_path>
-            <source_model>Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::getGopayPaymentInstruments</source_model>
+        <field id="allowed_payment_methods" translate="label" type="multiselect" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Allowed payment methods</label>
+            <config_path>payment/bigfishpaymentgateway_pmgw_gopay/allowed_payment_methods</config_path>
+            <source_model>Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::getGopayPaymentMethods</source_model>
             <can_be_empty>1</can_be_empty>
         </field>
-        <field id="default_payment_instrument" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
-            <label>Default payment instrument</label>
-            <config_path>payment/bigfishpaymentgateway_pmgw_gopay/default_payment_instrument</config_path>
-            <source_model>Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::getGopayDefaultPaymentInstrumentOptions</source_model>
+        <field id="default_payment_method" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Default payment method</label>
+            <config_path>payment/bigfishpaymentgateway_pmgw_gopay/default_payment_method</config_path>
+            <source_model>Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::getGopayDefaultPaymentMethodOptions</source_model>
         </field>
         <field id="allowspecific" translate="label" type="allowspecific" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Payment from Applicable Countries</label>
