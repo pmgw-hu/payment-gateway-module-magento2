@@ -139,6 +139,22 @@
                 <can_initialize>1</can_initialize>
             </bigfishpaymentgateway_pmgw_fhb>
 
+            <bigfishpaymentgateway_pmgw_gopay>
+                <title>GoPay</title>
+                <active>0</active>
+                <allowspecific>0</allowspecific>
+                <sort_order>1</sort_order>
+                <!-- -->
+                <group>bigfishpaymentgateway_pmgw</group>
+                <model>BigfishpaymentgatewayPmgwGopayFacade</model>
+                <provider_code>GoPay</provider_code>
+                <order_status>pending_payment</order_status>
+                <payment_action>sale</payment_action>
+                <is_gateway>1</is_gateway>
+                <can_use_checkout>1</can_use_checkout>
+                <can_initialize>1</can_initialize>
+            </bigfishpaymentgateway_pmgw_gopay>
+
             <bigfishpaymentgateway_pmgw_gp>
                 <title>Global Payments</title>
                 <active>0</active>

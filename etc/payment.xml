@@ -40,6 +40,9 @@
         <method name="bigfishpaymentgateway_pmgw_fhb">
             <allow_multiple_address>1</allow_multiple_address>
         </method>
+        <method name="bigfishpaymentgateway_pmgw_gopay">
+            <allow_multiple_address>1</allow_multiple_address>
+        </method>
         <method name="bigfishpaymentgateway_pmgw_gp">
             <allow_multiple_address>1</allow_multiple_address>
         </method>
