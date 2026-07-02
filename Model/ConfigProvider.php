@@ -28,6 +28,7 @@ class ConfigProvider implements ConfigProviderInterface
     const CODE_CIB = 'bigfishpaymentgateway_pmgw_cib';
     const CODE_ESCALION = 'bigfishpaymentgateway_pmgw_escalion';
     const CODE_FHB = 'bigfishpaymentgateway_pmgw_fhb';
+    const CODE_GOPAY = 'bigfishpaymentgateway_pmgw_gopay';
     const CODE_GP = 'bigfishpaymentgateway_pmgw_gp';
     const CODE_IPG = 'bigfishpaymentgateway_pmgw_ipg';
     const CODE_KHB = 'bigfishpaymentgateway_pmgw_khb';
@@ -57,6 +58,7 @@ class ConfigProvider implements ConfigProviderInterface
     const CODE_GRANIT = 'bigfishpaymentgateway_pmgw_granit';
 
     const PSD2_CIT_PROVIDERS_CONFIG_MAPPING = [
+        self::CODE_GOPAY          => PaymentGateway::PROVIDER_GOPAY,
         self::CODE_KHB            => PaymentGateway::PROVIDER_KHB,
         self::CODE_RAIFFEISEN_UPC => PaymentGateway::PROVIDER_RAIFFEISENUPC,
     ];
@@ -331,6 +333,46 @@ class ConfigProvider implements ConfigProviderInterface
                 'label' => __('MasterPass'),
             ],
         ];
+    }
+
+    /**
+     * PaymentGateway GoPay Payment Methods
+     *
+     * @return array
+     */
+    public function getGopayPaymentMethods()
+    {
+        return [
+            ['value' => 'PAYMENT_CARD',  'label' => __('Payment card')],
+            ['value' => 'BANK_ACCOUNT',  'label' => __('Bank account transfer')],
+            ['value' => 'GPAY',          'label' => __('Google Pay')],
+            ['value' => 'APPLE_PAY',     'label' => __('Apple Pay')],
+            ['value' => 'PAYPAL',        'label' => __('PayPal')],
+            ['value' => 'MPAYMENT',      'label' => __('mPlatba (mobile payment)')],
+            ['value' => 'PRSMS',         'label' => __('Premium SMS')],
+            ['value' => 'PAYSAFECARD',   'label' => __('PaySafeCard coupon')],
+            ['value' => 'BITCOIN',       'label' => __('Bitcoin wallet')],
+            ['value' => 'CLICK_TO_PAY',  'label' => __('Click To Pay VISA/MasterCard')],
+            ['value' => 'TWISTO',        'label' => __('Twisto')],
+            ['value' => 'SKIPPAY',       'label' => __('Skip Pay')],
+        ];
+    }
+
+    /**
+     * PaymentGateway GoPay default payment method options.
+     *
+     * Wraps getGopayPaymentMethods with a leading empty "None"
+     * entry so the admin select is nullable. An empty value omits the
+     * DefaultPaymentMethod key from the Init Extra payload.
+     *
+     * @return array
+     */
+    public function getGopayDefaultPaymentMethodOptions()
+    {
+        return array_merge(
+            [['value' => '', 'label' => __('-- None --')]],
+            $this->getGopayPaymentMethods()
+        );
     }
 
     /**

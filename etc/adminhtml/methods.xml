@@ -20,6 +20,7 @@
     <include path="Bigfishpaymentgateway_Pmgw::methods/cib.xml"/>
     <include path="Bigfishpaymentgateway_Pmgw::methods/escalion.xml"/>
     <include path="Bigfishpaymentgateway_Pmgw::methods/fhb.xml"/>
+    <include path="Bigfishpaymentgateway_Pmgw::methods/gopay.xml"/>
     <include path="Bigfishpaymentgateway_Pmgw::methods/gp.xml"/>
     <include path="Bigfishpaymentgateway_Pmgw::methods/granit.xml"/>
     <include path="Bigfishpaymentgateway_Pmgw::methods/ipg.xml"/>

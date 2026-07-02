@@ -4,6 +4,16 @@
 
   - Use the `master` branch to publish the module
 
+  - Always start feature branches from a **fresh `develop`** — pull first,
+    then branch:
+
+    `git checkout develop && git pull`
+
+    `git checkout -b [feature-branch-name]`
+
+    Never branch from `master` (it tracks public releases) and never
+    from a stale local `develop`.
+
 ## Install
 
 ### Requirements
@@ -152,7 +162,12 @@
 
   - Set Composer requirement
 
-    `composer require pmgw/payment-gateway-php7-sdk`
+    > **Note:** The SDK was rebranded from `BigFish\` to `Nevogate\` starting with major version 5.
+    > This module still uses the `BigFish\` namespace, so the requirement is pinned to `4.*`.
+    > Do **not** omit the version constraint — `composer require` without it will pull in the
+    > latest (5.x+) and the module will fail with `Class "BigFish\PaymentGateway" not found`.
+
+    `composer require pmgw/payment-gateway-php7-sdk:4.*`
 
   - Logout container
 
