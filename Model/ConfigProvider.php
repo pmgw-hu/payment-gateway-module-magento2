@@ -56,11 +56,13 @@ class ConfigProvider implements ConfigProviderInterface
     const CODE_WIRECARD = 'bigfishpaymentgateway_pmgw_wirecard';
     const CODE_WIRECARDEE = 'bigfishpaymentgateway_pmgw_wirecardee';
     const CODE_GRANIT = 'bigfishpaymentgateway_pmgw_granit';
+    const CODE_REVOLUT = 'bigfishpaymentgateway_pmgw_revolut';
 
     const PSD2_CIT_PROVIDERS_CONFIG_MAPPING = [
         self::CODE_GOPAY          => PaymentGateway::PROVIDER_GOPAY,
         self::CODE_KHB            => PaymentGateway::PROVIDER_KHB,
         self::CODE_RAIFFEISEN_UPC => PaymentGateway::PROVIDER_RAIFFEISENUPC,
+        self::CODE_REVOLUT        => PaymentGateway::PROVIDER_REVOLUT,
     ];
 
     /**
@@ -371,6 +373,30 @@ class ConfigProvider implements ConfigProviderInterface
         return array_merge(
             [['value' => '', 'label' => __('-- None --')]],
             $this->getGopayPaymentMethods()
+        );
+    }
+
+    /**
+     * @return array
+     */
+    public function getRevolutPaymentMethods()
+    {
+        return [
+            ['value' => 'bank_card',    'label' => __('Bank card')],
+            ['value' => 'revolut_pay',  'label' => __('Revolut Pay')],
+            ['value' => 'google_pay',   'label' => __('Google Pay')],
+            ['value' => 'apple_pay',    'label' => __('Apple Pay')],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function getRevolutDefaultPaymentMethodOptions()
+    {
+        return array_merge(
+            [['value' => '', 'label' => __('-- None --')]],
+            $this->getRevolutPaymentMethods()
         );
     }
 
