@@ -294,6 +294,16 @@ class InitializeRequest implements BuilderInterface
             }
         }
 
+        if ($providerConfig['name'] == ConfigProvider::CODE_REVOLUT) {
+            if (isset($providerConfig['allowed_payment_methods']) && strlen($providerConfig['allowed_payment_methods'])) {
+                $extraData['PaymentMethod'] = explode(',', $providerConfig['allowed_payment_methods']);
+            }
+
+            if (isset($providerConfig['default_payment_method']) && strlen($providerConfig['default_payment_method'])) {
+                $extraData['DefaultPaymentMethod'] = $providerConfig['default_payment_method'];
+            }
+        }
+
         if ($providerConfig['name'] == ConfigProvider::CODE_WIRECARD) {
             if (isset($providerConfig['payment_type']) && strlen($providerConfig['payment_type'])) {
                 $extraData['QpayPaymentType'] = $providerConfig['payment_type'];

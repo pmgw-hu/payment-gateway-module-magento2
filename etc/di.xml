@@ -1444,6 +1444,54 @@
     </virtualType>
     <!-- RaiffeisenUPC -->
 
+    <!-- Revolut -->
+    <virtualType name="BigfishpaymentgatewayPmgwRevolutFacade" type="Magento\Payment\Model\Method\Adapter">
+        <arguments>
+            <argument name="code" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_REVOLUT</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
+            <argument name="infoBlockType" xsi:type="string">Bigfishpaymentgateway\Pmgw\Block\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">BigfishpaymentgatewayPmgwRevolutValueHandlerPool</argument>
+            <argument name="validatorPool" xsi:type="object">BigfishpaymentgatewayPmgwRevolutValidatorPool</argument>
+            <argument name="commandPool" xsi:type="object">BigfishpaymentgatewayPmgwCommandPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Configuration reader -->
+    <virtualType name="BigfishpaymentgatewayPmgwRevolutConfig" type="Magento\Payment\Gateway\Config\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="const">\Bigfishpaymentgateway\Pmgw\Model\ConfigProvider::CODE_REVOLUT</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Value handlers infrastructure -->
+    <virtualType name="BigfishpaymentgatewayPmgwRevolutValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">BigfishpaymentgatewayPmgwRevolutConfigValueHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="BigfishpaymentgatewayPmgwRevolutConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">BigfishpaymentgatewayPmgwRevolutConfig</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Validator pool infrastructure -->
+    <virtualType name="BigfishpaymentgatewayPmgwRevolutCountryValidator" type="Magento\Payment\Gateway\Validator\CountryValidator">
+        <arguments>
+            <argument name="config" xsi:type="object">BigfishpaymentgatewayPmgwRevolutConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="BigfishpaymentgatewayPmgwRevolutValidatorPool" type="Magento\Payment\Gateway\Validator\ValidatorPool">
+        <arguments>
+            <argument name="validators" xsi:type="array">
+                <item name="country" xsi:type="string">BigfishpaymentgatewayPmgwRevolutCountryValidator</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <!-- Revolut -->
+
     <!-- Saferpay -->
     <virtualType name="BigfishpaymentgatewayPmgwSaferpayFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
